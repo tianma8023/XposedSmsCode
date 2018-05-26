@@ -1,3 +1,14 @@
+*.iml
+.gradle
+/local.properties
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
 # Built application files
 *.apk
 *.ap_
@@ -41,10 +52,11 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .idea/caches
+.idea/*
 
 # Keystore files
 # Uncomment the following line if you do not want to check your keystore files in.
-#*.jks
+*.jks
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
