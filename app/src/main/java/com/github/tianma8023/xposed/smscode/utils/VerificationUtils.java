@@ -1,8 +1,5 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 
 import java.util.regex.Matcher;
@@ -22,7 +19,7 @@ public class VerificationUtils {
      * @param text
      * @return
      */
-    public static boolean containsChinese(@NonNull String text) {
+    public static boolean containsChinese(String text) {
         String regex = "[\u4e00-\u9fa5]|【|】|。";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
@@ -34,7 +31,7 @@ public class VerificationUtils {
      *
      * @return
      */
-    public static boolean isVerificationMsgCN(@NonNull String content) {
+    public static boolean isVerificationMsgCN(String content) {
         boolean result = false;
         for (String keyWord : IConstants.VERIFICATION_KEY_WORDS_CN) {
             if (content.contains(keyWord)) {
@@ -51,7 +48,7 @@ public class VerificationUtils {
      * @param content
      * @return
      */
-    public static boolean isVerificationMsgEN(@NonNull String content) {
+    public static boolean isVerificationMsgEN(String content) {
         boolean result = false;
         for (String keyWord : IConstants.VERIFICATION_KEY_WORDS_EN) {
             if (content.contains(keyWord)) {
@@ -68,12 +65,12 @@ public class VerificationUtils {
      * @param content
      * @return
      */
-    public static String getVerificationCodeCN(@NonNull String content) {
+    public static String getVerificationCodeCN(String content) {
         String regex = "[a-zA-Z0-9]{4,8}";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(content);
         String verificationCode = "";
-        @MatchLevel int maxMatchLevel = LEVEL_NONE;
+        int maxMatchLevel = LEVEL_NONE;
         while (m.find()) {
             final String matchedStr = m.group();
             final int curLevel = getMatchLevel(matchedStr);
@@ -85,10 +82,6 @@ public class VerificationUtils {
         return verificationCode;
     }
 
-    @IntDef({LEVEL_DIGITAL, LEVEL_TEXT, LEVEL_CHARACTER, LEVEL_NONE})
-    private @interface MatchLevel {
-    }
-
     /* 匹配度：纯数字, 匹配度最高*/
     private static final int LEVEL_DIGITAL = 2;
     /* 匹配度：数字+字母 混合, 匹配度其次*/
@@ -97,7 +90,7 @@ public class VerificationUtils {
     private static final int LEVEL_CHARACTER = 0;
     private static final int LEVEL_NONE = -1;
 
-    private static @MatchLevel int getMatchLevel(String matchedStr) {
+    private static int getMatchLevel(String matchedStr) {
         if (matchedStr.matches("^[0-9]*$"))
             return LEVEL_DIGITAL;
         if (matchedStr.matches("^[a-zA-Z]*$"))
@@ -105,7 +98,7 @@ public class VerificationUtils {
         return LEVEL_TEXT;
     }
 
-    public static String getVerificationCodeEN(@NonNull String content) {
+    public static String getVerificationCodeEN(String content) {
         String regex = "[0-9]{4,8}";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(content);
