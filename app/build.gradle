@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+def key = file('F:\\Keystore\\tianma.jks')
+
+def keyProps = new Properties()
+keyProps.load(new FileInputStream('app/signature.properties'))
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -12,6 +17,16 @@ android {
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
     }
+
+    signingConfigs {
+        release {
+            storeFile key
+            storePassword keyProps['STORE_PASSWORD']
+            keyAlias keyProps['KEY_ALIAS']
+            keyPassword keyProps['KEY_PASSWORD']
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField("int", "LOG_LEVEL", "2")
@@ -19,10 +34,18 @@ android {
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("int", "LOG_LEVEL", "4")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
+            if (key.exists()) {
+                println "using tianma's keystore"
+                signingConfig signingConfigs.release
+            } else {
+                println "using no keystore"
+            }
         }
     }
 }
