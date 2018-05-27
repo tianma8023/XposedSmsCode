@@ -1,7 +1,7 @@
 # XposedSmsCode
 A Xposed Module which can recognize ,parse verification code and copy it to clipboard when a new message arrives. / 识别短信验证码的Xposed模块，并将验证码拷贝到剪切板。
 
-<img src="ss/ss_01.jpg" width="360" alt="ss"/>
+<img src="ss/ss_01.png" width="360" alt="ss"/>
 
 # Usage / 使用
 1. Root your device and install Xposed Framework. / Root你的设备，安装Xposed框架
