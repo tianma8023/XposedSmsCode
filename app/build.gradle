@@ -5,6 +5,10 @@ def key = file('F:\\Keystore\\tianma.jks')
 def keyProps = new Properties()
 keyProps.load(new FileInputStream("app\\signature.properties"))
 
+def releaseTime() {
+    return new Date().format("yy-MM-dd", TimeZone.default)
+}
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -47,6 +51,16 @@ android {
             }
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith(".apk")) {
+                        def fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
     }
 }
