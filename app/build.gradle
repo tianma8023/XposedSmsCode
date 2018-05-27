@@ -37,7 +37,6 @@ android {
             minifyEnabled true
             shrinkResources true
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("int", "LOG_LEVEL", "4")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
             if (key.exists()) {
@@ -46,6 +45,8 @@ android {
             } else {
                 println "using no keystore"
             }
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

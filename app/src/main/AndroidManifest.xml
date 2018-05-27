@@ -13,7 +13,7 @@
             android:value="true"/>
         <meta-data
             android:name="xposeddescription"
-            android:value="自动复制短信验证码"/>
+            android:value="复制新短信中的验证码到剪贴板"/>
         <meta-data
             android:name="xposedminversion"
             android:value="82"/>
