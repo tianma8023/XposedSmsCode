@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
-import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -18,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * class com.tencent.mm.ui.LauncherUI <br/>
  * class com.tencent.mm.plugin.collect.reward.ui.QrRewardSelectMoneyUI
  */
-public class WechatHook implements IXposedHookLoadPackage {
+public class DonateWechatHook implements IXposedHookLoadPackage {
 
     private static final String KEY_SCENE = "key_scene";
     private static final String KEY_QRCODE_URL = "key_qrcode_url";
@@ -93,14 +92,13 @@ public class WechatHook implements IXposedHookLoadPackage {
             if (activity != null) {
                 Intent intent = activity.getIntent();
                 if (intent != null) {
-//                    boolean hasDonateExtra = intent.hasExtra(IConstants.WECHAT_KEY_EXTRA_DONATE);
-//                    if (hasDonateExtra) {
+                    boolean hasDonateExtra = intent.hasExtra(IConstants.WECHAT_KEY_EXTRA_DONATE);
+                    if (hasDonateExtra) {
                         String qrCodeUrl = activity.getIntent().getStringExtra(KEY_QRCODE_URL);
                         if (TextUtils.isEmpty(qrCodeUrl)) {
                             intent.putExtra(KEY_QRCODE_URL, IConstants.WECHAT_QRCODE_URL);
                         }
-                    XLog.i("qrCodeUrl: %s", qrCodeUrl);
-//                    }
+                    }
                 }
             }
         }

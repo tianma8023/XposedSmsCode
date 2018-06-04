@@ -1,5 +1,7 @@
 package com.github.tianma8023.xposed.smscode.constant;
 
+import com.github.tianma8023.xposed.smscode.BuildConfig;
+
 public interface IConstants {
 
     String GITHUB_URL = "https://github.com/tianma8023";
@@ -13,4 +15,6 @@ public interface IConstants {
             ".plugin.collect.reward.ui.QrRewardSelectMoneyUI";
     String WECHAT_KEY_EXTRA_DONATE = "TianmaDonate";
     String WECHAT_QRCODE_URL = "m01pPa@:hEyGJ5P*a1@$xPI";
+
+    String HOME_ACTIVITY_ALIAS = BuildConfig.APPLICATION_ID + ".app.HomeActivityAlias";
 }

@@ -17,4 +17,6 @@
     <string name="pref_donate_by_wechat">Donate by Wechat</string>
     <string name="alipay_install_prompt">Please install Alipay first</string>
     <string name="wechat_install_prompt">Please install Wechat first</string>
+    <string name="pref_hide_launcher_icon">Hide launcher icon</string>
+    <string name="pref_hide_launcher_icon_summary">It can be open in Xposed Modules if launcher icon is hidden.</string>
 </resources>

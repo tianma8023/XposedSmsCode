@@ -14,6 +14,12 @@
             android:title="@string/pref_show_toast"
             android:summary="@string/pref_show_toast_summary"
             android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="pref_hide_launcher_icon"
+            android:title="@string/pref_hide_launcher_icon"
+            android:summary="@string/pref_hide_launcher_icon_summary"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
 

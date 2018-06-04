@@ -21,4 +21,6 @@
     <string name="pref_author">作者</string>
     <string name="alipay_install_prompt">请先安装支付宝</string>
     <string name="wechat_install_prompt">请先安装微信</string>
+    <string name="pref_hide_launcher_icon">隐藏应用图标</string>
+    <string name="pref_hide_launcher_icon_summary">隐藏后仍可以从Xposed模块处打开本模块</string>
 </resources>

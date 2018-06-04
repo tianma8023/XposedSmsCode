@@ -11,6 +11,8 @@ public interface IPrefConstants {
     String KEY_SHOW_TOAST = "pref_show_toast";
     boolean KEY_SHOW_TOAST_DEFAULT = true;
 
+    CharSequence KEY_HIDE_LAUNCHER_ICON = "pref_hide_launcher_icon";
+
     String KEY_AUTHOR = "pref_author";
     String KEY_DONATE_BY_ALIPAY = "pref_donate_by_alipay";
     String KEY_DONATE_BY_WECHAT = "pref_donate_by_wechat";
