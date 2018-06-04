@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">短信验证码提取器</string>
+
+    <!-- General -->
+    <string name="i_know">知道了</string>
+
+    <!-- -->
+    <string name="enable_module_title">启用Xposed模块</string>
+    <string name="enable_module_message">请先在XposedInstaller中启用本模块，否则本应用将无法工作！</string>
+
+    <!-- Preferences -->
+    <string name="pref_general">通用</string>
+    <string name="pref_enable">启用</string>
+    <string name="pref_enable_summary">使用此开关不需要重启设备</string>
+    <string name="pref_enable_summary_alt">请先在XposedInstaller中启用本模块</string>
+    <string name="pref_show_toast">显示Toast</string>
+    <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
+    <string name="pref_donate_by_alipay">支付宝捐赠</string>
+    <string name="pref_donate_by_wechat">微信捐赠</string>
+    <string name="about">关于</string>
+    <string name="pref_author">作者</string>
+    <string name="alipay_install_prompt">请先安装支付宝</string>
+    <string name="wechat_install_prompt">请先安装微信</string>
+</resources>

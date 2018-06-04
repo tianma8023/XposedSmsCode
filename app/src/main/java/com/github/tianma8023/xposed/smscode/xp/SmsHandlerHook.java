@@ -24,6 +24,9 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+/**
+ * Hook class com.android.internal.telephony.InBoundSmsHandler
+ */
 public class SmsHandlerHook implements IXposedHookLoadPackage {
 
     private static final String TELEPHONY_PACKAGE = "com.android.internal.telephony";

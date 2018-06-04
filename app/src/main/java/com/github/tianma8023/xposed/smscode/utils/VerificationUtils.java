@@ -1,6 +1,6 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
-import com.github.tianma8023.xposed.smscode.constant.IConstants;
+import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +33,7 @@ public class VerificationUtils {
      */
     public static boolean isVerificationMsgCN(String content) {
         boolean result = false;
-        for (String keyWord : IConstants.VERIFICATION_KEY_WORDS_CN) {
+        for (String keyWord : ISmsCodeConstants.VERIFICATION_KEY_WORDS_CN) {
             if (content.contains(keyWord)) {
                 result = true;
                 break;
@@ -50,7 +50,7 @@ public class VerificationUtils {
      */
     public static boolean isVerificationMsgEN(String content) {
         boolean result = false;
-        for (String keyWord : IConstants.VERIFICATION_KEY_WORDS_EN) {
+        for (String keyWord : ISmsCodeConstants.VERIFICATION_KEY_WORDS_EN) {
             if (content.contains(keyWord)) {
                 result = true;
                 break;

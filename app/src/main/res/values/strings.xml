@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">短信验证码提取器</string>
+    <string name="app_name">SMSCode</string>
+
+    <string name="pref_general">General</string>
+    <string name="pref_enable">Enable SMSCode</string>
+    <string name="pref_enable_summary">Reboot is not required</string>
+    <string name="enable_module_title">Enable Xposed Module</string>
+    <string name="enable_module_message">Enable this module in XposedInstaller, or this App won\'t work!</string>
+    <string name="i_know">I see</string>
+    <string name="pref_enable_summary_alt">Please enable the Xposed module first!</string>
+    <string name="pref_show_toast">Show Toast</string>
+    <string name="pref_show_toast_summary">Show Toast when a SMS Code is copied.</string>
+    <string name="about">About</string>
+    <string name="tianma">Tianma</string>
+    <string name="pref_author">Author</string>
+    <string name="pref_donate_by_alipay">Donate by Alipay</string>
+    <string name="pref_donate_by_wechat">Donate by Wechat</string>
+    <string name="alipay_install_prompt">Please install Alipay first</string>
+    <string name="wechat_install_prompt">Please install Wechat first</string>
 </resources>
