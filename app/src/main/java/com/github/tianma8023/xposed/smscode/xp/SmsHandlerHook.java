@@ -8,17 +8,13 @@ import android.os.Bundle;
 import android.os.UserHandle;
 import android.provider.Telephony;
 
-import com.github.tianma8023.xposed.smscode.App;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.github.tianma8023.xposed.smscode.entity.SmsMessageData;
-import com.github.tianma8023.xposed.smscode.utils.StringUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 import com.github.tianma8023.xposed.smscode.worker.VerificationMsgTask;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -27,7 +23,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.android.internal.telephony.InBoundSmsHandler
  */
-public class SmsHandlerHook implements IXposedHookLoadPackage {
+public class SmsHandlerHook {
 
     private static final String TELEPHONY_PACKAGE = "com.android.internal.telephony";
     private static final String SMS_HANDLER_CLASS = TELEPHONY_PACKAGE + ".InboundSmsHandler";
@@ -36,9 +32,7 @@ public class SmsHandlerHook implements IXposedHookLoadPackage {
     private Context mAppContext;
     private ExecutorService mSingleThreadPool;
 
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-
         if ("com.android.phone".equals(lpparam.packageName)) {
             XLog.i("SmsCode initializing");
             printDeviceInfo();
@@ -155,8 +149,8 @@ public class SmsHandlerHook implements IXposedHookLoadPackage {
         if (mModContext == null || mAppContext == null) {
             mModContext = context;
             try {
-                String packageName = App.class.getPackage().getName();
-                mAppContext = mModContext.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY);
+                mAppContext = mModContext.createPackageContext(BuildConfig.APPLICATION_ID,
+                        Context.CONTEXT_IGNORE_SECURITY);
             } catch (Exception e) {
                 XLog.e("Create app context failed: %s", e);
             }
@@ -191,18 +185,11 @@ public class SmsHandlerHook implements IXposedHookLoadPackage {
             return;
         }
 
-        SmsMessageData smsMessageData = SmsMessageData.fromIntent(intent);
-        String sender = smsMessageData.getSender();
-        String body = smsMessageData.getBody();
-        XLog.i("Received a new SMS message");
-        XLog.i("Sender: %s", StringUtils.escape(sender));
-        XLog.i("Body: %s", StringUtils.escape(body));
-
-        // Here we are in the Main Thread, start an new task.
+        // Here we are in the Main Thread, start a new task.
         if (mSingleThreadPool == null || mSingleThreadPool.isShutdown()) {
             mSingleThreadPool = Executors.newSingleThreadExecutor();
         }
-        mSingleThreadPool.execute(new VerificationMsgTask(mAppContext, smsMessageData));
+        mSingleThreadPool.execute(new VerificationMsgTask(mAppContext, intent));
     }
 
 }

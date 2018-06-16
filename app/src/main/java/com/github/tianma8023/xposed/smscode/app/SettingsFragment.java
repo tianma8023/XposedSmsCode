@@ -75,7 +75,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private void donateByAlipay() {
         if (PackageUtils.isAlipayInstalled(mHomeActivity)) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("alipayqr://platformapi/startapp?saId=10000007&qrcode="
+            intent.setData(Uri.parse(IConstants.ALIPAY_QRCODE_URI_PREFIX
                     + IConstants.ALIPAY_QRCODE_URL));
             startActivity(intent);
         } else {
@@ -85,10 +85,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void donateByWechat() {
         if (PackageUtils.isWeChatInstalled(mHomeActivity)) {
-            Intent intent = new Intent();
-            intent.setClassName(IConstants.WECHAT_PACKAGE_NAME, IConstants.WECHAT_LAUNCHER_UI);
-            intent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
-            startActivity(intent);
+            if (ModuleUtils.isModuleEnabled()) {
+                Intent intent = new Intent();
+                intent.setClassName(IConstants.WECHAT_PACKAGE_NAME, IConstants.WECHAT_LAUNCHER_UI);
+                intent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(mHomeActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
         }

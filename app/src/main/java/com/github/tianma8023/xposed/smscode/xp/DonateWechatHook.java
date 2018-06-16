@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -17,13 +16,12 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * class com.tencent.mm.ui.LauncherUI <br/>
  * class com.tencent.mm.plugin.collect.reward.ui.QrRewardSelectMoneyUI
  */
-public class DonateWechatHook implements IXposedHookLoadPackage {
+public class DonateWechatHook {
 
     private static final String KEY_SCENE = "key_scene";
     private static final String KEY_QRCODE_URL = "key_qrcode_url";
     private static final String KEY_CHANNEL = "key_channel";
 
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (IConstants.WECHAT_PACKAGE_NAME.equals(lpparam.packageName)) {
             try {

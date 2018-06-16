@@ -16,6 +16,12 @@
             android:defaultValue="true"/>
 
         <SwitchPreference
+            android:key="pref_mark_as_read"
+            android:title="@string/pref_mark_as_read"
+            android:summary="@string/pref_mark_as_read_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="pref_hide_launcher_icon"
             android:title="@string/pref_hide_launcher_icon"
             android:summary="@string/pref_hide_launcher_icon_summary"

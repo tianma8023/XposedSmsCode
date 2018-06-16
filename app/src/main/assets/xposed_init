@@ -1,3 +1,1 @@
-com.github.tianma8023.xposed.smscode.xp.SmsHandlerHook
-com.github.tianma8023.xposed.smscode.xp.ModuleUtilsHook
-com.github.tianma8023.xposed.smscode.xp.DonateWechatHook
+com.github.tianma8023.xposed.smscode.xp.HookEntry

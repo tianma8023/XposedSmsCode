@@ -4,7 +4,6 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
-import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -12,12 +11,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.github.tianma8023.xposed.smscode.utils.ModuleUtils
  */
-public class ModuleUtilsHook implements IXposedHookLoadPackage {
+public class ModuleUtilsHook {
 
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
     private static final int MODULE_VERSION = BuildConfig.MODULE_VERSION;
 
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
         if (SMSCODE_PACKAGE.equals(lpparam.packageName)) {
