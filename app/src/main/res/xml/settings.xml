@@ -10,6 +10,12 @@
             android:defaultValue="true"/>
 
         <SwitchPreference
+            android:key="pref_hide_launcher_icon"
+            android:title="@string/pref_hide_launcher_icon"
+            android:summary="@string/pref_hide_launcher_icon_summary"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
             android:key="pref_show_toast"
             android:title="@string/pref_show_toast"
             android:summary="@string/pref_show_toast_summary"
@@ -21,13 +27,17 @@
             android:summary="@string/pref_mark_as_read_summary"
             android:defaultValue="false" />
 
-        <SwitchPreference
-            android:key="pref_hide_launcher_icon"
-            android:title="@string/pref_hide_launcher_icon"
-            android:summary="@string/pref_hide_launcher_icon_summary"
-            android:defaultValue="false"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_sms_code">
+
+        <com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference
+            android:key="pref_smscode_keywords"
+            android:title="@string/pref_smscode_keywords"
+            android:summary="@string/pref_smscode_keywords_summary"
+            android:hint="@string/code_keywords_hint"
+            android:negativeButtonText="@string/reset"/>
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
 

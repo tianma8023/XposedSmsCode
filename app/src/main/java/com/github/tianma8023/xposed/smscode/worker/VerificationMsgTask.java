@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Telephony;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -64,20 +65,21 @@ public class VerificationMsgTask implements Runnable {
         if (TextUtils.isEmpty(msgBody))
             return;
         // Check whether it's a verification message
-        String verificationCode = "";
-        if (VerificationUtils.containsChinese(msgBody)) {
-            XLog.i("Message body contains Chinese character");
-            if (VerificationUtils.isVerificationMsgCN(msgBody)) {
-                XLog.i("Is Chinese verification code message");
-                verificationCode = VerificationUtils.getVerificationCodeCN(msgBody);
-            }
-        } else {
-            XLog.i("Message body does not contain Chinese character");
-            if (VerificationUtils.isVerificationMsgEN(msgBody)) {
-                XLog.i("Is English verification code message");
-                verificationCode = VerificationUtils.getVerificationCodeEN(msgBody);
-            }
-        }
+//        String verificationCode = "";
+//        if (VerificationUtils.containsChinese(msgBody)) {
+//            XLog.i("Message body contains Chinese character");
+//            if (VerificationUtils.isVerificationMsgCN(msgBody)) {
+//                XLog.i("Is Chinese verification code message");
+//                verificationCode = VerificationUtils.getVerificationCodeCN(msgBody);
+//            }
+//        } else {
+//            XLog.i("Message body does not contain Chinese character");
+//            if (VerificationUtils.isVerificationMsgEN(msgBody)) {
+//                XLog.i("Is English verification code message");
+//                verificationCode = VerificationUtils.getVerificationCodeEN(msgBody);
+//            }
+//        }
+        String verificationCode = VerificationUtils.parseVerificationCodeIfExists(msgBody);
 
         if (TextUtils.isEmpty(verificationCode)) { // Not verification code msg.
             return;
@@ -130,22 +132,25 @@ public class VerificationMsgTask implements Runnable {
     }
 
     private void markSmsAsRead(String sender, String body) {
-        Uri uri = Uri.parse("content://sms/inbox");
+        Uri uri = Telephony.Sms.Inbox.CONTENT_URI;
         Cursor cursor = mContext.getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null)
+            return;
         try {
             while (cursor.moveToNext()) {
                 if ((cursor.getString(cursor.getColumnIndex("address")).equals(sender))
                         && (cursor.getInt(cursor.getColumnIndex("read")) == 0)
                         && cursor.getString(cursor.getColumnIndex("body")).startsWith(body)) {
-                    String SmsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
+                    String smsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
                     ContentValues values = new ContentValues();
                     values.put("read", true);
-                    mContext.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + SmsMessageId, null);
-//                        return;
+                    mContext.getContentResolver().update(uri, values, "_id = ?", new String[]{smsMessageId});
                 }
             }
         } catch (Exception e) {
             XLog.e("Mark as read failed: ", e);
+        } finally {
+            cursor.close();
         }
     }
 

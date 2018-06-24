@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 
@@ -42,6 +43,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(IPrefConstants.KEY_AUTHOR).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
+
+        ResettableEditPreference keywordsPref = (ResettableEditPreference) findPreference(IPrefConstants.KEY_SMSCODE_KEYWORDS);
+        keywordsPref.setDefaultValue(IPrefConstants.KEY_SMSCODE_KEYWORDS_DEFAULT);
     }
 
 

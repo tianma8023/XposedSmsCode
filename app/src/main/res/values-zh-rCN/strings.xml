@@ -27,4 +27,9 @@
     <string name="tianma">Tianma</string>
     <string name="pref_mark_as_read">标记为已读</string>
     <string name="pref_mark_as_read_summary">将验证码短信标记为已读</string>
+    <string name="pref_smscode_keywords">验证码短信关键字</string>
+    <string name="pref_smscode_keywords_summary">短信包含关键字(正则表达式)</string>
+    <string name="pref_sms_code">验证码短信</string>
+    <string name="reset">重置</string>
+    <string name="code_keywords_hint">关键字(正则表达式)</string>
 </resources>

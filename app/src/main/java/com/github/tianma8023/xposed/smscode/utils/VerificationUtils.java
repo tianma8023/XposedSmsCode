@@ -26,6 +26,27 @@ public class VerificationUtils {
         return matcher.find();
     }
 
+    public static boolean isVerificationMsg(String content) {
+        Pattern pattern = Pattern.compile(ISmsCodeConstants.VERIFICATION_KEYWORDS_REGEX);
+        Matcher matcher = pattern.matcher(content);
+        return matcher.find();
+    }
+
+    /**
+     * 解析文本中的验证码并返回，如果不存在返回空字符
+     */
+    public static String parseVerificationCodeIfExists(String content) {
+        String result = "";
+        if (isVerificationMsg(content)) {
+            if (containsChinese(content)) {
+                result = getVerificationCodeCN(content);
+            } else {
+                result = getVerificationCodeEN(content);
+            }
+        }
+        return result;
+    }
+
     /**
      * 是否是中文验证码短信
      *
@@ -82,8 +103,12 @@ public class VerificationUtils {
         return verificationCode;
     }
 
+    /* 匹配度：6位纯数字，匹配度最高 */
+    private static final int LEVEL_DIGITAL_6 = 4;
+    /* 匹配度：4位纯数字，匹配度次之 */
+    private static final int LEVEL_DIGITAL_4 = 3;
     /* 匹配度：纯数字, 匹配度最高*/
-    private static final int LEVEL_DIGITAL = 2;
+    private static final int LEVEL_DIGITAL_OTHERS = 2;
     /* 匹配度：数字+字母 混合, 匹配度其次*/
     private static final int LEVEL_TEXT = 1;
     /* 匹配度：纯字母, 匹配度最低*/
@@ -91,8 +116,12 @@ public class VerificationUtils {
     private static final int LEVEL_NONE = -1;
 
     private static int getMatchLevel(String matchedStr) {
+        if (matchedStr.matches("^[0-9]{6}$"))
+            return LEVEL_DIGITAL_6;
+        if (matchedStr.matches("^[0-9]{4}$"))
+            return LEVEL_DIGITAL_4;
         if (matchedStr.matches("^[0-9]*$"))
-            return LEVEL_DIGITAL;
+            return LEVEL_DIGITAL_OTHERS;
         if (matchedStr.matches("^[a-zA-Z]*$"))
             return LEVEL_CHARACTER;
         return LEVEL_TEXT;
