@@ -19,7 +19,7 @@
             android:value="提取新短信中的验证码并复制到剪贴板"/>
         <meta-data
             android:name="xposedminversion"
-            android:value="82"/>
+            android:value="30"/>
 
         <activity
             android:name=".app.HomeActivity"
