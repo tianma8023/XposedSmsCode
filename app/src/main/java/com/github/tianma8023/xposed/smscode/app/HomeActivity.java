@@ -1,13 +1,11 @@
 package com.github.tianma8023.xposed.smscode.app;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 
@@ -19,9 +17,7 @@ import butterknife.ButterKnife;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    @BindView(R.id.home_coordinator_layout) CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.home_fab) FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +49,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showEnableModuleDialog() {
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.enable_module_title)
-                .setMessage(R.string.enable_module_message)
-                .setPositiveButton(R.string.i_know, null)
+        new MaterialDialog.Builder(this)
+                .title(R.string.enable_module_title)
+                .content(R.string.enable_module_message)
+                .positiveText(R.string.i_know)
                 .show();
-
     }
 
 }

@@ -29,7 +29,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_sms_code">
+    <PreferenceCategory android:title="@string/pref_smscode">
 
         <com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference
             android:key="pref_smscode_keywords"
@@ -37,6 +37,14 @@
             android:summary="@string/pref_smscode_keywords_summary"
             android:hint="@string/code_keywords_hint"
             android:negativeButtonText="@string/reset"/>
+
+        <Preference
+            android:key="pref_smscode_test"
+            android:title="@string/pref_smscode_test"
+            android:summary="@string/pref_smscode_test_summary"
+            android:hint="@string/sms_content_hint"
+            android:positiveButtonText="@string/test"
+            android:persistent="false"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">

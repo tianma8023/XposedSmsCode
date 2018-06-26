@@ -29,7 +29,13 @@
     <string name="pref_mark_as_read_summary">将验证码短信标记为已读</string>
     <string name="pref_smscode_keywords">验证码短信关键字</string>
     <string name="pref_smscode_keywords_summary">短信包含关键字(正则表达式)</string>
-    <string name="pref_sms_code">验证码短信</string>
+    <string name="pref_smscode">验证码短信</string>
     <string name="reset">重置</string>
     <string name="code_keywords_hint">关键字(正则表达式)</string>
+    <string name="pref_smscode_test">验证码短信测试</string>
+    <string name="pref_smscode_test_summary">测试短信中的验证码是否能被识别</string>
+    <string name="sms_content_hint">短信内容</string>
+    <string name="test">测试</string>
+    <string name="cancel">取消</string>
+    <string name="cannot_parse_smscode">未能解析出验证码</string>
 </resources>

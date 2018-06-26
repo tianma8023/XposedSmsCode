@@ -24,7 +24,13 @@
     <string name="pref_mark_as_read_summary">Mark sms as read</string>
     <string name="pref_smscode_keywords">Keywords</string>
     <string name="pref_smscode_keywords_summary">Sms Code contains keywords(Regular Expressions)</string>
-    <string name="pref_sms_code">Sms Code</string>
+    <string name="pref_smscode">Sms Code</string>
     <string name="reset">Reset</string>
     <string name="code_keywords_hint">Keywords(Regular Expressions)</string>
+    <string name="pref_smscode_test">Sms Code test</string>
+    <string name="pref_smscode_test_summary">Test whether sms code can be recognized or not</string>
+    <string name="sms_content_hint">Sms content</string>
+    <string name="test">Test</string>
+    <string name="cancel">Cancel</string>
+    <string name="cannot_parse_smscode">Cannot parse verification code.</string>
 </resources>

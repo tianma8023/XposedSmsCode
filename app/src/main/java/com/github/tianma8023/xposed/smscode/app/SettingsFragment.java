@@ -5,24 +5,31 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
+import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 
 /**
  * 首选项Fragment
  */
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
-    HomeActivity mHomeActivity;
+    private HomeActivity mHomeActivity;
 
     public SettingsFragment() {
     }
@@ -43,6 +50,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(IPrefConstants.KEY_AUTHOR).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
+        findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
 
         ResettableEditPreference keywordsPref = (ResettableEditPreference) findPreference(IPrefConstants.KEY_SMSCODE_KEYWORDS);
         keywordsPref.setDefaultValue(IPrefConstants.KEY_SMSCODE_KEYWORDS_DEFAULT);
@@ -64,6 +72,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             donateByAlipay();
         } else if (IPrefConstants.KEY_DONATE_BY_WECHAT.equals(key)) {
             donateByWechat();
+        } else if (IPrefConstants.KEY_SMSCODE_TEST.equals(key)) {
+            showSmsCodeTestDialog();
         } else {
             return false;
         }
@@ -117,5 +127,64 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         ComponentName launcherCN = new ComponentName(mHomeActivity, IConstants.HOME_ACTIVITY_ALIAS);
         int state = show ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
         pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
+    }
+
+    private void showSmsCodeTestDialog() {
+        new MaterialDialog.Builder(mHomeActivity)
+                .title(R.string.pref_smscode_test)
+                .input(R.string.sms_content_hint, 0, true, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                        new Thread(new SmsCodeTestTask(input.toString())).start();
+                    }
+                })
+                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+                .negativeText(R.string.cancel)
+                .show();
+    }
+
+    private class SmsCodeTestTask implements Runnable {
+
+        private String mMsgBody;
+
+        public SmsCodeTestTask(String msgBody) {
+            mMsgBody = msgBody;
+        }
+
+        @Override
+        public void run() {
+            Message msg = new Message();
+            msg.what = MSG_SMSCODE_TEST;
+            if (TextUtils.isEmpty(mMsgBody)) {
+                msg.obj = "";
+            } else {
+                msg.obj = VerificationUtils.parseVerificationCodeIfExists(mMsgBody);
+            }
+            mHandler.sendMessage(msg);
+        }
+    }
+
+    private static final int MSG_SMSCODE_TEST = 0xff;
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_SMSCODE_TEST:
+                    handleSmsCode((String) msg.obj);
+                    return true;
+            }
+            return false;
+        }
+    });
+
+    private void handleSmsCode(String verificationCode) {
+        String text;
+        if (TextUtils.isEmpty(verificationCode)) {
+            text = getString(R.string.cannot_parse_smscode);
+        } else {
+            text = getString(R.string.cur_verification_code, verificationCode);
+        }
+        Toast.makeText(mHomeActivity, text, Toast.LENGTH_LONG).show();
     }
 }

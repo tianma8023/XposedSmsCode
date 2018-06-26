@@ -24,6 +24,8 @@ public interface IPrefConstants {
     String KEY_SMSCODE_KEYWORDS = "pref_smscode_keywords";
     String KEY_SMSCODE_KEYWORDS_DEFAULT = ISmsCodeConstants.VERIFICATION_KEYWORDS_REGEX;
 
+    String KEY_SMSCODE_TEST = "pref_smscode_test";
+
     String KEY_AUTHOR = "pref_author";
     String KEY_DONATE_BY_ALIPAY = "pref_donate_by_alipay";
     String KEY_DONATE_BY_WECHAT = "pref_donate_by_wechat";
