@@ -122,10 +122,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         return true;
     }
 
-    private void hideOrShowLauncherIcon(boolean show) {
+    private void hideOrShowLauncherIcon(boolean hide) {
         PackageManager pm = mHomeActivity.getPackageManager();
         ComponentName launcherCN = new ComponentName(mHomeActivity, IConstants.HOME_ACTIVITY_ALIAS);
-        int state = show ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        int state = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
         pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
     }
 
@@ -147,7 +147,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         private String mMsgBody;
 
-        public SmsCodeTestTask(String msgBody) {
+        SmsCodeTestTask(String msgBody) {
             mMsgBody = msgBody;
         }
 
