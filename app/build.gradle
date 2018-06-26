@@ -20,7 +20,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "1")
+        buildConfigField("int", "MODULE_VERSION", "2")
     }
 
     signingConfigs {
@@ -36,6 +36,13 @@ android {
         debug {
             buildConfigField("int", "LOG_LEVEL", "2")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
+
+            if (key.exists()) {
+                println "using tianma's keystore"
+                signingConfig signingConfigs.release
+            } else {
+                println "using no keystore"
+            }
         }
 
         release {
