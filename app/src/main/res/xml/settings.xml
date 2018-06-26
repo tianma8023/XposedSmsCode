@@ -19,12 +19,14 @@
             android:key="pref_show_toast"
             android:title="@string/pref_show_toast"
             android:summary="@string/pref_show_toast_summary"
+            android:dependency="pref_enable"
             android:defaultValue="true"/>
 
         <SwitchPreference
             android:key="pref_mark_as_read"
             android:title="@string/pref_mark_as_read"
             android:summary="@string/pref_mark_as_read_summary"
+            android:dependency="pref_enable"
             android:defaultValue="false" />
 
     </PreferenceCategory>
