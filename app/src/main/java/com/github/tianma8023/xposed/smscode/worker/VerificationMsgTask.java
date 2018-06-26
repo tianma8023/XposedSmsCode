@@ -16,6 +16,7 @@ import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.entity.SmsMessageData;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
+import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
@@ -39,10 +40,7 @@ public class VerificationMsgTask implements Runnable {
     public VerificationMsgTask(Context context, Intent smsIntent) {
         mContext = context;
         mSmsIntent = smsIntent;
-        mPreferences = new RemotePreferences(mContext,
-                IPrefConstants.REMOTE_PREF_AUTHORITY,
-                IPrefConstants.REMOTE_PREF_NAME,
-                true);
+        mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mContext);
     }
 
     @Override
@@ -66,7 +64,7 @@ public class VerificationMsgTask implements Runnable {
 
         if (TextUtils.isEmpty(msgBody))
             return;
-        String verificationCode = VerificationUtils.parseVerificationCodeIfExists(msgBody);
+        String verificationCode = VerificationUtils.parseVerificationCodeIfExists(mContext, msgBody);
 
         if (TextUtils.isEmpty(verificationCode)) { // Not verification code msg.
             return;

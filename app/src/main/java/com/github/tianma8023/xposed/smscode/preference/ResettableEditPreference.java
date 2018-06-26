@@ -45,7 +45,6 @@ public class ResettableEditPreference extends EditTextPreference {
     public void setDefaultValue(Object value) {
         super.setDefaultValue(value);
         mDefaultValue = (String) value;
-        setText(mDefaultValue);
     }
 
     @Override

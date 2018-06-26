@@ -38,7 +38,8 @@
             android:title="@string/pref_smscode_keywords"
             android:summary="@string/pref_smscode_keywords_summary"
             android:hint="@string/code_keywords_hint"
-            android:negativeButtonText="@string/reset"/>
+            android:negativeButtonText="@string/reset"
+            android:defaultValue="@string/default_smscode_keywords"/>
 
         <Preference
             android:key="pref_smscode_test"

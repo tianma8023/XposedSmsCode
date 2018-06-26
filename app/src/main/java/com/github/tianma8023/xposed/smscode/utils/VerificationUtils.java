@@ -1,5 +1,9 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
+import android.content.Context;
+
+import com.crossbowffs.remotepreferences.RemotePreferences;
+import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
 
 import java.util.regex.Matcher;
@@ -26,18 +30,24 @@ public class VerificationUtils {
         return matcher.find();
     }
 
-    public static boolean isVerificationMsg(String content) {
-        Pattern pattern = Pattern.compile(ISmsCodeConstants.VERIFICATION_KEYWORDS_REGEX);
+    private static boolean isVerificationMsg(Context context, String content) {
+        String keywordsRegex = loadVerificationKeywords(context);
+        Pattern pattern = Pattern.compile(keywordsRegex);
         Matcher matcher = pattern.matcher(content);
         return matcher.find();
+    }
+
+    private static String loadVerificationKeywords(Context context) {
+        RemotePreferences preferences = RemotePreferencesUtils.getDefaultRemotePreferences(context);
+        return RemotePreferencesUtils.getStringPref(preferences, IPrefConstants.KEY_SMSCODE_KEYWORDS, IPrefConstants.KEY_SMSCODE_KEYWORDS_DEFAULT);
     }
 
     /**
      * 解析文本中的验证码并返回，如果不存在返回空字符
      */
-    public static String parseVerificationCodeIfExists(String content) {
+    public static String parseVerificationCodeIfExists(Context context, String content) {
         String result = "";
-        if (isVerificationMsg(content)) {
+        if (isVerificationMsg(context, content)) {
             if (containsChinese(content)) {
                 result = getVerificationCodeCN(content);
             } else {

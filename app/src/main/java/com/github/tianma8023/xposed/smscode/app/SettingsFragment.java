@@ -1,6 +1,7 @@
 package com.github.tianma8023.xposed.smscode.app;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -19,7 +20,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
-import com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
@@ -52,8 +52,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
 
-        ResettableEditPreference keywordsPref = (ResettableEditPreference) findPreference(IPrefConstants.KEY_SMSCODE_KEYWORDS);
-        keywordsPref.setDefaultValue(IPrefConstants.KEY_SMSCODE_KEYWORDS_DEFAULT);
     }
 
 
@@ -135,7 +133,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 .input(R.string.sms_content_hint, 0, true, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        new Thread(new SmsCodeTestTask(input.toString())).start();
+                        new Thread(new SmsCodeTestTask(mHomeActivity, input.toString())).start();
                     }
                 })
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
@@ -146,9 +144,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private class SmsCodeTestTask implements Runnable {
 
         private String mMsgBody;
+        private Context mContext;
 
-        SmsCodeTestTask(String msgBody) {
+        SmsCodeTestTask(Context context, String msgBody) {
             mMsgBody = msgBody;
+            mContext = context;
         }
 
         @Override
@@ -158,7 +158,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             if (TextUtils.isEmpty(mMsgBody)) {
                 msg.obj = "";
             } else {
-                msg.obj = VerificationUtils.parseVerificationCodeIfExists(mMsgBody);
+                msg.obj = VerificationUtils.parseVerificationCodeIfExists(mContext, mMsgBody);
             }
             mHandler.sendMessage(msg);
         }
