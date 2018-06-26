@@ -20,6 +20,8 @@ import com.github.tianma8023.xposed.smscode.utils.StringUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
 
 /**
@@ -78,10 +80,16 @@ public class VerificationMsgTask implements Runnable {
 
         // mark sms as read or not.
         if (getBooleanPref(mPreferences, IPrefConstants.KEY_MARK_AS_READ, IPrefConstants.KEY_MARK_AS_READ_DEFAULT)) {
-            Message markMsg = new Message();
-            markMsg.obj = smsMessageData;
-            markMsg.what = MSG_MARK_AS_READ;
-            innerHandler.sendMessageDelayed(markMsg, 8000);
+            try {
+                TimeUnit.SECONDS.sleep(8);
+                Message markMsg = new Message();
+                markMsg.obj = smsMessageData;
+                markMsg.what = MSG_MARK_AS_READ;
+                innerHandler.sendMessage(markMsg);
+//                innerHandler.sendMessageDelayed(markMsg, 5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -132,6 +140,7 @@ public class VerificationMsgTask implements Runnable {
                     mContext.getContentResolver().update(uri, values, "_id = ?", new String[]{smsMessageId});
                 }
             }
+            XLog.i("Mark as read succeed");
         } catch (Exception e) {
             XLog.e("Mark as read failed: ", e);
         } finally {
