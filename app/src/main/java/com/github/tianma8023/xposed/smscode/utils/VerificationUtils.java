@@ -20,7 +20,7 @@ public class VerificationUtils {
      * @return
      */
     public static boolean containsChinese(String text) {
-        String regex = "[\u4e00-\u9fa5]|【|】|。";
+        String regex = "[\u4e00-\u9fa5]|。";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
         return matcher.find();

@@ -64,21 +64,6 @@ public class VerificationMsgTask implements Runnable {
 
         if (TextUtils.isEmpty(msgBody))
             return;
-        // Check whether it's a verification message
-//        String verificationCode = "";
-//        if (VerificationUtils.containsChinese(msgBody)) {
-//            XLog.i("Message body contains Chinese character");
-//            if (VerificationUtils.isVerificationMsgCN(msgBody)) {
-//                XLog.i("Is Chinese verification code message");
-//                verificationCode = VerificationUtils.getVerificationCodeCN(msgBody);
-//            }
-//        } else {
-//            XLog.i("Message body does not contain Chinese character");
-//            if (VerificationUtils.isVerificationMsgEN(msgBody)) {
-//                XLog.i("Is English verification code message");
-//                verificationCode = VerificationUtils.getVerificationCodeEN(msgBody);
-//            }
-//        }
         String verificationCode = VerificationUtils.parseVerificationCodeIfExists(msgBody);
 
         if (TextUtils.isEmpty(verificationCode)) { // Not verification code msg.
@@ -96,7 +81,7 @@ public class VerificationMsgTask implements Runnable {
             Message markMsg = new Message();
             markMsg.obj = smsMessageData;
             markMsg.what = MSG_MARK_AS_READ;
-            innerHandler.sendMessageDelayed(markMsg, 5000);
+            innerHandler.sendMessageDelayed(markMsg, 8000);
         }
     }
 
