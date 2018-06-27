@@ -78,3 +78,8 @@ fastlane/readme.md
 
 # signature
 app/signature.properties
+
+# eclipse
+.settings/
+*.project
+*/.classpath
