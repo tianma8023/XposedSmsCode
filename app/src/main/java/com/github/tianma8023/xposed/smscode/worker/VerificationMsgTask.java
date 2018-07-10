@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.Telephony;
 import android.text.TextUtils;
@@ -84,16 +85,15 @@ public class VerificationMsgTask implements Runnable {
                 markMsg.obj = smsMessageData;
                 markMsg.what = MSG_MARK_AS_READ;
                 innerHandler.sendMessage(markMsg);
-//                innerHandler.sendMessageDelayed(markMsg, 5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private Handler innerHandler = new Handler(new Handler.Callback() {
+    private Handler innerHandler = new Handler(Looper.getMainLooper()) {
         @Override
-        public boolean handleMessage(Message msg) {
+        public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_COPY_TO_CLIPBOARD:
                     copyToClipboardOnMainThread((String) msg.obj);
@@ -104,12 +104,9 @@ public class VerificationMsgTask implements Runnable {
                     String body = smsMessageData.getBody();
                     markSmsAsRead(sender, body);
                     break;
-                default:
-                    return false;
             }
-            return true;
         }
-    });
+    };
 
     /**
      * 在主线程上执行copy操作
