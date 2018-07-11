@@ -74,6 +74,7 @@ public class ResettableEditPreference extends EditTextPreference {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        // do nothing
     }
 
     @Override

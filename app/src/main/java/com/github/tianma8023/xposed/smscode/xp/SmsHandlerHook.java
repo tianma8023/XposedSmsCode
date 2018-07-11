@@ -185,7 +185,7 @@ public class SmsHandlerHook {
             return;
         }
 
-        // Here we are in the Main Thread, start a new task.
+        // Here we may in UI thread or non-UI thread, start a new thread.
         if (mSingleThreadPool == null || mSingleThreadPool.isShutdown()) {
             mSingleThreadPool = Executors.newSingleThreadExecutor();
         }
