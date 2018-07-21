@@ -104,4 +104,7 @@ dependencies {
 
     // Material Dialogs
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    // Android Shell
+    implementation 'com.jaredrummler:android-shell:1.0.0'
 }
