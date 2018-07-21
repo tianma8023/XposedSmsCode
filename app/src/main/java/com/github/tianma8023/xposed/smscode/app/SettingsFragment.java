@@ -31,6 +31,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private HomeActivity mHomeActivity;
 
+    public interface OnNestedPreferenceClickListener {
+        void onNestedPreferenceClicked(String key, String title);
+    }
+
+    private OnNestedPreferenceClickListener mNestedPreferenceClickListener;
+
     public SettingsFragment() {
     }
 
@@ -51,6 +57,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
+        findPreference(IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
 
     }
 
@@ -59,6 +66,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mHomeActivity = (HomeActivity) getActivity();
+    }
+
+    public void registerOnNestedPreferenceClickListener(OnNestedPreferenceClickListener nestedPreferenceClickListener) {
+        mNestedPreferenceClickListener = nestedPreferenceClickListener;
     }
 
     @Override
@@ -72,6 +83,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             donateByWechat();
         } else if (IPrefConstants.KEY_SMSCODE_TEST.equals(key)) {
             showSmsCodeTestDialog();
+        } else if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)){
+            if (mNestedPreferenceClickListener != null) {
+                mNestedPreferenceClickListener.onNestedPreferenceClicked(key, preference.getTitle().toString());
+            }
         } else {
             return false;
         }
