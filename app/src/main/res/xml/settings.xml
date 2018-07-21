@@ -21,6 +21,9 @@
             android:summary="@string/pref_show_toast_summary"
             android:dependency="pref_enable"
             android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_experimental">
 
         <SwitchPreference
             android:key="pref_mark_as_read"
@@ -29,6 +32,11 @@
             android:dependency="pref_enable"
             android:defaultValue="false" />
 
+        <Preference
+            android:key="pref_entry_auto_input_code"
+            android:dependency="pref_enable"
+            android:title="@string/pref_entry_auto_input_code"
+            android:summary="@string/pref_entry_auto_input_code_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_smscode">

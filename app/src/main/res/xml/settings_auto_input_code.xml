@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_entry_auto_input_code">
+        <SwitchPreference
+            android:key="pref_enable_auto_input_code"
+            android:title="@string/pref_enable_auto_input_code"
+            android:summary="@string/pref_entry_auto_input_code_summary"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="pref_auto_input_mode_accessibility"
+            android:title="@string/pref_auto_input_mode_accessibility"
+            android:summary="@string/pref_auto_input_mode_accessibility_summary"
+            android:dependency="pref_enable_auto_input_code"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="pref_auto_input_mode_root"
+            android:title="@string/pref_auto_input_mode_root"
+            android:summary="@string/pref_auto_input_mode_root_summary"
+            android:dependency="pref_enable_auto_input_code"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>
