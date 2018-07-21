@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.github.tianma8023.xposed.smscode">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +45,32 @@
             android:name=".provider.SharedPreferencesProvider"
             android:authorities="${applicationId}.preferences"
             android:exported="true"/>
+
+        <service
+            android:name=".service.accessibility.SmsCodeAutoInputService"
+            android:label="@string/smscode_auto_input_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config"/>
+        </service>
+
+        <service
+            android:name=".service.SmsCodeService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+        </service>
+
+        <receiver
+            android:name=".receiver.SmsCodeReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
     </application>
 
 </manifest>

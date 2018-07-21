@@ -23,14 +23,32 @@ public class VerificationUtils {
      * @param text
      * @return
      */
-    public static boolean containsChinese(String text) {
+    private static boolean containsChinese(String text) {
         String regex = "[\u4e00-\u9fa5]|。";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
         return matcher.find();
     }
 
+    /**
+     * 是否是验证码短信
+     *
+     * @param context context
+     * @param content content
+     * @return
+     */
     private static boolean isVerificationMsg(Context context, String content) {
+        return containsVerificationKeywords(context, content);
+    }
+
+    /**
+     * 是否包含验证码短信关键字
+     *
+     * @param context context
+     * @param content content
+     * @return
+     */
+    public static boolean containsVerificationKeywords(Context context, String content) {
         String keywordsRegex = loadVerificationKeywords(context);
         Pattern pattern = Pattern.compile(keywordsRegex);
         Matcher matcher = pattern.matcher(content);
@@ -145,5 +163,9 @@ public class VerificationUtils {
             return m.group();
         }
         return "";
+    }
+
+    public static boolean maybeVerificationCode(String text) {
+        return text.matches("[a-zA-Z0-9]{4,8}");
     }
 }

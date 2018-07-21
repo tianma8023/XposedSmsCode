@@ -1,6 +1,7 @@
 package com.github.tianma8023.xposed.smscode.xp;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -9,11 +10,11 @@ import android.os.UserHandle;
 import android.provider.Telephony;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.github.tianma8023.xposed.smscode.receiver.SmsCodeReceiver;
+import com.github.tianma8023.xposed.smscode.service.SmsCodeService;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
-import com.github.tianma8023.xposed.smscode.worker.VerificationMsgTask;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -27,6 +28,7 @@ public class SmsHandlerHook {
 
     private static final String TELEPHONY_PACKAGE = "com.android.internal.telephony";
     private static final String SMS_HANDLER_CLASS = TELEPHONY_PACKAGE + ".InboundSmsHandler";
+    private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
     private Context mModContext;
     private Context mAppContext;
@@ -149,7 +151,7 @@ public class SmsHandlerHook {
         if (mModContext == null || mAppContext == null) {
             mModContext = context;
             try {
-                mAppContext = mModContext.createPackageContext(BuildConfig.APPLICATION_ID,
+                mAppContext = mModContext.createPackageContext(SMSCODE_PACKAGE,
                         Context.CONTEXT_IGNORE_SECURITY);
             } catch (Exception e) {
                 XLog.e("Create app context failed: %s", e);
@@ -186,10 +188,14 @@ public class SmsHandlerHook {
         }
 
         // Here we may in UI thread or non-UI thread, start a new thread.
-        if (mSingleThreadPool == null || mSingleThreadPool.isShutdown()) {
-            mSingleThreadPool = Executors.newSingleThreadExecutor();
-        }
-        mSingleThreadPool.execute(new VerificationMsgTask(mAppContext, intent));
+//        if (mSingleThreadPool == null || mSingleThreadPool.isShutdown()) {
+//            mSingleThreadPool = Executors.newSingleThreadExecutor();
+//        }
+//        mSingleThreadPool.execute(new VerificationMsgTask(mAppContext, intent));
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
+        broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
+        mAppContext.sendBroadcast(broadcastIntent);
     }
 
 }
