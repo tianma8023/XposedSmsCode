@@ -50,4 +50,9 @@ public interface ISmsCodeConstants {
             "code",
             "CODE",
     };
+
+    String PHONE_NUMBER_KEYWORDS =
+            /**/ "手机号|电话号" +
+            /**/ "|手機號|電話號" +
+            /*(?i) 表示忽略大小写*/ "|(?i)phone(()?number)?(?-i)";
 }

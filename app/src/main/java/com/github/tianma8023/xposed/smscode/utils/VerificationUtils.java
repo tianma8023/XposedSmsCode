@@ -165,7 +165,17 @@ public class VerificationUtils {
         return "";
     }
 
-    public static boolean maybeVerificationCode(String text) {
+    public static boolean isPossibleSmsCode(String text) {
         return text.matches("[a-zA-Z0-9]{4,8}");
+    }
+
+    public static boolean isPossiblePhoneNumber(String text) {
+        return text.matches("\\d{8,}");
+    }
+
+    public static boolean containsPhoneNumberKeywords(String content) {
+        Pattern pattern = Pattern.compile(ISmsCodeConstants.PHONE_NUMBER_KEYWORDS);
+        Matcher matcher = pattern.matcher(content);
+        return matcher.find();
     }
 }

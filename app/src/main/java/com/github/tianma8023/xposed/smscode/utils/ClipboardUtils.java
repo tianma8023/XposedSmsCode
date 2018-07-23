@@ -14,9 +14,9 @@ public class ClipboardUtils {
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clipData = ClipData.newPlainText("Copy text", text);
             clipboardManager.setPrimaryClip(clipData);
-            XLog.i("copy to clipboard succeed");
+            XLog.i("Copy to clipboard succeed");
         } catch (Throwable e) {
-            XLog.e("copy to clipboard failed: ", e);
+            XLog.e("Copy to clipboard failed.", e);
         }
     }
 

@@ -47,7 +47,7 @@ public class PermissionGranterHook {
     }
 
     private static void hookGrantPermissionsLPwSinceKitkat(XC_LoadPackage.LoadPackageParam lpparam) {
-        XLog.i("Hooking grantPermissionsLPw() for Android 19+");
+        XLog.d("Hooking grantPermissionsLPw() for Android 19+");
         XposedHelpers.findAndHookMethod(CLASS_PACKAGE_MANAGER_SERVICE, lpparam.classLoader, "grantPermissionsLPw",
                 /* PackageParser.Package pkg */ CLASS_PACKAGE_PARSER_PACKAGE,
                 /* boolean replace           */ boolean.class,
@@ -55,7 +55,7 @@ public class PermissionGranterHook {
     }
 
     private static void hookGrantPermissionsLPwSinceLollipop(XC_LoadPackage.LoadPackageParam lpparam) {
-        XLog.i("Hooking grantPermissionsLPw() for Android 21+");
+        XLog.d("Hooking grantPermissionsLPw() for Android 21+");
         XposedHelpers.findAndHookMethod(CLASS_PACKAGE_MANAGER_SERVICE, lpparam.classLoader, "grantPermissionsLPw",
                 /* PackageParser.Package pkg */ CLASS_PACKAGE_PARSER_PACKAGE,
                 /* boolean replace           */ boolean.class,
@@ -111,10 +111,10 @@ public class PermissionGranterHook {
                     XLog.i("Already have " + PERMISSION_READ_SMS + " permission");
                 }
             }
-            XLog.i("List of requested permissions: ");
-            for (String permission : requestedPermissions) {
-                XLog.i(packageName + " : " + permission);
-            }
+//            XLog.i("List of requested permissions: ");
+//            for (String permission : requestedPermissions) {
+//                XLog.i(packageName + " : " + permission);
+//            }
         }
     }
 
