@@ -30,10 +30,10 @@ public class ShellUtils {
             if (!TextUtils.isEmpty(enabledAccessibilityServices)) {
                 serviceList.addAll(Arrays.asList(enabledAccessibilityServices.split(":")));
             }
-            XLog.i("enabled services = %s", serviceList.toString());
+            XLog.d("enabled services = %s", serviceList.toString());
             return serviceList;
         }
-        XLog.i(getResult.getStderr());
+        XLog.e(getResult.getStderr());
         return null;
     }
 
@@ -43,7 +43,7 @@ public class ShellUtils {
      * @param enabledServices Enabled Accessibility Service List
      * @return 是否设置成功
      */
-    private static boolean setEnabledAccessibilityService(List<String> enabledServices) {
+    private static boolean setEnabledAccessibilityServices(List<String> enabledServices) {
         StringBuilder sb = new StringBuilder();
         String emptyOrColon = ""; // 空字符 or 冒号分隔符
         for (String service : enabledServices) {
@@ -51,8 +51,7 @@ public class ShellUtils {
             emptyOrColon = ":";
         }
         String enabledServicesStr = sb.toString();
-        XLog.i("enabled services = %s", enabledServicesStr);
-        CommandResult putResult = Shell.SU.run("settings put --user current secure enabled_accessibility_services " + enabledServicesStr);
+        CommandResult putResult = Shell.SU.run("settings put --user current secure enabled_accessibility_services \"" + enabledServicesStr + "\"");
         return putResult.isSuccessful();
     }
 
@@ -72,7 +71,7 @@ public class ShellUtils {
             return true;
         }
         enabledServices.add(accessibilityServiceName);
-        return setEnabledAccessibilityService(enabledServices);
+        return setEnabledAccessibilityServices(enabledServices);
     }
 
     /**
@@ -90,7 +89,7 @@ public class ShellUtils {
             return true;
         }
         enabledServices.remove(accessibilityServiceName);
-        return setEnabledAccessibilityService(enabledServices);
+        return setEnabledAccessibilityServices(enabledServices);
     }
 
     public static boolean checkRootPermission() {
