@@ -73,6 +73,15 @@ public abstract class BaseAccessibilityService extends AccessibilityService {
         }
     }
 
+    /**
+     * 模拟粘贴
+     * @param nodeInfo nodeInfo
+     */
+    public void pasteText(AccessibilityNodeInfo nodeInfo) {
+        nodeInfo.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
+        nodeInfo.performAction(AccessibilityNodeInfo.ACTION_PASTE);
+    }
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
