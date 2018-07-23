@@ -14,8 +14,6 @@ import com.github.tianma8023.xposed.smscode.receiver.SmsCodeReceiver;
 import com.github.tianma8023.xposed.smscode.service.SmsCodeService;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
-import java.util.concurrent.ExecutorService;
-
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -32,7 +30,6 @@ public class SmsHandlerHook {
 
     private Context mModContext;
     private Context mAppContext;
-    private ExecutorService mSingleThreadPool;
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if ("com.android.phone".equals(lpparam.packageName)) {
@@ -62,9 +59,9 @@ public class SmsHandlerHook {
     }
 
     private void hookConstructor(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             hookConstructor24(lpparam);
-        } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             hookConstructor19(lpparam);
         }
     }
@@ -187,11 +184,7 @@ public class SmsHandlerHook {
             return;
         }
 
-        // Here we may in UI thread or non-UI thread, start a new thread.
-//        if (mSingleThreadPool == null || mSingleThreadPool.isShutdown()) {
-//            mSingleThreadPool = Executors.newSingleThreadExecutor();
-//        }
-//        mSingleThreadPool.execute(new VerificationMsgTask(mAppContext, intent));
+        // Send a broadcast, let receiver handle the rest of the works.
         Intent broadcastIntent = new Intent();
         broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
         broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
