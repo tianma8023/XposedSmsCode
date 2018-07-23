@@ -54,4 +54,6 @@
     <string name="acquire_root_permission">ROOT permission required</string>
     <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
     <string name="okay">OK</string>
+    <string name="channel_name_foreground_service">Foreground Service</string>
+    <string name="sms_code_notification_title">Parsing SMS message...</string>
 </resources>
