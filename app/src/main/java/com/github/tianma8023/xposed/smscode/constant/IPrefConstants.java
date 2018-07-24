@@ -16,6 +16,8 @@ public interface IPrefConstants {
     String KEY_SHOW_TOAST = "pref_show_toast";
     boolean KEY_SHOW_TOAST_DEFAULT = true;
 
+    String KEY_EXPERIMENTAL = "pref_experimental";
+
     String KEY_MARK_AS_READ = "pref_mark_as_read";
     boolean KEY_MARK_AS_READ_DEFAULT = false;
 

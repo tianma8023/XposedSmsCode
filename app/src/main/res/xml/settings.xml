@@ -23,7 +23,9 @@
             android:defaultValue="true"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_experimental">
+    <PreferenceCategory
+        android:key="pref_experimental"
+        android:title="@string/pref_experimental">
 
         <SwitchPreference
             android:key="pref_mark_as_read"

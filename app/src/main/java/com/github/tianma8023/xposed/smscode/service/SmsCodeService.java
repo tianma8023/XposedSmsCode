@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.INotificationConstants;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
@@ -89,7 +90,6 @@ public class SmsCodeService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
-
             Intent smsIntent = intent.getParcelableExtra(EXTRA_KEY_SMS_INTENT);
             doWork(smsIntent);
         }
@@ -106,8 +106,13 @@ public class SmsCodeService extends IntentService {
         String sender = smsMessageData.getSender();
         String msgBody = smsMessageData.getBody();
         XLog.i("Received a new SMS message");
-        XLog.i("Sender: %s", StringUtils.escape(sender));
-        XLog.i("Body: %s", StringUtils.escape(msgBody));
+        if (BuildConfig.DEBUG) {
+            XLog.i("Sender: %s", sender);
+            XLog.i("Body: %s", msgBody);
+        } else {
+            XLog.i("Sender: %s", StringUtils.escape(sender));
+            XLog.i("Body: %s", StringUtils.escape(msgBody));
+        }
 
         if (TextUtils.isEmpty(msgBody))
             return;
@@ -133,13 +138,13 @@ public class SmsCodeService extends IntentService {
         innerHandler.sendMessage(copyMsg);
 
         // mark sms as read or not.
-        if (getBooleanPref(mPreferences, IPrefConstants.KEY_MARK_AS_READ, IPrefConstants.KEY_MARK_AS_READ_DEFAULT)) {
-//            sleep(8);
-            Message markMsg = new Message();
-            markMsg.obj = smsMessageData;
-            markMsg.what = MSG_MARK_AS_READ;
-            innerHandler.sendMessageDelayed(markMsg, 8000);
-        }
+//        if (getBooleanPref(mPreferences, IPrefConstants.KEY_MARK_AS_READ, IPrefConstants.KEY_MARK_AS_READ_DEFAULT)) {
+////            sleep(8);
+//            Message markMsg = new Message();
+//            markMsg.obj = smsMessageData;
+//            markMsg.what = MSG_MARK_AS_READ;
+//            innerHandler.sendMessageDelayed(markMsg, 8000);
+//        }
     }
 
     private Handler innerHandler = new Handler(Looper.getMainLooper()) {
@@ -154,8 +159,6 @@ public class SmsCodeService extends IntentService {
                     String sender = smsMessageData.getSender();
                     String body = smsMessageData.getBody();
                     markSmsAsRead(sender, body);
-
-//                    stopSelf(); // 关闭后台Service
                     break;
             }
         }
@@ -190,13 +193,16 @@ public class SmsCodeService extends IntentService {
             if (cursor == null)
                 return;
             while (cursor.moveToNext()) {
-                if ((cursor.getString(cursor.getColumnIndex("address")).equals(sender))
-                        && (cursor.getInt(cursor.getColumnIndex("read")) == 0)
-                        && cursor.getString(cursor.getColumnIndex("body")).startsWith(body)) {
+                String curAddress = cursor.getString(cursor.getColumnIndex("address"));
+                int curRead = cursor.getInt(cursor.getColumnIndex("read"));
+                String curBody = cursor.getString(cursor.getColumnIndex("body"));
+                XLog.d("curBody = %s", curBody);
+                if (curAddress.equals(sender) && curRead == 0 && curBody.startsWith(body)) {
                     String smsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
                     ContentValues values = new ContentValues();
                     values.put("read", true);
-                    this.getContentResolver().update(uri, values, "_id = ?", new String[]{smsMessageId});
+                    int rows = this.getContentResolver().update(uri, values, "_id = ?", new String[]{smsMessageId});
+                    XLog.d("Updates rows %d", rows);
                 }
             }
             XLog.i("Mark as read succeed");

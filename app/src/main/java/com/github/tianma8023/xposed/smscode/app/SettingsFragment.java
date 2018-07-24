@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -59,6 +60,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
 
+        // Hide mark as read preference item.
+        Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
+        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(IPrefConstants.KEY_EXPERIMENTAL);
+        experimentalGroup.removePreference(markAsReadPref);
     }
 
 
