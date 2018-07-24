@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Common string resources( don't need translate) -->
+<resources>
+    <string name="umeng_analyze_app_key">5b56e3d9f29d981c3b0001c2</string>
+</resources>

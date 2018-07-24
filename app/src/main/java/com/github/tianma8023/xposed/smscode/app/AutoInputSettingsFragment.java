@@ -2,7 +2,6 @@ package com.github.tianma8023.xposed.smscode.app;
 
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +14,7 @@ import com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInp
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
 
-public class AutoInputSettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class AutoInputSettingsFragment extends BasePreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private HomeActivity mHomeActivity;
 
@@ -126,5 +125,10 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
             }
             mAutoInputPreference.setSummary(summaryId);
         }
+    }
+
+    @Override
+    protected String getPageName() {
+        return "AutoInputSettings";
     }
 }

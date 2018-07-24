@@ -6,7 +6,7 @@ def keyProps = new Properties()
 keyProps.load(new FileInputStream("app\\signature.properties"))
 
 def releaseTime() {
-    return new Date().format("yyMMddHH", TimeZone.default)
+    return new Date().format("yyMMdd", TimeZone.default)
 }
 
 android {
@@ -72,13 +72,28 @@ android {
             if (outputFile != null && outputFile.name.endsWith(".apk")) {
                 def fileName = ""
                 if (variant.buildType.name == 'release') {
-                    fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}_release.apk"
+                    fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_release.apk"
                 } else if(variant.buildType.name == 'debug'){
-                    fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}_debug.apk"
+                    fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_debug.apk"
                 }
                 outputFileName = fileName
             }
         }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        coolapk {
+            dimension "default"
+        }
+        xposedRepo {
+            dimension "default"
+        }
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_NAME:name]
     }
 }
 
@@ -107,4 +122,8 @@ dependencies {
 
     // Android Shell
     implementation 'com.jaredrummler:android-shell:1.0.0'
+
+    // umeng analyze
+    implementation 'com.umeng.sdk:common:latest.integration'
+    implementation 'com.umeng.sdk:analytics:latest.integration'
 }

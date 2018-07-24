@@ -3,7 +3,6 @@ package com.github.tianma8023.xposed.smscode.app;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -18,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * 主界面
  */
-public class HomeActivity extends AppCompatActivity implements SettingsFragment.OnNestedPreferenceClickListener {
+public class HomeActivity extends BaseActivity implements SettingsFragment.OnNestedPreferenceClickListener {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 

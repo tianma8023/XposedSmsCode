@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,9 +27,14 @@ import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 /**
  * 首选项Fragment
  */
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends BasePreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
     private HomeActivity mHomeActivity;
+
+    @Override
+    protected String getPageName() {
+        return "MainSettings";
+    }
 
     public interface OnNestedPreferenceClickListener {
         void onNestedPreferenceClicked(String key, String title);

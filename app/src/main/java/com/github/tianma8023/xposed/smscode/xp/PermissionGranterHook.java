@@ -1,9 +1,9 @@
 package com.github.tianma8023.xposed.smscode.xp;
 
-import android.Manifest;
 import android.os.Build;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.github.tianma8023.xposed.smscode.constant.IPermissionConstant;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class PermissionGranterHook {
     private static final String CLASS_PACKAGE_MANAGER_SERVICE = "com.android.server.pm.PackageManagerService";
     private static final String CLASS_PACKAGE_PARSER_PACKAGE = "android.content.pm.PackageParser.Package";
 
-    private static final String PERMISSION_READ_SMS = Manifest.permission.READ_SMS;
+    private static final List<String> PERMISSIONS_TO_GRANT = IPermissionConstant.PERMISSIONS_TO_GRANT;
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
@@ -98,23 +98,22 @@ public class PermissionGranterHook {
         final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
 
         if (SMSCODE_PACKAGE.equals(packageName)) {
-            if (!requestedPermissions.contains(PERMISSION_READ_SMS)) {
-                boolean hasReadSMSPermission = (boolean) XposedHelpers.callMethod(permissionsState, "hasInstallPermission", PERMISSION_READ_SMS);
-                if (!hasReadSMSPermission) {
-                    // Add permission: android.permission.READ_SMS
+            for(String permissionToGrant : PERMISSIONS_TO_GRANT) {
+                if (!requestedPermissions.contains(permissionToGrant)) {
+                    boolean granted =
+                            (boolean) XposedHelpers.callMethod(permissionsState, "hasInstallPermission", permissionToGrant);
+                    if (!granted) {
+                        // Add permission:
 
-                    // com.android.server.pm.BasePermission pReadSMS
-                    final Object pReadSMS = XposedHelpers.callMethod(permissions, "get", PERMISSION_READ_SMS);
-                    int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", pReadSMS);
-                    XLog.i("Add permission " + pReadSMS + "; result = " + result);
-                } else {
-                    XLog.i("Already have " + PERMISSION_READ_SMS + " permission");
+                        // com.android.server.pm.BasePermission pReadSMS
+                        final Object pReadSMS = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
+                        int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", pReadSMS);
+                        XLog.i("Add permission " + pReadSMS + "; result = " + result);
+                    } else {
+                        XLog.i("Already have " + permissionToGrant + " permission");
+                    }
                 }
             }
-//            XLog.i("List of requested permissions: ");
-//            for (String permission : requestedPermissions) {
-//                XLog.i(packageName + " : " + permission);
-//            }
         }
     }
 
