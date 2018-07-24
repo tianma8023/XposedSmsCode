@@ -38,6 +38,8 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
 
         mRootModePreference = (SwitchPreference) findPreference(IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT);
         mRootModePreference.setOnPreferenceChangeListener(this);
+
+        refreshEnableAutoInputPreference();
     }
 
     @Override
@@ -95,7 +97,6 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            // TODO
                             ShellUtils.checkRootPermission();
                         }
                     })
@@ -115,13 +116,15 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
         } else {
             boolean accessibilityModeEnabled = mAccessibilityModePreference.isChecked();
             boolean rootModeEnabled = mRootModePreference.isChecked();
+            int summaryId;
             if (accessibilityModeEnabled) {
-                mAutoInputPreference.setSummary(R.string.pref_auto_input_mode_accessibility);
+                summaryId = R.string.pref_auto_input_mode_accessibility;
             } else if (rootModeEnabled) {
-                mAutoInputPreference.setSummary(R.string.pref_auto_input_mode_root);
+                summaryId = R.string.pref_auto_input_mode_root;
             } else {
-                mAutoInputPreference.setSummary(R.string.pref_enable_auto_input_code_summary);
+                summaryId = R.string.pref_enable_auto_input_code_summary;
             }
+            mAutoInputPreference.setSummary(summaryId);
         }
     }
 }
