@@ -27,7 +27,6 @@ public class PermissionGranterHook {
 
     // TODO Android Kitkat realize initZygote
     // https://github.com/GravityBox/GravityBox/blob/dbc0edf17a50a758f41d0308d0a61b46f1d14c45/src/com/ceco/kitkat/gravitybox/GravityBox.java#L81
-    // https://github.com/GravityBox/GravityBox/blob/dbc0edf17a50a758f41d0308d0a61b46f1d14c45/src/com/ceco/kitkat/gravitybox/GravityBox.java#L81
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
@@ -115,9 +114,9 @@ public class PermissionGranterHook {
                         // com.android.server.pm.BasePermission bpToGrant
                         final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
                         int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
-                        XLog.i("Add permission " + bpToGrant + "; result = " + result);
+                        XLog.d("Add permission " + bpToGrant + "; result = " + result);
                     } else {
-                        XLog.i("Already have " + permissionToGrant + " permission");
+                        XLog.d("Already have " + permissionToGrant + " permission");
                     }
                 }
             }
@@ -162,9 +161,9 @@ public class PermissionGranterHook {
                     XposedHelpers.callStaticMethod(
                             param.thisObject.getClass(), "appendInts", gpGids, bpGids);
 
-                    XLog.i("Add permission " + bpToGrant);
+                    XLog.d("Add permission " + bpToGrant);
                 } else {
-                    XLog.i("Already have " + permissionToGrant + " permission");
+                    XLog.d("Already have " + permissionToGrant + " permission");
                 }
             }
         }
