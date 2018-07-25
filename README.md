@@ -1,11 +1,7 @@
 # XposedSmsCode
 A Xposed Module which can recognize ,parse SMS code and copy it to clipboard when a new message arrives.It can also auto-input SMS code. / 识别短信验证码的Xposed模块，并将验证码拷贝到剪切板，亦可以自动输入验证码。
 
-<img src="ss/ss_01.png" width="180"/>
-<img src="ss/ss_02.jpg" width="180"/>
-<img src="ss/ss_03.jpg" width="180"/>
-<img src="ss/ss_04.jpg" width="180"/>
-<img src="ss/ss_05.jpg" width="180"/> 
+<img src="ss/ss_01.png" width="180"/><img src="ss/ss_02.jpg" width="180"/><img src="ss/ss_03.jpg" width="180"/><img src="ss/ss_04.jpg" width="180"/><img src="ss/ss_05.jpg" width="180"/>
 
 You can download this module on [Xposed Repository](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode) or [Coolapk](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode). 
 
