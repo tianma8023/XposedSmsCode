@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">短信验证码提取器</string>
+    <string name="xposed_description">提取新短信中的验证码并复制到剪贴板，并能自动输入验证码</string>
 
     <!-- General -->
     <string name="i_know">知道了</string>
@@ -58,6 +59,6 @@
     <string name="acquire_root_permission">获取Root权限</string>
     <string name="acquire_root_permission_prompt">需要获取Root权限来自动输入验证码</string>
     <string name="okay">好的</string>
-    <string name="channel_name_foreground_service">前台服务</string>
+    <string name="channel_name_foreground_service">解析短信时的通知</string>
     <string name="sms_code_notification_title">短信解析中...</string>
 </resources>
