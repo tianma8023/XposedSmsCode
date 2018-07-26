@@ -124,7 +124,13 @@ public class SmsCodeService extends IntentService {
 
         if (getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT)) {
             // Root auto-input mode
-            boolean enabled = ShellUtils.enableAccessibilityService(AccessibilityUtils.getAccessibilityServiceName(SmsCodeAutoInputService.class));
+            String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
+            // 先尝试用无Root的方式启动无障碍服务
+            boolean enabled = AccessibilityUtils.enableAccessibilityService(this, accessSvcName);
+            if (!enabled) {
+                // 不成功则用root的方式启动
+                enabled = ShellUtils.enableAccessibilityService(accessSvcName);
+            }
             XLog.d("Accessibility enabled " + (enabled ? "true" : "false"));
             if (enabled) {
                 sleep(1);

@@ -64,7 +64,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
 
     private void onAccessibilityModeSwitched(boolean enable) {
         boolean accessibilityEnabled = AccessibilityUtils.checkAccessibilityEnabled(getActivity(),
-                AccessibilityUtils.getAccessibilityServiceId(SmsCodeAutoInputService.class));
+                AccessibilityUtils.getServiceId(SmsCodeAutoInputService.class));
 
         if (accessibilityEnabled != enable) {
             new MaterialDialog.Builder(mHomeActivity)

@@ -28,6 +28,10 @@ public class IPermissionConstant {
         // JobIntentService
         // <uses-permission android:name="android.permission.WAKE_LOCK"/>
         // PERMISSIONS_TO_GRANT.add(Manifest.permission.WAKE_LOCK);
+
+        // Enable/Disable AccessibilityService programmatically
+        PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_SETTINGS);
+        PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_SECURE_SETTINGS);
     }
 
 }

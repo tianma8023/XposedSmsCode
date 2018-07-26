@@ -1,13 +1,17 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
+import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.accessibility.AccessibilityManager;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -58,7 +62,7 @@ public class AccessibilityUtils {
      * @param serviceClz
      * @return
      */
-    public static String getAccessibilityServiceId(Class<?> serviceClz) {
+    public static String getServiceId(Class<? extends AccessibilityService> serviceClz) {
         // eg.
         // service Class: com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInputService
         // package name: com.github.tianma8023.xposed.smscode
@@ -78,7 +82,7 @@ public class AccessibilityUtils {
      * @param serviceClz
      * @return
      */
-    public static String getAccessibilityServiceName(Class<?> serviceClz) {
+    public static String getServiceName(Class<? extends AccessibilityService> serviceClz) {
         // eg.
         // serviceClassName = com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInputService
         // packageName = com.github.tianma8023.xposed.smscode
@@ -87,4 +91,81 @@ public class AccessibilityUtils {
         String serviceClzName = serviceClz.getName();
         return packageName + '/' + serviceClzName;
     }
+
+
+    /**
+     * 获取已启用的 Accessibility Service 列表(需ROOT)
+     *
+     * @param context context
+     * @return null if error occurs in commands.
+     */
+    private static List<String> getEnabledAccessibilityServices(Context context) {
+        String enabledAccessibilityServices = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        List<String> serviceList = new ArrayList<>();
+        if (!TextUtils.isEmpty(enabledAccessibilityServices)) {
+            serviceList.addAll(Arrays.asList(enabledAccessibilityServices.split(":")));
+        }
+        XLog.d("enabled services = %s", serviceList.toString());
+        return serviceList;
+    }
+
+    /**
+     * 设置无障碍服务
+     *
+     * @param context context
+     * @param enabledServices Enabled Accessibility Service List
+     * @return 是否设置成功
+     */
+    private static boolean setEnabledAccessibilityServices(Context context, List<String> enabledServices) {
+        StringBuilder sb = new StringBuilder();
+        String emptyOrColon = ""; // 空字符 or 冒号分隔符
+        for (String service : enabledServices) {
+            sb.append(emptyOrColon).append(service);
+            emptyOrColon = ":";
+        }
+        String enabledServicesStr = sb.toString();
+        return Settings.Secure.putString(context.getContentResolver(),
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES, enabledServicesStr);
+    }
+
+
+    /**
+     * 启用指定无障碍服务（无需ROOT）
+     *
+     * @param context context
+     * @param accessibilityServiceName Accessibility Service Name
+     * @return 是否成功启用
+     */
+    public static boolean enableAccessibilityService(Context context, String accessibilityServiceName) {
+        List<String> enabledServices = getEnabledAccessibilityServices(context);
+        if (enabledServices == null) {
+            return false;
+        }
+        if (enabledServices.contains(accessibilityServiceName)) {
+            return true;
+        }
+        enabledServices.add(accessibilityServiceName);
+        return setEnabledAccessibilityServices(context, enabledServices);
+    }
+
+    /**
+     * 关闭指定无障碍服务（无需ROOT）
+     *
+     * @param context context
+     * @param accessibilityServiceName Accessibility Service Name
+     * @return 是否成功关闭
+     */
+    public static boolean disableAccessibilityService(Context context, String accessibilityServiceName) {
+        List<String> enabledServices = getEnabledAccessibilityServices(context);
+        if (enabledServices == null) {
+            return false;
+        }
+        if (!enabledServices.contains(accessibilityServiceName)) {
+            return true;
+        }
+        enabledServices.remove(accessibilityServiceName);
+        return setEnabledAccessibilityServices(context, enabledServices);
+    }
+
 }

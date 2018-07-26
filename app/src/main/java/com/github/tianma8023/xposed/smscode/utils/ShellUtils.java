@@ -1,5 +1,6 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.jaredrummler.android.shell.CommandResult;
@@ -14,6 +15,8 @@ import java.util.List;
  */
 public class ShellUtils {
 
+    private static final String ENABLED_ACCESSIBILITY_SERVICES = Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES;
+
     private ShellUtils() {
     }
 
@@ -23,7 +26,7 @@ public class ShellUtils {
      * @return null if error occurs in commands.
      */
     private static List<String> getEnabledAccessibilityServices() {
-        CommandResult getResult = Shell.SU.run("settings get --user current secure enabled_accessibility_services");
+        CommandResult getResult = Shell.SU.run("settings get secure " + ENABLED_ACCESSIBILITY_SERVICES);
         if (getResult.isSuccessful()) {
             String enabledAccessibilityServices = getResult.getStdout();
             List<String> serviceList = new ArrayList<>();
@@ -51,7 +54,8 @@ public class ShellUtils {
             emptyOrColon = ":";
         }
         String enabledServicesStr = sb.toString();
-        CommandResult putResult = Shell.SU.run("settings put --user current secure enabled_accessibility_services \"" + enabledServicesStr + "\"");
+        CommandResult putResult = Shell.SU.run("settings put secure " +
+                                    ENABLED_ACCESSIBILITY_SERVICES + " \"" + enabledServicesStr + "\"");
         return putResult.isSuccessful();
     }
 
