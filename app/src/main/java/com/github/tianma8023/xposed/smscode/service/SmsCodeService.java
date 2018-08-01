@@ -132,7 +132,7 @@ public class SmsCodeService extends IntentService {
                 enabled = ShellUtils.enableAccessibilityService(accessSvcName);
             }
             XLog.d("Accessibility enabled " + (enabled ? "true" : "false"));
-            if (enabled) {
+            if (enabled) { // waiting for AutoInputService working on.
                 sleep(1);
             }
         }

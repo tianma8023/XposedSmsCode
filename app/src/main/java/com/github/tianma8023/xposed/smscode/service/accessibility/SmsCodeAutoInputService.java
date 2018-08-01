@@ -21,6 +21,7 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * An accessibility service that can input SMS code automatically.
@@ -33,6 +34,8 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
     public static final String ACTION_STOP_AUTO_INPUT_SERVICE = "action_stop_auto_input_service";
 
     public static final String EXTRA_KEY_SMS_CODE = "extra_key_sms_code";
+
+    private static final int AUTO_INPUT_MAX_TRY_TIMES = 3;
 
     private class AutoInputControllerReceiver extends BroadcastReceiver {
 
@@ -93,34 +96,48 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
     }
 
     private void autoInputSmsCode(String smsCode) {
-        tryToAutoInputSMSCode(smsCode);
+        boolean hit;
+        for (int i = 0; i < AUTO_INPUT_MAX_TRY_TIMES; i++) {
+            XLog.d("try times %d", i+1);
+            hit = tryToAutoInputSMSCode(smsCode);
+            if (hit) {
+                break;
+            }
+            sleep(100);
+        }
 
         Intent stopAutoInput = new Intent();
         stopAutoInput.setAction(ACTION_STOP_AUTO_INPUT_SERVICE);
         sendBroadcast(stopAutoInput);
     }
 
-    private void tryToAutoInputSMSCode(String smsCode) {
+    /**
+     * 尝试自动输入短信验证码
+     * @param smsCode SMS code
+     * @return 成功输入则返回true，否则返回false
+     */
+    private boolean tryToAutoInputSMSCode(String smsCode) {
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            return;
+            return false;
         }
         try {
             List<AccessibilityNodeInfo> editTextNodes = new ArrayList<>();
             traverse(rootNodeInfo, editTextNodes);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                autoInputSinceOreo(editTextNodes, smsCode);
+                return autoInputSinceOreo(editTextNodes, smsCode);
             } else {
-                autoInputBeforeOreo(editTextNodes, smsCode);
+                return autoInputBeforeOreo(editTextNodes, smsCode);
             }
         } catch (Exception e) {
             XLog.e("error occurs in traverse()", e);
         }
+        return false;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void autoInputSinceOreo(List<AccessibilityNodeInfo> editTextNodes, String smsCode) {
+    private boolean autoInputSinceOreo(List<AccessibilityNodeInfo> editTextNodes, String smsCode) {
         // 判断有没有验证码输入框
         for (AccessibilityNodeInfo nodeInfo : editTextNodes) {
             if (nodeInfo.isFocusable()) {
@@ -135,7 +152,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                     // 模拟输入
                     inputText(nodeInfo, smsCode);
                     XLog.d("SMS code EditText found!");
-                    return;
+                    return true;
                 }
             }
         }
@@ -144,6 +161,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             XLog.d("Have 1 EditText node");
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(0);
             inputText(smsCodeNode, smsCode);
+            return true;
         } else if (editTextNodes.size() == 2) { // 有两个EditText (一个是电话号码,一个是验证码输入框)
             XLog.d("Have 2 EditText nodes");
             AccessibilityNodeInfo phoneNumberNode = editTextNodes.get(0);
@@ -152,19 +170,21 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             if (!TextUtils.isEmpty(pnHintSequence)) {
                 if (VerificationUtils.containsPhoneNumberKeywords(pnHintSequence.toString())) {
                     inputText(smsCodeNode, smsCode);
-                    return;
+                    return true;
                 }
             }
             CharSequence pnTextSequence = phoneNumberNode.getText();
             if (!TextUtils.isEmpty(pnTextSequence)) {
                 if (VerificationUtils.isPossiblePhoneNumber(pnTextSequence.toString())) {
                     inputText(smsCodeNode, smsCode);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    private void autoInputBeforeOreo(List<AccessibilityNodeInfo> editTextNodes, String smsCode) {
+    private boolean autoInputBeforeOreo(List<AccessibilityNodeInfo> editTextNodes, String smsCode) {
         // 判断有没有验证码输入框
         for (AccessibilityNodeInfo nodeInfo : editTextNodes) {
             if (nodeInfo.isFocusable()) {
@@ -179,7 +199,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                     // 模拟输入
                     inputText(nodeInfo, smsCode);
                     XLog.d("SMS code EditText found!");
-                    return;
+                    return true;
                 }
             }
         }
@@ -187,6 +207,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
         if (editTextNodes.size() == 1) { // 只有一个EditText节点
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(0);
             inputText(smsCodeNode, smsCode);
+            return true;
         } else if (editTextNodes.size() == 2) { // 有两个EditText (一个是电话号码,一个是验证码输入框)
             AccessibilityNodeInfo phoneNumberNode = editTextNodes.get(0);
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(1);
@@ -194,9 +215,11 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             if (!TextUtils.isEmpty(pnTextSequence)) {
                 if (VerificationUtils.isPossiblePhoneNumber(pnTextSequence.toString())) {
                     inputText(smsCodeNode, smsCode);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     /**
@@ -237,6 +260,14 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             }
         } catch (ClassNotFoundException e) {
             // ignore
+        }
+    }
+
+    private void sleep(int milliSeconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliSeconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
