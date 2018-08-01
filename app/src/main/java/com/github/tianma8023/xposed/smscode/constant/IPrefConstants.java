@@ -30,7 +30,7 @@ public interface IPrefConstants {
 
     String KEY_SMSCODE_TEST = "pref_smscode_test";
 
-    String KEY_AUTHOR = "pref_author";
+    String KEY_SOURCE_CODE = "pref_source_code";
     String KEY_DONATE_BY_ALIPAY = "pref_donate_by_alipay";
     String KEY_DONATE_BY_WECHAT = "pref_donate_by_wechat";
 

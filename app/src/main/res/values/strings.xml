@@ -12,8 +12,8 @@
     <string name="pref_show_toast">Show Toast</string>
     <string name="pref_show_toast_summary">Show Toast when a SMS Code is copied.</string>
     <string name="about">About</string>
-    <string name="tianma">Tianma</string>
-    <string name="pref_author">Author</string>
+    <string name="pref_source_code_summary">Welcome to star ♪(＾∀＾●)ﾉ</string>
+    <string name="pref_source_code">Source code</string>
     <string name="pref_donate_by_alipay">Donate by Alipay</string>
     <string name="pref_donate_by_wechat">Donate by Wechat</string>
     <string name="alipay_install_prompt">Please install Alipay first</string>

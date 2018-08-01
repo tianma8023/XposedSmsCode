@@ -4,7 +4,7 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 
 public interface IConstants {
 
-    String GITHUB_URL = "https://github.com/tianma8023";
+    String PROJECT_SOURCE_CODE_URL = "https://github.com/tianma8023/XposedSmsCode";
 
     String ALIPAY_PACKAGE_NAME = "com.eg.android.AlipayGphone";
     String ALIPAY_QRCODE_URI_PREFIX = "alipayqr://platformapi/startapp?saId=10000007&qrcode=";

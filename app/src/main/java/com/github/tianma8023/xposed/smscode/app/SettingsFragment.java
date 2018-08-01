@@ -58,7 +58,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
 
         findPreference(IPrefConstants.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
 
-        findPreference(IPrefConstants.KEY_AUTHOR).setOnPreferenceClickListener(this);
+        findPreference(IPrefConstants.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
@@ -84,8 +84,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (IPrefConstants.KEY_AUTHOR.equals(key)) {
-            aboutAuthor();
+        if (IPrefConstants.KEY_SOURCE_CODE.equals(key)) {
+            aboutProject();
         } else if (IPrefConstants.KEY_DONATE_BY_ALIPAY.equals(key)) {
             donateByAlipay();
         } else if (IPrefConstants.KEY_DONATE_BY_WECHAT.equals(key)) {
@@ -102,9 +102,9 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         return true;
     }
 
-    private void aboutAuthor() {
+    private void aboutProject() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(IConstants.GITHUB_URL));
+        intent.setData(Uri.parse(IConstants.PROJECT_SOURCE_CODE_URL));
         startActivity(intent);
     }
 
