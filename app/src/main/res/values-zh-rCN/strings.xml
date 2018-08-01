@@ -60,5 +60,5 @@
     <string name="acquire_root_permission_prompt">需要获取Root权限来自动输入验证码</string>
     <string name="okay">好的</string>
     <string name="channel_name_foreground_service">解析短信时的通知</string>
-    <string name="sms_code_notification_title">短信解析中...</string>
+    <string name="sms_code_notification_title">短信解析中……</string>
 </resources>
