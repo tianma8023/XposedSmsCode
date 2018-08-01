@@ -1,18 +1,26 @@
 package com.github.tianma8023.xposed.smscode.xp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookEntry implements IXposedHookLoadPackage {
+
+    private List<IHook> mHookList;
+    {
+        mHookList = new ArrayList<>();
+        mHookList.add(new SmsHandlerHook()); // InBoundsSmsHandler Hook
+        mHookList.add(new ModuleUtilsHook()); // ModuleUtils Hook
+        mHookList.add(new DonateWechatHook()); // Wechat donate Hook
+        mHookList.add(new PermissionGranterHook()); // PackageManagerService Hook
+    }
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        // InBoundsSmsHandler Hook
-        new SmsHandlerHook().handleLoadPackage(lpparam);
-        // ModuleUtils Hook
-        new ModuleUtilsHook().handleLoadPackage(lpparam);
-        // Wechat donate Hook
-        new DonateWechatHook().handleLoadPackage(lpparam);
-        // PackageManagerService Hook
-        new PermissionGranterHook().handleLoadPackage(lpparam);
+        for(IHook hook : mHookList) {
+            hook.onLoadPackage(lpparam);
+        }
     }
 }

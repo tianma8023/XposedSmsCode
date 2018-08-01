@@ -16,13 +16,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * class com.tencent.mm.ui.LauncherUI <br/>
  * class com.tencent.mm.plugin.collect.reward.ui.QrRewardSelectMoneyUI
  */
-public class DonateWechatHook {
+public class DonateWechatHook implements IHook {
 
     private static final String KEY_SCENE = "key_scene";
     private static final String KEY_QRCODE_URL = "key_qrcode_url";
     private static final String KEY_CHANNEL = "key_channel";
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    @Override
+    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (IConstants.WECHAT_PACKAGE_NAME.equals(lpparam.packageName)) {
             try {
                 hookLauncherUIOnCreate(lpparam);

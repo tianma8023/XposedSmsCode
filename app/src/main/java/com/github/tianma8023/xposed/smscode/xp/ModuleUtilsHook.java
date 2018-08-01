@@ -11,12 +11,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.github.tianma8023.xposed.smscode.utils.ModuleUtils
  */
-public class ModuleUtilsHook {
+public class ModuleUtilsHook implements IHook {
 
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
     private static final int MODULE_VERSION = BuildConfig.MODULE_VERSION;
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    @Override
+    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
         if (SMSCODE_PACKAGE.equals(lpparam.packageName)) {
             try {

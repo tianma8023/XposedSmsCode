@@ -16,7 +16,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook com.android.server.pm.PackageManagerService to grant permissions.
  */
-public class PermissionGranterHook {
+public class PermissionGranterHook implements IHook {
 
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
@@ -28,7 +28,8 @@ public class PermissionGranterHook {
     // TODO Android Kitkat realize initZygote
     // https://github.com/GravityBox/GravityBox/blob/dbc0edf17a50a758f41d0308d0a61b46f1d14c45/src/com/ceco/kitkat/gravitybox/GravityBox.java#L81
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+    @Override
+    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
             try {
                 hookPackageManagerService(lpparam);

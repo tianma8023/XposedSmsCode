@@ -22,7 +22,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.android.internal.telephony.InBoundSmsHandler
  */
-public class SmsHandlerHook {
+public class SmsHandlerHook implements IHook {
 
     private static final String TELEPHONY_PACKAGE = "com.android.internal.telephony";
     private static final String SMS_HANDLER_CLASS = TELEPHONY_PACKAGE + ".InboundSmsHandler";
@@ -31,7 +31,8 @@ public class SmsHandlerHook {
     private Context mModContext;
     private Context mAppContext;
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    @Override
+    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if ("com.android.phone".equals(lpparam.packageName)) {
             XLog.i("SmsCode initializing");
             printDeviceInfo();
