@@ -38,7 +38,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
         mRootModePreference = (SwitchPreference) findPreference(IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT);
         mRootModePreference.setOnPreferenceChangeListener(this);
 
-        refreshEnableAutoInputPreference();
+        refreshEnableAutoInputPreference(mAutoInputPreference.isChecked());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         if (IPrefConstants.KEY_ENABLE_AUTO_INPUT_CODE.equals(key)) {
-            refreshEnableAutoInputPreference();
+            refreshEnableAutoInputPreference((Boolean) newValue);
         } else if (IPrefConstants.KEY_AUTO_INPUT_MODE_ACCESSIBILITY.equals(key)) {
             onAccessibilityModeSwitched((Boolean) newValue);
         } else if (IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT.equals(key)) {
@@ -108,17 +108,16 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
         }
     }
 
-    private void refreshEnableAutoInputPreference() {
-        boolean autoInputEnabled = mAutoInputPreference.isChecked();
+    private void refreshEnableAutoInputPreference(boolean autoInputEnabled) {
         if (!autoInputEnabled) {
             mAutoInputPreference.setSummary(R.string.pref_entry_auto_input_code_summary);
         } else {
-            boolean accessibilityModeEnabled = mAccessibilityModePreference.isChecked();
-            boolean rootModeEnabled = mRootModePreference.isChecked();
+            boolean accessibilityModeChecked = mAccessibilityModePreference.isChecked();
+            boolean rootModeChecked = mRootModePreference.isChecked();
             int summaryId;
-            if (accessibilityModeEnabled) {
+            if (accessibilityModeChecked) {
                 summaryId = R.string.pref_auto_input_mode_accessibility;
-            } else if (rootModeEnabled) {
+            } else if (rootModeChecked) {
                 summaryId = R.string.pref_auto_input_mode_root;
             } else {
                 summaryId = R.string.pref_enable_auto_input_code_summary;
