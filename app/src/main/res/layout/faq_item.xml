@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="@dimen/text_margin_dp_16">
+
+    <TextView
+        android:id="@+id/item_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/text_margin_dp_4"
+        android:paddingEnd="@dimen/text_margin_dp_8"
+        android:paddingStart="@dimen/text_margin_dp_8"
+        android:paddingTop="@dimen/text_margin_dp_8"
+        android:textColor="@android:color/black"
+        android:textIsSelectable="true"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/item_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/text_margin_dp_8"
+        android:paddingStart="@dimen/text_margin_dp_8"
+        android:paddingTop="@dimen/text_margin_dp_4"
+        android:textColor="@color/darkGray"
+        android:textIsSelectable="true"
+        android:textSize="15sp"/>
+</LinearLayout>

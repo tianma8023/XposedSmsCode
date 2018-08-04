@@ -62,4 +62,23 @@
     <string name="okay">好的</string>
     <string name="channel_name_foreground_service">分析簡訊時的通知</string>
     <string name="sms_code_notification_title">簡訊分析中……</string>
+    <string name="action_home_faq_title">常見問題</string>
+
+    <string-array name="question_list">
+        <item>這個模組適用於什麼樣的Rom呢？</item>
+        <item>我的手機本身就有這個功能了，還需要這個模組嗎？</item>
+        <item>自動輸入的原理是什麼？無障礙模式和Root模式的差別在哪裡呢？</item>
+        <item>這個模組需要在背景執行嗎？會占用多少資源呢？</item>
+        <item>驗證碼無法被分析並複製該怎麼辦？</item>
+        <item>可以將驗證碼簡訊複製後標記為已讀嗎？</item>
+    </string-array>
+
+    <string-array name="answer_list">
+        <item>適用於基於AOSP的類原生Rom，在其他第三方中度或高度訂製化的Rom可能無法正常運作。</item>
+        <item>這是給沒有這項功能的手機使用的唷:)</item>
+        <item>收到驗證碼後，尋找當前介面的驗證碼輸入框，然後自動輸入。\n\n無障礙模式打開後，系統會在背景持續運行這項服務\n\nRoot模式是透過Root或其他Hack的方式動態開啟/關閉無障礙服務，在分析驗證碼時打開，自動輸入完畢後關閉。\n\n個人推薦使用Root模式。</item>
+        <item>此模組使用了兩項服務，一項用來解析簡訊中的驗證碼，一項用來自動輸入(無障礙服務)。\n\n分析驗證碼的服務會在接收到簡訊時開啟，並在分析完畢後關閉，基本上不占用資源。</item>
+        <item>1. 在驗證碼簡訊測試功能先測試一下內容是否能被正確分析。\n\n2. 因為使用到相關服務及推播，建議將此模組加入應用控制類程式(黑閾、綠色守護等)的白名單中。\n\n3. 請聯繫開發者，並回報相關問題。</item>
+        <item>從Android 4.4起，只有系統預設的簡訊程式才能對簡訊進行修改與操作。(也可能是開發者能力不夠，沒有找到合適的方法。)</item>
+    </string-array>
 </resources>

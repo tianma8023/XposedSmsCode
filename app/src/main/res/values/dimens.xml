@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="floating_action_button_margin">16dp</dimen>
+    <dimen name="text_margin_dp_16">16dp</dimen>
+    <dimen name="text_margin_dp_8">8dp</dimen>
+    <dimen name="text_margin_dp_4">4dp</dimen>
 </resources>

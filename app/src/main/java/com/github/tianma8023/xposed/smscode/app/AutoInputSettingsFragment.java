@@ -127,7 +127,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
     }
 
     @Override
-    protected String getPageName() {
+    public String getPageName() {
         return "AutoInputSettings";
     }
 }

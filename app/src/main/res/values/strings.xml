@@ -30,7 +30,7 @@
     <string name="code_keywords_hint">Keywords(Regular Expressions)</string>
     <string name="pref_smscode_test">Sms code test</string>
     <string name="pref_smscode_test_summary">Test whether sms code can be recognized or not</string>
-    <string name="sms_content_hint">Sms content</string>
+    <string name="sms_content_hint">Sms question</string>
     <string name="test">Test</string>
     <string name="cancel">Cancel</string>
     <string name="cannot_parse_smscode">Cannot parse verification code.</string>
@@ -56,5 +56,24 @@
     <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
     <string name="okay">OK</string>
     <string name="channel_name_foreground_service">Notifications for parsing SMS message</string>
-    <string name="sms_code_notification_title">Parsing SMS message...</string>
+    <string name="sms_code_notification_title">Parsing SMS message……</string>
+    <string name="action_home_faq_title">FAQ</string>
+
+    <string-array name="question_list">
+        <item>这个模块适用的Rom是什么？</item>
+        <item>我的手机自带有验证码复制，你这个App是鸡肋？</item>
+        <item>自动输入的原理是什么？无障碍模式和ROOT模式的区别在哪里？</item>
+        <item>这个模块开服务了吗？占用后台资源吗？</item>
+        <item>验证码不能被解析复制该怎么办？</item>
+        <item>为什么没有将验证码短信标记为已读的功能？</item>
+    </string-array>
+
+    <string-array name="answer_list">
+        <item>适用于AOSP之类的偏原生的Rom，其他第三方中度或者重度定制的ROM可能不适用。</item>
+        <item>我可去你个可爱大西瓜，你开心就好。 ^_^</item>
+        <item>收到验证码后，通过无障碍服务查找当前界面的验证码输入框，然后将验证码自动输入。\n\n无障碍模式下需要手动开启自动输入的无障碍服务(系统后台就会一直跑着这个服务)\n\nROOT模式则是通过ROOT或其他Hack的方式动态地启用/关闭无障碍服务，即在解析到验证码时打开，在自动输入完毕时关闭。\n\n个人推荐采用ROOT方式。</item>
+        <item>开了两个服务，一个服务用来解析短信中的验证码，一个服务用来自动输入(即前面的无障碍服务)。\n\n解析验证码的服务在接收到验证码短信时开启，在解析完毕之后关闭，不占用什么资源。</item>
+        <item>1. 在验证码短信测试中先测试一下短信内容能否被正确解析。\n\n2. 因为用到了服务和广播，所以检查一下是否在应用控制类软件（黒阈、应用管理、绿色守护等）的黑名单中。\n\n3. 联系开发者，反馈问题。</item>
+        <item>自Android 4.4起，只有系统默认的短信应用才可以对短信进行写操作。(也可能是因为目前开发者能力不够，没找到合适的方法。)</item>
+    </string-array>
 </resources>

@@ -31,11 +31,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
 
     private HomeActivity mHomeActivity;
 
-    @Override
-    protected String getPageName() {
-        return "MainSettings";
-    }
-
     public interface OnNestedPreferenceClickListener {
         void onNestedPreferenceClicked(String key, String title);
     }
@@ -210,5 +205,10 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             text = getString(R.string.cur_verification_code, verificationCode);
         }
         Toast.makeText(mHomeActivity, text, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public String getPageName() {
+        return "MainSettings";
     }
 }
