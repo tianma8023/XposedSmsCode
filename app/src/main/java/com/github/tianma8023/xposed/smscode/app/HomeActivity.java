@@ -13,6 +13,7 @@ import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.app.faq.FaqFragment;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +52,12 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnNes
         if (!ModuleUtils.isModuleEnabled()) {
             showEnableModuleDialog();
         }
+
+        initUmengAnalyze();
+    }
+
+    private void initUmengAnalyze() {
+        MobclickAgent.openActivityDurationTrack(false);
     }
 
     private void setupToolbar() {
@@ -58,6 +65,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnNes
 
         refreshActionBar(getString(R.string.app_name));
     }
+
 
     private void showEnableModuleDialog() {
         new MaterialDialog.Builder(this)

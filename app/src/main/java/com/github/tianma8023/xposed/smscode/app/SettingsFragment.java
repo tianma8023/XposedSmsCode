@@ -206,9 +206,4 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         }
         Toast.makeText(mHomeActivity, text, Toast.LENGTH_LONG).show();
     }
-
-    @Override
-    public String getPageName() {
-        return "MainSettings";
-    }
 }

@@ -45,10 +45,4 @@ public class FaqFragment extends BaseFragment {
         }
         return view;
     }
-
-    @Override
-    public String getPageName() {
-        return "FAQ";
-    }
-
 }

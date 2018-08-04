@@ -42,7 +42,6 @@ public class SmsCodeApplication extends Application{
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
 
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
-        MobclickAgent.openActivityDurationTrack(false);
     }
 
 }
