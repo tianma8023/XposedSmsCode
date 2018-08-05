@@ -63,6 +63,9 @@
     <string name="channel_name_foreground_service">分析簡訊時的通知</string>
     <string name="sms_code_notification_title">簡訊分析中……</string>
     <string name="action_home_faq_title">常見問題</string>
+    <string name="pref_debug">調試</string>
+    <string name="pref_verbose_log_mode">輸出詳細日誌</string>
+    <string name="pref_verbose_log_mode_summary">輸出詳細的日誌到Xposed(用於調試)</string>
 
     <string-array name="question_list">
         <item>這個模組適用於什麼樣的Rom呢？</item>

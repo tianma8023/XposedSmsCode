@@ -7,14 +7,14 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 public class XLog {
 
     private static final String LOG_TAG = BuildConfig.LOG_TAG;
-    private static final int LOG_LEVEL = BuildConfig.LOG_LEVEL;
+    private static int sLogLevel = BuildConfig.LOG_LEVEL;
     private static final boolean LOG_TO_XPOSED = BuildConfig.LOG_TO_XPOSED;
 
     private XLog() {
     }
 
     private static void log(int priority, String message, Object... args) {
-        if (priority < LOG_LEVEL)
+        if (priority < sLogLevel)
             return;
 
         message = String.format(message, args);
@@ -55,5 +55,9 @@ public class XLog {
 
     public static void e(String message, Object... args) {
         log(Log.ERROR, message, args);
+    }
+
+    public static void setLogLevel(int logLevel) {
+        sLogLevel = logLevel;
     }
 }

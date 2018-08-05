@@ -14,15 +14,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
+import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 /**
  * 首选项Fragment
@@ -52,6 +55,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         }
 
         findPreference(IPrefConstants.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
+        findPreference(IPrefConstants.KEY_VERBOSE_LOG_MODE).setOnPreferenceChangeListener(this);
 
         findPreference(IPrefConstants.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
@@ -133,6 +137,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         String key = preference.getKey();
         if (IPrefConstants.KEY_HIDE_LAUNCHER_ICON.equals(key)) {
             hideOrShowLauncherIcon((Boolean) newValue);
+        } else if (IPrefConstants.KEY_VERBOSE_LOG_MODE.equals(key)){
+            onVerboseLogModeSwitched((Boolean) newValue);
         } else {
             return false;
         }
@@ -144,6 +150,14 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         ComponentName launcherCN = new ComponentName(mHomeActivity, IConstants.HOME_ACTIVITY_ALIAS);
         int state = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
         pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
+    }
+
+    private void onVerboseLogModeSwitched(boolean on) {
+        if (on) {
+            XLog.setLogLevel(Log.VERBOSE);
+        } else {
+            XLog.setLogLevel(BuildConfig.LOG_LEVEL);
+        }
     }
 
     private void showSmsCodeTestDialog() {

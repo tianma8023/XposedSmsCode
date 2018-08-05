@@ -40,4 +40,6 @@ public interface IPrefConstants {
     boolean KEY_AUTO_INPUT_MODE_ACCESSIBILITY_DEFAULT = false;
     String KEY_AUTO_INPUT_MODE_ROOT = "pref_auto_input_mode_root";
     boolean KEY_AUTO_INPUT_MODE_ROOT_DEFAULT = false;
+
+    String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
 }
