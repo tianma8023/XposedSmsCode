@@ -46,11 +46,18 @@ public class SmsHandlerHook implements IHook {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private static void printDeviceInfo() {
         XLog.i("Phone manufacturer: %s", Build.MANUFACTURER);
         XLog.i("Phone model: %s", Build.MODEL);
         XLog.i("Android version: %s", Build.VERSION.RELEASE);
-        XLog.i("Xposed bridge version: %d", XposedBridge.getXposedVersion());
+        int xposedVersion;
+        try {
+            xposedVersion = XposedBridge.getXposedVersion();
+        } catch (Throwable e) {
+            xposedVersion = XposedBridge.XPOSED_BRIDGE_VERSION;
+        }
+        XLog.i("Xposed bridge version: %d", xposedVersion);
         XLog.i("SmsCode version: %s (%d)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
     }
 
