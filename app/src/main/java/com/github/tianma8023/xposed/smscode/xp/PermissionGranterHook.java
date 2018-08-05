@@ -134,7 +134,7 @@ public class PermissionGranterHook implements IHook {
         final String packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
         if (SMSCODE_PACKAGE.equals(packageName)) {
             // com.android.server.pm.PackageSetting mExtra object
-            final Object extra = XposedHelpers.getObjectField(pkg, "mExtra");
+            final Object extra = XposedHelpers.getObjectField(pkg, "mExtras");
             // PackageSetting extends PackageSettingBase
             // PackageSettingBase extends GrantedPermissions
             // Android 4.4~4.4.4 api 19 HashSet<String>
