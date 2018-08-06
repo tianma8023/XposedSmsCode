@@ -25,9 +25,6 @@ public class PermissionGranterHook implements IHook {
 
     private static final List<String> PERMISSIONS_TO_GRANT = IPermissionConstant.PERMISSIONS_TO_GRANT;
 
-    // TODO Android Kitkat realize initZygote
-    // https://github.com/GravityBox/GravityBox/blob/dbc0edf17a50a758f41d0308d0a61b46f1d14c45/src/com/ceco/kitkat/gravitybox/GravityBox.java#L81
-
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
