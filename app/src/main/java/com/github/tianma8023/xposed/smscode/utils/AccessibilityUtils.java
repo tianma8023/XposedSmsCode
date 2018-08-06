@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityManager;
@@ -138,15 +139,36 @@ public class AccessibilityUtils {
      * @return 是否成功启用
      */
     public static boolean enableAccessibilityService(Context context, String accessibilityServiceName) {
-        List<String> enabledServices = getEnabledAccessibilityServices(context);
-        if (enabledServices == null) {
+        try {
+            List<String> enabledServices = getEnabledAccessibilityServices(context);
+            boolean enabled;
+            if (enabledServices == null) {
+                enabled = false;
+            } else if (enabledServices.contains(accessibilityServiceName)) {
+                enabled = true;
+            } else {
+                enabledServices.add(accessibilityServiceName);
+                enabled = setEnabledAccessibilityServices(context, enabledServices);
+            }
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                if (enabled) {
+                    // need to let accessibility_enabled = 1
+                    boolean accessibilityEnabled = isAccessibilityEnabled(context);
+                    XLog.d("accessibility_enabled: " + accessibilityEnabled);
+                    if (!accessibilityEnabled) {
+                        accessibilityEnabled = setAccessibilityEnabled(context, true);
+                        if (!accessibilityEnabled) {
+                            return false;
+                        }
+                    }
+                    XLog.d("put accessibility_enabled: " + accessibilityEnabled);
+                }
+            }
+            return enabled;
+        } catch (Exception e) {
+            XLog.e("error occurs enableAccessibilityService by Settings", e);
             return false;
         }
-        if (enabledServices.contains(accessibilityServiceName)) {
-            return true;
-        }
-        enabledServices.add(accessibilityServiceName);
-        return setEnabledAccessibilityServices(context, enabledServices);
     }
 
     /**
@@ -157,15 +179,35 @@ public class AccessibilityUtils {
      * @return 是否成功关闭
      */
     public static boolean disableAccessibilityService(Context context, String accessibilityServiceName) {
-        List<String> enabledServices = getEnabledAccessibilityServices(context);
-        if (enabledServices == null) {
+        try {
+            List<String> enabledServices = getEnabledAccessibilityServices(context);
+            if (enabledServices == null) {
+                return false;
+            }
+            if (!enabledServices.contains(accessibilityServiceName)) {
+                return true;
+            }
+            enabledServices.remove(accessibilityServiceName);
+            return setEnabledAccessibilityServices(context, enabledServices);
+        } catch (Exception e) {
+            XLog.e("error occurs disableAccessibilityService by Settings", e);
             return false;
         }
-        if (!enabledServices.contains(accessibilityServiceName)) {
-            return true;
-        }
-        enabledServices.remove(accessibilityServiceName);
-        return setEnabledAccessibilityServices(context, enabledServices);
     }
 
+    private static boolean setAccessibilityEnabled(Context context, boolean enabled) {
+//        return Settings.Secure.putInt(context.getContentResolver(),
+//                Settings.Secure.ACCESSIBILITY_ENABLED, enabled ? 1 : 0);
+        return Settings.Secure.putString(context.getContentResolver(),
+                Settings.Secure.ACCESSIBILITY_ENABLED, enabled ? "1" : "0");
+
+    }
+
+    private static boolean isAccessibilityEnabled(Context context) {
+//        return Settings.Secure.getInt(context.getContentResolver(),
+//                Settings.Secure.ACCESSIBILITY_ENABLED, 0) == 1;
+        String value = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ACCESSIBILITY_ENABLED);
+        return !TextUtils.isEmpty(value) && "1".equals(value.trim());
+    }
 }

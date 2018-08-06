@@ -1,5 +1,6 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
+import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class ShellUtils {
 
     private static final String ENABLED_ACCESSIBILITY_SERVICES = Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES;
+    private static final String ACCESSIBILITY_ENABLED = Settings.Secure.ACCESSIBILITY_ENABLED;
 
     private ShellUtils() {
     }
@@ -67,15 +69,35 @@ public class ShellUtils {
      * @return 是否成功启用
      */
     public static boolean enableAccessibilityService(String accessibilityServiceName) {
-        List<String> enabledServices = getEnabledAccessibilityServices();
-        if (enabledServices == null) {
+        try {
+            List<String> enabledServices = getEnabledAccessibilityServices();
+            boolean enabled;
+            if (enabledServices == null) {
+                enabled = false;
+            } else if (enabledServices.contains(accessibilityServiceName)) {
+                enabled = true;
+            } else {
+                enabledServices.add(accessibilityServiceName);
+                enabled = setEnabledAccessibilityServices(enabledServices);
+            }
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (enabled) {
+                    // need to let accessibility_enabled = 1
+                    boolean accessibilityEnabled = isAccessibilityEnabled();
+                    XLog.d("accessibility_enabled: " + accessibilityEnabled);
+                    if (!accessibilityEnabled) {
+                        accessibilityEnabled = setAccessibilityEnabled(true);
+                        if (!accessibilityEnabled)
+                            return false;
+                    }
+                    XLog.d("put accessibility_enabled: " + accessibilityEnabled);
+                }
+            }
+            return enabled;
+        } catch (Exception e) {
+            XLog.e("error occurs enableAccessibilityService by Shell", e);
             return false;
         }
-        if (enabledServices.contains(accessibilityServiceName)) {
-            return true;
-        }
-        enabledServices.add(accessibilityServiceName);
-        return setEnabledAccessibilityServices(enabledServices);
     }
 
     /**
@@ -85,15 +107,35 @@ public class ShellUtils {
      * @return 是否成功关闭
      */
     public static boolean disableAccessibilityService(String accessibilityServiceName) {
-        List<String> enabledServices = getEnabledAccessibilityServices();
-        if (enabledServices == null) {
+        try {
+            List<String> enabledServices = getEnabledAccessibilityServices();
+            if (enabledServices == null) {
+                return false;
+            }
+            if (!enabledServices.contains(accessibilityServiceName)) {
+                return true;
+            }
+            enabledServices.remove(accessibilityServiceName);
+            return setEnabledAccessibilityServices(enabledServices);
+        } catch (Exception e) {
+            XLog.e("error occurs disableAccessibilityService by Shell", e);
             return false;
         }
-        if (!enabledServices.contains(accessibilityServiceName)) {
-            return true;
+    }
+
+    private static boolean setAccessibilityEnabled(boolean enabled) {
+        CommandResult putResult = Shell.SU.run("settings put secure " + ACCESSIBILITY_ENABLED + " " +
+                (enabled ? 1 : 0));
+        return putResult.isSuccessful();
+    }
+
+    private static boolean isAccessibilityEnabled() {
+        CommandResult getResult = Shell.SU.run("settings get secure " + ACCESSIBILITY_ENABLED);
+        if (getResult.isSuccessful()) {
+            String numStr = getResult.getStdout();
+            return "1".equals(numStr.trim());
         }
-        enabledServices.remove(accessibilityServiceName);
-        return setEnabledAccessibilityServices(enabledServices);
+        return false;
     }
 
     public static boolean checkRootPermission() {
