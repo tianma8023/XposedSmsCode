@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
@@ -120,6 +121,13 @@ public class SmsCodeService extends IntentService {
 
         if (TextUtils.isEmpty(verificationCode)) { // Not verification code msg.
             return;
+        }
+
+        boolean verboseLog = getBooleanPref(mPreferences, IPrefConstants.KEY_VERBOSE_LOG_MODE, IPrefConstants.KEY_VERBOSE_LOG_MODE_DEFAULT);
+        if (verboseLog) {
+            XLog.setLogLevel(Log.VERBOSE);
+        } else {
+            XLog.setLogLevel(BuildConfig.LOG_LEVEL);
         }
 
         if (getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT)) {

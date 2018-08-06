@@ -29,7 +29,7 @@ public class SmsHandlerHook implements IHook {
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
     private Context mModContext;
-    private Context mAppContext;
+//    private Context mAppContext;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -153,14 +153,14 @@ public class SmsHandlerHook implements IHook {
 
     private void afterConstructorHandler(XC_MethodHook.MethodHookParam param) {
         Context context = (Context) param.args[1];
-        if (mModContext == null || mAppContext == null) {
+        if (mModContext == null /*|| mAppContext == null*/) {
             mModContext = context;
-            try {
-                mAppContext = mModContext.createPackageContext(SMSCODE_PACKAGE,
-                        Context.CONTEXT_IGNORE_SECURITY);
-            } catch (Exception e) {
-                XLog.e("Create app context failed: %s", e);
-            }
+//            try {
+//                mAppContext = mModContext.createPackageContext(SMSCODE_PACKAGE,
+//                        Context.CONTEXT_IGNORE_SECURITY);
+//            } catch (Exception e) {
+//                XLog.e("Create app context failed: %s", e);
+//            }
         }
     }
 
@@ -196,7 +196,8 @@ public class SmsHandlerHook implements IHook {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
         broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
-        mAppContext.sendBroadcast(broadcastIntent);
+//        mAppContext.sendBroadcast(broadcastIntent);
+        mModContext.sendBroadcast(broadcastIntent);
     }
 
 }

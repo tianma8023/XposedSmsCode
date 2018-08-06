@@ -42,4 +42,5 @@ public interface IPrefConstants {
     boolean KEY_AUTO_INPUT_MODE_ROOT_DEFAULT = false;
 
     String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
+    boolean KEY_VERBOSE_LOG_MODE_DEFAULT = false;
 }
