@@ -27,6 +27,14 @@ Welcome any feedbacks. / 欢迎反馈，欢迎提出意见或建议。
 - Auto-input SMS code. / 自动输入验证码
 
 # Logs / 更新日志
+- 18.08.06 v1.3.0
+  1. Bug fix: Auto-input bug (below Android 6.0) / 修复Android 6.0及以下包含自动输入在内的问题
+  2. Optimize the strategy of auto-input / 优化自动输入验证码策略
+  3. Add new language: Traditional Chinese / 加入繁体中文
+  4. Add FAQs(Sorry for my poor English, there is no english version now, u can contact me on Github if u can help me translate it into English) / 添加FAQ（英文版本的没翻译，求翻译w(ﾟДﾟ)w）
+  5. Add a switch for verbose logging(Only for debug) / 加入调试开关，用以输出log到Xposed（仅调试用）
+- 18.07.26 v1.2.1
+  1. Optimize the strategy of Auto-input. / 优化自动输入的策略
 - 18.07.25 v1.2.0
   1. Remove the feature of marking SMS as read. / 移除标记为已读功能
   2. Add the feature of Auto-Input SMS code. / 增加短信验证码自动输入功能
