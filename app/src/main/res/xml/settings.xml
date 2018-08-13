@@ -82,7 +82,8 @@
 
         <Preference
             android:key="pref_donate_by_wechat"
-            android:title="@string/pref_donate_by_wechat"/>
+            android:title="@string/pref_donate_by_wechat"
+            android:dependency="pref_enable"/>
 
     </PreferenceCategory>
 
