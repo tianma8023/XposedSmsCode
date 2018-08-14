@@ -59,8 +59,8 @@
     <string name="action_home_faq_title">FAQs</string>
     <string name="pref_debug">Debug</string>
     <string name="pref_verbose_log_mode">Detailed log</string>
-    <string name="pref_verbose_log_mode_summary">Log to Xposed with more details(for debug only)</string>
-    <string name="pref_choose_theme_title">Choose theme</string>
+    <string name="pref_verbose_log_mode_summary">Print detailed log(only for debug)</string>
+    <string name="pref_choose_theme_title">Theme</string>
 
     <string-array name="question_list">
         <item>这个模块适用的Rom是什么？</item>
