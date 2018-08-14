@@ -27,6 +27,9 @@ Welcome any feedbacks. / 欢迎反馈，欢迎提出意见或建议。
 - Auto-input SMS code. / 自动输入验证码
 
 # Logs / 更新日志
+- 18.08.14 v1.4.0
+  1. Optimize the algorithm of parsing SMS code. / 优化验证码识别算法，提高识别率。
+  2. New feature: theme. / 新加入主题功能
 - 18.08.06 v1.3.0
   1. Bug fix: Auto-input bug (below Android 6.0) / 修复Android 6.0及以下包含自动输入在内的问题
   2. Optimize the strategy of auto-input / 优化自动输入验证码策略
