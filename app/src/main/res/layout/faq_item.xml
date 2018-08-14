@@ -13,7 +13,7 @@
         android:paddingEnd="@dimen/text_margin_dp_8"
         android:paddingStart="@dimen/text_margin_dp_8"
         android:paddingTop="@dimen/text_margin_dp_8"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/faq_textColor"
         android:textIsSelectable="true"
         android:textSize="16sp"/>
 
@@ -24,7 +24,7 @@
         android:paddingEnd="@dimen/text_margin_dp_8"
         android:paddingStart="@dimen/text_margin_dp_8"
         android:paddingTop="@dimen/text_margin_dp_4"
-        android:textColor="@color/darkGray"
+        android:textColor="?attr/faq_textColorSecondary"
         android:textIsSelectable="true"
         android:textSize="15sp"/>
 </LinearLayout>

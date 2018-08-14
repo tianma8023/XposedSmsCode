@@ -16,6 +16,10 @@ public interface IPrefConstants {
     String KEY_SHOW_TOAST = "pref_show_toast";
     boolean KEY_SHOW_TOAST_DEFAULT = true;
 
+    String KEY_CHOOSE_THEME = "pref_choose_theme";
+    String KEY_CURRENT_THEME_INDEX = "pref_current_theme_index";
+    int KEY_CURRENT_THEME_INDEX_DEFAULT = 0;
+
     String KEY_EXPERIMENTAL = "pref_experimental";
 
     String KEY_MARK_AS_READ = "pref_mark_as_read";

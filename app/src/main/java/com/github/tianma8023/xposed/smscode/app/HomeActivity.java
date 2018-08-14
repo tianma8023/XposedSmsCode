@@ -2,18 +2,32 @@ package com.github.tianma8023.xposed.smscode.app;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.app.faq.FaqFragment;
+import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
+import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
+import com.github.tianma8023.xposed.smscode.app.theme.ItemCallback;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,8 +35,7 @@ import butterknife.ButterKnife;
 /**
  * 主界面
  */
-public class HomeActivity extends BaseActivity implements SettingsFragment.OnNestedPreferenceClickListener {
-
+public class HomeActivity extends BaseActivity implements SettingsFragment.OnPreferenceClickCallback {
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     private static final String TAG_NESTED = "tag_nested";
@@ -31,15 +44,26 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnNes
     private Fragment mCurrentFragment;
     private FragmentManager mFragmentManager;
 
+    private List<ThemeItem> mThemeItemList;
+    // current theme index
+    private int mCurThemeIndex;
+    private MaterialDialog mThemeChooseDialog;
+    private SharedPreferences mPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPreferences = getSharedPreferences(
+                IPrefConstants.REMOTE_PREF_NAME, MODE_PRIVATE);
+
+        initTheme();
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
         // init main fragment
-        SettingsFragment settingsFragment = new SettingsFragment();
-        settingsFragment.registerOnNestedPreferenceClickListener(this);
+        ThemeItem curThemeItem = mThemeItemList.get(mCurThemeIndex);
+        SettingsFragment settingsFragment = SettingsFragment.newInstance(curThemeItem);
+        settingsFragment.setOnPreferenceClickCallback(this);
         mFragmentManager = getFragmentManager();
         mFragmentManager.beginTransaction()
                 .replace(R.id.home_content, settingsFragment)
@@ -60,6 +84,17 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnNes
         MobclickAgent.openActivityDurationTrack(false);
     }
 
+    private void initTheme() {
+        mThemeItemList = loadThemeColorItems();
+        mCurThemeIndex = mPreferences.getInt(IPrefConstants.KEY_CURRENT_THEME_INDEX,
+                IPrefConstants.KEY_CURRENT_THEME_INDEX_DEFAULT);
+        // check current theme index in case of exception.
+        if(mCurThemeIndex < 0 || mCurThemeIndex >= mThemeItemList.size()) {
+            mCurThemeIndex = IPrefConstants.KEY_CURRENT_THEME_INDEX_DEFAULT;
+        }
+        setTheme(mThemeItemList.get(mCurThemeIndex).getThemeRes());
+    }
+
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
 
@@ -76,7 +111,17 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnNes
     }
 
     @Override
-    public void onNestedPreferenceClicked(String key, String title) {
+    public void onPreferenceClicked(String key, String title, boolean nestedPreference) {
+        if (nestedPreference) {
+            onNestedPreferenceClicked(key, title);
+            return;
+        }
+        if (IPrefConstants.KEY_CHOOSE_THEME.equals(key)) {
+            onChooseThemePreferenceClicked();
+        }
+    }
+
+    private void onNestedPreferenceClicked(String key, String title) {
         Fragment newFragment = null;
         if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
             newFragment = new AutoInputSettingsFragment();
@@ -91,6 +136,86 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnNes
                 .commit();
         mCurrentFragment = newFragment;
         refreshActionBar(title);
+    }
+
+    private ItemCallback<ThemeItem> mThemeItemCallback = new ItemCallback<ThemeItem>() {
+        @Override
+        public void onItemClicked(ThemeItem item, int position) {
+            if (mThemeChooseDialog != null && mThemeChooseDialog.isShowing()) {
+                mThemeChooseDialog.dismiss();
+            }
+
+            if (mCurThemeIndex == position) {
+                return;
+            }
+            mPreferences.edit()
+                    .putInt(IPrefConstants.KEY_CURRENT_THEME_INDEX, position)
+                    .apply();
+            recreate();
+        }
+    };
+
+    private void onChooseThemePreferenceClicked() {
+        if (mThemeItemList == null || mThemeItemList.isEmpty()) {
+            mThemeItemList = loadThemeColorItems();
+        }
+        ThemeItemAdapter adapter = new ThemeItemAdapter(this, mThemeItemList);
+        adapter.setItemCallback(mThemeItemCallback);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        mThemeChooseDialog = new MaterialDialog.Builder(this)
+                .title(R.string.pref_choose_theme_title)
+                .adapter(adapter, layoutManager)
+                .negativeText(R.string.cancel)
+                .build();
+
+        RecyclerView recyclerView = mThemeChooseDialog.getRecyclerView();
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+
+        mThemeChooseDialog.show();
+    }
+
+    private List<ThemeItem> loadThemeColorItems() {
+        List<ThemeItem> themeItems = new ArrayList<>();
+        @StringRes int[] colorNameResArray = {
+                R.string.color_default,
+                R.string.red,
+                R.string.pink,
+                R.string.yellow,
+                R.string.green,
+                R.string.blue,
+                R.string.violet,
+                R.string.black,
+        };
+        @ColorRes int[] colorValueResArray = {
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark_red,
+                R.color.colorPrimaryDark_pink,
+                R.color.colorPrimaryDark_yellow,
+                R.color.colorPrimaryDark_green,
+                R.color.colorPrimaryDark_blue,
+                R.color.colorPrimary_violet,
+                R.color.colorPrimary_black,
+        };
+        @StyleRes int[] themeResArray = {
+                R.style.AppTheme,
+                R.style.AppTheme_Red,
+                R.style.AppTheme_Pink,
+                R.style.AppTheme_Yellow,
+                R.style.AppTheme_Green,
+                R.style.AppTheme_Blue,
+                R.style.AppTheme_Violet,
+                R.style.AppTheme_Black,
+        };
+
+        for(int i = 0; i < colorNameResArray.length; i++) {
+            themeItems.add(new ThemeItem(
+                    colorNameResArray[i],
+                    colorValueResArray[i],
+                    themeResArray[i]
+            ));
+        }
+        return themeItems;
     }
 
     private void refreshActionBar(String title) {

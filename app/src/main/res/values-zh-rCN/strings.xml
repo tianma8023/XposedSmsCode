@@ -65,4 +65,15 @@
     <string name="pref_debug">调试</string>
     <string name="pref_verbose_log_mode">输出详细日志</string>
     <string name="pref_verbose_log_mode_summary">输出详细的日志到Xposed(用于调试)</string>
+    <string name="pref_choose_theme_title">选取主题</string>
+
+    <!-- theme color -->
+    <string name="color_default">默认蓝</string>
+    <string name="red">姨妈红</string>
+    <string name="pink">哔哩粉</string>
+    <string name="yellow">咸蛋黄</string>
+    <string name="green">原谅绿</string>
+    <string name="blue">胖次蓝</string>
+    <string name="violet">基佬紫</string>
+    <string name="black">Dark♂黑</string>
 </resources>

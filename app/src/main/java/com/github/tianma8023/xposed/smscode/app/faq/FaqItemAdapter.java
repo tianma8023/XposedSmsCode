@@ -15,7 +15,7 @@ public class FaqItemAdapter extends RecyclerView.Adapter<FaqItemAdapter.ViewHold
 
     private final List<FaqItem> mFaqItems;
 
-    public FaqItemAdapter(List<FaqItem> items) {
+    FaqItemAdapter(List<FaqItem> items) {
         mFaqItems = items;
     }
 
@@ -30,10 +30,7 @@ public class FaqItemAdapter extends RecyclerView.Adapter<FaqItemAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         FaqItem item = mFaqItems.get(position);
-        holder.mItem = item;
-
-        holder.mQuestionView.setText(item.getQuestion());
-        holder.mAnswerView.setText(item.getAnswer());
+        holder.bindData(item);
     }
 
     @Override
@@ -52,6 +49,12 @@ public class FaqItemAdapter extends RecyclerView.Adapter<FaqItemAdapter.ViewHold
             mView = view;
             mQuestionView = view.findViewById(R.id.item_question);
             mAnswerView = view.findViewById(R.id.item_answer);
+        }
+
+        void bindData(FaqItem item) {
+            mItem = item;
+            mQuestionView.setText(item.getQuestion());
+            mAnswerView.setText(item.getAnswer());
         }
 
         @Override

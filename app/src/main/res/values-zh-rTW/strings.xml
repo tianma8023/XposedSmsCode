@@ -66,6 +66,7 @@
     <string name="pref_debug">調試</string>
     <string name="pref_verbose_log_mode">輸出詳細日誌</string>
     <string name="pref_verbose_log_mode_summary">輸出詳細的日誌到Xposed(用於調試)</string>
+    <string name="pref_choose_theme_title">選取主題</string>
 
     <string-array name="question_list">
         <item>這個模組適用於什麼樣的Rom呢？</item>
@@ -84,4 +85,14 @@
         <item>1. 在驗證碼簡訊測試功能先測試一下內容是否能被正確分析。\n\n2. 因為使用到相關服務及推播，建議將此模組加入應用控制類程式(黑閾、綠色守護等)的白名單中。\n\n3. 請聯繫開發者，並回報相關問題。</item>
         <item>從Android 4.4起，只有系統預設的簡訊程式才能對簡訊進行修改與操作。(也可能是開發者能力不夠，沒有找到合適的方法。)</item>
     </string-array>
+
+    <!-- theme color -->
+    <string name="color_default">默認藍</string>
+    <string name="red">姨媽紅</string>
+    <string name="pink">櫻花粉</string>
+    <string name="yellow">鹹蛋黃</string>
+    <string name="green">原諒綠</string>
+    <string name="blue">胖次藍</string>
+    <string name="violet">基佬紫</string>
+    <string name="black">Dark♂黑</string>
 </resources>

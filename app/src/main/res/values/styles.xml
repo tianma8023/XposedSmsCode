@@ -5,6 +5,54 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="faq_textColor">@color/faq_textColor_black</item>
+        <item name="faq_textColorSecondary">@color/faq_textColorSecondary_black</item>
+    </style>
+
+    <style name="AppTheme.Red">
+        <item name="colorPrimary">@color/colorPrimary_red</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_red</item>
+        <item name="colorAccent">@color/colorAccent_red</item>
+    </style>
+
+    <style name="AppTheme.Pink">
+        <item name="colorPrimary">@color/colorPrimary_pink</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_pink</item>
+        <item name="colorAccent">@color/colorAccent_pink</item>
+    </style>
+
+    <style name="AppTheme.Yellow">
+        <item name="colorPrimary">@color/colorPrimary_yellow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_yellow</item>
+        <item name="colorAccent">@color/colorAccent_yellow</item>
+    </style>
+
+    <style name="AppTheme.Green">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary_green</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_green</item>
+        <item name="colorAccent">@color/colorAccent_green</item>
+    </style>
+
+    <style name="AppTheme.Blue">
+        <item name="colorPrimary">@color/colorPrimary_blue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_blue</item>
+        <item name="colorAccent">@color/colorAccent_blue</item>
+    </style>
+
+    <style name="AppTheme.Violet">
+        <item name="colorPrimary">@color/colorPrimary_violet</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_violet</item>
+        <item name="colorAccent">@color/colorAccent_violet</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:listDivider">@android:color/white</item>
+        <item name="faq_textColor">@color/faq_textColor_white</item>
+        <item name="faq_textColorSecondary">@color/faq_textColorSecondary_white</item>
+    </style>
+
+    <style name="AppTheme.Black" parent="AppTheme.Dark">
     </style>
 
 </resources>

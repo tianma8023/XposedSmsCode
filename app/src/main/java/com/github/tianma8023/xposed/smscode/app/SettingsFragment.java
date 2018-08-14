@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.constant.IConstants;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
@@ -32,15 +33,25 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
  */
 public class SettingsFragment extends BasePreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
+    public static final String EXTRA_KEY_CURRENT_THEME = "extra_key_current_theme";
+
     private HomeActivity mHomeActivity;
 
-    public interface OnNestedPreferenceClickListener {
-        void onNestedPreferenceClicked(String key, String title);
+    public interface OnPreferenceClickCallback {
+        void onPreferenceClicked(String key, String title, boolean nestedPreference);
     }
 
-    private OnNestedPreferenceClickListener mNestedPreferenceClickListener;
+    private OnPreferenceClickCallback mPreferenceClickCallback;
 
     public SettingsFragment() {
+    }
+
+    public static SettingsFragment newInstance(ThemeItem curThemeItem) {
+        SettingsFragment fragment = new SettingsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(EXTRA_KEY_CURRENT_THEME, curThemeItem);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -62,11 +73,22 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
+        Preference chooseThemePref = findPreference(IPrefConstants.KEY_CHOOSE_THEME);
+        chooseThemePref.setOnPreferenceClickListener(this);
+        initChooseThemePreference(chooseThemePref);
 
         // Hide mark as read preference item.
         Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
         PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(IPrefConstants.KEY_EXPERIMENTAL);
         experimentalGroup.removePreference(markAsReadPref);
+    }
+
+    private void initChooseThemePreference(Preference chooseThemePref) {
+        Bundle args = getArguments();
+        ThemeItem themeItem = args.getParcelable(EXTRA_KEY_CURRENT_THEME);
+        if (themeItem != null) {
+            chooseThemePref.setSummary(themeItem.getColorNameRes());
+        }
     }
 
 
@@ -76,8 +98,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         mHomeActivity = (HomeActivity) getActivity();
     }
 
-    public void registerOnNestedPreferenceClickListener(OnNestedPreferenceClickListener nestedPreferenceClickListener) {
-        mNestedPreferenceClickListener = nestedPreferenceClickListener;
+    public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
+        mPreferenceClickCallback = preferenceClickCallback;
     }
 
     @Override
@@ -91,9 +113,13 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             donateByWechat();
         } else if (IPrefConstants.KEY_SMSCODE_TEST.equals(key)) {
             showSmsCodeTestDialog();
-        } else if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)){
-            if (mNestedPreferenceClickListener != null) {
-                mNestedPreferenceClickListener.onNestedPreferenceClicked(key, preference.getTitle().toString());
+        } else if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
+            if (mPreferenceClickCallback != null) {
+                mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), true);
+            }
+        } else if (IPrefConstants.KEY_CHOOSE_THEME.equals(key)) {
+            if (mPreferenceClickCallback != null) {
+                mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), false);
             }
         } else {
             return false;
@@ -137,7 +163,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         String key = preference.getKey();
         if (IPrefConstants.KEY_HIDE_LAUNCHER_ICON.equals(key)) {
             hideOrShowLauncherIcon((Boolean) newValue);
-        } else if (IPrefConstants.KEY_VERBOSE_LOG_MODE.equals(key)){
+        } else if (IPrefConstants.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
         } else {
             return false;
