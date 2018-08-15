@@ -21,6 +21,7 @@
     <string name="about">关于</string>
     <string name="pref_source_code">项目源码</string>
     <string name="pref_source_code_summary">欢迎Star ♪(＾∀＾)ﾉ</string>
+    <string name="browser_install_or_enable_prompt">请安装或启用浏览器</string>
     <string name="alipay_install_prompt">请先安装支付宝</string>
     <string name="alipay_enable_prompt">请先启用支付宝</string>
     <string name="wechat_install_prompt">请先安装微信</string>

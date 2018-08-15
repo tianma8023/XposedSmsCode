@@ -16,6 +16,7 @@
     <string name="pref_source_code">Source code</string>
     <string name="pref_donate_by_alipay">Donate by Alipay</string>
     <string name="pref_donate_by_wechat">Donate by Wechat</string>
+    <string name="browser_install_or_enable_prompt">Please install or enable browser first</string>
     <string name="alipay_install_prompt">Please install Alipay first</string>
     <string name="alipay_enable_prompt">Please enable Alipay</string>
     <string name="wechat_install_prompt">Please install Wechat first</string>

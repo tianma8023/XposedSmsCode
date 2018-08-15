@@ -128,9 +128,13 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     }
 
     private void aboutProject() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(IConstants.PROJECT_SOURCE_CODE_URL));
-        startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(IConstants.PROJECT_SOURCE_CODE_URL));
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(mHomeActivity, R.string.browser_install_or_enable_prompt, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void donateByAlipay() {
