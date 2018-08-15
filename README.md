@@ -27,6 +27,8 @@ Welcome any feedbacks. / 欢迎反馈，欢迎提出意见或建议。
 - Auto-input SMS code. / 自动输入验证码
 
 # Logs / 更新日志
+- 18.08.15 v1.4.1
+  1. Bug fix: NullPointerException while starting 3rd party app if it isn't installed or enabled. / 修复BUG：在第三方App未启用的情况下，打开第三方App的空指针异常。
 - 18.08.14 v1.4.0
   1. Optimize the algorithm of parsing SMS code. / 优化验证码识别算法，提高识别率。
   2. New feature: theme. / 新加入主题功能
