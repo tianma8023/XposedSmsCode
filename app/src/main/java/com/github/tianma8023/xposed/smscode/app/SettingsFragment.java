@@ -134,27 +134,32 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     }
 
     private void donateByAlipay() {
-        if (PackageUtils.isAlipayInstalled(mHomeActivity)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(IConstants.ALIPAY_QRCODE_URI_PREFIX
-                    + IConstants.ALIPAY_QRCODE_URL));
-            startActivity(intent);
-        } else {
+        if (!PackageUtils.isAlipayInstalled(mHomeActivity)) { // uninstalled
             Toast.makeText(mHomeActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (!PackageUtils.isAlipayEnabled(mHomeActivity)) { // installed but disabled
+            Toast.makeText(mHomeActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(IConstants.ALIPAY_QRCODE_URI_PREFIX + IConstants.ALIPAY_QRCODE_URL));
+        startActivity(intent);
     }
 
     private void donateByWechat() {
-        if (PackageUtils.isWeChatInstalled(mHomeActivity)) {
-            if (ModuleUtils.isModuleEnabled()) {
-                Intent intent = new Intent();
-                intent.setClassName(IConstants.WECHAT_PACKAGE_NAME, IConstants.WECHAT_LAUNCHER_UI);
-                intent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
-                startActivity(intent);
-            }
-        } else {
+        if (!PackageUtils.isWeChatInstalled(mHomeActivity)) { // uninstalled
             Toast.makeText(mHomeActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (!PackageUtils.isWeChatEnabled(mHomeActivity)) { // installed but disabled
+            Toast.makeText(mHomeActivity, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClassName(IConstants.WECHAT_PACKAGE_NAME, IConstants.WECHAT_LAUNCHER_UI);
+        intent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
+        startActivity(intent);
     }
 
 

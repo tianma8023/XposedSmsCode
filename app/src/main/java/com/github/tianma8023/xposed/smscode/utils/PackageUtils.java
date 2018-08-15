@@ -1,6 +1,7 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -18,8 +19,16 @@ public class PackageUtils {
         return isPackageInstalled(context, IConstants.WECHAT_PACKAGE_NAME);
     }
 
+    public static boolean isWeChatEnabled(Context context) {
+        return isPackageEnabled(context, IConstants.WECHAT_PACKAGE_NAME);
+    }
+
     public static boolean isAlipayInstalled(Context context) {
         return isPackageInstalled(context, IConstants.ALIPAY_PACKAGE_NAME);
+    }
+
+    public static boolean isAlipayEnabled(Context context) {
+        return isPackageEnabled(context, IConstants.ALIPAY_PACKAGE_NAME);
     }
 
     /**
@@ -32,7 +41,18 @@ public class PackageUtils {
             PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
             return packageInfo != null;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            // ignore
+        }
+        return false;
+    }
+
+    public static boolean isPackageEnabled(Context context, String packageName) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+            return appInfo != null && appInfo.enabled;
+        } catch (PackageManager.NameNotFoundException e) {
+            // ignore
         }
         return false;
     }
