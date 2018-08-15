@@ -23,7 +23,9 @@
     <string name="pref_source_code">項目源碼</string>
     <string name="pref_source_code_summary">歡迎Star ♪(＾∀＾)ﾉ</string>
     <string name="alipay_install_prompt">請先安裝支付寶</string>
+    <string name="alipay_enable_prompt">請先啟用支付寶</string>
     <string name="wechat_install_prompt">請先安裝微信</string>
+    <string name="wechat_enable_prompt">請先啟用微信</string>
     <string name="pref_hide_launcher_icon">隱藏應用圖示</string>
     <string name="pref_hide_launcher_icon_summary">隱藏後仍可以從XposedInstaller打開本模組</string>
     <string name="cur_verification_code">當前驗證碼：%s</string>
