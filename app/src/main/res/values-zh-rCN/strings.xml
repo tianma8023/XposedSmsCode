@@ -69,6 +69,9 @@
     <string name="pref_verbose_log_mode">输出详细日志</string>
     <string name="pref_verbose_log_mode_summary">输出详细的日志到Xposed(仅用于调试)</string>
     <string name="pref_choose_theme_title">主题</string>
+    <string name="pref_join_qq_group_title">加群反馈交流</string>
+    <string name="pref_join_qq_group_summary">QQ群：478884682</string>
+    <string name="prompt_join_qq_group_failed">请先安装或启用QQ</string>
 
     <!-- theme color -->
     <string name="color_default">默认蓝</string>
@@ -79,4 +82,5 @@
     <string name="blue">胖次蓝</string>
     <string name="violet">基佬紫</string>
     <string name="black">Dark♂黑</string>
+    <!-- theme color end -->
 </resources>

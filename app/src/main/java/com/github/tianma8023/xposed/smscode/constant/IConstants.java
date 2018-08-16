@@ -4,6 +4,8 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 
 public interface IConstants {
 
+    String QQ_GROUP_KEY = "jWGrWgSGLGQ0NyyRsKqRlrApRCzecuNA";
+
     String PROJECT_SOURCE_CODE_URL = "https://github.com/tianma8023/XposedSmsCode";
 
     String ALIPAY_PACKAGE_NAME = "com.eg.android.AlipayGphone";

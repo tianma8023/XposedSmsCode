@@ -70,7 +70,22 @@
     <string name="pref_verbose_log_mode">輸出詳細日誌</string>
     <string name="pref_verbose_log_mode_summary">輸出詳細的日誌到Xposed(僅用於調試)</string>
     <string name="pref_choose_theme_title">主題</string>
+    <string name="pref_join_qq_group_title">加群反饋交流</string>
+    <string name="pref_join_qq_group_summary">QQ群：478884682</string>
+    <string name="prompt_join_qq_group_failed">請先安裝或啟用QQ</string>
 
+    <!-- theme color -->
+    <string name="color_default">默認藍</string>
+    <string name="red">姨媽紅</string>
+    <string name="pink">櫻花粉</string>
+    <string name="yellow">鹹蛋黃</string>
+    <string name="green">原諒綠</string>
+    <string name="blue">胖次藍</string>
+    <string name="violet">基佬紫</string>
+    <string name="black">Dark♂黑</string>
+    <!-- theme color end -->
+
+    <!-- FAQ -->
     <string-array name="question_list">
         <item>這個產品的初衷是什麼？</item>
         <item>這個模組適用於什麼樣的Rom呢？</item>
@@ -94,14 +109,4 @@
         <item>屬於正常現象，因為有些應用的驗證碼輸入框是自定義的控件，可能沒有遵循Android設計規範，故而不能被正確識別。</item>
         <item>從Android 4.4起，只有系統預設的簡訊程式才能對簡訊進行修改與操作。(也可能是開發者能力不夠，沒有找到合適的方法。)</item>
     </string-array>
-
-    <!-- theme color -->
-    <string name="color_default">默認藍</string>
-    <string name="red">姨媽紅</string>
-    <string name="pink">櫻花粉</string>
-    <string name="yellow">鹹蛋黃</string>
-    <string name="green">原諒綠</string>
-    <string name="blue">胖次藍</string>
-    <string name="violet">基佬紫</string>
-    <string name="black">Dark♂黑</string>
 </resources>

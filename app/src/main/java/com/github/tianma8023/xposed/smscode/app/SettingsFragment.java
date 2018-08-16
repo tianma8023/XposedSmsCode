@@ -68,6 +68,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         findPreference(IPrefConstants.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
         findPreference(IPrefConstants.KEY_VERBOSE_LOG_MODE).setOnPreferenceChangeListener(this);
 
+        findPreference(IPrefConstants.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
         findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
@@ -105,15 +106,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (IPrefConstants.KEY_SOURCE_CODE.equals(key)) {
-            aboutProject();
-        } else if (IPrefConstants.KEY_DONATE_BY_ALIPAY.equals(key)) {
-            donateByAlipay();
-        } else if (IPrefConstants.KEY_DONATE_BY_WECHAT.equals(key)) {
-            donateByWechat();
-        } else if (IPrefConstants.KEY_SMSCODE_TEST.equals(key)) {
-            showSmsCodeTestDialog();
-        } else if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
+        if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
             if (mPreferenceClickCallback != null) {
                 mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), true);
             }
@@ -121,11 +114,36 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             if (mPreferenceClickCallback != null) {
                 mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), false);
             }
+        } else if (IPrefConstants.KEY_SMSCODE_TEST.equals(key)) {
+            showSmsCodeTestDialog();
+        } else if (IPrefConstants.KEY_JOIN_QQ_GROUP.equals(key)) {
+            joinQQGroup();
+        } else if (IPrefConstants.KEY_SOURCE_CODE.equals(key)) {
+            aboutProject();
+        } else if (IPrefConstants.KEY_DONATE_BY_ALIPAY.equals(key)) {
+            donateByAlipay();
+        } else if (IPrefConstants.KEY_DONATE_BY_WECHAT.equals(key)) {
+            donateByWechat();
         } else {
             return false;
         }
         return true;
     }
+
+    public void joinQQGroup() {
+        String key = IConstants.QQ_GROUP_KEY;
+        Intent intent = new Intent();
+        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
+        // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            // 未安装手Q或安装的版本不支持
+            Toast.makeText(mHomeActivity, R.string.prompt_join_qq_group_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void aboutProject() {
         try {
