@@ -27,9 +27,12 @@ Welcome any feedbacks. / 欢迎反馈，欢迎提出意见或建议。
 - Auto-input SMS code. / 自动输入验证码
 
 # Logs / 更新日志
+- 18.08.20 v1.4.3
+  1. Add feature: two Focus Modes(Auto mode, Manual mode) / 新增功能：两种对焦模式（自动对焦和手动对焦）
+  2. Add more FAQs. / 补充完善FAQ
 - 18.08.16 v1.4.2
-  1. Add feature: join QQ group for communication and bug report. / 添加进QQ群反馈交流入口
-  2. Add more faqs. / 补充完善FAQ。
+  1. Add feature: join QQ group for communication and bug report. / 新增功能：进QQ群反馈交流入口
+  2. Add more FAQs. / 补充完善FAQ
 - 18.08.15 v1.4.1
   1. Bug fix: NullPointerException while starting 3rd party app if it isn't installed or enabled. / 修复BUG：在第三方App未启用的情况下，打开第三方App的空指针异常。
 - 18.08.14 v1.4.0

@@ -64,7 +64,7 @@
     <string name="pref_verbose_log_mode">Detailed log</string>
     <string name="pref_verbose_log_mode_summary">Print detailed log(only for debug)</string>
     <string name="pref_choose_theme_title">Theme</string>
-    <string name="pref_join_qq_group_title">Join QQ group to communicate and report bug.</string>
+    <string name="pref_join_qq_group_title">Communication and Bug report</string>
     <string name="pref_join_qq_group_summary">QQ group: 478884682</string>
     <string name="prompt_join_qq_group_failed">Please install or enable QQ first</string>
 
