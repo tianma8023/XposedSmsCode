@@ -72,9 +72,9 @@ android {
             if (outputFile != null && outputFile.name.endsWith(".apk")) {
                 def fileName = ""
                 if (variant.buildType.name == 'release') {
-                    fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_release.apk"
+                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_r.apk"
                 } else if(variant.buildType.name == 'debug'){
-                    fileName = "SmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_debug.apk"
+                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_d.apk"
                 }
                 outputFileName = fileName
             }
