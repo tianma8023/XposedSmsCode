@@ -143,4 +143,13 @@ public class ShellUtils {
         return result.isSuccessful();
     }
 
+    /**
+     * Input text by ROOT
+     * @param text text to input
+     * @return true if input text by ROOT succeed, otherwise return false
+     */
+    public static boolean inputText(String text) {
+        CommandResult cmdResult = Shell.SU.run("input text \"" + text + "\"");
+        return cmdResult.isSuccessful();
+    }
 }

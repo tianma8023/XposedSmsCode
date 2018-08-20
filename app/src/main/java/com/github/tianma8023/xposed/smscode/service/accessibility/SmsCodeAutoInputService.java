@@ -70,9 +70,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
     }
 
     private void init() {
-        if (mPreferences == null) {
-            mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(this.getApplicationContext());
-        }
+        initPreferences();
 
         if (mControllerReceiver == null) {
             mControllerReceiver = new AutoInputControllerReceiver();
@@ -80,6 +78,12 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             intentFilter.addAction(ACTION_START_AUTO_INPUT);
             intentFilter.addAction(ACTION_STOP_AUTO_INPUT_SERVICE);
             registerReceiver(mControllerReceiver, intentFilter);
+        }
+    }
+
+    private void initPreferences() {
+        if (mPreferences == null) {
+            mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(this.getApplicationContext());
         }
     }
 
@@ -117,8 +121,41 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
      * @return 成功输入则返回true，否则返回false
      */
     private boolean tryToAutoInputSMSCode(String smsCode) {
+        String focusMode = RemotePreferencesUtils.getStringPref(
+                mPreferences, IPrefConstants.KEY_FOCUS_MODE, IPrefConstants.KEY_FOCUS_MODE_AUTO);
+        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(focusMode)) {
+            // focus mode: auto focus
+            return tryToAutoInputByAutoFocus(smsCode);
+        } else {
+            // focus mode: manual focus
+            return tryToAutoInputByManualFocus(smsCode);
+        }
+    }
+
+    /**
+     * 手动对焦下的尝试自动输入
+     * @param smsCode SMS code
+     * @return 成功输入则返回true，否则返回false
+     */
+    private boolean tryToAutoInputByManualFocus(String smsCode) {
+        AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
+        AccessibilityNodeInfo focusedNodeInfo = rootNodeInfo.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        if (focusedNodeInfo != null && focusedNodeInfo.isEditable()) {
+            inputText(focusedNodeInfo, smsCode);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 自动对焦下的尝试自动输入
+     * @param smsCode SMS code
+     * @return 成功输入则返回true，否则返回false
+     */
+    private boolean tryToAutoInputByAutoFocus(String smsCode) {
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
+            XLog.d("rootNodeInfo is null");
             return false;
         }
         try {

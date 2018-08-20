@@ -21,5 +21,13 @@
             android:summary="@string/pref_auto_input_mode_root_summary"
             android:dependency="pref_enable_auto_input_code"
             android:defaultValue="false"/>
+
+        <com.afollestad.materialdialogs.prefs.MaterialListPreference
+            android:key="pref_focus_mode"
+            android:title="@string/pref_focus_mode_title"
+            android:entries="@array/pref_focus_mode_entries"
+            android:entryValues="@array/pref_focus_mode_entryValues"
+            android:dependency="pref_enable_auto_input_code"
+            android:defaultValue="@string/focus_mode_auto" />
     </PreferenceCategory>
 </PreferenceScreen>

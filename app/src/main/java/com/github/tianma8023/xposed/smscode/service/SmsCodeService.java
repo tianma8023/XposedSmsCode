@@ -39,6 +39,7 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 import java.util.concurrent.TimeUnit;
 
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
+import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getStringPref;
 
 /**
  * 处理验证码的Service
@@ -56,6 +57,9 @@ public class SmsCodeService extends IntentService {
     private static final int MSG_MARK_AS_READ = 0xfe;
 
     private RemotePreferences mPreferences;
+
+    private boolean mIsRootAutoInput;
+    private String mFocusMode;
 
     public SmsCodeService() {
         this(SERVICE_NAME);
@@ -130,7 +134,12 @@ public class SmsCodeService extends IntentService {
             XLog.setLogLevel(BuildConfig.LOG_LEVEL);
         }
 
-        if (getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT)) {
+        mFocusMode = getStringPref(mPreferences, IPrefConstants.KEY_FOCUS_MODE, IPrefConstants.KEY_FOCUS_MODE_AUTO);
+        mIsRootAutoInput = getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT);
+        XLog.d("FocusMode: %s", mFocusMode);
+        XLog.d("isRootAutoInputMode: " + mIsRootAutoInput);
+
+        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(mFocusMode) && mIsRootAutoInput) {
             // Root auto-input mode
             String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
             // 先尝试用无Root的方式启动无障碍服务
@@ -188,10 +197,16 @@ public class SmsCodeService extends IntentService {
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
-        // start auto input
-        Intent intent = new Intent(SmsCodeAutoInputService.ACTION_START_AUTO_INPUT);
-        intent.putExtra(SmsCodeAutoInputService.EXTRA_KEY_SMS_CODE, verificationCode);
-        sendBroadcast(intent); //
+        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(mFocusMode)) {
+            // focus mode: auto focus
+            // start auto input
+            Intent intent = new Intent(SmsCodeAutoInputService.ACTION_START_AUTO_INPUT);
+            intent.putExtra(SmsCodeAutoInputService.EXTRA_KEY_SMS_CODE, verificationCode);
+            sendBroadcast(intent);
+        } else {
+            // focus mode: manual focus
+            ShellUtils.inputText(verificationCode);
+        }
     }
 
     private void markSmsAsRead(String sender, String body) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">簡訊驗證碼擷取器</string>
+    <string name="app_name">簡訊驗證碼擷取器(Xposed)</string>
     <string name="xposed_description">擷取新簡訊中的驗證碼複製到剪貼板，並自動輸入驗證碼</string>
 
     <!-- General -->
@@ -53,7 +53,7 @@
     <string name="close_auto_input_accessibility_prompt">需要關閉無障礙服務停用自動輸入</string>
     <string name="go_to_open">去打開</string>
     <string name="go_to_close">去關閉</string>
-    <string name="smscode_auto_input_service_label">簡訊驗證碼自動輸入服務</string>
+    <string name="smscode_auto_input_service_label">簡訊驗證碼自動輸入服務(Xposed)</string>
     <string name="pref_enable_auto_input_code">啟用自動輸入</string>
     <string name="pref_auto_input_mode_accessibility">無障礙服務模式</string>
     <string name="pref_auto_input_mode_accessibility_summary">需要打開無障礙服務啟用自動輸入</string>
@@ -85,6 +85,12 @@
     <string name="black">Dark♂黑</string>
     <!-- theme color end -->
 
+    <!-- Focus Mode -->
+    <string name="pref_focus_mode_title">對焦模式</string>
+    <string name="focus_mode_entry_auto">自動尋找驗證碼輸入框</string>
+    <string name="focus_mode_entry_manual">手動指定驗證碼輸入框</string>
+    <!-- Focus Mode end -->
+
     <!-- FAQ -->
     <string-array name="question_list">
         <item>這個產品的初衷是什麼？</item>
@@ -109,4 +115,5 @@
         <item>屬於正常現象，因為有些應用的驗證碼輸入框是自定義的控件，可能沒有遵循Android設計規範，故而不能被正確識別。</item>
         <item>從Android 4.4起，只有系統預設的簡訊程式才能對簡訊進行修改與操作。(也可能是開發者能力不夠，沒有找到合適的方法。)</item>
     </string-array>
+    <!-- FAQ end -->
 </resources>

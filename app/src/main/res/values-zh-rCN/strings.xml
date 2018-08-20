@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">短信验证码提取器</string>
+    <string name="app_name">短信验证码提取器(Xposed)</string>
     <string name="xposed_description">提取新短信中的验证码并复制到剪贴板，并能自动输入验证码</string>
 
     <!-- General -->
@@ -52,7 +52,7 @@
     <string name="close_auto_input_accessibility_prompt">建议关闭自动输入的无障碍服务</string>
     <string name="go_to_open">去打开</string>
     <string name="go_to_close">去关闭</string>
-    <string name="smscode_auto_input_service_label">短信验证码自动输入服务</string>
+    <string name="smscode_auto_input_service_label">短信验证码自动输入服务(Xposed)</string>
     <string name="pref_enable_auto_input_code">启用自动输入</string>
     <string name="pref_auto_input_mode_accessibility">无障碍服务模式</string>
     <string name="pref_auto_input_mode_accessibility_summary">需要启用自动输入的无障碍服务</string>
@@ -83,4 +83,10 @@
     <string name="violet">基佬紫</string>
     <string name="black">Dark♂黑</string>
     <!-- theme color end -->
+
+    <!-- Focus Mode -->
+    <string name="pref_focus_mode_title">对焦模式</string>
+    <string name="focus_mode_entry_auto">自动寻找验证码输入框</string>
+    <string name="focus_mode_entry_manual">手动指定验证码输入框</string>
+    <!-- Focus Mode end -->
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SMS Code Extractor</string>
+    <string name="app_name">SMS Code Extractor(Xposed)</string>
     <string name="xposed_description">Extract code from new SMS message and copy it to clipboard. It can also Auto-input SMS code</string>
 
     <string name="pref_general">General</string>
@@ -47,7 +47,7 @@
     <string name="close_auto_input_accessibility_prompt">Accessibility Service for auto-input is advised to closed if it\'s off</string>
     <string name="go_to_open">Open it</string>
     <string name="go_to_close">Close it</string>
-    <string name="smscode_auto_input_service_label">Auto-input SMS codes</string>
+    <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
     <string name="pref_enable_auto_input_code">Enable auto-input SMS code</string>
     <string name="pref_auto_input_mode_accessibility">Accessibility Service Mode</string>
     <string name="pref_auto_input_mode_accessibility_summary">Auto-Input accessibility service required</string>
@@ -79,6 +79,12 @@
     <string name="black">Dark</string>
     <!-- theme color end -->
 
+    <!-- Focus Mode -->
+    <string name="pref_focus_mode_title">Focus Mode</string>
+    <string name="focus_mode_entry_auto">Auto Focus SMS code EditText</string>
+    <string name="focus_mode_entry_manual">Manual Focus SMS code EditText</string>
+    <!-- Focus Mode end -->
+
     <!-- FAQ -->
     <string-array name="question_list">
         <item>产品初衷是什么？</item>
@@ -103,4 +109,5 @@
         <item>属于正常现象，因为有些应用的验证码输入框是自定义的控件，可能没有遵循Android设计规范，故而不能被正确识别。</item>
         <item>自Android 4.4起，只有系统默认的短信应用才可以对短信进行写操作。(也可能是因为目前开发者能力不够，没找到合适的方法。)</item>
     </string-array>
+    <!-- FAQ end -->
 </resources>

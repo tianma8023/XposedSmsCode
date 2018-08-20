@@ -45,6 +45,8 @@ public interface IPrefConstants {
     boolean KEY_AUTO_INPUT_MODE_ACCESSIBILITY_DEFAULT = false;
     String KEY_AUTO_INPUT_MODE_ROOT = "pref_auto_input_mode_root";
     boolean KEY_AUTO_INPUT_MODE_ROOT_DEFAULT = false;
+    String KEY_FOCUS_MODE = "pref_focus_mode";
+    String KEY_FOCUS_MODE_AUTO = "focus_mode_auto";
 
     String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
     boolean KEY_VERBOSE_LOG_MODE_DEFAULT = false;

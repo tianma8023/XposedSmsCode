@@ -1,10 +1,12 @@
 package com.github.tianma8023.xposed.smscode.app;
 
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,6 +23,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
     private SwitchPreference mAutoInputPreference;
     private SwitchPreference mAccessibilityModePreference;
     private SwitchPreference mRootModePreference;
+    private ListPreference mFocusModePreference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +40,10 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
 
         mRootModePreference = (SwitchPreference) findPreference(IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT);
         mRootModePreference.setOnPreferenceChangeListener(this);
+
+        mFocusModePreference = (ListPreference) findPreference(IPrefConstants.KEY_FOCUS_MODE);
+        mFocusModePreference.setOnPreferenceChangeListener(this);
+        refreshFocusModePreference(mFocusModePreference.getValue());
 
         refreshEnableAutoInputPreference(mAutoInputPreference.isChecked());
     }
@@ -56,6 +63,8 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
             onAccessibilityModeSwitched((Boolean) newValue);
         } else if (IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT.equals(key)) {
             onRootModeSwitched((Boolean) newValue);
+        } else if (IPrefConstants.KEY_FOCUS_MODE.equals(key)) {
+            refreshFocusModePreference((String) newValue);
         } else {
             return false;
         }
@@ -123,6 +132,18 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
                 summaryId = R.string.pref_enable_auto_input_code_summary;
             }
             mAutoInputPreference.setSummary(summaryId);
+        }
+    }
+
+    private void refreshFocusModePreference(String newValue) {
+        if (TextUtils.isEmpty(newValue))
+            return;
+        CharSequence[] entries = mFocusModePreference.getEntries();
+        int index = mFocusModePreference.findIndexOfValue(newValue);
+        try {
+            mFocusModePreference.setSummary(entries[index]);
+        } catch (Exception e) {
+            //ignore
         }
     }
 
