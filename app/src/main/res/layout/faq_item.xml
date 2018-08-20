@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/item_question"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/text_margin_dp_4"
         android:paddingEnd="@dimen/text_margin_dp_8"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/item_answer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/text_margin_dp_8"
         android:paddingStart="@dimen/text_margin_dp_8"
