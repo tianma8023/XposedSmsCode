@@ -15,12 +15,12 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 14
-        versionName "1.4.3"
+        versionCode 15
+        versionName "1.4.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "14")
+        buildConfigField("int", "MODULE_VERSION", "15")
     }
 
     signingConfigs {
@@ -123,8 +123,6 @@ dependencies {
 
     // Material Dialogs
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    // Material Dialogs other dependency
-    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
     // Android Shell
     implementation 'com.jaredrummler:android-shell:1.0.0'
