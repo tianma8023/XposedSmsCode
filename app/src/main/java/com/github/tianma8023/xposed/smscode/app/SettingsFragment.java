@@ -78,10 +78,11 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
 
-        // Hide mark as read preference item.
-        Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
+        // Hide experimental preference group.
         PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(IPrefConstants.KEY_EXPERIMENTAL);
-        experimentalGroup.removePreference(markAsReadPref);
+//        Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
+//        experimentalGroup.removePreference(markAsReadPref);
+        getPreferenceScreen().removePreference(experimentalGroup);
     }
 
     private void initChooseThemePreference(Preference chooseThemePref) {

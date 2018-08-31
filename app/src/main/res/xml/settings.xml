@@ -23,6 +23,12 @@
             android:defaultValue="true"/>
 
         <Preference
+            android:key="pref_entry_auto_input_code"
+            android:dependency="pref_enable"
+            android:title="@string/pref_entry_auto_input_code"
+            android:summary="@string/pref_entry_auto_input_code_summary" />
+
+        <Preference
             android:key="pref_choose_theme"
             android:title="@string/pref_choose_theme_title" />
     </PreferenceCategory>
@@ -37,12 +43,6 @@
             android:summary="@string/pref_mark_as_read_summary"
             android:dependency="pref_enable"
             android:defaultValue="false" />
-
-        <Preference
-            android:key="pref_entry_auto_input_code"
-            android:dependency="pref_enable"
-            android:title="@string/pref_entry_auto_input_code"
-            android:summary="@string/pref_entry_auto_input_code_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_debug">
