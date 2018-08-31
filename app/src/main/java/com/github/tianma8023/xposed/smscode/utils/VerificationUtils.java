@@ -1,13 +1,13 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
-import android.content.Context;
+        import android.content.Context;
 
-import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
-import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
+        import com.crossbowffs.remotepreferences.RemotePreferences;
+        import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+        import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+        import java.util.regex.Matcher;
+        import java.util.regex.Pattern;
 
 /**
  * 验证码相关Utils
@@ -70,7 +70,7 @@ public class VerificationUtils {
             if (containsChinese(content)) {
                 result = getVerificationCodeCN(keywordsRegex, content);
             } else {
-                result = getVerificationCodeEN(content);
+                result = getVerificationCodeEN(keywordsRegex, content);
             }
         }
         return result;
@@ -172,12 +172,15 @@ public class VerificationUtils {
         return containsVerificationKeywords(keywordsRegex, content.substring(beginIndex, endIndex));
     }
 
-    public static String getVerificationCodeEN(String content) {
+    private static String getVerificationCodeEN(String keywordsRegex, String content) {
         String regex = "[0-9]{4,8}";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(content);
-        if (m.find()) {
-            return m.group();
+        while (m.find()) {
+            final String matchedStr =  m.group();
+            if (isNearToKeywords(keywordsRegex, matchedStr, content)) {
+                return matchedStr;
+            }
         }
         return "";
     }

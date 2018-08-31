@@ -33,7 +33,6 @@ public class PackageUtils {
 
     /**
      * 指定的包名对应的App是否已安装
-     *
      */
     public static boolean isPackageInstalled(Context context, String packageName) {
         PackageManager pm = context.getPackageManager();
@@ -46,6 +45,9 @@ public class PackageUtils {
         return false;
     }
 
+    /**
+     * 对应包名的应用是否已启用
+     */
     public static boolean isPackageEnabled(Context context, String packageName) {
         PackageManager pm = context.getPackageManager();
         try {
