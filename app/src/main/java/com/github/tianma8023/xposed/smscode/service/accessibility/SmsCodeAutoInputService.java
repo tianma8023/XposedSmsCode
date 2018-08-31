@@ -47,7 +47,8 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 String smsCode = intent.getStringExtra(EXTRA_KEY_SMS_CODE);
                 autoInputSmsCode(smsCode);
             } else if (ACTION_STOP_AUTO_INPUT_SERVICE.equals(action)) {
-                if (RemotePreferencesUtils.getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT)) {
+                if (RemotePreferencesUtils.getBooleanPref(mPreferences,
+                        IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT)) {
                     String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
                     // 先尝试用无Root的方式关闭无障碍服务
                     boolean disabled = AccessibilityUtils.disableAccessibilityService(context, accessSvcName);

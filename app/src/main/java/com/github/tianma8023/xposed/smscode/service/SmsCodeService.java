@@ -58,7 +58,7 @@ public class SmsCodeService extends IntentService {
 
     private RemotePreferences mPreferences;
 
-    private boolean mIsRootAutoInput;
+    private boolean mIsAutoInputRootMode;
     private String mFocusMode;
 
     public SmsCodeService() {
@@ -135,12 +135,12 @@ public class SmsCodeService extends IntentService {
         }
 
         mFocusMode = getStringPref(mPreferences, IPrefConstants.KEY_FOCUS_MODE, IPrefConstants.KEY_FOCUS_MODE_AUTO);
-        mIsRootAutoInput = getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT);
+        mIsAutoInputRootMode = getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT);
         XLog.d("FocusMode: %s", mFocusMode);
-        XLog.d("isRootAutoInputMode: " + mIsRootAutoInput);
+        XLog.d("AutoInputRootMode: " + mIsAutoInputRootMode);
 
-        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(mFocusMode) && mIsRootAutoInput) {
-            // Root auto-input mode
+        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(mFocusMode) && mIsAutoInputRootMode) {
+            // Root mode + auto-input mode
             String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
             // 先尝试用无Root的方式启动无障碍服务
             boolean enabled = AccessibilityUtils.enableAccessibilityService(this, accessSvcName);
@@ -197,15 +197,16 @@ public class SmsCodeService extends IntentService {
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
-        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(mFocusMode)) {
-            // focus mode: auto focus
+        if (mIsAutoInputRootMode && IPrefConstants.KEY_FOCUS_MODE_MANUAL.equals(mFocusMode)) {
+            // focus mode: manual focus
+            // input mode: root mode
+            ShellUtils.inputText(verificationCode);
+            XLog.i("Auto input succeed");
+        } else {
             // start auto input
             Intent intent = new Intent(SmsCodeAutoInputService.ACTION_START_AUTO_INPUT);
             intent.putExtra(SmsCodeAutoInputService.EXTRA_KEY_SMS_CODE, verificationCode);
             sendBroadcast(intent);
-        } else {
-            // focus mode: manual focus
-            ShellUtils.inputText(verificationCode);
         }
     }
 
