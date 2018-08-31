@@ -1,5 +1,6 @@
 package com.github.tianma8023.xposed.smscode.app.faq;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +16,13 @@ public class FaqItemAdapter extends RecyclerView.Adapter<FaqItemAdapter.ViewHold
 
     private final List<FaqItem> mFaqItems;
 
-    FaqItemAdapter(List<FaqItem> items) {
+    private final String mQuestionPrefix;
+    private final String mAnswerPrefix;
+
+    FaqItemAdapter(Context context, List<FaqItem> items) {
         mFaqItems = items;
+        mQuestionPrefix = context.getString(R.string.simplified_question);
+        mAnswerPrefix = context.getString(R.string.simplified_answer);
     }
 
     @NonNull
@@ -53,8 +59,10 @@ public class FaqItemAdapter extends RecyclerView.Adapter<FaqItemAdapter.ViewHold
 
         void bindData(FaqItem item) {
             mItem = item;
-            mQuestionView.setText(item.getQuestion());
-            mAnswerView.setText(item.getAnswer());
+            String question = mQuestionPrefix + item.getQuestion();
+            mQuestionView.setText(question);
+            String answer = mAnswerPrefix + item.getAnswer();
+            mAnswerView.setText(answer);
         }
 
         @Override

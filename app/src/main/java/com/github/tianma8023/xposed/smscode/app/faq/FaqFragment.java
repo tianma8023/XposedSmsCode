@@ -41,7 +41,7 @@ public class FaqFragment extends BaseFragment {
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             List<FaqItem> items = new FaqItemContainer(context).getFaqItems();
-            recyclerView.setAdapter(new FaqItemAdapter(items));
+            recyclerView.setAdapter(new FaqItemAdapter(getActivity(), items));
         }
         return view;
     }
