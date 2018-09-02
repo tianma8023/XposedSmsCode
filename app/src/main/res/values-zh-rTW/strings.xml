@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">簡訊驗證碼擷取器(Xposed)</string>
+    <string name="app_name">驗證碼擷取器(Xposed)</string>
     <string name="xposed_description">擷取新簡訊中的驗證碼複製到剪貼板，並自動輸入驗證碼</string>
 
     <!-- General -->

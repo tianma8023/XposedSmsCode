@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">短信验证码提取器(Xposed)</string>
+    <string name="app_name">验证码提取器(Xposed)</string>
     <string name="xposed_description">提取新短信中的验证码并复制到剪贴板，并能自动输入验证码</string>
 
     <!-- General -->
