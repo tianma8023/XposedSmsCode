@@ -25,10 +25,13 @@ Welcome any feedbacks.
 - Auto-input SMS code.
 
 # Update Logs
+- 18.09.02 v1.4.5
+  1. Change app's name.
+  2. Fix the issue of parsing incorrect SMS code if there is a decimal number in SMS message.
 - 18.08.31 v1.4.4
   1. Optimize the algorithm of parsing SMS code for English Message.
   2. Bug fix: Accessibility input mode within Manual focus mode cannot auto-input SMS code.
-  2. Update more FAQs.
+  3. Update more FAQs.
 - 18.08.20 v1.4.3
   1. Add feature: two Focus Modes(Auto mode, Manual mode).
   2. Add more FAQs.
