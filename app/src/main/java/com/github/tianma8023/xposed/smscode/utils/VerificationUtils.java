@@ -1,13 +1,15 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
-        import android.content.Context;
+import android.content.Context;
 
-        import com.crossbowffs.remotepreferences.RemotePreferences;
-        import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
-        import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
+import com.crossbowffs.remotepreferences.RemotePreferences;
+import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
 
-        import java.util.regex.Matcher;
-        import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 验证码相关Utils
@@ -46,7 +48,7 @@ public class VerificationUtils {
      * 是否包含短信验证码关键字
      *
      * @param keywordsRegex verification message keywords (regex expressions)
-     * @param content sms message content
+     * @param content       sms message content
      * @return
      */
     private static boolean containsVerificationKeywords(String keywordsRegex, String content) {
@@ -116,22 +118,11 @@ public class VerificationUtils {
      * @return
      */
     public static String getVerificationCodeCN(String keywordsRegex, String content) {
-        String regex = "[a-zA-Z0-9]{4,8}";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(content);
-        String verificationCode = "";
-        int maxMatchLevel = LEVEL_NONE;
-        while (m.find()) {
-            final String matchedStr = m.group();
-            if (isNearToKeywords(keywordsRegex, matchedStr, content)) {
-                final int curLevel = getMatchLevel(matchedStr);
-                if (curLevel > maxMatchLevel) {
-                    maxMatchLevel = curLevel;
-                    verificationCode = matchedStr;
-                }
-            }
-        }
-        return verificationCode;
+        // 之前的正则表达式是 [a-zA-Z0-9]{4,8}
+        // 现在的正则表达式是 [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)? 匹配数字和字母之间最多一个.的字符串
+        // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
+        String verificationRegex = "[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)?";
+        return getVerificationCode(verificationRegex, keywordsRegex, content);
     }
 
     /* 匹配度：6位纯数字，匹配度最高 */
@@ -146,22 +137,22 @@ public class VerificationUtils {
     private static final int LEVEL_CHARACTER = 0;
     private static final int LEVEL_NONE = -1;
 
-    private static int getMatchLevel(String matchedStr) {
-        if (matchedStr.matches("^[0-9]{6}$"))
+    private static int getMatchLevel(String possibleCode) {
+        if (possibleCode.matches("^[0-9]{6}$"))
             return LEVEL_DIGITAL_6;
-        if (matchedStr.matches("^[0-9]{4}$"))
+        if (possibleCode.matches("^[0-9]{4}$"))
             return LEVEL_DIGITAL_4;
-        if (matchedStr.matches("^[0-9]*$"))
+        if (possibleCode.matches("^[0-9]*$"))
             return LEVEL_DIGITAL_OTHERS;
-        if (matchedStr.matches("^[a-zA-Z]*$"))
+        if (possibleCode.matches("^[a-zA-Z]*$"))
             return LEVEL_CHARACTER;
         return LEVEL_TEXT;
     }
 
-    private static boolean isNearToKeywords(String keywordsRegex, String matchedStr, String content) {
+    private static boolean isNearToKeywords(String keywordsRegex, String possibleCode, String content) {
         int beginIndex = 0, endIndex = content.length() - 1;
-        int curIndex = content.indexOf(matchedStr);
-        int strLength = matchedStr.length();
+        int curIndex = content.indexOf(possibleCode);
+        int strLength = possibleCode.length();
         int magicNumber = 14;
         if (curIndex - magicNumber > 0) {
             beginIndex = curIndex - magicNumber;
@@ -172,21 +163,60 @@ public class VerificationUtils {
         return containsVerificationKeywords(keywordsRegex, content.substring(beginIndex, endIndex));
     }
 
+    /**
+     * 获取英文短信包含的验证码
+     */
     private static String getVerificationCodeEN(String keywordsRegex, String content) {
-        String regex = "[0-9]{4,8}";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(content);
-        while (m.find()) {
-            final String matchedStr =  m.group();
-            if (isNearToKeywords(keywordsRegex, matchedStr, content)) {
-                return matchedStr;
-            }
-        }
-        return "";
+        // 之前的正则表达式是 [0-9]{4,8} 匹配由数字组成的4到8长度的字符串
+        // 现在的正则表达式是 [0-9]+(\\.[0-9]+)? 匹配数字之间最多一个.的字符串
+        // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
+        String verificationRegex = "[0-9]+(\\.[0-9]+)?";
+        return getVerificationCode(verificationRegex, keywordsRegex, content);
     }
 
-    public static boolean isPossibleSmsCode(String text) {
-        return text.matches("[a-zA-Z0-9]{4,8}");
+    /*
+     * Parse verification code
+     *
+     * @param verificationRegex verification code regular expression
+     * @param keywordsRegex     verification code SMS keywords expression
+     * @param content           SMS content
+     * @return the verification code if it's found, otherwise return empty string ""
+     */
+    private static String getVerificationCode(String verificationRegex,
+                                              String keywordsRegex, String content) {
+        Pattern p = Pattern.compile(verificationRegex);
+        Matcher m = p.matcher(content);
+        List<String> possibleCodes = new ArrayList<>();
+        while (m.find()) {
+            final String matchedStr = m.group();
+            if (matchedStr.length() >= 4 && matchedStr.length() <= 8 && !matchedStr.contains(".")) {
+                possibleCodes.add(matchedStr);
+            }
+        }
+        if (possibleCodes.isEmpty()) { // no possible code
+            return "";
+        }
+        int maxMatchLevel = LEVEL_NONE;
+        String verificationCode = "";
+        for (String possibleCode : possibleCodes) {
+            if (isNearToKeywords(keywordsRegex, possibleCode, content)) {
+                final int curLevel = getMatchLevel(possibleCode);
+                if (curLevel > maxMatchLevel) {
+                    maxMatchLevel = curLevel;
+                    verificationCode = possibleCode;
+                }
+            }
+        }
+        if (maxMatchLevel == LEVEL_NONE) { // no possible code near to keywords
+            for (String possibleCode : possibleCodes) {
+                final int curLevel = getMatchLevel(possibleCode);
+                if (curLevel > maxMatchLevel) {
+                    maxMatchLevel = curLevel;
+                    verificationCode = possibleCode;
+                }
+            }
+        }
+        return verificationCode;
     }
 
     public static boolean isPossiblePhoneNumber(String text) {
