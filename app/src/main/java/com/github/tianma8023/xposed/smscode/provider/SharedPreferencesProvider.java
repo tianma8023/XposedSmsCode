@@ -1,7 +1,7 @@
 package com.github.tianma8023.xposed.smscode.provider;
 
 import com.crossbowffs.remotepreferences.RemotePreferenceProvider;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 
 /**
  * SharedPreferencesProvider for IPC
@@ -9,7 +9,7 @@ import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 public class SharedPreferencesProvider extends RemotePreferenceProvider {
 
     public SharedPreferencesProvider() {
-        super(IPrefConstants.REMOTE_PREF_AUTHORITY, new String[]{IPrefConstants.REMOTE_PREF_NAME});
+        super(PrefConst.REMOTE_PREF_AUTHORITY, new String[]{PrefConst.REMOTE_PREF_NAME});
     }
 
     @Override

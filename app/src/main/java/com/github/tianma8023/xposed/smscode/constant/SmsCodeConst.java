@@ -1,6 +1,9 @@
 package com.github.tianma8023.xposed.smscode.constant;
 
-public interface ISmsCodeConstants {
+/**
+ * SmsCode Constant
+ */
+public interface SmsCodeConst {
 
     String[] VERIFICATION_KEY_WORDS_CN = {
             "验证码"   /**/,

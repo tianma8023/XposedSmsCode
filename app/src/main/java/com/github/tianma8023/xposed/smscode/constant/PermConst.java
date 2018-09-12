@@ -5,7 +5,10 @@ import android.Manifest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IPermissionConstant {
+/**
+ * Permission Constants
+ */
+public class PermConst {
 
     public final static List<String> PERMISSIONS_TO_GRANT;
 

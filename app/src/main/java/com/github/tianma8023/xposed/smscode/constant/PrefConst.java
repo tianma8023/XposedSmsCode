@@ -5,7 +5,7 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 /**
  * Preference相关的常量
  */
-public interface IPrefConstants {
+public interface PrefConst {
 
     String REMOTE_PREF_NAME = BuildConfig.APPLICATION_ID + "_preferences";
     String REMOTE_PREF_AUTHORITY = BuildConfig.APPLICATION_ID + ".preferences";
@@ -30,7 +30,7 @@ public interface IPrefConstants {
     String KEY_HIDE_LAUNCHER_ICON = "pref_hide_launcher_icon";
 
     String KEY_SMSCODE_KEYWORDS = "pref_smscode_keywords";
-    String KEY_SMSCODE_KEYWORDS_DEFAULT = ISmsCodeConstants.VERIFICATION_KEYWORDS_REGEX;
+    String KEY_SMSCODE_KEYWORDS_DEFAULT = SmsCodeConst.VERIFICATION_KEYWORDS_REGEX;
 
     String KEY_SMSCODE_TEST = "pref_smscode_test";
 

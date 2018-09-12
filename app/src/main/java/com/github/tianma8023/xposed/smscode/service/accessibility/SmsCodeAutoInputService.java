@@ -12,7 +12,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
@@ -131,7 +131,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
      */
     private boolean tryToAutoInputSMSCode(String smsCode) {
         String focusMode = SPUtils.getFocusMode(mPreferences);
-        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(focusMode)) {
+        if (PrefConst.KEY_FOCUS_MODE_AUTO.equals(focusMode)) {
             // focus mode: auto focus
             return tryToAutoInputByAutoFocus(smsCode);
         } else {

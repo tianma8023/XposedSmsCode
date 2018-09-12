@@ -3,7 +3,7 @@ package com.github.tianma8023.xposed.smscode.utils;
 import android.content.Context;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
+import com.github.tianma8023.xposed.smscode.constant.SmsCodeConst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,7 @@ public class VerificationUtils {
     }
 
     /**
-     * 是否包含中文
-     *
-     * @param text
-     * @return
+     * 文本是否包含中文
      */
     private static boolean containsChinese(String text) {
         String regex = "[\u4e00-\u9fa5]|。";
@@ -36,7 +33,6 @@ public class VerificationUtils {
      *
      * @param context context
      * @param content sms message content
-     * @return
      */
     public static boolean containsVerificationKeywords(Context context, String content) {
         String keywordsRegex = loadVerificationKeywords(context);
@@ -48,7 +44,6 @@ public class VerificationUtils {
      *
      * @param keywordsRegex verification message keywords (regex expressions)
      * @param content       sms message content
-     * @return
      */
     private static boolean containsVerificationKeywords(String keywordsRegex, String content) {
         Pattern pattern = Pattern.compile(keywordsRegex);
@@ -79,12 +74,10 @@ public class VerificationUtils {
 
     /**
      * 是否是中文验证码短信
-     *
-     * @return
      */
     public static boolean isVerificationMsgCN(String content) {
         boolean result = false;
-        for (String keyWord : ISmsCodeConstants.VERIFICATION_KEY_WORDS_CN) {
+        for (String keyWord : SmsCodeConst.VERIFICATION_KEY_WORDS_CN) {
             if (content.contains(keyWord)) {
                 result = true;
                 break;
@@ -95,13 +88,10 @@ public class VerificationUtils {
 
     /**
      * 是否是英文验证码短信
-     *
-     * @param content
-     * @return
      */
     public static boolean isVerificationMsgEN(String content) {
         boolean result = false;
-        for (String keyWord : ISmsCodeConstants.VERIFICATION_KEY_WORDS_EN) {
+        for (String keyWord : SmsCodeConst.VERIFICATION_KEY_WORDS_EN) {
             if (content.contains(keyWord)) {
                 result = true;
                 break;
@@ -112,11 +102,8 @@ public class VerificationUtils {
 
     /**
      * 获取中文短信中包含的验证码
-     *
-     * @param content message body
-     * @return
      */
-    public static String getVerificationCodeCN(String keywordsRegex, String content) {
+    private static String getVerificationCodeCN(String keywordsRegex, String content) {
         // 之前的正则表达式是 [a-zA-Z0-9]{4,8}
         // 现在的正则表达式是 [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)? 匹配数字和字母之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
@@ -223,7 +210,7 @@ public class VerificationUtils {
     }
 
     public static boolean containsPhoneNumberKeywords(String content) {
-        Pattern pattern = Pattern.compile(ISmsCodeConstants.PHONE_NUMBER_KEYWORDS);
+        Pattern pattern = Pattern.compile(SmsCodeConst.PHONE_NUMBER_KEYWORDS);
         Matcher matcher = pattern.matcher(content);
         return matcher.find();
     }

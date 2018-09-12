@@ -1,11 +1,12 @@
 package com.github.tianma8023.xposed.smscode.xp;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.github.tianma8023.xposed.smscode.constant.IConstants;
+import com.github.tianma8023.xposed.smscode.constant.Const;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -24,7 +25,7 @@ public class DonateWechatHook implements IHook {
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (IConstants.WECHAT_PACKAGE_NAME.equals(lpparam.packageName)) {
+        if (Const.WECHAT_PACKAGE_NAME.equals(lpparam.packageName)) {
             try {
                 hookLauncherUIOnCreate(lpparam);
                 hookQrRewardSelectMoneyUI(lpparam);
@@ -38,7 +39,7 @@ public class DonateWechatHook implements IHook {
      * Hook com.tencent.mm.ui.LauncherUI#onCreate();
      */
     private void hookLauncherUIOnCreate(XC_LoadPackage.LoadPackageParam lpparam) {
-        XposedHelpers.findAndHookMethod(IConstants.WECHAT_LAUNCHER_UI,
+        XposedHelpers.findAndHookMethod(Const.WECHAT_LAUNCHER_UI,
                 lpparam.classLoader,
                 "onCreate",
                 Bundle.class,
@@ -53,17 +54,18 @@ public class DonateWechatHook implements IHook {
             if (activity != null) {
                 Intent intent = activity.getIntent();
                 if (intent != null) {
-                    String className = intent.getComponent().getClassName();
-                    boolean hasDonateExtra = intent.hasExtra(IConstants.WECHAT_KEY_EXTRA_DONATE);
-                    if (IConstants.WECHAT_LAUNCHER_UI.equals(className) && hasDonateExtra) {
-                        intent.removeExtra(IConstants.WECHAT_KEY_EXTRA_DONATE);
+                    ComponentName cn = intent.getComponent();
+                    String className = cn == null ? null : cn.getClassName();
+                    boolean hasDonateExtra = intent.hasExtra(Const.WECHAT_KEY_EXTRA_DONATE);
+                    if (Const.WECHAT_LAUNCHER_UI.equals(className) && hasDonateExtra) {
+                        intent.removeExtra(Const.WECHAT_KEY_EXTRA_DONATE);
 
                         Intent donateIntent = new Intent();
-                        donateIntent.setClassName(activity, IConstants.WECHAT_QR_REWARD_SELECT_MONEY_UI);
+                        donateIntent.setClassName(activity, Const.WECHAT_QR_REWARD_SELECT_MONEY_UI);
                         donateIntent.putExtra(KEY_SCENE, 2);
-                        donateIntent.putExtra(KEY_QRCODE_URL, IConstants.WECHAT_QRCODE_URL);
+                        donateIntent.putExtra(KEY_QRCODE_URL, Const.WECHAT_QRCODE_URL);
                         donateIntent.putExtra(KEY_CHANNEL, 13);
-                        donateIntent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
+                        donateIntent.putExtra(Const.WECHAT_KEY_EXTRA_DONATE, true);
                         activity.startActivity(donateIntent);
                         activity.finish();
                     }
@@ -77,7 +79,7 @@ public class DonateWechatHook implements IHook {
      * Hook com.tencent.mm.plugin.collect.reward.ui.QrRewardSelectMoneyUI#onCreate();
      */
     private void hookQrRewardSelectMoneyUI(XC_LoadPackage.LoadPackageParam lpparam) {
-        XposedHelpers.findAndHookMethod(IConstants.WECHAT_QR_REWARD_SELECT_MONEY_UI,
+        XposedHelpers.findAndHookMethod(Const.WECHAT_QR_REWARD_SELECT_MONEY_UI,
                 lpparam.classLoader,
                 "onCreate",
                 Bundle.class,
@@ -91,11 +93,11 @@ public class DonateWechatHook implements IHook {
             if (activity != null) {
                 Intent intent = activity.getIntent();
                 if (intent != null) {
-                    boolean hasDonateExtra = intent.hasExtra(IConstants.WECHAT_KEY_EXTRA_DONATE);
+                    boolean hasDonateExtra = intent.hasExtra(Const.WECHAT_KEY_EXTRA_DONATE);
                     if (hasDonateExtra) {
                         String qrCodeUrl = activity.getIntent().getStringExtra(KEY_QRCODE_URL);
                         if (TextUtils.isEmpty(qrCodeUrl)) {
-                            intent.putExtra(KEY_QRCODE_URL, IConstants.WECHAT_QRCODE_URL);
+                            intent.putExtra(KEY_QRCODE_URL, Const.WECHAT_QRCODE_URL);
                         }
                     }
                 }

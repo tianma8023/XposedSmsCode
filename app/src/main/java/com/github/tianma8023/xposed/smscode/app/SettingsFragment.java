@@ -21,8 +21,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
-import com.github.tianma8023.xposed.smscode.constant.IConstants;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.Const;
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
@@ -60,32 +60,32 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
 
         addPreferencesFromResource(R.xml.settings);
         if (!ModuleUtils.isModuleEnabled()) {
-            Preference enablePref = findPreference(IPrefConstants.KEY_ENABLE);
+            Preference enablePref = findPreference(PrefConst.KEY_ENABLE);
             enablePref.setEnabled(false);
             enablePref.setSummary(R.string.pref_enable_summary_alt);
         }
 
-        findPreference(IPrefConstants.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
-        findPreference(IPrefConstants.KEY_VERBOSE_LOG_MODE).setOnPreferenceChangeListener(this);
+        findPreference(PrefConst.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
+        findPreference(PrefConst.KEY_VERBOSE_LOG_MODE).setOnPreferenceChangeListener(this);
 
-        findPreference(IPrefConstants.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
-        findPreference(IPrefConstants.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
-        findPreference(IPrefConstants.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
-        findPreference(IPrefConstants.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
-        findPreference(IPrefConstants.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
-        findPreference(IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
-        Preference chooseThemePref = findPreference(IPrefConstants.KEY_CHOOSE_THEME);
+        findPreference(PrefConst.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
+        Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
 
         // Hide experimental preference group.
-        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(IPrefConstants.KEY_EXPERIMENTAL);
-        // Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
+        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
+        // Preference markAsReadPref = findPreference(PrefConst.KEY_MARK_AS_READ);
         // experimentalGroup.removePreference(markAsReadPref);
         getPreferenceScreen().removePreference(experimentalGroup);
 
         // version info preference
-        Preference versionPref = findPreference(IPrefConstants.KEY_VERSION);
+        Preference versionPref = findPreference(PrefConst.KEY_VERSION);
         showVersionInfo(versionPref);
     }
 
@@ -111,23 +111,23 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
+        if (PrefConst.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
             if (mPreferenceClickCallback != null) {
                 mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), true);
             }
-        } else if (IPrefConstants.KEY_CHOOSE_THEME.equals(key)) {
+        } else if (PrefConst.KEY_CHOOSE_THEME.equals(key)) {
             if (mPreferenceClickCallback != null) {
                 mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), false);
             }
-        } else if (IPrefConstants.KEY_SMSCODE_TEST.equals(key)) {
+        } else if (PrefConst.KEY_SMSCODE_TEST.equals(key)) {
             showSmsCodeTestDialog();
-        } else if (IPrefConstants.KEY_JOIN_QQ_GROUP.equals(key)) {
+        } else if (PrefConst.KEY_JOIN_QQ_GROUP.equals(key)) {
             joinQQGroup();
-        } else if (IPrefConstants.KEY_SOURCE_CODE.equals(key)) {
+        } else if (PrefConst.KEY_SOURCE_CODE.equals(key)) {
             aboutProject();
-        } else if (IPrefConstants.KEY_DONATE_BY_ALIPAY.equals(key)) {
+        } else if (PrefConst.KEY_DONATE_BY_ALIPAY.equals(key)) {
             donateByAlipay();
-        } else if (IPrefConstants.KEY_DONATE_BY_WECHAT.equals(key)) {
+        } else if (PrefConst.KEY_DONATE_BY_WECHAT.equals(key)) {
             donateByWechat();
         } else {
             return false;
@@ -142,7 +142,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     }
 
     private void joinQQGroup() {
-        String key = IConstants.QQ_GROUP_KEY;
+        String key = Const.QQ_GROUP_KEY;
         Intent intent = new Intent();
         intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
         // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
@@ -158,7 +158,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     private void aboutProject() {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(IConstants.PROJECT_SOURCE_CODE_URL));
+            intent.setData(Uri.parse(Const.PROJECT_SOURCE_CODE_URL));
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(mHomeActivity, R.string.browser_install_or_enable_prompt, Toast.LENGTH_SHORT).show();
@@ -175,7 +175,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             return;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(IConstants.ALIPAY_QRCODE_URI_PREFIX + IConstants.ALIPAY_QRCODE_URL));
+        intent.setData(Uri.parse(Const.ALIPAY_QRCODE_URI_PREFIX + Const.ALIPAY_QRCODE_URL));
         startActivity(intent);
     }
 
@@ -189,17 +189,17 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             return;
         }
         Intent intent = new Intent();
-        intent.setClassName(IConstants.WECHAT_PACKAGE_NAME, IConstants.WECHAT_LAUNCHER_UI);
-        intent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
+        intent.setClassName(Const.WECHAT_PACKAGE_NAME, Const.WECHAT_LAUNCHER_UI);
+        intent.putExtra(Const.WECHAT_KEY_EXTRA_DONATE, true);
         startActivity(intent);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
-        if (IPrefConstants.KEY_HIDE_LAUNCHER_ICON.equals(key)) {
+        if (PrefConst.KEY_HIDE_LAUNCHER_ICON.equals(key)) {
             hideOrShowLauncherIcon((Boolean) newValue);
-        } else if (IPrefConstants.KEY_VERBOSE_LOG_MODE.equals(key)) {
+        } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
         } else {
             return false;
@@ -209,7 +209,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
 
     private void hideOrShowLauncherIcon(boolean hide) {
         PackageManager pm = mHomeActivity.getPackageManager();
-        ComponentName launcherCN = new ComponentName(mHomeActivity, IConstants.HOME_ACTIVITY_ALIAS);
+        ComponentName launcherCN = new ComponentName(mHomeActivity, Const.HOME_ACTIVITY_ALIAS);
         int state = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
         pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
     }

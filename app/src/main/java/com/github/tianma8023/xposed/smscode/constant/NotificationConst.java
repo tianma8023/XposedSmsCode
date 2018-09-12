@@ -1,6 +1,9 @@
 package com.github.tianma8023.xposed.smscode.constant;
 
-public interface INotificationConstants {
+/**
+ * Notification Constants
+ */
+public interface NotificationConst {
 
     String CHANNEL_ID_FOREGROUND_SERVICE = "foreground_service";
 

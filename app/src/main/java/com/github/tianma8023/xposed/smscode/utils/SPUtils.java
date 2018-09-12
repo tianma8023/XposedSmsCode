@@ -2,20 +2,20 @@ package com.github.tianma8023.xposed.smscode.utils;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_CLEAR_CLIPBOARD;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_CLEAR_CLIPBOARD_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_ENABLE;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_ENABLE_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_FOCUS_MODE;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_FOCUS_MODE_AUTO;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_SHOW_TOAST;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_SHOW_TOAST_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_SMSCODE_KEYWORDS;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_SMSCODE_KEYWORDS_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_VERBOSE_LOG_MODE;
-import static com.github.tianma8023.xposed.smscode.constant.IPrefConstants.KEY_VERBOSE_LOG_MODE_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_AUTO_INPUT_MODE_ROOT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_CLEAR_CLIPBOARD;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_CLEAR_CLIPBOARD_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_ENABLE;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_ENABLE_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_FOCUS_MODE;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_FOCUS_MODE_AUTO;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SHOW_TOAST;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SHOW_TOAST_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SMSCODE_KEYWORDS;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SMSCODE_KEYWORDS_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_VERBOSE_LOG_MODE;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_VERBOSE_LOG_MODE_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getStringPref;
 

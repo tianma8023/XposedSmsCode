@@ -24,8 +24,8 @@ import android.widget.Toast;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.github.tianma8023.xposed.smscode.constant.INotificationConstants;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.entity.SmsMessageData;
 import com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInputService;
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
@@ -77,7 +77,7 @@ public class SmsCodeService extends IntentService {
         mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(this.getApplicationContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Show a notification for the foreground service.
-            Notification notification = new NotificationCompat.Builder(this, INotificationConstants.CHANNEL_ID_FOREGROUND_SERVICE)
+            Notification notification = new NotificationCompat.Builder(this, NotificationConst.CHANNEL_ID_FOREGROUND_SERVICE)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification))
                     .setWhen(System.currentTimeMillis())
@@ -136,7 +136,7 @@ public class SmsCodeService extends IntentService {
         XLog.d("FocusMode: %s", mFocusMode);
         XLog.d("AutoInputRootMode: " + mIsAutoInputRootMode);
 
-        if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(mFocusMode) && mIsAutoInputRootMode) {
+        if (PrefConst.KEY_FOCUS_MODE_AUTO.equals(mFocusMode) && mIsAutoInputRootMode) {
             // Root mode + auto-input mode
             String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
             // 先尝试用无Root的方式启动无障碍服务
@@ -158,7 +158,7 @@ public class SmsCodeService extends IntentService {
         innerHandler.sendMessage(copyMsg);
 
         // mark sms as read or not.
-//        if (getBooleanPref(mPreferences, IPrefConstants.KEY_MARK_AS_READ, IPrefConstants.KEY_MARK_AS_READ_DEFAULT)) {
+//        if (getBooleanPref(mPreferences, PrefConst.KEY_MARK_AS_READ, PrefConst.KEY_MARK_AS_READ_DEFAULT)) {
 ////            sleep(8);
 //            Message markMsg = new Message();
 //            markMsg.obj = smsMessageData;
@@ -194,7 +194,7 @@ public class SmsCodeService extends IntentService {
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
-        if (mIsAutoInputRootMode && IPrefConstants.KEY_FOCUS_MODE_MANUAL.equals(mFocusMode)) {
+        if (mIsAutoInputRootMode && PrefConst.KEY_FOCUS_MODE_MANUAL.equals(mFocusMode)) {
             // focus mode: manual focus
             // input mode: root mode
             ShellUtils.inputText(verificationCode);

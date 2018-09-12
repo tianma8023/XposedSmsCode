@@ -5,7 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.github.tianma8023.xposed.smscode.constant.IConstants;
+import com.github.tianma8023.xposed.smscode.constant.Const;
 
 /**
  * 包相关工具类
@@ -16,19 +16,19 @@ public class PackageUtils {
     }
 
     public static boolean isWeChatInstalled(Context context) {
-        return isPackageInstalled(context, IConstants.WECHAT_PACKAGE_NAME);
+        return isPackageInstalled(context, Const.WECHAT_PACKAGE_NAME);
     }
 
     public static boolean isWeChatEnabled(Context context) {
-        return isPackageEnabled(context, IConstants.WECHAT_PACKAGE_NAME);
+        return isPackageEnabled(context, Const.WECHAT_PACKAGE_NAME);
     }
 
     public static boolean isAlipayInstalled(Context context) {
-        return isPackageInstalled(context, IConstants.ALIPAY_PACKAGE_NAME);
+        return isPackageInstalled(context, Const.ALIPAY_PACKAGE_NAME);
     }
 
     public static boolean isAlipayEnabled(Context context) {
-        return isPackageEnabled(context, IConstants.ALIPAY_PACKAGE_NAME);
+        return isPackageEnabled(context, Const.ALIPAY_PACKAGE_NAME);
     }
 
     /**

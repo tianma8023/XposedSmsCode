@@ -22,7 +22,7 @@ import com.github.tianma8023.xposed.smscode.app.faq.FaqFragment;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
 import com.github.tianma8023.xposed.smscode.app.theme.ItemCallback;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -54,7 +54,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPreferences = getSharedPreferences(
-                IPrefConstants.REMOTE_PREF_NAME, MODE_PRIVATE);
+                PrefConst.REMOTE_PREF_NAME, MODE_PRIVATE);
 
         initTheme();
         setContentView(R.layout.activity_home);
@@ -86,11 +86,11 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
 
     private void initTheme() {
         mThemeItemList = loadThemeColorItems();
-        mCurThemeIndex = mPreferences.getInt(IPrefConstants.KEY_CURRENT_THEME_INDEX,
-                IPrefConstants.KEY_CURRENT_THEME_INDEX_DEFAULT);
+        mCurThemeIndex = mPreferences.getInt(PrefConst.KEY_CURRENT_THEME_INDEX,
+                PrefConst.KEY_CURRENT_THEME_INDEX_DEFAULT);
         // check current theme index in case of exception.
         if(mCurThemeIndex < 0 || mCurThemeIndex >= mThemeItemList.size()) {
-            mCurThemeIndex = IPrefConstants.KEY_CURRENT_THEME_INDEX_DEFAULT;
+            mCurThemeIndex = PrefConst.KEY_CURRENT_THEME_INDEX_DEFAULT;
         }
         setTheme(mThemeItemList.get(mCurThemeIndex).getThemeRes());
     }
@@ -116,14 +116,14 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
             onNestedPreferenceClicked(key, title);
             return;
         }
-        if (IPrefConstants.KEY_CHOOSE_THEME.equals(key)) {
+        if (PrefConst.KEY_CHOOSE_THEME.equals(key)) {
             onChooseThemePreferenceClicked();
         }
     }
 
     private void onNestedPreferenceClicked(String key, String title) {
         Fragment newFragment = null;
-        if (IPrefConstants.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
+        if (PrefConst.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
             newFragment = new AutoInputSettingsFragment();
         }
         if (newFragment == null)
@@ -149,7 +149,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
                 return;
             }
             mPreferences.edit()
-                    .putInt(IPrefConstants.KEY_CURRENT_THEME_INDEX, position)
+                    .putInt(PrefConst.KEY_CURRENT_THEME_INDEX, position)
                     .apply();
             recreate();
         }

@@ -2,7 +2,10 @@ package com.github.tianma8023.xposed.smscode.constant;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 
-public interface IConstants {
+/**
+ * Constant about 3rd app
+ */
+public interface Const {
 
     String QQ_GROUP_KEY = "jWGrWgSGLGQ0NyyRsKqRlrApRCzecuNA";
 

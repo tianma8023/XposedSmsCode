@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.crossbowffs.remotepreferences.RemotePreferenceAccessException;
 import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 
 public class RemotePreferencesUtils {
 
@@ -13,12 +13,12 @@ public class RemotePreferencesUtils {
 
     public static RemotePreferences getDefaultRemotePreferences(Context context) {
         return new RemotePreferences(context,
-                IPrefConstants.REMOTE_PREF_AUTHORITY,
-                IPrefConstants.REMOTE_PREF_NAME,
+                PrefConst.REMOTE_PREF_AUTHORITY,
+                PrefConst.REMOTE_PREF_NAME,
                 true);
     }
 
-    public static boolean getBooleanPref(RemotePreferences mPreferences, String key, boolean defaultValue) {
+    static boolean getBooleanPref(RemotePreferences mPreferences, String key, boolean defaultValue) {
         try {
             return mPreferences.getBoolean(key, defaultValue);
         } catch (RemotePreferenceAccessException e) {
@@ -27,7 +27,7 @@ public class RemotePreferencesUtils {
         }
     }
 
-    public static String getStringPref(RemotePreferences preferences, String key, String defaultValue) {
+    static String getStringPref(RemotePreferences preferences, String key, String defaultValue) {
         try {
             return preferences.getString(key, defaultValue);
         } catch (RemotePreferenceAccessException e) {

@@ -3,7 +3,7 @@ package com.github.tianma8023.xposed.smscode.xp;
 import android.os.Build;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.github.tianma8023.xposed.smscode.constant.IPermissionConstant;
+import com.github.tianma8023.xposed.smscode.constant.PermConst;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class PermissionGranterHook implements IHook {
     private static final String CLASS_PACKAGE_MANAGER_SERVICE = "com.android.server.pm.PackageManagerService";
     private static final String CLASS_PACKAGE_PARSER_PACKAGE = "android.content.pm.PackageParser.Package";
 
-    private static final List<String> PERMISSIONS_TO_GRANT = IPermissionConstant.PERMISSIONS_TO_GRANT;
+    private static final List<String> PERMISSIONS_TO_GRANT = PermConst.PERMISSIONS_TO_GRANT;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
