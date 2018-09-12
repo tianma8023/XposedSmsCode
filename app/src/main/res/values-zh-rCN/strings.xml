@@ -74,6 +74,8 @@
     <string name="prompt_join_qq_group_failed">请先安装或启用QQ</string>
     <string name="pref_version_title">版本</string>
     <string name="pref_version_summary"><![CDATA[当前版本：%1$s (%2$d)]]></string>
+    <string name="pref_clear_clipboard_title">清除剪切板</string>
+    <string name="pref_clear_clipboard_summary">自动输入成功后清除剪切板</string>
 
     <!-- theme color -->
     <string name="color_default">默认蓝</string>

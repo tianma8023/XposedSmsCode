@@ -28,6 +28,13 @@
             android:entries="@array/pref_focus_mode_entries"
             android:entryValues="@array/pref_focus_mode_entryValues"
             android:dependency="pref_enable_auto_input_code"
-            android:defaultValue="@string/focus_mode_auto" />
+            android:defaultValue="@string/focus_mode_auto"/>
+
+        <SwitchPreference
+            android:key="pref_clear_clipboard"
+            android:title="@string/pref_clear_clipboard_title"
+            android:summary="@string/pref_clear_clipboard_summary"
+            android:dependency="pref_enable_auto_input_code"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 </PreferenceScreen>

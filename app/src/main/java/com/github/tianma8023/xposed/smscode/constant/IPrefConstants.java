@@ -49,6 +49,8 @@ public interface IPrefConstants {
     String KEY_FOCUS_MODE = "pref_focus_mode";
     String KEY_FOCUS_MODE_AUTO = "focus_mode_auto";
     String KEY_FOCUS_MODE_MANUAL = "focus_mode_manual";
+    String KEY_CLEAR_CLIPBOARD = "pref_clear_clipboard";
+    boolean KEY_CLEAR_CLIPBOARD_DEFAULT = false;
 
     String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
     boolean KEY_VERBOSE_LOG_MODE_DEFAULT = false;

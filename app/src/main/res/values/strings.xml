@@ -69,6 +69,8 @@
     <string name="prompt_join_qq_group_failed">Please install or enable QQ first</string>
     <string name="pref_version_title">Version</string>
     <string name="pref_version_summary"><![CDATA[Current version: %1$s (%2$d)]]></string>
+    <string name="pref_clear_clipboard_title">Clear clipboard</string>
+    <string name="pref_clear_clipboard_summary">Clear clipboard if auto input succeed</string>
 
 
     <!-- theme color -->

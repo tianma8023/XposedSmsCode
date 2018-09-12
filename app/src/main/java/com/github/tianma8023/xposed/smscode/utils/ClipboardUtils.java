@@ -1,6 +1,7 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 
@@ -10,13 +11,27 @@ public class ClipboardUtils {
     }
 
     public static void copyToClipboard(Context context, String text) {
-        try {
-            ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newPlainText("Copy text", text);
-            clipboardManager.setPrimaryClip(clipData);
-            XLog.i("Copy to clipboard succeed");
-        } catch (Throwable e) {
-            XLog.e("Copy to clipboard failed.", e);
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (cm == null) {
+            XLog.e("Copy failed, clipboard manager is null");
+            return;
+        }
+        ClipData clipData = ClipData.newPlainText("Copy text", text);
+        cm.setPrimaryClip(clipData);
+        XLog.i("Copy to clipboard succeed");
+    }
+
+    public static void clearClipboard(Context context) {
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (cm == null) {
+            XLog.e("Clear failed, clipboard manager is null");
+            return;
+        }
+        if(cm.hasPrimaryClip()) {
+            if (cm.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                cm.setPrimaryClip(ClipData.newPlainText("Copy text", ""));
+                XLog.i("Clear clipboard succeed");
+            }
         }
     }
 

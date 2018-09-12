@@ -202,6 +202,10 @@ public class SmsCodeService extends IntentService {
             // input mode: root mode
             ShellUtils.inputText(verificationCode);
             XLog.i("Auto input succeed");
+            if (getBooleanPref(mPreferences, IPrefConstants.KEY_CLEAR_CLIPBOARD,
+                    IPrefConstants.KEY_CLEAR_CLIPBOARD_DEFAULT)) {
+                ClipboardUtils.clearClipboard(this);
+            }
         } else {
             // start auto input
             Intent intent = new Intent(SmsCodeAutoInputService.ACTION_START_AUTO_INPUT);

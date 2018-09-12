@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
+import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
@@ -22,6 +23,8 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
 
 /**
  * An accessibility service that can input SMS code automatically.
@@ -101,14 +104,22 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
     }
 
     private void autoInputSmsCode(String smsCode) {
-        boolean hit;
+        boolean success = false;
         for (int i = 0; i < AUTO_INPUT_MAX_TRY_TIMES; i++) {
             XLog.d("try times %d", i+1);
-            hit = tryToAutoInputSMSCode(smsCode);
-            if (hit) {
+            success = tryToAutoInputSMSCode(smsCode);
+            if (success) {
                 break;
             }
             sleep(100);
+        }
+
+        if (success) {
+            if (getBooleanPref(mPreferences, IPrefConstants.KEY_CLEAR_CLIPBOARD,
+                    IPrefConstants.KEY_CLEAR_CLIPBOARD_DEFAULT)) {
+                // clear clipboard
+                ClipboardUtils.clearClipboard(this);
+            }
         }
 
         Intent stopAutoInput = new Intent();
