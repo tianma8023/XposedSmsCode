@@ -67,6 +67,9 @@
     <string name="pref_join_qq_group_title">Communication and Bug report</string>
     <string name="pref_join_qq_group_summary">QQ group: 478884682</string>
     <string name="prompt_join_qq_group_failed">Please install or enable QQ first</string>
+    <string name="pref_version_title">Version</string>
+    <string name="pref_version_summary"><![CDATA[Current version: %1$s (%2$d)]]></string>
+
 
     <!-- theme color -->
     <string name="color_default">Default</string>

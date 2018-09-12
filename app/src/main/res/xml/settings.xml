@@ -76,6 +76,11 @@
     <PreferenceCategory android:title="@string/about">
 
         <Preference
+            android:key="pref_version"
+            android:title="@string/pref_version_title"
+            android:summary="@string/pref_version_summary"/>
+
+        <Preference
             android:key="pref_join_qq_group"
             android:title="@string/pref_join_qq_group_title"
             android:summary="@string/pref_join_qq_group_summary" />

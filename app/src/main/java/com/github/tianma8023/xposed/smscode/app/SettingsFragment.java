@@ -80,9 +80,13 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
 
         // Hide experimental preference group.
         PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(IPrefConstants.KEY_EXPERIMENTAL);
-//        Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
-//        experimentalGroup.removePreference(markAsReadPref);
+        // Preference markAsReadPref = findPreference(IPrefConstants.KEY_MARK_AS_READ);
+        // experimentalGroup.removePreference(markAsReadPref);
         getPreferenceScreen().removePreference(experimentalGroup);
+
+        // version info preference
+        Preference versionPref = findPreference(IPrefConstants.KEY_VERSION);
+        showVersionInfo(versionPref);
     }
 
     private void initChooseThemePreference(Preference chooseThemePref) {
@@ -131,7 +135,13 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         return true;
     }
 
-    public void joinQQGroup() {
+    private void showVersionInfo(Preference preference) {
+        String summary = getString(R.string.pref_version_summary,
+                BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
+        preference.setSummary(summary);
+    }
+
+    private void joinQQGroup() {
         String key = IConstants.QQ_GROUP_KEY;
         Intent intent = new Intent();
         intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
@@ -144,7 +154,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             Toast.makeText(mHomeActivity, R.string.prompt_join_qq_group_failed, Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void aboutProject() {
         try {
@@ -184,7 +193,6 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         intent.putExtra(IConstants.WECHAT_KEY_EXTRA_DONATE, true);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {

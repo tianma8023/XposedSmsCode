@@ -73,6 +73,8 @@
     <string name="pref_join_qq_group_title">加群反饋交流</string>
     <string name="pref_join_qq_group_summary">QQ群：478884682</string>
     <string name="prompt_join_qq_group_failed">請先安裝或啟用QQ</string>
+    <string name="pref_version_title">版本</string>
+    <string name="pref_version_summary"><![CDATA[當前版本：%1$s (%2$d)]]></string>
 
     <!-- theme color -->
     <string name="color_default">默認藍</string>
@@ -117,7 +119,7 @@
         <item>1. 在驗證碼簡訊測試功能先測試一下內容是否能被正確分析。\n\n2. 因為使用到相關服務及推播，建議將此模組加入應用控制類程式(黑閾、綠色守護等)的白名單中。\n\n3. 檢查模組的組件（廣播接收器、服務、內容提供者）是否被組件控制類軟件（Blocker、寫輪眼等）禁用。4. 請聯繫開發者，並回報相關問題。</item>
         <item>檢查本模組是否在電池優化黑名單中，如果在請移至白名單（原理已說明，其實不耗電）</item>
         <item>屬於正常現象，因為有些應用的驗證碼輸入框是自定義的控件，可能沒有遵循Android設計規範，故而不能被正確識別。</item>
-        <item>自動尋找模式：模組程式自動尋找識別出驗證碼輸入框之後，再自動粘貼進去。\n優勢：全自動化。\n劣勢：在極少數界面中因識別不了驗證碼輸入框而失效。\n\n手動對焦模式：用戶手動指定驗證碼輸入框，即光標在哪裏就在那裏自動輸入。\n優勢：準確率高。\n劣勢：非全自動化，需要多點壹下屏幕。</item>
+        <item>自動尋找模式：模組程式自動尋找識別出驗證碼輸入框之後，再自動粘貼進去。\n優勢：全自動化。\n劣勢：在極少數界面中因識別不了驗證碼輸入框而失效。\n\n手動對焦模式：用戶手動指定驗證碼輸入框，即光標在哪裏就在那裏自動輸入。\n優勢：準確率高。\n劣勢：非全自動化，需要多點一下屏幕。</item>
         <item>從Android 4.4起，只有系統預設的簡訊程式才能對簡訊進行修改與操作。(也可能是開發者能力不夠，沒有找到合適的方法。)</item>
     </string-array>
     <!-- FAQ end -->

@@ -72,6 +72,8 @@
     <string name="pref_join_qq_group_title">加群反馈交流</string>
     <string name="pref_join_qq_group_summary">QQ群：478884682</string>
     <string name="prompt_join_qq_group_failed">请先安装或启用QQ</string>
+    <string name="pref_version_title">版本</string>
+    <string name="pref_version_summary"><![CDATA[当前版本：%1$s (%2$d)]]></string>
 
     <!-- theme color -->
     <string name="color_default">默认蓝</string>
