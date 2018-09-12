@@ -17,6 +17,8 @@ Welcome any feedbacks.
 
 **Compatibility: Requires Android 4.4+ (api level ≥ 19).**
 
+**Read the FAQ in app first if you encountered any problems.**
+
 # Features
 - Copy verification code to clipboard when a new message arrives.
 - Show toast when a SMS verification code is copied.

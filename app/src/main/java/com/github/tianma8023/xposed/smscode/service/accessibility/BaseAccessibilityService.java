@@ -31,9 +31,8 @@ public abstract class BaseAccessibilityService extends AccessibilityService {
     /**
      * 查找对应文本的View
      *
-     * @param text
-     * @param clickable
-     * @return
+     * @param text text
+     * @param clickable clickable or not
      */
     public AccessibilityNodeInfo findViewByText(String text, boolean clickable) {
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
@@ -43,7 +42,7 @@ public abstract class BaseAccessibilityService extends AccessibilityService {
         List<AccessibilityNodeInfo> nodeInfoList = rootNodeInfo.findAccessibilityNodeInfosByText(text);
         if (nodeInfoList != null && !nodeInfoList.isEmpty()) {
             for (AccessibilityNodeInfo nodeInfo : nodeInfoList) {
-                if (nodeInfo != null || (nodeInfo.isClickable() == clickable)) {
+                if (nodeInfo != null && (nodeInfo.isClickable() == clickable)) {
                     return nodeInfo;
                 }
             }
