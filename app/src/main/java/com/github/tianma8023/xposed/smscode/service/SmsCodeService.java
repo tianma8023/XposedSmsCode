@@ -31,15 +31,13 @@ import com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInp
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
+import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.concurrent.TimeUnit;
-
-import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
-import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getStringPref;
 
 /**
  * 处理验证码的Service
@@ -50,7 +48,6 @@ public class SmsCodeService extends IntentService {
 
     private static final int NOTIFY_ID_FOREGROUND_SVC = 0xff;
 
-    private static final int JOB_ID = 0x100;
     public static final String EXTRA_KEY_SMS_INTENT = "key_sms_intent";
 
     private static final int MSG_COPY_TO_CLIPBOARD = 0xff;
@@ -101,7 +98,7 @@ public class SmsCodeService extends IntentService {
     }
 
     private void doWork(Intent mSmsIntent) {
-        if (!getBooleanPref(mPreferences, IPrefConstants.KEY_ENABLE, IPrefConstants.KEY_ENABLE_DEFAULT)) {
+        if (!SPUtils.isEnabled(mPreferences)) {
             XLog.i("SmsCode disabled, exiting");
             return;
         }
@@ -127,15 +124,15 @@ public class SmsCodeService extends IntentService {
             return;
         }
 
-        boolean verboseLog = getBooleanPref(mPreferences, IPrefConstants.KEY_VERBOSE_LOG_MODE, IPrefConstants.KEY_VERBOSE_LOG_MODE_DEFAULT);
+        boolean verboseLog = SPUtils.isVerboseLogMode(mPreferences);
         if (verboseLog) {
             XLog.setLogLevel(Log.VERBOSE);
         } else {
             XLog.setLogLevel(BuildConfig.LOG_LEVEL);
         }
 
-        mFocusMode = getStringPref(mPreferences, IPrefConstants.KEY_FOCUS_MODE, IPrefConstants.KEY_FOCUS_MODE_AUTO);
-        mIsAutoInputRootMode = getBooleanPref(mPreferences, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT);
+        mFocusMode = SPUtils.getFocusMode(mPreferences);
+        mIsAutoInputRootMode = SPUtils.isAutoInputRootMode(mPreferences);
         XLog.d("FocusMode: %s", mFocusMode);
         XLog.d("AutoInputRootMode: " + mIsAutoInputRootMode);
 
@@ -192,7 +189,7 @@ public class SmsCodeService extends IntentService {
      */
     private void copyToClipboardOnMainThread(String verificationCode) {
         ClipboardUtils.copyToClipboard(this, verificationCode);
-        if (getBooleanPref(mPreferences, IPrefConstants.KEY_SHOW_TOAST, IPrefConstants.KEY_SHOW_TOAST_DEFAULT)) {
+        if (SPUtils.shouldShowToast(mPreferences)) {
             String text = this.getString(R.string.cur_verification_code, verificationCode);
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
@@ -202,8 +199,7 @@ public class SmsCodeService extends IntentService {
             // input mode: root mode
             ShellUtils.inputText(verificationCode);
             XLog.i("Auto input succeed");
-            if (getBooleanPref(mPreferences, IPrefConstants.KEY_CLEAR_CLIPBOARD,
-                    IPrefConstants.KEY_CLEAR_CLIPBOARD_DEFAULT)) {
+            if (SPUtils.shouldClearClipboard(mPreferences)) {
                 ClipboardUtils.clearClipboard(this);
             }
         } else {

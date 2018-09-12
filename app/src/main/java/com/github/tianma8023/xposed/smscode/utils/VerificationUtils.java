@@ -3,7 +3,6 @@ package com.github.tianma8023.xposed.smscode.utils;
 import android.content.Context;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.constant.ISmsCodeConstants;
 
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class VerificationUtils {
 
     private static String loadVerificationKeywords(Context context) {
         RemotePreferences preferences = RemotePreferencesUtils.getDefaultRemotePreferences(context);
-        return RemotePreferencesUtils.getStringPref(preferences, IPrefConstants.KEY_SMSCODE_KEYWORDS, IPrefConstants.KEY_SMSCODE_KEYWORDS_DEFAULT);
+        return SPUtils.getSMSCodeKeywords(preferences);
     }
 
     /**

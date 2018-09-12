@@ -16,6 +16,7 @@ import com.github.tianma8023.xposed.smscode.constant.IPrefConstants;
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
+import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
@@ -23,8 +24,6 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
 
 /**
  * An accessibility service that can input SMS code automatically.
@@ -50,8 +49,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 String smsCode = intent.getStringExtra(EXTRA_KEY_SMS_CODE);
                 autoInputSmsCode(smsCode);
             } else if (ACTION_STOP_AUTO_INPUT_SERVICE.equals(action)) {
-                if (RemotePreferencesUtils.getBooleanPref(mPreferences,
-                        IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT, IPrefConstants.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT)) {
+                if (SPUtils.isAutoInputRootMode(mPreferences)) {
                     String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
                     // 先尝试用无Root的方式关闭无障碍服务
                     boolean disabled = AccessibilityUtils.disableAccessibilityService(context, accessSvcName);
@@ -115,8 +113,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
         }
 
         if (success) {
-            if (getBooleanPref(mPreferences, IPrefConstants.KEY_CLEAR_CLIPBOARD,
-                    IPrefConstants.KEY_CLEAR_CLIPBOARD_DEFAULT)) {
+            if (SPUtils.shouldClearClipboard(mPreferences)) {
                 // clear clipboard
                 ClipboardUtils.clearClipboard(this);
             }
@@ -133,8 +130,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
      * @return 成功输入则返回true，否则返回false
      */
     private boolean tryToAutoInputSMSCode(String smsCode) {
-        String focusMode = RemotePreferencesUtils.getStringPref(
-                mPreferences, IPrefConstants.KEY_FOCUS_MODE, IPrefConstants.KEY_FOCUS_MODE_AUTO);
+        String focusMode = SPUtils.getFocusMode(mPreferences);
         if (IPrefConstants.KEY_FOCUS_MODE_AUTO.equals(focusMode)) {
             // focus mode: auto focus
             return tryToAutoInputByAutoFocus(smsCode);
