@@ -132,7 +132,8 @@ public class SmsCodeService extends IntentService {
         }
 
         mFocusMode = SPUtils.getFocusMode(mPreferences);
-        mIsAutoInputRootMode = SPUtils.isAutoInputRootMode(mPreferences);
+        mIsAutoInputRootMode = PrefConst.AUTO_INPUT_MODE_ROOT.
+                equals(SPUtils.getAutoInputMode(mPreferences));
         XLog.d("FocusMode: %s", mFocusMode);
         XLog.d("AutoInputRootMode: " + mIsAutoInputRootMode);
 

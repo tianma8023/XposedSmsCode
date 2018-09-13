@@ -45,4 +45,19 @@
         <item>@string/focus_mode_entry_manual</item>
     </string-array>
     <!-- Focus mode end -->
+
+    <!-- Auto-input mode -->
+    <string name="auto_input_mode_accessibility">auto_input_mode_accessibility</string>
+    <string name="auto_input_mode_root">auto_input_mode_root</string>
+
+    <string-array name="pref_auto_input_mode_entryValues">
+        <item>@string/auto_input_mode_accessibility</item>
+        <item>@string/auto_input_mode_root</item>
+    </string-array>
+
+    <string-array name="pref_auto_input_mode_entries">
+        <item>@string/pref_auto_input_mode_accessibility</item>
+        <item>@string/pref_auto_input_mode_root</item>
+    </string-array>
+    <!-- Auto-input mode end -->
 </resources>

@@ -49,11 +49,6 @@
     <string name="go_to_close">Close it</string>
     <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
     <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
-    <string name="pref_auto_input_mode_accessibility_title">Accessibility Service Mode</string>
-    <string name="pref_auto_input_mode_accessibility_summary">Auto-Input accessibility service required</string>
-    <string name="pref_auto_input_mode_root_title">Root Mode</string>
-    <string name="pref_auto_input_mode_root_summary">Root access required</string>
-    <string name="pref_enable_auto_input_code_summary">Please choose an auto-input mode.</string>
     <string name="acquire_root_permission">ROOT permission required</string>
     <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
     <string name="okay">OK</string>
@@ -72,7 +67,6 @@
     <string name="pref_clear_clipboard_title">Clear clipboard</string>
     <string name="pref_clear_clipboard_summary">Clear clipboard if auto input succeed</string>
 
-
     <!-- theme color -->
     <string name="color_default">Default</string>
     <string name="red">Red</string>
@@ -83,6 +77,13 @@
     <string name="violet">Violet</string>
     <string name="black">Dark</string>
     <!-- theme color end -->
+
+    <!-- Auto input mode -->
+    <string name="pref_auto_input_mode_title">Auto Input Mode</string>
+    <string name="pref_auto_input_mode_summary_default">Please choose an auto-input mode.</string>
+    <string name="pref_auto_input_mode_accessibility">Accessibility Service Mode</string>
+    <string name="pref_auto_input_mode_root">Root Mode</string>
+    <!-- Auto input mode end -->
 
     <!-- Focus Mode -->
     <string name="pref_focus_mode_title">Focus Mode</string>

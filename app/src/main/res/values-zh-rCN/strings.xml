@@ -54,11 +54,6 @@
     <string name="go_to_close">去关闭</string>
     <string name="smscode_auto_input_service_label">短信验证码自动输入服务(Xposed)</string>
     <string name="pref_enable_auto_input_code_title">启用自动输入</string>
-    <string name="pref_auto_input_mode_accessibility_title">无障碍服务模式</string>
-    <string name="pref_auto_input_mode_accessibility_summary">需要启用自动输入的无障碍服务</string>
-    <string name="pref_auto_input_mode_root_title">Root模式</string>
-    <string name="pref_auto_input_mode_root_summary">需要Root权限</string>
-    <string name="pref_enable_auto_input_code_summary">请选择自动输入模式</string>
     <string name="acquire_root_permission">获取Root权限</string>
     <string name="acquire_root_permission_prompt">需要获取Root权限来自动输入验证码</string>
     <string name="okay">好的</string>
@@ -87,6 +82,13 @@
     <string name="violet">基佬紫</string>
     <string name="black">Dark♂黑</string>
     <!-- theme color end -->
+
+    <!-- Auto input mode -->
+    <string name="pref_auto_input_mode_title">自动输入模式</string>
+    <string name="pref_auto_input_mode_summary_default">请选择自动输入模式</string>
+    <string name="pref_auto_input_mode_accessibility">无障碍服务模式</string>
+    <string name="pref_auto_input_mode_root">Root模式</string>
+    <!-- Auto input mode end -->
 
     <!-- Focus Mode -->
     <string name="pref_focus_mode_title">对焦模式</string>

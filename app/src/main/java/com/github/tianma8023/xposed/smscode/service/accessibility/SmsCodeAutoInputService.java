@@ -118,7 +118,8 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             }
         }
 
-        if (SPUtils.isAutoInputRootMode(mPreferences)) {
+        String autoInputMode = SPUtils.getAutoInputMode(mPreferences);
+        if (PrefConst.AUTO_INPUT_MODE_ROOT.equals(autoInputMode)) {
             Intent stopAutoInput = new Intent();
             stopAutoInput.setAction(ACTION_STOP_AUTO_INPUT_SERVICE);
             sendBroadcast(stopAutoInput);

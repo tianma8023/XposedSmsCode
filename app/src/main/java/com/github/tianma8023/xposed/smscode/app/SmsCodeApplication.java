@@ -9,8 +9,12 @@ import android.support.annotation.RequiresApi;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
+import com.github.tianma8023.xposed.smscode.migrate.TransitionTask;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SmsCodeApplication extends Application{
 
@@ -25,6 +29,8 @@ public class SmsCodeApplication extends Application{
         }
 
         initWithUmengAnalyze();
+
+        performTransitionTask();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -42,6 +48,12 @@ public class SmsCodeApplication extends Application{
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
 
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
+    }
+
+    // data transition task
+    private void performTransitionTask() {
+        Executor singlePool = Executors.newSingleThreadExecutor();
+        singlePool.execute(new TransitionTask(this));
     }
 
 }

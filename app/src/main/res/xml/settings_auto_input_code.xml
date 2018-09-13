@@ -8,19 +8,13 @@
             android:summary="@string/pref_entry_auto_input_code_summary"
             android:defaultValue="false"/>
 
-        <SwitchPreference
-            android:key="pref_auto_input_mode_accessibility"
-            android:title="@string/pref_auto_input_mode_accessibility_title"
-            android:summary="@string/pref_auto_input_mode_accessibility_summary"
-            android:dependency="@string/pref_enable_auto_input_code"
-            android:defaultValue="false"/>
-
-        <SwitchPreference
-            android:key="pref_auto_input_mode_root"
-            android:title="@string/pref_auto_input_mode_root_title"
-            android:summary="@string/pref_auto_input_mode_root_summary"
-            android:dependency="@string/pref_enable_auto_input_code"
-            android:defaultValue="false"/>
+        <ListPreference
+            android:key="@string/pref_auto_input_mode"
+            android:title="@string/pref_auto_input_mode_title"
+            android:summary="@string/pref_auto_input_mode_summary_default"
+            android:dependency="pref_enable_auto_input_code"
+            android:entries="@array/pref_auto_input_mode_entries"
+            android:entryValues="@array/pref_auto_input_mode_entryValues"/>
 
         <ListPreference
             android:key="@string/pref_focus_mode"
