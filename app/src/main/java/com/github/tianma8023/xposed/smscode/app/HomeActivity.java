@@ -87,10 +87,10 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
     private void initTheme() {
         mThemeItemList = loadThemeColorItems();
         mCurThemeIndex = mPreferences.getInt(PrefConst.KEY_CURRENT_THEME_INDEX,
-                PrefConst.KEY_CURRENT_THEME_INDEX_DEFAULT);
+                PrefConst.CURRENT_THEME_INDEX_DEFAULT);
         // check current theme index in case of exception.
         if(mCurThemeIndex < 0 || mCurThemeIndex >= mThemeItemList.size()) {
-            mCurThemeIndex = PrefConst.KEY_CURRENT_THEME_INDEX_DEFAULT;
+            mCurThemeIndex = PrefConst.CURRENT_THEME_INDEX_DEFAULT;
         }
         setTheme(mThemeItemList.get(mCurThemeIndex).getThemeRes());
     }

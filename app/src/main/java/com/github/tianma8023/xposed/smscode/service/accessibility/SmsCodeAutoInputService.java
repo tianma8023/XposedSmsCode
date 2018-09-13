@@ -49,16 +49,14 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 String smsCode = intent.getStringExtra(EXTRA_KEY_SMS_CODE);
                 autoInputSmsCode(smsCode);
             } else if (ACTION_STOP_AUTO_INPUT_SERVICE.equals(action)) {
-                if (SPUtils.isAutoInputRootMode(mPreferences)) {
-                    String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
-                    // 先尝试用无Root的方式关闭无障碍服务
-                    boolean disabled = AccessibilityUtils.disableAccessibilityService(context, accessSvcName);
-                    if (!disabled) {
-                        // 不成功,则用root的方式关闭无障碍服务
-                        disabled = ShellUtils.disableAccessibilityService(accessSvcName);
-                    }
-                    XLog.d("disable service = " + (disabled ? "succeed" : "failed"));
+                String accessSvcName = AccessibilityUtils.getServiceName(SmsCodeAutoInputService.class);
+                // 先尝试用无Root的方式关闭无障碍服务
+                boolean disabled = AccessibilityUtils.disableAccessibilityService(context, accessSvcName);
+                if (!disabled) {
+                    // 不成功,则用root的方式关闭无障碍服务
+                    disabled = ShellUtils.disableAccessibilityService(accessSvcName);
                 }
+                XLog.d("disable service = " + (disabled ? "succeed" : "failed"));
             }
         }
     }
@@ -113,15 +111,18 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
         }
 
         if (success) {
+            XLog.i("Auto input succeed");
             if (SPUtils.shouldClearClipboard(mPreferences)) {
                 // clear clipboard
                 ClipboardUtils.clearClipboard(this);
             }
         }
 
-        Intent stopAutoInput = new Intent();
-        stopAutoInput.setAction(ACTION_STOP_AUTO_INPUT_SERVICE);
-        sendBroadcast(stopAutoInput);
+        if (SPUtils.isAutoInputRootMode(mPreferences)) {
+            Intent stopAutoInput = new Intent();
+            stopAutoInput.setAction(ACTION_STOP_AUTO_INPUT_SERVICE);
+            sendBroadcast(stopAutoInput);
+        }
     }
 
     /**
@@ -131,7 +132,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
      */
     private boolean tryToAutoInputSMSCode(String smsCode) {
         String focusMode = SPUtils.getFocusMode(mPreferences);
-        if (PrefConst.KEY_FOCUS_MODE_AUTO.equals(focusMode)) {
+        if (PrefConst.FOCUS_MODE_AUTO.equals(focusMode)) {
             // focus mode: auto focus
             return tryToAutoInputByAutoFocus(smsCode);
         } else {

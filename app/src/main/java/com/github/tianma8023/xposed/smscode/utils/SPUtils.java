@@ -3,19 +3,19 @@ package com.github.tianma8023.xposed.smscode.utils;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_AUTO_INPUT_MODE_ROOT;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_AUTO_INPUT_MODE_ROOT_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.AUTO_INPUT_MODE_ROOT_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_CLEAR_CLIPBOARD;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_CLEAR_CLIPBOARD_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.CLEAR_CLIPBOARD_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_ENABLE;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_ENABLE_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.ENABLE_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_FOCUS_MODE;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_FOCUS_MODE_AUTO;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.FOCUS_MODE_AUTO;
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SHOW_TOAST;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SHOW_TOAST_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.SHOW_TOAST_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SMSCODE_KEYWORDS;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SMSCODE_KEYWORDS_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.SMSCODE_KEYWORDS_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_VERBOSE_LOG_MODE;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_VERBOSE_LOG_MODE_DEFAULT;
+import static com.github.tianma8023.xposed.smscode.constant.PrefConst.VERBOSE_LOG_MODE_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBooleanPref;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getStringPref;
 
@@ -29,7 +29,7 @@ public class SPUtils {
      * 总开关是否打开
      */
     public static boolean isEnabled(RemotePreferences preferences) {
-        return getBooleanPref(preferences, KEY_ENABLE, KEY_ENABLE_DEFAULT);
+        return getBooleanPref(preferences, KEY_ENABLE, ENABLE_DEFAULT);
     }
 
     /**
@@ -37,7 +37,7 @@ public class SPUtils {
      */
     public static boolean isVerboseLogMode(RemotePreferences preferences) {
         return getBooleanPref(preferences,
-                KEY_VERBOSE_LOG_MODE, KEY_VERBOSE_LOG_MODE_DEFAULT);
+                KEY_VERBOSE_LOG_MODE, VERBOSE_LOG_MODE_DEFAULT);
     }
 
     /**
@@ -45,7 +45,7 @@ public class SPUtils {
      */
     public static boolean isAutoInputRootMode(RemotePreferences preferences) {
         return getBooleanPref(preferences,
-                KEY_AUTO_INPUT_MODE_ROOT, KEY_AUTO_INPUT_MODE_ROOT_DEFAULT);
+                KEY_AUTO_INPUT_MODE_ROOT, AUTO_INPUT_MODE_ROOT_DEFAULT);
     }
 
     /**
@@ -53,7 +53,7 @@ public class SPUtils {
      */
     public static boolean shouldClearClipboard(RemotePreferences preferences) {
         return getBooleanPref(preferences,
-                KEY_CLEAR_CLIPBOARD, KEY_CLEAR_CLIPBOARD_DEFAULT);
+                KEY_CLEAR_CLIPBOARD, CLEAR_CLIPBOARD_DEFAULT);
     }
 
     /**
@@ -61,7 +61,7 @@ public class SPUtils {
      */
     public static boolean shouldShowToast(RemotePreferences preferences) {
         return getBooleanPref(preferences,
-                KEY_SHOW_TOAST, KEY_SHOW_TOAST_DEFAULT);
+                KEY_SHOW_TOAST, SHOW_TOAST_DEFAULT);
     }
 
     /**
@@ -69,7 +69,7 @@ public class SPUtils {
      */
     public static String getFocusMode(RemotePreferences preferences) {
         return getStringPref(preferences,
-                KEY_FOCUS_MODE, KEY_FOCUS_MODE_AUTO);
+                KEY_FOCUS_MODE, FOCUS_MODE_AUTO);
     }
 
     /**
@@ -77,6 +77,6 @@ public class SPUtils {
      */
     public static String getSMSCodeKeywords(RemotePreferences preferences) {
         return getStringPref(preferences,
-                KEY_SMSCODE_KEYWORDS, KEY_SMSCODE_KEYWORDS_DEFAULT);
+                KEY_SMSCODE_KEYWORDS, SMSCODE_KEYWORDS_DEFAULT);
     }
 }
