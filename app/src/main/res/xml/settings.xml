@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_general">
+    <PreferenceCategory android:title="@string/pref_general_title">
 
         <SwitchPreference
-            android:key="pref_enable"
-            android:title="@string/pref_enable"
+            android:key="@string/pref_enable"
+            android:title="@string/pref_enable_title"
             android:summary="@string/pref_enable_summary"
             android:defaultValue="true"/>
 
         <SwitchPreference
-            android:key="pref_hide_launcher_icon"
-            android:title="@string/pref_hide_launcher_icon"
+            android:key="@string/pref_hide_launcher_icon"
+            android:title="@string/pref_hide_launcher_icon_title"
             android:summary="@string/pref_hide_launcher_icon_summary"
             android:defaultValue="false"/>
 
         <SwitchPreference
-            android:key="pref_show_toast"
-            android:title="@string/pref_show_toast"
+            android:key="@string/pref_show_toast"
+            android:title="@string/pref_show_toast_title"
             android:summary="@string/pref_show_toast_summary"
-            android:dependency="pref_enable"
+            android:dependency="@string/pref_enable"
             android:defaultValue="true"/>
 
         <Preference
-            android:key="pref_entry_auto_input_code"
-            android:dependency="pref_enable"
-            android:title="@string/pref_entry_auto_input_code"
+            android:key="@string/pref_entry_auto_input_code"
+            android:dependency="@string/pref_enable"
+            android:title="@string/pref_entry_auto_input_code_title"
             android:summary="@string/pref_entry_auto_input_code_summary" />
 
         <Preference
-            android:key="pref_choose_theme"
+            android:key="@string/pref_choose_theme"
             android:title="@string/pref_choose_theme_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_experimental"
-        android:title="@string/pref_experimental">
+        android:key="@string/pref_experimental"
+        android:title="@string/pref_experimental_title">
 
         <SwitchPreference
-            android:key="pref_mark_as_read"
-            android:title="@string/pref_mark_as_read"
+            android:key="@string/pref_mark_as_read"
+            android:title="@string/pref_mark_as_read_title"
             android:summary="@string/pref_mark_as_read_summary"
-            android:dependency="pref_enable"
+            android:dependency="@string/pref_enable"
             android:defaultValue="false" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_debug">
-        <SwitchPreference
-            android:key="pref_verbose_log_mode"
-            android:title="@string/pref_verbose_log_mode"
-            android:summary="@string/pref_verbose_log_mode_summary"
-            android:dependency="pref_enable"
-            android:defaultValue="false"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_smscode">
+    <PreferenceCategory android:title="@string/pref_smscode_title">
 
         <com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference
-            android:key="pref_smscode_keywords"
-            android:title="@string/pref_smscode_keywords"
+            android:key="@string/pref_smscode_keywords"
+            android:title="@string/pref_smscode_keywords_title"
             android:summary="@string/pref_smscode_keywords_summary"
             android:hint="@string/code_keywords_hint"
             android:negativeButtonText="@string/reset"
             android:defaultValue="@string/default_smscode_keywords"/>
 
         <Preference
-            android:key="pref_smscode_test"
-            android:title="@string/pref_smscode_test"
+            android:key="@string/pref_smscode_test"
+            android:title="@string/pref_smscode_test_title"
             android:summary="@string/pref_smscode_test_summary"
             android:hint="@string/sms_content_hint"
             android:positiveButtonText="@string/test"
             android:persistent="false"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/about">
+    <PreferenceCategory android:title="@string/pref_debug_title">
+        <SwitchPreference
+            android:key="@string/pref_verbose_log_mode"
+            android:title="@string/pref_verbose_log_mode_title"
+            android:summary="@string/pref_verbose_log_mode_summary"
+            android:dependency="@string/pref_enable"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_about_title">
 
         <Preference
-            android:key="pref_version"
+            android:key="@string/pref_version"
             android:title="@string/pref_version_title"
             android:summary="@string/pref_version_summary"/>
 
         <Preference
-            android:key="pref_join_qq_group"
+            android:key="@string/pref_join_qq_group"
             android:title="@string/pref_join_qq_group_title"
             android:summary="@string/pref_join_qq_group_summary" />
 
         <Preference
-            android:key="pref_source_code"
-            android:title="@string/pref_source_code"
+            android:key="@string/pref_source_code"
+            android:title="@string/pref_source_code_title"
             android:summary="@string/pref_source_code_summary" />
 
         <Preference
-            android:key="pref_donate_by_alipay"
-            android:title="@string/pref_donate_by_alipay"/>
+            android:key="@string/pref_donate_by_alipay"
+            android:title="@string/pref_donate_by_alipay_title"/>
 
         <Preference
-            android:key="pref_donate_by_wechat"
-            android:title="@string/pref_donate_by_wechat"
-            android:dependency="pref_enable"/>
+            android:key="@string/pref_donate_by_wechat"
+            android:title="@string/pref_donate_by_wechat_title"
+            android:dependency="@string/pref_enable"/>
 
     </PreferenceCategory>
 

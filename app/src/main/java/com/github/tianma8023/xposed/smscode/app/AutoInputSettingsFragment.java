@@ -90,7 +90,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
         }
         if (enable) {
             mRootModePreference.setChecked(false);
-            mAutoInputPreference.setSummary(R.string.pref_auto_input_mode_accessibility);
+            mAutoInputPreference.setSummary(R.string.pref_auto_input_mode_accessibility_title);
         } else {
             mAutoInputPreference.setSummary(R.string.pref_enable_auto_input_code_summary);
         }
@@ -111,7 +111,7 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
                     .show();
 
             mAccessibilityModePreference.setChecked(false);
-            mAutoInputPreference.setSummary(R.string.pref_auto_input_mode_root);
+            mAutoInputPreference.setSummary(R.string.pref_auto_input_mode_root_title);
         } else {
             mAutoInputPreference.setSummary(R.string.pref_enable_auto_input_code_summary);
         }
@@ -125,9 +125,9 @@ public class AutoInputSettingsFragment extends BasePreferenceFragment implements
             boolean rootModeChecked = mRootModePreference.isChecked();
             int summaryId;
             if (accessibilityModeChecked) {
-                summaryId = R.string.pref_auto_input_mode_accessibility;
+                summaryId = R.string.pref_auto_input_mode_accessibility_title;
             } else if (rootModeChecked) {
-                summaryId = R.string.pref_auto_input_mode_root;
+                summaryId = R.string.pref_auto_input_mode_root_title;
             } else {
                 summaryId = R.string.pref_enable_auto_input_code_summary;
             }

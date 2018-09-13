@@ -4,22 +4,45 @@
     <string name="umeng_analyze_app_key">5b56e3d9f29d981c3b0001c2</string>
     <string name="default_smscode_keywords">验证码|校验码|检验码|确认码|激活码|动态码|验证代码|校验代码|检验代码|激活代码|确认代码|动态代码|登入码|认证码|识别码|短信口令|动态密码|交易码|上网密码|随机码|驗證碼|校驗碼|檢驗碼|確認碼|激活碼|動態碼|驗證代碼|校驗代碼|檢驗代碼|確認代碼|激活代碼|動態代碼|登入碼|認證碼|識別碼|Code|code|CODE</string>
 
+    <!-- shared preference key -->
+    <string name="pref_enable">pref_enable</string>
+    <string name="pref_hide_launcher_icon">pref_hide_launcher_icon</string>
+    <string name="pref_show_toast">pref_show_toast</string>
+    <string name="pref_entry_auto_input_code">pref_entry_auto_input_code</string>
+    <string name="pref_choose_theme">pref_choose_theme</string>
+    <string name="pref_experimental">pref_experimental</string>
+    <string name="pref_mark_as_read">pref_mark_as_read</string>
+
+    <string name="pref_smscode_keywords">pref_smscode_keywords</string>
+    <string name="pref_smscode_test">pref_smscode_test</string>
+
+    <string name="pref_verbose_log_mode">pref_verbose_log_mode</string>
+
+    <string name="pref_about">pref_about</string>
+    <string name="pref_version">pref_version</string>
+    <string name="pref_join_qq_group">pref_join_qq_group</string>
+    <string name="pref_source_code">pref_source_code</string>
+    <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
+    <string name="pref_donate_by_wechat">pref_donate_by_wechat</string>
+
+    <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
+    <string name="pref_auto_input_mode">pref_auto_input_mode</string>
+    <string name="pref_focus_mode">pref_focus_mode</string>
+    <string name="pref_clear_clipboard">pref_clear_clipboard</string>
+    <!-- shared preference key end -->
+
     <!-- Focus mode -->
     <string name="focus_mode_auto">focus_mode_auto</string>
     <string name="focus_mode_manual">focus_mode_manual</string>
-    <!-- Focus mode end -->
 
-    <!-- Focus mode -->
     <string-array name="pref_focus_mode_entryValues">
         <item>@string/focus_mode_auto</item>
         <item>@string/focus_mode_manual</item>
     </string-array>
-    <!-- Focus mode end -->
 
-    <!-- Focus Mode entries -->
     <string-array name="pref_focus_mode_entries">
         <item>@string/focus_mode_entry_auto</item>
         <item>@string/focus_mode_entry_manual</item>
     </string-array>
-    <!-- Focus Mode entries end -->
+    <!-- Focus mode end -->
 </resources>

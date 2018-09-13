@@ -224,7 +224,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
 
     private void showSmsCodeTestDialog() {
         new MaterialDialog.Builder(mHomeActivity)
-                .title(R.string.pref_smscode_test)
+                .title(R.string.pref_smscode_test_title)
                 .input(R.string.sms_content_hint, 0, true, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
