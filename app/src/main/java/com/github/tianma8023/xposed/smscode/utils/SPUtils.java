@@ -52,6 +52,14 @@ public class SPUtils {
     }
 
     /**
+     * 自动输入总开关是否打开
+     */
+    public static boolean autoInputCodeEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_ENABLE_AUTO_INPUT_CODE, PrefConst.ENABLE_AUTO_INPUT_CODE_DEFAULT);
+    }
+
+    /**
      * 自动输入模式是否是root模式
      */
     public static boolean isAutoInputRootMode(RemotePreferences preferences) {
