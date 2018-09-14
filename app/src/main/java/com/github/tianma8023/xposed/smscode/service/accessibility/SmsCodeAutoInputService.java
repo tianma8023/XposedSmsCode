@@ -148,13 +148,29 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
      * @return 成功输入则返回true，否则返回false
      */
     private boolean tryToAutoInputByManualFocus(String smsCode) {
-        AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
-        AccessibilityNodeInfo focusedNodeInfo = rootNodeInfo.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        AccessibilityNodeInfo focusedNodeInfo = findFocusNodeInfo();
         if (focusedNodeInfo != null && focusedNodeInfo.isEditable()) {
             inputText(focusedNodeInfo, smsCode);
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取当前输入焦点控件
+     * @return 当前输入焦点,获取失败返回null
+     */
+    private AccessibilityNodeInfo findFocusNodeInfo() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        } else {
+            AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
+            if (rootNodeInfo == null) {
+                XLog.d("rootNodeInfo is null");
+                return null;
+            }
+            return rootNodeInfo.findFocus(AccessibilityNodeInfo.FOCUS_INPUT);
+        }
     }
 
     /**
@@ -186,6 +202,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean autoInputSinceOreo(List<AccessibilityNodeInfo> editTextNodes, String smsCode) {
         // 判断有没有验证码输入框
+        // Android O 起可以通过getHintText获取EditText的hint内容
         for (AccessibilityNodeInfo nodeInfo : editTextNodes) {
             if (nodeInfo.isFocusable()) {
                 CharSequence hintSequence = nodeInfo.getHintText();
@@ -195,6 +212,26 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 String hint = hintSequence.toString();
 
                 boolean flag = VerificationUtils.containsVerificationKeywords(getApplicationContext(), hint);
+                if (flag) {
+                    // 模拟输入
+                    inputText(nodeInfo, smsCode);
+                    XLog.d("SMS code EditText found!");
+                    return true;
+                }
+            }
+        }
+
+        // 但是在Android O 上WebView中的EditText，没办法通过 getHintText 获取hint内容
+        // 所以需要通过 getText 进一步判断
+        for (AccessibilityNodeInfo nodeInfo : editTextNodes) {
+            if (nodeInfo.isFocusable()) {
+                CharSequence text = nodeInfo.getText();
+                if (text == null) {
+                    continue;
+                }
+                String hintOrText = text.toString();
+
+                boolean flag = VerificationUtils.containsVerificationKeywords(getApplicationContext(), hintOrText);
                 if (flag) {
                     // 模拟输入
                     inputText(nodeInfo, smsCode);
@@ -252,10 +289,12 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
         }
 
         if (editTextNodes.size() == 1) { // 只有一个EditText节点
+            XLog.d("Have 1 EditText node");
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(0);
             inputText(smsCodeNode, smsCode);
             return true;
         } else if (editTextNodes.size() == 2) { // 有两个EditText (一个是电话号码,一个是验证码输入框)
+            XLog.d("Have 2 EditText nodes");
             AccessibilityNodeInfo phoneNumberNode = editTextNodes.get(0);
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(1);
             CharSequence pnTextSequence = phoneNumberNode.getText();

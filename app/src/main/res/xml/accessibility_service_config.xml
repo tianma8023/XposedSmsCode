@@ -4,6 +4,6 @@
     android:accessibilityEventTypes="typeAllMask"
     android:canRetrieveWindowContent="true"
     android:notificationTimeout="1000"
-    android:accessibilityFlags="flagDefault"
+    android:accessibilityFlags="flagDefault|flagRequestEnhancedWebAccessibility"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:description="@string/auto_input_accessibility_service_description" />
