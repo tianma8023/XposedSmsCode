@@ -18,10 +18,11 @@ import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.adapter.BaseItemCallback;
+import com.github.tianma8023.xposed.smscode.adapter.ItemCallback;
 import com.github.tianma8023.xposed.smscode.app.faq.FaqFragment;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
-import com.github.tianma8023.xposed.smscode.app.theme.ItemCallback;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -138,7 +139,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         refreshActionBar(title);
     }
 
-    private ItemCallback<ThemeItem> mThemeItemCallback = new ItemCallback<ThemeItem>() {
+    private ItemCallback<ThemeItem> mThemeItemCallback = new BaseItemCallback<ThemeItem>() {
         @Override
         public void onItemClicked(ThemeItem item, int position) {
             if (mThemeChooseDialog != null && mThemeChooseDialog.isShowing()) {

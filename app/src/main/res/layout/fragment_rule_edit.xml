@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/text_margin_dp_16">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/rule_company_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/rule_company_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rule_company_hint"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/rule_keyword_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rule_company_input_layout"
+        android:layout_marginTop="@dimen/text_margin_dp_8">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/rule_keyword_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rule_keyword_hint"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:maxLines="1"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/rule_code_regex_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rule_keyword_input_layout"
+        android:layout_marginTop="@dimen/text_margin_dp_8"
+        android:layout_toStartOf="@+id/rule_code_regex_quick_choose">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/rule_code_regex_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rule_code_regex_hint"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:maxLines="1"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/rule_code_regex_quick_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/rule_keyword_input_layout"
+        android:background="@drawable/rule_code_regex_quick_choose_selector"
+        android:text="@string/quick_choose"
+        android:textColor="?attr/faq_textColor"/>
+
+</RelativeLayout>

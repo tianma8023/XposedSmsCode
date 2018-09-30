@@ -98,4 +98,60 @@
 
     <string name="simplified_question">问：</string>
     <string name="simplified_answer">答：</string>
+
+    <!-- sms code rule -->
+    <string name="confirm">确定</string>
+    <string name="rule_company_hint">公司或组织名</string>
+    <string name="rule_keyword_hint">验证码关键字</string>
+    <string name="rule_type_text">验证码类型</string>
+    <string name="rule_code_length">验证码长度</string>
+    <string name="rule_code_regex_hint">验证码正则表达式</string>
+    <string name="pref_code_rules_title">验证码规则</string>
+    <string name="pref_code_rules_summary">自定义特定的验证码匹配规则</string>
+    <string name="quick_choose">快速选择</string>
+    <string name="sms_code_type_digit_entry">数字 [0\-9]</string>
+    <string name="sms_code_type_letter_entry">字母 [a\-zA\-Z]</string>
+    <string name="sms_code_type_text_entry">数字+字母 [a\-zA\-Z0\-9]</string>
+    <string name="action_rule_edit_done">保存</string>
+    <string name="action_import_rules">导入</string>
+    <string name="action_export_rules">导出</string>
+    <string name="revoke">撤回</string>
+    <string name="removed">已删除</string>
+    <string name="remove">删除</string>
+    <string name="edit">编辑</string>
+    <string name="actions">操作</string>
+    <string name="rule_list_empty_prompt">空空如也~</string>
+    <string name="code_length_empty_prompt">请输入验证码长度</string>
+    <string name="rule_company_empty_hint">请输入公司或组织名</string>
+    <string name="rule_keyword_empty_hint">请输入验证码关键字</string>
+    <string name="rule_code_regex_empty_hint">请输入验证码正则表达式</string>
+    <string name="rule_duplicated_prompt">此规则已存在,请重新编辑或退出编辑</string>
+    <string name="rule_list">规则列表</string>
+    <string name="create_rule">新建规则</string>
+    <string name="edit_rule">编辑规则</string>
+    <string name="import_succeed">导入成功</string>
+    <string name="import_failed_version_missed">导入失败，缺失版本号</string>
+    <string name="import_failed_version_unknown">导入失败，未知版本号</string>
+    <string name="import_failed_backup_invalid">导入失败，备份文件格式错误</string>
+    <string name="import_failed_read_error">导入失败，读取文件错误</string>
+    <string name="export_succeed">导出成功</string>
+    <string name="export_failed">导出失败，请重试</string>
+    <string name="import_confirmation_title">导入确认</string>
+    <string name="import_confirmation_message">导入时是否需要保留当前规则？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="importing">正在导入</string>
+    <string name="no_backup_exists">没有备份文件</string>
+    <string name="choose_backup_file">选择备份文件</string>
+    <string name="backup_file_dir">备份位置:\n%s</string>
+    <string name="backup_file_name">备份文件名</string>
+    <string name="exporting">正在导出</string>
+    <string name="external_storage_perm_denied_prompt">已拒绝SD卡权限</string>
+    <string name="action_save_as_template">保存为模版</string>
+    <string name="save_template_succeed">保存模版成功</string>
+    <string name="save_template_failed">保存模版失败</string>
+    <string name="action_rule_help">帮助</string>
+    <string name="share">分享</string>
+    <string name="import_rules">导入规则</string>
+    <!-- sms code rule end -->
 </resources>

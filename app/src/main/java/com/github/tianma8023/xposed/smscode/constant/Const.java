@@ -23,4 +23,7 @@ public interface Const {
     String WECHAT_QRCODE_URL = "m01pPa@:hEyGJ5P*a1@$xPI";
 
     String HOME_ACTIVITY_ALIAS = BuildConfig.APPLICATION_ID + ".HomeActivityAlias";
+
+    String PROJECT_DOC_BASE_URL = "https://tianma8023.github.io/SmsCodeExtractor";
+    String DOC_SMS_CODE_RULE_HELP ="sms_code_rule_help";
 }

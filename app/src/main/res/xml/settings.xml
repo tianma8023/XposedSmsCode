@@ -56,6 +56,12 @@
             android:defaultValue="@string/default_smscode_keywords"/>
 
         <Preference
+            android:key="@string/pref_code_rules"
+            android:title="@string/pref_code_rules_title"
+            android:persistent="false"
+            android:summary="@string/pref_code_rules_summary"/>
+
+        <Preference
             android:key="@string/pref_smscode_test"
             android:title="@string/pref_smscode_test_title"
             android:summary="@string/pref_smscode_test_summary"

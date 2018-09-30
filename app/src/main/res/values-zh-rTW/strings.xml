@@ -125,4 +125,60 @@
         <item>從Android 4.4起，只有系統預設的簡訊程式才能對簡訊進行修改與操作。(也可能是開發者能力不夠，沒有找到合適的方法。)</item>
     </string-array>
     <!-- FAQ end -->
+
+    <!-- sms code rule -->
+    <string name="confirm">確定</string>
+    <string name="rule_company_hint">公司或組織名</string>
+    <string name="rule_keyword_hint">驗證碼關鍵字</string>
+    <string name="rule_type_text">驗證碼類型</string>
+    <string name="rule_code_length">驗證碼長度</string>
+    <string name="rule_code_regex_hint">驗證碼正則表達式</string>
+    <string name="pref_code_rules_title">驗證碼規則</string>
+    <string name="pref_code_rules_summary">自定義特定的驗證碼匹配規則</string>
+    <string name="quick_choose">快速選擇</string>
+    <string name="sms_code_type_digit_entry">數字 0\-9]</string>
+    <string name="sms_code_type_letter_entry">字母 [a\-zA\-Z]</string>
+    <string name="sms_code_type_text_entry">數字+字母 [a\-zA\-Z0\-9]</string>
+    <string name="action_rule_edit_done">保存</string>
+    <string name="action_import_rules">導入</string>
+    <string name="action_export_rules">導出</string>
+    <string name="revoke">撤回</string>
+    <string name="removed">已刪除</string>
+    <string name="remove">刪除</string>
+    <string name="edit">編輯</string>
+    <string name="actions">操作</string>
+    <string name="rule_list_empty_prompt">空空如也~</string>
+    <string name="code_length_empty_prompt">請輸入驗證碼長度</string>
+    <string name="rule_company_empty_hint">請輸入公司或組織名</string>
+    <string name="rule_keyword_empty_hint">請輸入驗證碼關鍵字</string>
+    <string name="rule_code_regex_empty_hint">請輸入驗證碼正則表達式</string>
+    <string name="rule_duplicated_prompt">此規則已存在，請重新編輯或退出</string>
+    <string name="rule_list">規則列表</string>
+    <string name="create_rule">新建規則</string>
+    <string name="edit_rule">編輯規則</string>
+    <string name="import_succeed">導入成功</string>
+    <string name="import_failed_version_missed">導入失敗，缺失版本號</string>
+    <string name="import_failed_version_unknown">導入失敗，未知版本號</string>
+    <string name="import_failed_backup_invalid">導入失敗，備份文件格式錯誤</string>
+    <string name="import_failed_read_error">導入失敗，讀取文件錯誤</string>
+    <string name="export_succeed">導出成功</string>
+    <string name="export_failed">導出失敗，請重試</string>
+    <string name="import_confirmation_title">導入確認</string>
+    <string name="import_confirmation_message">導入時是否需要保留當前規則？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="importing">正在導入</string>
+    <string name="no_backup_exists">沒有備份文件</string>
+    <string name="choose_backup_file">選擇備份文件</string>
+    <string name="backup_file_dir">備份位置:\n%s</string>
+    <string name="backup_file_name">備份文件名</string>
+    <string name="exporting">正在導出</string>
+    <string name="external_storage_perm_denied_prompt">已拒絕SD卡權限</string>
+    <string name="action_save_as_template">保存為模版</string>
+    <string name="save_template_succeed">保存模版成功</string>
+    <string name="save_template_failed">保存模版失败</string>
+    <string name="action_rule_help">幫助</string>
+    <string name="share">分享</string>
+    <string name="import_rules">導入規則</string>
+    <!-- sms code rule end -->
 </resources>

@@ -91,8 +91,8 @@
     <string name="focus_mode_entry_manual">Manual Focus SMS code EditText</string>
     <!-- Focus Mode end -->
 
-    <string name="simplified_question">Q: </string>
-    <string name="simplified_answer">A: </string>
+    <string name="simplified_question">Q:\u00A0</string>
+    <string name="simplified_answer">A:\u00A0</string>
 
     <!-- FAQ -->
     <string-array name="question_list">
@@ -119,4 +119,60 @@
         <item>自Android 4.4起，只有系统默认的短信应用才可以对短信进行写操作。(也可能是因为目前开发者能力不够，没找到合适的方法。)</item>
     </string-array>
     <!-- FAQ end -->
+
+    <!-- sms code rule -->
+    <string name="confirm">Confirm</string>
+    <string name="rule_company_hint">Institution or Company</string>
+    <string name="rule_keyword_hint">SMS Code Keyword</string>
+    <string name="rule_type_text">SMS Code Type</string>
+    <string name="rule_code_length">SMS code length</string>
+    <string name="rule_code_regex_hint">SMS code regular expression</string>
+    <string name="pref_code_rules_title">SMS code match rules</string>
+    <string name="pref_code_rules_summary">Custom code match rules for specific SMS</string>
+    <string name="quick_choose">Quick Choose</string>
+    <string name="sms_code_type_digit_entry">Digit Only [0\-9]</string>
+    <string name="sms_code_type_letter_entry">Letter Only [a\-zA\-Z]</string>
+    <string name="sms_code_type_text_entry">Text [a\-zA\-Z0\-9]</string>
+    <string name="action_rule_edit_done">Done</string>
+    <string name="action_import_rules">Import</string>
+    <string name="action_export_rules">Export</string>
+    <string name="revoke">Revoke</string>
+    <string name="removed">Removed</string>
+    <string name="remove">Remove</string>
+    <string name="edit">Edit</string>
+    <string name="actions">Actions</string>
+    <string name="rule_list_empty_prompt">No SMS code rules yet!</string>
+    <string name="code_length_empty_prompt">Please enter the code length</string>
+    <string name="rule_company_empty_hint">Please enter institution or company</string>
+    <string name="rule_keyword_empty_hint">Please enter SMS code keyword</string>
+    <string name="rule_code_regex_empty_hint">Please enter SMS code regular expression</string>
+    <string name="rule_duplicated_prompt">Rule exists, please reedit it or exit</string>
+    <string name="rule_list">Rule List</string>
+    <string name="create_rule">New Rule</string>
+    <string name="edit_rule">Edit Rule</string>
+    <string name="import_succeed">Import succeed</string>
+    <string name="import_failed_version_missed">Import failed, version missed</string>
+    <string name="import_failed_version_unknown">Import failed, version unknown</string>
+    <string name="import_failed_backup_invalid">Import failed, backup invalid</string>
+    <string name="import_failed_read_error">Import failed, read file error</string>
+    <string name="export_succeed">Export succeed, try again please</string>
+    <string name="export_failed">Export failed</string>
+    <string name="import_confirmation_title">Import confirmation</string>
+    <string name="import_confirmation_message">Retain current rules when import new rules?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="importing">Importing</string>
+    <string name="no_backup_exists">No backup file exists</string>
+    <string name="choose_backup_file">Choose backup file</string>
+    <string name="backup_file_dir">Backup location:\n%s</string>
+    <string name="backup_file_name">Backup filename</string>
+    <string name="exporting">Exporting</string>
+    <string name="external_storage_perm_denied_prompt">External storage permission denied</string>
+    <string name="action_save_as_template">Save as template</string>
+    <string name="save_template_succeed">Save template succeed</string>
+    <string name="save_template_failed">Save template failed</string>
+    <string name="action_rule_help">Help</string>
+    <string name="share">Share</string>
+    <string name="import_rules">Import Rules</string>
+    <!-- sms code rule end -->
 </resources>

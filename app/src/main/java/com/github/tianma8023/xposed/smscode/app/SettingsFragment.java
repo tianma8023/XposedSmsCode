@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.app.rule.CodeRulesActivity;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
@@ -74,6 +75,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         findPreference(PrefConst.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_CODE_RULES).setOnPreferenceClickListener(this);
+
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
@@ -119,6 +122,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             if (mPreferenceClickCallback != null) {
                 mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), false);
             }
+        } else if (PrefConst.KEY_CODE_RULES.equals(key)) {
+            CodeRulesActivity.startToMe(mHomeActivity);
         } else if (PrefConst.KEY_SMSCODE_TEST.equals(key)) {
             showSmsCodeTestDialog();
         } else if (PrefConst.KEY_JOIN_QQ_GROUP.equals(key)) {

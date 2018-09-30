@@ -35,6 +35,10 @@ public class PermConst {
         // Enable/Disable AccessibilityService programmatically
         PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_SETTINGS);
         PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_SECURE_SETTINGS);
+
+        // Backup import or export
+        PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.adapter.ItemCallback;
 
 import java.util.List;
 
