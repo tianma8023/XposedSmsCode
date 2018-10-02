@@ -137,4 +137,19 @@ public class SPUtils {
     public static void setLocalVersionCode(RemotePreferences preferences, int versionCode) {
         putInt(preferences, LOCAL_VERSION_CODE, versionCode);
     }
+
+    /**
+     * Get current theme index
+     */
+    public static int getCurrentThemeIndex(RemotePreferences preferences) {
+        return getInt(preferences, PrefConst.KEY_CURRENT_THEME_INDEX,
+                PrefConst.CURRENT_THEME_INDEX_DEFAULT);
+    }
+
+    /**
+     * Set current theme index
+     */
+    public static void setCurrentThemeIndex(RemotePreferences preferences, int curIndex) {
+        putInt(preferences, PrefConst.KEY_CURRENT_THEME_INDEX, curIndex);
+    }
 }
