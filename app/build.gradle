@@ -16,12 +16,12 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 17
-        versionName "1.4.6"
+        versionCode 18
+        versionName "1.5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "16")
+        buildConfigField("int", "MODULE_VERSION", "18")
     }
 
     signingConfigs {

@@ -26,6 +26,7 @@ import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
+import com.github.tianma8023.xposed.smscode.utils.Utils;
 import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
@@ -161,13 +162,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
     }
 
     private void aboutProject() {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(Const.PROJECT_SOURCE_CODE_URL));
-            startActivity(intent);
-        } catch (Exception e) {
-            Toast.makeText(mHomeActivity, R.string.browser_install_or_enable_prompt, Toast.LENGTH_SHORT).show();
-        }
+        Utils.showWebPage(mHomeActivity, Const.PROJECT_SOURCE_CODE_URL);
     }
 
     private void donateByAlipay() {

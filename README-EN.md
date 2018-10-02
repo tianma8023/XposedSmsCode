@@ -24,6 +24,7 @@ Welcome any feedbacks.
 - Show toast when a SMS verification code is copied.
 - <s>Mark verification code message as read (experimental).</s>
 - Custom keywords about verification code message (regular expressions allowed).
+- Support the SMS code match rules customization, importation and exportation.
 - Auto-input SMS code.
 
 # Update Logs

@@ -1,4 +1,6 @@
 # Update Logs
+- 18.10.02 v1.5.0
+  1. New feature: add the support of SMS code rules customization, importation and exportation.
 - 18.09.14 v1.4.6
   1. New feature: clear clipboard if auto input succeed (optional).
   2. Merge "auto-input root mode" and "auto-input accessibility mode" into "auto-input mode".
