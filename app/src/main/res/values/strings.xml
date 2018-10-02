@@ -174,5 +174,6 @@
     <string name="action_rule_help">Help</string>
     <string name="share">Share</string>
     <string name="import_rules">Import Rules</string>
+    <string name="no_external_permission_prompt">No permission, reboot and try again</string>
     <!-- sms code rule end -->
 </resources>

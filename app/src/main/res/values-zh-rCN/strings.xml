@@ -153,5 +153,6 @@
     <string name="action_rule_help">帮助</string>
     <string name="share">分享</string>
     <string name="import_rules">导入规则</string>
+    <string name="no_external_permission_prompt">没有权限，请启用模块并重启后再试</string>
     <!-- sms code rule end -->
 </resources>

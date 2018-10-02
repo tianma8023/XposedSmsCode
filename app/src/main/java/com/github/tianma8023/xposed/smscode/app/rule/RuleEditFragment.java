@@ -190,8 +190,9 @@ public class RuleEditFragment extends Fragment {
                             codeLenEditText.setError(getString(R.string.code_length_empty_prompt));
                             return;
                         }
-
-                        String codeRegex = String.format("%s{%s}", codeType, codeLenText);
+                        // (?<![0-9])[0-9]{4}(?![0-9])
+                        String format = "(?<!%s)%s{%s}(?!%s)";
+                        String codeRegex = String.format(format, codeType, codeType, codeLenText, codeType);
                         setText(mCodeRegexEditText, codeRegex);
                         dialog.dismiss();
                     }

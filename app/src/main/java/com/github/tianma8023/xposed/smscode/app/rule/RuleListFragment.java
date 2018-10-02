@@ -324,23 +324,10 @@ public class RuleListFragment extends Fragment {
         }
     }
 
-//    private void requestPermission(final @BackupType int type, final Uri importUri) {
-//        String[] permission ;
-//        if (type == TYPE_EXPORT) {
-//            permission = new String[] {
-//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//            };
-//        } else {
-//            permission = new String[] {
-//                    Manifest.permission.READ_EXTERNAL_STORAGE,
-//            };
-//        }
-//    }
-
     private void attemptExportRuleList() {
         String perm = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
-            // todo
+            showNoPermissionInfo();
             return;
         }
 
@@ -385,7 +372,7 @@ public class RuleListFragment extends Fragment {
     private void attemptImportRuleList() {
         String perm = Manifest.permission.READ_EXTERNAL_STORAGE;
         if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
-            // todo
+            showNoPermissionInfo();
             return;
         }
 
@@ -419,11 +406,16 @@ public class RuleListFragment extends Fragment {
     private void attemptImportRuleListDirectly(Uri uri) {
         String perm = Manifest.permission.READ_EXTERNAL_STORAGE;
         if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
-            // todo
+            showNoPermissionInfo();
             return;
         }
 
         showImportDialogConfirm(uri);
+    }
+
+    private void showNoPermissionInfo() {
+        Snackbar.make(mRecyclerView,
+                R.string.no_external_permission_prompt, Snackbar.LENGTH_SHORT).show();
     }
 
     private void showImportDialogConfirm(final Uri uri) {

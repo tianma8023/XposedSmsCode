@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_home_faq"
-        android:icon="@drawable/ic_question"
+        android:icon="@drawable/ic_help"
         android:title="@string/action_home_faq_title"
         app:showAsAction="always"/>
 
