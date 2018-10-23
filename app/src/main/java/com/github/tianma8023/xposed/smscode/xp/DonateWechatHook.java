@@ -88,17 +88,18 @@ public class DonateWechatHook implements IHook {
 
     private class QrRewardSelectMoneyUIOnCreateHook extends XC_MethodHook {
         @Override
-        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
             Activity activity = (Activity) param.thisObject;
             if (activity != null) {
                 Intent intent = activity.getIntent();
                 if (intent != null) {
                     boolean hasDonateExtra = intent.hasExtra(Const.WECHAT_KEY_EXTRA_DONATE);
                     if (hasDonateExtra) {
-                        String qrCodeUrl = activity.getIntent().getStringExtra(KEY_QRCODE_URL);
+                        String qrCodeUrl = intent.getStringExtra(KEY_QRCODE_URL);
                         if (TextUtils.isEmpty(qrCodeUrl)) {
                             intent.putExtra(KEY_QRCODE_URL, Const.WECHAT_QRCODE_URL);
                         }
+                        intent.removeExtra(Const.WECHAT_KEY_EXTRA_DONATE);
                     }
                 }
             }
