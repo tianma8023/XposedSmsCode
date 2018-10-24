@@ -55,6 +55,9 @@ public interface PrefConst {
     String FOCUS_MODE_AUTO = "focus_mode_auto";
     String FOCUS_MODE_MANUAL = "focus_mode_manual";
 
+    String KEY_MANUAL_FOCUS_IF_FAILED = "pref_manual_focus_if_failed";
+    boolean MANUAL_FOCUS_IF_FAILED_DEFAULT = false;
+
     String KEY_CLEAR_CLIPBOARD = "pref_clear_clipboard";
     boolean CLEAR_CLIPBOARD_DEFAULT = false;
 

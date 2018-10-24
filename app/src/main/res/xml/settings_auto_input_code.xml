@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_entry_auto_input_code_title">
+    <PreferenceCategory
+        android:key="@string/pref_entry_auto_input_code"
+        android:title="@string/pref_entry_auto_input_code_title">
+
         <SwitchPreference
             android:key="@string/pref_enable_auto_input_code"
             android:title="@string/pref_enable_auto_input_code_title"
@@ -23,6 +26,13 @@
             android:entryValues="@array/pref_focus_mode_entryValues"
             android:dependency="@string/pref_enable_auto_input_code"
             android:defaultValue="@string/focus_mode_auto"/>
+
+        <SwitchPreference
+            android:key="@string/pref_manual_focus_if_failed"
+            android:title="@string/pref_manual_focus_if_failed_title"
+            android:summary="@string/pref_manual_focus_if_failed_summary"
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable_auto_input_code"/>
 
         <SwitchPreference
             android:key="@string/pref_clear_clipboard"

@@ -49,8 +49,7 @@
     <string name="pref_entry_auto_input_code_summary">嘗試自動輸入驗證碼</string>
     <string name="open_auto_input_accessibility">打開無障礙服務</string>
     <string name="close_auto_input_accessibility">關閉無障礙服務</string>
-    <string name="open_auto_input_accessibility_prompt">需要打開無障礙服務啟用自動輸入</string>
-    <string name="close_auto_input_accessibility_prompt">需要關閉無障礙服務停用自動輸入</string>
+    <string name="open_auto_input_accessibility_prompt">需要打開無障礙服務啟用自動輸入。\n\n注意：在一些第三方Rom上，無障礙服務會被系統自動關閉，所以此選項可能無效。</string>
     <string name="go_to_open">去打開</string>
     <string name="go_to_close">去關閉</string>
     <string name="smscode_auto_input_service_label">簡訊驗證碼自動輸入服務(Xposed)</string>
@@ -97,9 +96,13 @@
 
     <!-- Focus Mode -->
     <string name="pref_focus_mode_title">對焦模式</string>
-    <string name="focus_mode_entry_auto">自動尋找驗證碼輸入框</string>
-    <string name="focus_mode_entry_manual">手動指定驗證碼輸入框</string>
+    <string name="focus_mode_entry_auto">自動對焦(自動尋找驗證碼輸入框)</string>
+    <string name="focus_mode_entry_manual">手動對焦(手動指定驗證碼輸入框)</string>
     <!-- Focus Mode end -->
+
+    <string name="pref_manual_focus_if_failed_title">自動對焦轉手動對焦</string>
+    <string name="pref_manual_focus_if_failed_summary">優先自動對焦，自動對焦失敗後轉手動對焦</string>
+    <string name="auto_focus_failed_prompt">自動對焦失敗，請在%d秒內手動對焦</string>
 
     <string name="simplified_question">問：</string>
     <string name="simplified_answer">答：</string>

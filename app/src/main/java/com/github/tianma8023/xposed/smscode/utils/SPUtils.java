@@ -177,4 +177,12 @@ public class SPUtils {
         return getBoolean(preferences,
                 PrefConst.KEY_COPY_TO_CLIPBOARD, PrefConst.COPY_TO_CLIPBOARD_DEFAULT);
     }
+
+    /**
+     * 是否在自动对焦失败后转为手动对焦
+     */
+    public static boolean manualFocusIfFailedEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_MANUAL_FOCUS_IF_FAILED, PrefConst.MANUAL_FOCUS_IF_FAILED_DEFAULT);
+    }
 }

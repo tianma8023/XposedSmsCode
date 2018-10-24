@@ -44,8 +44,7 @@
     <string name="pref_entry_auto_input_code_summary">Try to input SMS code automatically</string>
     <string name="open_auto_input_accessibility">Open auto-input accessibility</string>
     <string name="close_auto_input_accessibility">Close auto-input accessibility</string>
-    <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open</string>
-    <string name="close_auto_input_accessibility_prompt">Accessibility Service for auto-input is advised to closed if it\'s off</string>
+    <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open.\n\nNote that: accessibility service will be auto-closed frequently by system on some 3rd party ROM.</string>
     <string name="go_to_open">Open it</string>
     <string name="go_to_close">Close it</string>
     <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
@@ -92,9 +91,13 @@
 
     <!-- Focus Mode -->
     <string name="pref_focus_mode_title">Focus Mode</string>
-    <string name="focus_mode_entry_auto">Auto Focus SMS code EditText</string>
-    <string name="focus_mode_entry_manual">Manual Focus SMS code EditText</string>
+    <string name="focus_mode_entry_auto">Auto Focus(auto focus SMS code input box)</string>
+    <string name="focus_mode_entry_manual">Manual Focus(manual focus SMS code input box)</string>
     <!-- Focus Mode end -->
+
+    <string name="pref_manual_focus_if_failed_title">Auto focus to manual focus</string>
+    <string name="pref_manual_focus_if_failed_summary">Manual focus if auto focus failed</string>
+    <string name="auto_focus_failed_prompt">Auto focus failed, please manual focus in %ds</string>
 
     <string name="simplified_question">Q:\u00A0</string>
     <string name="simplified_answer">A:\u00A0</string>

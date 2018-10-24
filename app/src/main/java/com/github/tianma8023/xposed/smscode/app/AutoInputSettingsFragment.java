@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +25,10 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
     private Context mContext;
 
     private ListPreference mAutoInputModePref;
-    private String mCurAutoMode;
+    private String mAutoInputMode;
+
+    private SwitchPreference mManualFocusIfFailedPref;
+    private String mFocusMode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,14 +42,18 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
 
         mAutoInputModePref = (ListPreference) findPreference(PrefConst.KEY_AUTO_INPUT_MODE);
         mAutoInputModePref.setOnPreferenceChangeListener(this);
-        mCurAutoMode = mAutoInputModePref.getValue();
+        mAutoInputMode = mAutoInputModePref.getValue();
 
         ListPreference focusModePref = (ListPreference) findPreference(PrefConst.KEY_FOCUS_MODE);
         focusModePref.setOnPreferenceChangeListener(this);
+        mFocusMode = focusModePref.getValue();
+
+        mManualFocusIfFailedPref = (SwitchPreference) findPreference(PrefConst.KEY_MANUAL_FOCUS_IF_FAILED);
 
         refreshEnableAutoInputPreference(autoInputPref.isChecked());
-        refreshAutoInputModePreference(mCurAutoMode);
+        refreshAutoInputModePreference(mAutoInputMode);
         refreshFocusModePreference(focusModePref, focusModePref.getValue());
+        refreshManualFocusIfFailedPreference();
     }
 
     @Override
@@ -59,17 +67,21 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
         String key = preference.getKey();
         if (PrefConst.KEY_ENABLE_AUTO_INPUT_CODE.equals(key)) {
             refreshEnableAutoInputPreference((Boolean) newValue);
-        } else if (PrefConst.KEY_FOCUS_MODE.equals(key)) {
-            refreshFocusModePreference((ListPreference) preference, (String) newValue);
-        } else if (PrefConst.KEY_AUTO_INPUT_MODE.equals(key)) {
-            if (!newValue.equals(mCurAutoMode)) {
-                mCurAutoMode = (String) newValue;
-                refreshAutoInputModePreference(mCurAutoMode);
-                if (PrefConst.AUTO_INPUT_MODE_ROOT.equals(newValue)) {
+        }  else if (PrefConst.KEY_AUTO_INPUT_MODE.equals(key)) {
+            if (!newValue.equals(mAutoInputMode)) {
+                mAutoInputMode = (String) newValue;
+                refreshAutoInputModePreference(mAutoInputMode);
+                if (PrefConst.AUTO_INPUT_MODE_ROOT.equals(mAutoInputMode)) {
                     showRootModePrompt();
-                } else if (PrefConst.AUTO_INPUT_MODE_ACCESSIBILITY.equals(mCurAutoMode)) {
+                } else if (PrefConst.AUTO_INPUT_MODE_ACCESSIBILITY.equals(mAutoInputMode)) {
                     showAccessibilityModePrompt();
                 }
+            }
+        } else if (PrefConst.KEY_FOCUS_MODE.equals(key)) {
+            if (!newValue.equals(mFocusMode)) {
+                mFocusMode = (String) newValue;
+                refreshFocusModePreference((ListPreference) preference, mFocusMode);
+                refreshManualFocusIfFailedPreference();
             }
         } else {
             return false;
@@ -139,6 +151,20 @@ public class AutoInputSettingsFragment extends PreferenceFragment implements Pre
             focusModePref.setSummary(entries[index]);
         } catch (Exception e) {
             //ignore
+        }
+    }
+
+    private void refreshManualFocusIfFailedPreference() {
+        PreferenceGroup autoInputGroup =
+                (PreferenceGroup) findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE);
+        if (PrefConst.FOCUS_MODE_AUTO.equals(mFocusMode)) {
+            // auto-focus
+            // show manual focus if failed preference
+            autoInputGroup.addPreference(mManualFocusIfFailedPref);
+        } else {
+            // manual focus
+            // hide manual focus if failed preference
+            autoInputGroup.removePreference(mManualFocusIfFailedPref);
         }
     }
 
