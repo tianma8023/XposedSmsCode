@@ -8,24 +8,24 @@ You can download this module on [Xposed Repository](http://repo.xposed.info/modu
 # Usage
 1. Root your device and install Xposed Framework.
 2. Install and activite this xposed module and then reboot.
-3. Have fun!
+3. Enjoy it!
 
 Welcome any feedbacks.
 
 # Attention
-**This module is suitable for AOSP ROM, it may not work well on other 3rd-party Rom.**
-
-**Compatibility: Requires Android 4.4+ (api level ≥ 19).**
-
-**Read the FAQ in app first if you encountered any problems.**
+- **This module is suitable for AOSP ROM, it may not work well on other 3rd-party Rom.**
+- **Compatibility: Requires Android 4.4+ (api level ≥ 19).**
+- **Read the FAQ in app first if you encountered any problems.**
 
 # Features
 - Copy verification code to clipboard when a new message arrives.
 - Show toast when a SMS verification code is copied.
-- <s>Mark verification code message as read (experimental).</s>
+- Mark verification code message as read (experimental).
+- Delete verification SMS when it's extracted successfully.
 - Custom keywords about verification code message (regular expressions allowed).
 - Support the SMS code match rules customization, importation and exportation.
 - Auto-input SMS code.
+- Various theme color to choose.
 
 # Update Logs
 [Update Logs](/LOG-EN.md)

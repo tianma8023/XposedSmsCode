@@ -45,7 +45,8 @@ public class PermConst {
 
         int sdkInt = Build.VERSION.SDK_INT;
         // Permission for grant AppOps permissions
-        if (sdkInt >= Build.VERSION_CODES.P) {
+        if (sdkInt >= 28) {
+            // Android P
             PERMISSIONS_TO_GRANT.add("android.permission.MANAGE_APP_OPS_MODES");
         } else {
             // android 4.4 ~ 8.1

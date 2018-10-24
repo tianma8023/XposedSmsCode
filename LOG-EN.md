@@ -1,4 +1,10 @@
 # Update Logs
+- 18.10.24 v1.5.1
+  1. Add configurable options: mark verification code sms as read.
+  2. Add configurable options: delete verification sms if it's extracted succeed.
+  3. Add configurable options: copy sms code to clipboard.
+  4. Add configurable options: start manual focus mode if auto focus failed.
+  5. Add more user-friendly tips for settings.
 - 18.10.02 v1.5.0
   1. New feature: add the support of SMS code rules customization, importation and exportation.
 - 18.09.14 v1.4.6

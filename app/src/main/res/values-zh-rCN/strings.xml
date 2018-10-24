@@ -4,8 +4,7 @@
 
     <!-- General -->
     <string name="i_know">知道了</string>
-
-    <!-- -->
+    
     <string name="enable_module_title">启用Xposed模块</string>
     <string name="enable_module_message">请先在XposedInstaller中启用本模块，否则本应用将无法工作！</string>
 
