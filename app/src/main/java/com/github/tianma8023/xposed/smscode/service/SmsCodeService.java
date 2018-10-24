@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Telephony;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -52,6 +53,12 @@ public class SmsCodeService extends IntentService {
 
     private static final int MSG_COPY_TO_CLIPBOARD = 0xff;
     private static final int MSG_MARK_AS_READ = 0xfe;
+    private static final int MSG_DELETE_SMS = 0xfd;
+
+    private static final int OP_DELETE = 0;
+    private static final int OP_MARK_AS_READ = 1;
+    @IntDef({OP_DELETE, OP_MARK_AS_READ})
+    @interface SmsOp {}
 
     private RemotePreferences mPreferences;
 
@@ -163,12 +170,20 @@ public class SmsCodeService extends IntentService {
         copyMsg.what = MSG_COPY_TO_CLIPBOARD;
         innerHandler.sendMessage(copyMsg);
 
-        // mark sms as read or not.
-        if (SPUtils.markAsReadEnabled(mPreferences)) {
-            Message markMsg = new Message();
-            markMsg.obj = smsMessageData;
-            markMsg.what = MSG_MARK_AS_READ;
-            innerHandler.sendMessageDelayed(markMsg, 8000);
+        if (SPUtils.deleteSmsEnabled(mPreferences)) {
+            // delete sms
+            Message deleteMsg = new Message();
+            deleteMsg.obj = smsMessageData;
+            deleteMsg.what = MSG_DELETE_SMS;
+            innerHandler.sendMessageDelayed(deleteMsg, 5000);
+        } else {
+            // mark sms as read or not.
+            if (SPUtils.markAsReadEnabled(mPreferences)) {
+                Message markMsg = new Message();
+                markMsg.obj = smsMessageData;
+                markMsg.what = MSG_MARK_AS_READ;
+                innerHandler.sendMessageDelayed(markMsg, 5000);
+            }
         }
     }
 
@@ -179,12 +194,20 @@ public class SmsCodeService extends IntentService {
                 case MSG_COPY_TO_CLIPBOARD:
                     copyToClipboardOnMainThread((String) msg.obj);
                     break;
-                case MSG_MARK_AS_READ:
+                case MSG_MARK_AS_READ: {
                     SmsMessageData smsMessageData = (SmsMessageData) msg.obj;
                     String sender = smsMessageData.getSender();
                     String body = smsMessageData.getBody();
                     markSmsAsRead(sender, body);
                     break;
+                }
+                case MSG_DELETE_SMS: {
+                    SmsMessageData smsMessageData = (SmsMessageData) msg.obj;
+                    String sender = smsMessageData.getSender();
+                    String body = smsMessageData.getBody();
+                    deleteSms(sender, body);
+                    break;
+                }
             }
         }
     };
@@ -220,6 +243,17 @@ public class SmsCodeService extends IntentService {
     }
 
     private void markSmsAsRead(String sender, String body) {
+        operateSms(sender, body, OP_MARK_AS_READ);
+    }
+
+    private void deleteSms(String sender, String body) {
+        operateSms(sender, body, OP_DELETE);
+    }
+
+    /**
+     * Handle sms according to its operation
+     */
+    private void operateSms(String sender, String body, @SmsOp int smsOp) {
         Cursor cursor = null;
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
@@ -236,7 +270,7 @@ public class SmsCodeService extends IntentService {
             };
             // 查看最近5条短信
             String sortOrder = Telephony.Sms.DATE + " desc limit 5";
-            Uri uri = Telephony.Sms.Inbox.CONTENT_URI;
+            Uri uri = Telephony.Sms.CONTENT_URI;
             cursor = this.getContentResolver().query(uri, projection, null, null, sortOrder);
             if (cursor == null)
                 return;
@@ -248,17 +282,29 @@ public class SmsCodeService extends IntentService {
                     String smsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
                     String where = Telephony.Sms._ID + " = ?";
                     String[] selectionArgs = new String[]{smsMessageId};
-                    ContentValues values = new ContentValues();
-                    values.put(Telephony.Sms.READ, true);
-                    int rows = this.getContentResolver().update(uri, values, where, selectionArgs);
-                    if (rows > 0) {
-                        XLog.i("Mark as read succeed");
-                        break;
+                    if (smsOp == OP_DELETE) {
+                        int rows = getContentResolver().delete(uri, where, selectionArgs);
+                        if (rows > 0) {
+                            XLog.i("Delete sms succeed");
+                            break;
+                        }
+                    } else if (smsOp == OP_MARK_AS_READ) {
+                        ContentValues values = new ContentValues();
+                        values.put(Telephony.Sms.READ, true);
+                        int rows = this.getContentResolver().update(uri, values, where, selectionArgs);
+                        if (rows > 0) {
+                            XLog.i("Mark as read succeed");
+                            break;
+                        }
                     }
                 }
             }
         } catch (Exception e) {
-            XLog.e("Mark as read failed: ", e);
+            if (smsOp == OP_MARK_AS_READ) {
+                XLog.e("Mark as read failed: ", e);
+            } else if (smsOp == OP_DELETE) {
+                XLog.e("Delete sms failed: ", e);
+            }
         } finally {
             if (cursor != null) {
                 cursor.close();

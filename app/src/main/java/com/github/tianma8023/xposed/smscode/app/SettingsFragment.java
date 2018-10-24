@@ -90,6 +90,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         // experimentalGroup.removePreference(markAsReadPref);
         // getPreferenceScreen().removePreference(experimentalGroup);
         findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
+        findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
 
         // version info preference
         Preference versionPref = findPreference(PrefConst.KEY_VERSION);
@@ -205,6 +206,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
         } else if (PrefConst.KEY_MARK_AS_READ.equals(key)){
+            return checkAppOpsPermission((Boolean) newValue);
+        } else if (PrefConst.KEY_DELETE_SMS.equals(key)) {
             return checkAppOpsPermission((Boolean) newValue);
         } else {
             return false;

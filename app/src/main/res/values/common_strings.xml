@@ -10,8 +10,10 @@
     <string name="pref_show_toast">pref_show_toast</string>
     <string name="pref_entry_auto_input_code">pref_entry_auto_input_code</string>
     <string name="pref_choose_theme">pref_choose_theme</string>
+
     <string name="pref_experimental">pref_experimental</string>
     <string name="pref_mark_as_read">pref_mark_as_read</string>
+    <string name="pref_delete_sms">pref_delete_sms</string>
 
     <string name="pref_smscode_keywords">pref_smscode_keywords</string>
     <string name="pref_smscode_test">pref_smscode_test</string>

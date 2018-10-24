@@ -161,4 +161,12 @@ public class SPUtils {
         return getBoolean(preferences,
                 PrefConst.KEY_MARK_AS_READ, PrefConst.MARK_AS_READ_DEFAULT);
     }
+
+    /**
+     * 是否删除验证码短信
+     */
+    public static boolean deleteSmsEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_DELETE_SMS, PrefConst.DELETE_SMS_DEFAULT);
+    }
 }

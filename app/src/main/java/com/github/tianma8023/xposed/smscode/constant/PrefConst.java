@@ -24,6 +24,8 @@ public interface PrefConst {
 
     String KEY_MARK_AS_READ = "pref_mark_as_read";
     boolean MARK_AS_READ_DEFAULT = false;
+    String KEY_DELETE_SMS = "pref_delete_sms";
+    boolean DELETE_SMS_DEFAULT = false;
 
     String KEY_ENTRY_AUTO_INPUT_CODE = "pref_entry_auto_input_code";
 

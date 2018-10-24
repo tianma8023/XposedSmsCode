@@ -43,6 +43,12 @@
             android:summary="@string/pref_mark_as_read_summary"
             android:dependency="@string/pref_enable"
             android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="@string/pref_delete_sms"
+            android:title="@string/pref_delete_sms_title"
+            android:summary="@string/pref_delete_sms_summary"
+            android:dependency="@string/pref_enable"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_smscode_title">
