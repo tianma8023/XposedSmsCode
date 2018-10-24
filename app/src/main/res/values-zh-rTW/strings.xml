@@ -73,7 +73,9 @@
     <string name="pref_clear_clipboard_title">清除剪切板</string>
     <string name="pref_clear_clipboard_summary">自動輸入成功后清除剪切板</string>
     <string name="pref_delete_sms_title">簡訊刪除</string>
-    <string name="pref_delete_sms_summary">警告：擷取成功后將簡訊刪除</string>
+    <string name="pref_delete_sms_summary">警告：擷取成功后驗證碼簡訊將被刪除</string>
+    <string name="pref_copy_to_clipboard_title">拷貝到剪切板</string>
+    <string name="pref_copy_to_clipboard_summary">擷取成功后拷貝驗證碼到系統剪切板</string>
 
     <!-- theme color -->
     <string name="color_default">默認藍</string>

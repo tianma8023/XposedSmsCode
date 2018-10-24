@@ -8,6 +8,7 @@
     <string name="pref_enable">pref_enable</string>
     <string name="pref_hide_launcher_icon">pref_hide_launcher_icon</string>
     <string name="pref_show_toast">pref_show_toast</string>
+    <string name="pref_copy_to_clipboard">pref_copy_to_clipboard</string>
     <string name="pref_entry_auto_input_code">pref_entry_auto_input_code</string>
     <string name="pref_choose_theme">pref_choose_theme</string>
 

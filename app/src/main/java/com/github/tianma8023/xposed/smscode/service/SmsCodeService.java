@@ -51,7 +51,7 @@ public class SmsCodeService extends IntentService {
 
     public static final String EXTRA_KEY_SMS_INTENT = "key_sms_intent";
 
-    private static final int MSG_COPY_TO_CLIPBOARD = 0xff;
+    private static final int MSG_SMSCODE_EXTRACTED = 0xff;
     private static final int MSG_MARK_AS_READ = 0xfe;
     private static final int MSG_DELETE_SMS = 0xfd;
 
@@ -165,9 +165,10 @@ public class SmsCodeService extends IntentService {
         }
 
         XLog.i("Verification code: %s", verificationCode);
+
         Message copyMsg = new Message();
         copyMsg.obj = verificationCode;
-        copyMsg.what = MSG_COPY_TO_CLIPBOARD;
+        copyMsg.what = MSG_SMSCODE_EXTRACTED;
         innerHandler.sendMessage(copyMsg);
 
         if (SPUtils.deleteSmsEnabled(mPreferences)) {
@@ -191,8 +192,8 @@ public class SmsCodeService extends IntentService {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MSG_COPY_TO_CLIPBOARD:
-                    copyToClipboardOnMainThread((String) msg.obj);
+                case MSG_SMSCODE_EXTRACTED:
+                    onSmsCodeExtracted((String) msg.obj);
                     break;
                 case MSG_MARK_AS_READ: {
                     SmsMessageData smsMessageData = (SmsMessageData) msg.obj;
@@ -212,13 +213,14 @@ public class SmsCodeService extends IntentService {
         }
     };
 
-    /**
-     * 在主线程上执行copy操作
-     */
-    private void copyToClipboardOnMainThread(String verificationCode) {
-        ClipboardUtils.copyToClipboard(this, verificationCode);
+    private void onSmsCodeExtracted(final String smsCode) {
+        boolean copyToClipboardEnabled = SPUtils.copyToClipboardEnabled(mPreferences);
+        if (copyToClipboardEnabled) {
+            ClipboardUtils.copyToClipboard(this, smsCode);
+        }
+
         if (SPUtils.shouldShowToast(mPreferences)) {
-            String text = this.getString(R.string.cur_verification_code, verificationCode);
+            String text = this.getString(R.string.cur_verification_code, smsCode);
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
@@ -226,17 +228,18 @@ public class SmsCodeService extends IntentService {
             if (mIsAutoInputRootMode && PrefConst.FOCUS_MODE_MANUAL.equals(mFocusMode)) {
                 // focus mode: manual focus
                 // input mode: root mode
-                boolean success = ShellUtils.inputText(verificationCode);
+                boolean success = ShellUtils.inputText(smsCode);
                 if (success) {
                     XLog.i("Auto input succeed");
-                    if (SPUtils.shouldClearClipboard(mPreferences)) {
+                    if (copyToClipboardEnabled &&
+                            SPUtils.shouldClearClipboard(mPreferences)) {
                         ClipboardUtils.clearClipboard(this);
                     }
                 }
             } else {
                 // start auto input
                 Intent intent = new Intent(SmsCodeAutoInputService.ACTION_START_AUTO_INPUT);
-                intent.putExtra(SmsCodeAutoInputService.EXTRA_KEY_SMS_CODE, verificationCode);
+                intent.putExtra(SmsCodeAutoInputService.EXTRA_KEY_SMS_CODE, smsCode);
                 sendBroadcast(intent);
             }
         }

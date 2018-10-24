@@ -169,4 +169,12 @@ public class SPUtils {
         return getBoolean(preferences,
                 PrefConst.KEY_DELETE_SMS, PrefConst.DELETE_SMS_DEFAULT);
     }
+
+    /**
+     * 是否复制到剪切板
+     */
+    public static boolean copyToClipboardEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_COPY_TO_CLIPBOARD, PrefConst.COPY_TO_CLIPBOARD_DEFAULT);
+    }
 }
