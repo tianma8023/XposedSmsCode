@@ -1,5 +1,6 @@
 package com.github.tianma8023.xposed.smscode.app.faq;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,14 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.tianma8023.xposed.smscode.R;
-import com.github.tianma8023.xposed.smscode.app.BaseFragment;
 
 import java.util.List;
 
 /**
  * FAQ fragment
  */
-public class FaqFragment extends BaseFragment {
+public class FaqFragment extends Fragment {
     
     public FaqFragment() {
     }

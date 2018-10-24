@@ -8,8 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.preference.Preference;
-import android.preference.PreferenceGroup;
+import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -24,6 +25,7 @@ import com.github.tianma8023.xposed.smscode.app.rule.CodeRulesActivity;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
+import com.github.tianma8023.xposed.smscode.utils.AppOpsUtils;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.Utils;
@@ -33,7 +35,7 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 /**
  * 首选项Fragment
  */
-public class SettingsFragment extends BasePreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
     public static final String EXTRA_KEY_CURRENT_THEME = "extra_key_current_theme";
 
@@ -83,10 +85,11 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
         initChooseThemePreference(chooseThemePref);
 
         // Hide experimental preference group.
-        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
+        // PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
         // Preference markAsReadPref = findPreference(PrefConst.KEY_MARK_AS_READ);
         // experimentalGroup.removePreference(markAsReadPref);
-        getPreferenceScreen().removePreference(experimentalGroup);
+        // getPreferenceScreen().removePreference(experimentalGroup);
+        findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
 
         // version info preference
         Preference versionPref = findPreference(PrefConst.KEY_VERSION);
@@ -201,6 +204,8 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             hideOrShowLauncherIcon((Boolean) newValue);
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
+        } else if (PrefConst.KEY_MARK_AS_READ.equals(key)){
+            return checkAppOpsPermission((Boolean) newValue);
         } else {
             return false;
         }
@@ -281,5 +286,27 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
             text = getString(R.string.cur_verification_code, verificationCode);
         }
         Toast.makeText(mHomeActivity, text, Toast.LENGTH_LONG).show();
+    }
+
+    private boolean checkAppOpsPermission(boolean on) {
+        if (!on) {
+            return true;
+        }
+
+        String packageName = BuildConfig.APPLICATION_ID;
+        int uid = Process.myUid();
+        int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
+        if (!AppOpsUtils.checkOp(mHomeActivity, opWriteSms, uid, packageName)) {
+            // Don't have write sms AppOps permission
+            try {
+                AppOpsUtils.allowOp(mHomeActivity, opWriteSms, uid, packageName);
+                return true;
+            } catch (Exception e) {
+                Toast.makeText(mHomeActivity, "没有相关权限，请重启后重新打开", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 }

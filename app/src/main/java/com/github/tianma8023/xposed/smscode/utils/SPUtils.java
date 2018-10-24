@@ -152,4 +152,13 @@ public class SPUtils {
     public static void setCurrentThemeIndex(RemotePreferences preferences, int curIndex) {
         putInt(preferences, PrefConst.KEY_CURRENT_THEME_INDEX, curIndex);
     }
+
+
+    /**
+     * 标记为已读是否打开
+     */
+    public static boolean markAsReadEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_MARK_AS_READ, PrefConst.MARK_AS_READ_DEFAULT);
+    }
 }

@@ -164,13 +164,12 @@ public class SmsCodeService extends IntentService {
         innerHandler.sendMessage(copyMsg);
 
         // mark sms as read or not.
-//        if (getBooleanPref(mPreferences, PrefConst.KEY_MARK_AS_READ, PrefConst.MARK_AS_READ_DEFAULT)) {
-////            sleep(8);
-//            Message markMsg = new Message();
-//            markMsg.obj = smsMessageData;
-//            markMsg.what = MSG_MARK_AS_READ;
-//            innerHandler.sendMessageDelayed(markMsg, 8000);
-//        }
+        if (SPUtils.markAsReadEnabled(mPreferences)) {
+            Message markMsg = new Message();
+            markMsg.obj = smsMessageData;
+            markMsg.what = MSG_MARK_AS_READ;
+            innerHandler.sendMessageDelayed(markMsg, 8000);
+        }
     }
 
     private Handler innerHandler = new Handler(Looper.getMainLooper()) {
@@ -225,27 +224,39 @@ public class SmsCodeService extends IntentService {
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
                     != PackageManager.PERMISSION_GRANTED) {
-                XLog.e("Don't have permission read sms");
+                XLog.e("Don't have permission to read/write sms");
                 return;
             }
+            String[] projection = new String[]{
+                    Telephony.Sms._ID,
+                    Telephony.Sms.ADDRESS,
+                    Telephony.Sms.BODY,
+                    Telephony.Sms.READ,
+                    Telephony.Sms.DATE
+            };
+            // 查看最近5条短信
+            String sortOrder = Telephony.Sms.DATE + " desc limit 5";
             Uri uri = Telephony.Sms.Inbox.CONTENT_URI;
-            cursor = this.getContentResolver().query(uri, null, null, null, null);
+            cursor = this.getContentResolver().query(uri, projection, null, null, sortOrder);
             if (cursor == null)
                 return;
             while (cursor.moveToNext()) {
                 String curAddress = cursor.getString(cursor.getColumnIndex("address"));
                 int curRead = cursor.getInt(cursor.getColumnIndex("read"));
                 String curBody = cursor.getString(cursor.getColumnIndex("body"));
-                XLog.d("curBody = %s", curBody);
                 if (curAddress.equals(sender) && curRead == 0 && curBody.startsWith(body)) {
                     String smsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
+                    String where = Telephony.Sms._ID + " = ?";
+                    String[] selectionArgs = new String[]{smsMessageId};
                     ContentValues values = new ContentValues();
-                    values.put("read", true);
-                    int rows = this.getContentResolver().update(uri, values, "_id = ?", new String[]{smsMessageId});
-                    XLog.d("Updates rows %d", rows);
+                    values.put(Telephony.Sms.READ, true);
+                    int rows = this.getContentResolver().update(uri, values, where, selectionArgs);
+                    if (rows > 0) {
+                        XLog.i("Mark as read succeed");
+                        break;
+                    }
                 }
             }
-            XLog.i("Mark as read succeed");
         } catch (Exception e) {
             XLog.e("Mark as read failed: ", e);
         } finally {

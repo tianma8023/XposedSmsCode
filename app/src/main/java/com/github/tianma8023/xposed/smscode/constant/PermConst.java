@@ -1,6 +1,7 @@
 package com.github.tianma8023.xposed.smscode.constant;
 
 import android.Manifest;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,6 @@ public class PermConst {
         PERMISSIONS_TO_GRANT.add(Manifest.permission.INTERNET);
         PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_PHONE_STATE);
 
-        // READ_SMS for Mark SMS as read
-        // PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_SMS);
-
         // JobIntentService
         // <uses-permission android:name="android.permission.WAKE_LOCK"/>
         // PERMISSIONS_TO_GRANT.add(Manifest.permission.WAKE_LOCK);
@@ -39,6 +37,20 @@ public class PermConst {
         // Backup import or export
         PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        // READ_SMS for Mark SMS as read & Delete extracted verification SMS
+        PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_SMS);
+        // api version < android M
+        PERMISSIONS_TO_GRANT.add("android.permission.WRITE_SMS");
+
+        int sdkInt = Build.VERSION.SDK_INT;
+        // Permission for grant AppOps permissions
+        if (sdkInt >= Build.VERSION_CODES.P) {
+            PERMISSIONS_TO_GRANT.add("android.permission.MANAGE_APP_OPS_MODES");
+        } else {
+            // android 4.4 ~ 8.1
+            PERMISSIONS_TO_GRANT.add("android.permission.UPDATE_APP_OPS_STATS");
+        }
     }
 
 }
