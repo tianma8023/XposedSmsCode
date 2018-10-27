@@ -46,10 +46,8 @@
     <string name="pref_entry_auto_input_code_title">自动输入验证码</string>
     <string name="pref_entry_auto_input_code_summary">尝试自动输入验证码</string>
     <string name="open_auto_input_accessibility">打开无障碍服务</string>
-    <string name="close_auto_input_accessibility">关闭无障碍服务</string>
     <string name="open_auto_input_accessibility_prompt">需要打开自动输入的无障碍服务。\n\n注意：在一些国产Rom上，无障碍服务会被系统自动关闭，所以此选项可能无效。</string>
     <string name="go_to_open">去打开</string>
-    <string name="go_to_close">去关闭</string>
     <string name="smscode_auto_input_service_label">短信验证码自动输入服务(Xposed)</string>
     <string name="pref_enable_auto_input_code_title">启用自动输入</string>
     <string name="acquire_root_permission">获取Root权限</string>
@@ -109,7 +107,6 @@
     <string name="confirm">确定</string>
     <string name="rule_company_hint">公司或组织名</string>
     <string name="rule_keyword_hint">验证码关键字</string>
-    <string name="rule_type_text">验证码类型</string>
     <string name="rule_code_length">验证码长度</string>
     <string name="rule_code_regex_hint">验证码正则表达式</string>
     <string name="pref_code_rules_title">验证码规则</string>
@@ -152,7 +149,6 @@
     <string name="backup_file_dir">备份位置:\n%s</string>
     <string name="backup_file_name">备份文件名</string>
     <string name="exporting">正在导出</string>
-    <string name="external_storage_perm_denied_prompt">已拒绝SD卡权限</string>
     <string name="action_save_as_template">保存为模版</string>
     <string name="save_template_succeed">保存模版成功</string>
     <string name="save_template_failed">保存模版失败</string>

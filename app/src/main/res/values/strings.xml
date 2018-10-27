@@ -43,10 +43,8 @@
     <string name="pref_entry_auto_input_code_title">Auto-input SMS code</string>
     <string name="pref_entry_auto_input_code_summary">Try to input SMS code automatically</string>
     <string name="open_auto_input_accessibility">Open auto-input accessibility</string>
-    <string name="close_auto_input_accessibility">Close auto-input accessibility</string>
     <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open.\n\nNote that: accessibility service will be auto-closed frequently by system on some 3rd party ROM.</string>
     <string name="go_to_open">Open it</string>
-    <string name="go_to_close">Close it</string>
     <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
     <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
     <string name="acquire_root_permission">ROOT permission required</string>
@@ -130,7 +128,6 @@
     <string name="confirm">Confirm</string>
     <string name="rule_company_hint">Institution or Company</string>
     <string name="rule_keyword_hint">SMS Code Keyword</string>
-    <string name="rule_type_text">SMS Code Type</string>
     <string name="rule_code_length">SMS code length</string>
     <string name="rule_code_regex_hint">SMS code regular expression</string>
     <string name="pref_code_rules_title">SMS code match rules</string>
@@ -173,7 +170,6 @@
     <string name="backup_file_dir">Backup location:\n%s</string>
     <string name="backup_file_name">Backup filename</string>
     <string name="exporting">Exporting</string>
-    <string name="external_storage_perm_denied_prompt">External storage permission denied</string>
     <string name="action_save_as_template">Save as template</string>
     <string name="save_template_succeed">Save template succeed</string>
     <string name="save_template_failed">Save template failed</string>

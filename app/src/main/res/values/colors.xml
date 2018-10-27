@@ -30,10 +30,6 @@
 
     <color name="colorPrimary_black">#212121</color>
     <color name="colorPrimaryDark_black">#1C1C1C</color>
-    <color name="colorAccent_black">#252525</color>
-    <color name="colorBackground_black">#292929</color>
-
-    <color name="darkGray">#707070</color>
 
     <color name="faq_textColor_white">#f0f0f0</color>
     <color name="faq_textColorSecondary_white">#6f6f6f</color>

@@ -22,6 +22,8 @@ android {
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
         buildConfigField("int", "MODULE_VERSION", "18")
+
+        vectorDrawables.generatedDensities = ['hdpi']
     }
 
     signingConfigs {

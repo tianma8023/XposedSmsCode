@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textColor="?attr/faq_textColor"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp"/>
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:textColor="?attr/faq_textColor"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp"/>
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2.5"
             android:textAlignment="center"
-            android:textColor="?attr/faq_textColor"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -6,12 +6,14 @@
         android:title="@string/pref_entry_auto_input_code_title">
 
         <SwitchPreference
+            android:icon="@drawable/ic_lock_open"
             android:key="@string/pref_enable_auto_input_code"
             android:title="@string/pref_enable_auto_input_code_title"
             android:summary="@string/pref_entry_auto_input_code_summary"
             android:defaultValue="false"/>
 
         <ListPreference
+            android:icon="@drawable/ic_input"
             android:key="@string/pref_auto_input_mode"
             android:title="@string/pref_auto_input_mode_title"
             android:summary="@string/pref_auto_input_mode_summary_default"
@@ -20,6 +22,7 @@
             android:entryValues="@array/pref_auto_input_mode_entryValues"/>
 
         <ListPreference
+            android:icon="@drawable/ic_focus_mode"
             android:key="@string/pref_focus_mode"
             android:title="@string/pref_focus_mode_title"
             android:entries="@array/pref_focus_mode_entries"
@@ -28,6 +31,7 @@
             android:defaultValue="@string/focus_mode_auto"/>
 
         <SwitchPreference
+            android:icon="@drawable/ic_transform"
             android:key="@string/pref_manual_focus_if_failed"
             android:title="@string/pref_manual_focus_if_failed_title"
             android:summary="@string/pref_manual_focus_if_failed_summary"
@@ -35,6 +39,7 @@
             android:dependency="@string/pref_enable_auto_input_code"/>
 
         <SwitchPreference
+            android:icon="@drawable/ic_clear"
             android:key="@string/pref_clear_clipboard"
             android:title="@string/pref_clear_clipboard_title"
             android:summary="@string/pref_clear_clipboard_summary"

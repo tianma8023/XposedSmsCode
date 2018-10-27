@@ -4,18 +4,21 @@
     <PreferenceCategory android:title="@string/pref_general_title">
 
         <SwitchPreference
+            android:icon="@drawable/ic_lock_open"
             android:key="@string/pref_enable"
             android:title="@string/pref_enable_title"
             android:summary="@string/pref_enable_summary"
             android:defaultValue="true"/>
 
         <SwitchPreference
+            android:icon="@drawable/ic_hide"
             android:key="@string/pref_hide_launcher_icon"
             android:title="@string/pref_hide_launcher_icon_title"
             android:summary="@string/pref_hide_launcher_icon_summary"
             android:defaultValue="false"/>
 
         <SwitchPreference
+            android:icon="@drawable/ic_toast"
             android:key="@string/pref_show_toast"
             android:title="@string/pref_show_toast_title"
             android:summary="@string/pref_show_toast_summary"
@@ -23,6 +26,7 @@
             android:defaultValue="true"/>
 
         <SwitchPreference
+            android:icon="@drawable/ic_copy"
             android:key="@string/pref_copy_to_clipboard"
             android:title="@string/pref_copy_to_clipboard_title"
             android:summary="@string/pref_copy_to_clipboard_summary"
@@ -30,12 +34,14 @@
             android:dependency="@string/pref_enable"/>
 
         <Preference
+            android:icon="@drawable/ic_automatic"
             android:key="@string/pref_entry_auto_input_code"
             android:dependency="@string/pref_enable"
             android:title="@string/pref_entry_auto_input_code_title"
             android:summary="@string/pref_entry_auto_input_code_summary" />
 
         <Preference
+            android:icon="@drawable/ic_palette"
             android:key="@string/pref_choose_theme"
             android:title="@string/pref_choose_theme_title" />
     </PreferenceCategory>
@@ -45,6 +51,7 @@
         android:title="@string/pref_experimental_title">
 
         <SwitchPreference
+            android:icon="@drawable/ic_mark_as_read"
             android:key="@string/pref_mark_as_read"
             android:title="@string/pref_mark_as_read_title"
             android:summary="@string/pref_mark_as_read_summary"
@@ -52,6 +59,7 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:icon="@drawable/ic_delete"
             android:key="@string/pref_delete_sms"
             android:title="@string/pref_delete_sms_title"
             android:summary="@string/pref_delete_sms_summary"
@@ -61,6 +69,7 @@
     <PreferenceCategory android:title="@string/pref_smscode_title">
 
         <com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference
+            android:icon="@drawable/ic_key_words"
             android:key="@string/pref_smscode_keywords"
             android:title="@string/pref_smscode_keywords_title"
             android:summary="@string/pref_smscode_keywords_summary"
@@ -69,12 +78,14 @@
             android:defaultValue="@string/default_smscode_keywords"/>
 
         <Preference
+            android:icon="@drawable/ic_rules"
             android:key="@string/pref_code_rules"
             android:title="@string/pref_code_rules_title"
             android:persistent="false"
             android:summary="@string/pref_code_rules_summary"/>
 
         <Preference
+            android:icon="@drawable/ic_test"
             android:key="@string/pref_smscode_test"
             android:title="@string/pref_smscode_test_title"
             android:summary="@string/pref_smscode_test_summary"
@@ -85,6 +96,7 @@
 
     <PreferenceCategory android:title="@string/pref_debug_title">
         <SwitchPreference
+            android:icon="@drawable/ic_log"
             android:key="@string/pref_verbose_log_mode"
             android:title="@string/pref_verbose_log_mode_title"
             android:summary="@string/pref_verbose_log_mode_summary"
@@ -95,25 +107,30 @@
     <PreferenceCategory android:title="@string/pref_about_title">
 
         <Preference
+            android:icon="@drawable/ic_info"
             android:key="@string/pref_version"
             android:title="@string/pref_version_title"
             android:summary="@string/pref_version_summary"/>
 
         <Preference
+            android:icon="@drawable/ic_qq_group"
             android:key="@string/pref_join_qq_group"
             android:title="@string/pref_join_qq_group_title"
             android:summary="@string/pref_join_qq_group_summary" />
 
         <Preference
+            android:icon="@drawable/ic_source_code"
             android:key="@string/pref_source_code"
             android:title="@string/pref_source_code_title"
             android:summary="@string/pref_source_code_summary" />
 
         <Preference
+            android:icon="@drawable/ic_alipay"
             android:key="@string/pref_donate_by_alipay"
             android:title="@string/pref_donate_by_alipay_title"/>
 
         <Preference
+            android:icon="@drawable/ic_wechat_pay"
             android:key="@string/pref_donate_by_wechat"
             android:title="@string/pref_donate_by_wechat_title"
             android:dependency="@string/pref_enable"/>
