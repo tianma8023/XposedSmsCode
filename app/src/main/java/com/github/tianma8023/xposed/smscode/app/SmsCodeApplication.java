@@ -10,6 +10,7 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 import com.github.tianma8023.xposed.smscode.migrate.TransitionTask;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
@@ -22,15 +23,21 @@ public class SmsCodeApplication extends Application{
     public void onCreate() {
         super.onCreate();
 
+        initWithUmengAnalyze();
+
+        initBugly();
+
+        initNotificationChannel();
+
+        performTransitionTask();
+    }
+
+    private void initNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = NotificationConst.CHANNEL_ID_FOREGROUND_SERVICE;
             String channelName = getString(R.string.channel_name_foreground_service);
             createNotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_MIN);
         }
-
-        initWithUmengAnalyze();
-
-        performTransitionTask();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -48,6 +55,12 @@ public class SmsCodeApplication extends Application{
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
 
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
+        MobclickAgent.setCatchUncaughtExceptions(false);
+    }
+
+    // tencent bugly initialization
+    private void initBugly() {
+        CrashReport.initCrashReport(getApplicationContext(), "4a63c8499a", BuildConfig.DEBUG);
     }
 
     // data transition task

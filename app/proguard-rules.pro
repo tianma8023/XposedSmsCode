@@ -59,3 +59,14 @@ public static java.lang.String TABLENAME;
 
 # greenDAO 3 proguard end
 # ==========================
+
+# ==========================
+# bugly proguard start
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.** {
+    *;
+}
+
+# bugly proguard end
+# ==========================
