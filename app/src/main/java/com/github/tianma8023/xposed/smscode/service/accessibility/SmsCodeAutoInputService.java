@@ -410,7 +410,9 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
 
         @Override
         public void run() {
+            Looper.prepare();
             autoInputSmsCode(mSmsCode);
+            Looper.loop();
         }
     }
 }
