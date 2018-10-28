@@ -1,4 +1,8 @@
 # Update Logs
+- 18.10.28 v1.5.2
+  1. Add icon for every preference.
+  2. Minify APK size.
+  3. Bug fix: crash when auto input.
 - 18.10.24 v1.5.1
   1. Add configurable options: mark verification code sms as read.
   2. Add configurable options: delete verification sms if it's extracted succeed.
