@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply greenDao plugin
+apply from: 'and-res-guard.gradle'
 
 def key = file('F:\\Keystore\\tianma.jks')
 
@@ -24,6 +25,8 @@ android {
         buildConfigField("int", "MODULE_VERSION", "18")
 
         vectorDrawables.generatedDensities = ['hdpi']
+
+        resConfigs("en", "zh-rCN", "zh-rTW")
     }
 
     signingConfigs {

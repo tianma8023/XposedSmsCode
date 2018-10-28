@@ -172,18 +172,20 @@ public class SmsCodeService extends IntentService {
         innerHandler.sendMessage(copyMsg);
 
         if (SPUtils.deleteSmsEnabled(mPreferences)) {
+            XLog.d("Delete SMS enabled");
             // delete sms
             Message deleteMsg = new Message();
             deleteMsg.obj = smsMessageData;
             deleteMsg.what = MSG_DELETE_SMS;
-            innerHandler.sendMessageDelayed(deleteMsg, 5000);
+            innerHandler.sendMessageDelayed(deleteMsg, 6000);
         } else {
             // mark sms as read or not.
             if (SPUtils.markAsReadEnabled(mPreferences)) {
+                XLog.d("Mark SMS as read enabled");
                 Message markMsg = new Message();
                 markMsg.obj = smsMessageData;
                 markMsg.what = MSG_MARK_AS_READ;
-                innerHandler.sendMessageDelayed(markMsg, 5000);
+                innerHandler.sendMessageDelayed(markMsg, 6000);
             }
         }
     }
@@ -246,23 +248,35 @@ public class SmsCodeService extends IntentService {
     }
 
     private void markSmsAsRead(String sender, String body) {
-        operateSms(sender, body, OP_MARK_AS_READ);
+        XLog.d("Marking SMS...");
+        boolean result = operateSms(sender, body, OP_MARK_AS_READ);
+        if (result) {
+            XLog.i("Mark SMS as read succeed");
+        } else {
+            XLog.i("Mark SMS as read failed");
+        }
     }
 
     private void deleteSms(String sender, String body) {
-        operateSms(sender, body, OP_DELETE);
+        XLog.d("Deleting SMS...");
+        boolean result = operateSms(sender, body, OP_DELETE);
+        if (result) {
+            XLog.i("Delete SMS succeed");
+        } else {
+            XLog.i("Delete SMS failed");
+        }
     }
 
     /**
      * Handle sms according to its operation
      */
-    private void operateSms(String sender, String body, @SmsOp int smsOp) {
+    private boolean operateSms(String sender, String body, @SmsOp int smsOp) {
         Cursor cursor = null;
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
                     != PackageManager.PERMISSION_GRANTED) {
                 XLog.e("Don't have permission to read/write sms");
-                return;
+                return false;
             }
             String[] projection = new String[]{
                     Telephony.Sms._ID,
@@ -275,8 +289,10 @@ public class SmsCodeService extends IntentService {
             String sortOrder = Telephony.Sms.DATE + " desc limit 5";
             Uri uri = Telephony.Sms.CONTENT_URI;
             cursor = this.getContentResolver().query(uri, projection, null, null, sortOrder);
-            if (cursor == null)
-                return;
+            if (cursor == null) {
+                XLog.i("Cursor is null");
+                return false;
+            }
             while (cursor.moveToNext()) {
                 String curAddress = cursor.getString(cursor.getColumnIndex("address"));
                 int curRead = cursor.getInt(cursor.getColumnIndex("read"));
@@ -288,31 +304,26 @@ public class SmsCodeService extends IntentService {
                     if (smsOp == OP_DELETE) {
                         int rows = getContentResolver().delete(uri, where, selectionArgs);
                         if (rows > 0) {
-                            XLog.i("Delete sms succeed");
-                            break;
+                            return true;
                         }
                     } else if (smsOp == OP_MARK_AS_READ) {
                         ContentValues values = new ContentValues();
                         values.put(Telephony.Sms.READ, true);
                         int rows = this.getContentResolver().update(uri, values, where, selectionArgs);
                         if (rows > 0) {
-                            XLog.i("Mark as read succeed");
-                            break;
+                            return true;
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            if (smsOp == OP_MARK_AS_READ) {
-                XLog.e("Mark as read failed: ", e);
-            } else if (smsOp == OP_DELETE) {
-                XLog.e("Delete sms failed: ", e);
-            }
+            XLog.e("Operate SMS failed: ", e);
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
+        return false;
     }
 
     private void sleep(int seconds) {
