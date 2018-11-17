@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_records"
+        android:shortcutId="smscode_records"
+        android:shortcutShortLabel="@string/smscode_records">
+        <intent
+            android:action="android.intent.action.View"
+            android:targetClass="com.github.tianma8023.smscode.app.record.CodeRecordsActivity"
+            android:targetPackage="com.github.tianma8023.smscode"/>
+        <categories
+            android:name="android.shortcut.conversation"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_rules"
+        android:shortcutId="smscode_rules"
+        android:shortcutShortLabel="@string/rule_list">
+        <intent
+            android:action="android.intent.action.View"
+            android:targetClass="com.github.tianma8023.smscode.app.rule.CodeRulesActivity"
+            android:targetPackage="com.github.tianma8023.smscode"/>
+        <categories
+            android:name="android.shortcut.conversation"/>
+    </shortcut>
+</shortcuts>

@@ -161,7 +161,7 @@
     <string name="rule_keyword_empty_hint">Please enter SMS code keyword</string>
     <string name="rule_code_regex_empty_hint">Please enter SMS code regular expression</string>
     <string name="rule_duplicated_prompt">Rule exists, please reedit it or exit</string>
-    <string name="rule_list">Rule List</string>
+    <string name="rule_list">Code Rule List</string>
     <string name="create_rule">New Rule</string>
     <string name="edit_rule">Edit Rule</string>
     <string name="import_succeed">Import succeed</string>
