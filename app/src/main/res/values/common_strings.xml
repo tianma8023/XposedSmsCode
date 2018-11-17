@@ -18,6 +18,10 @@
 
     <string name="pref_smscode_keywords">pref_smscode_keywords</string>
     <string name="pref_smscode_test">pref_smscode_test</string>
+    <string name="pref_code_rules">pref_code_rules</string>
+
+    <string name="pref_enable_code_records">pref_enable_code_records</string>
+    <string name="pref_entry_code_records">pref_entry_code_records</string>
 
     <string name="pref_verbose_log_mode">pref_verbose_log_mode</string>
 
@@ -33,8 +37,6 @@
     <string name="pref_focus_mode">pref_focus_mode</string>
     <string name="pref_manual_focus_if_failed">pref_manual_focus_if_failed</string>
     <string name="pref_clear_clipboard">pref_clear_clipboard</string>
-
-    <string name="pref_code_rules">pref_code_rules</string>
     <!-- shared preference key end -->
 
     <!-- Focus mode -->

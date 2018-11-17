@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rule_list_recycler_view"
+        android:id="@+id/code_records_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -15,14 +15,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/list_empty_prompt"
-        android:textSize="14sp"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/rule_list_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/floating_action_button_margin"
-        android:src="@drawable/ic_add"/>
+        android:textSize="16sp"/>
 
 </android.support.design.widget.CoordinatorLayout>

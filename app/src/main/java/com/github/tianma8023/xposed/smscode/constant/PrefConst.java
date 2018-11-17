@@ -63,4 +63,9 @@ public interface PrefConst {
 
     String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
     boolean VERBOSE_LOG_MODE_DEFAULT = false;
+
+    String KEY_ENABLE_CODE_RECORDS = "pref_enable_code_records";
+    boolean ENABLE_CODE_RECORDS_DEFAULT = true;
+    int MAX_SMS_RECORDS_COUNT_DEFAULT = 10;
+    String KEY_ENTRY_CODE_RECORDS = "pref_entry_code_records";
 }

@@ -71,6 +71,17 @@
     <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
     <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
+    <string name="pref_entry_code_records_title">验证码历史记录</string>
+    <string name="pref_entry_code_records_summary">最多保留%d条记录</string>
+    <string name="pref_code_records_title">短信验证码记录</string>
+    <string name="smscode_records">验证码记录</string>
+    <string name="edit_smscode_records">编辑验证码记录</string>
+    <string name="prompt_sms_code_copied">已复制验证码: %s</string>
+    <string name="action_delete">删除</string>
+    <string name="action_select_all">全选</string>
+    <string name="some_items_removed">已删除%d项记录</string>
+    <string name="pref_enable_code_records_title">启用验证码记录</string>
+    <!-- preferences end -->
 
     <!-- theme color -->
     <string name="color_default">默认蓝</string>
@@ -123,7 +134,7 @@
     <string name="remove">删除</string>
     <string name="edit">编辑</string>
     <string name="actions">操作</string>
-    <string name="rule_list_empty_prompt">空空如也~</string>
+    <string name="list_empty_prompt">空空如也~</string>
     <string name="code_length_empty_prompt">请输入验证码长度</string>
     <string name="rule_company_empty_hint">请输入公司或组织名</string>
     <string name="rule_keyword_empty_hint">请输入验证码关键字</string>

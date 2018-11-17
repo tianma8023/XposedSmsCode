@@ -73,6 +73,17 @@
     <string name="pref_delete_sms_summary">警告：擷取成功后驗證碼簡訊將被刪除</string>
     <string name="pref_copy_to_clipboard_title">拷貝到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">擷取成功后拷貝驗證碼到系統剪切板</string>
+    <string name="pref_entry_code_records_title">驗證碼歷史記錄</string>
+    <string name="pref_entry_code_records_summary">最多保留%d條記錄</string>
+    <string name="pref_code_records_title">簡訊驗證碼記錄</string>
+    <string name="smscode_records">驗證碼記錄</string>
+    <string name="edit_smscode_records">編輯驗證碼記錄</string>
+    <string name="prompt_sms_code_copied">已複製驗證碼: %s</string>
+    <string name="action_delete">刪除</string>
+    <string name="action_select_all">全選</string>
+    <string name="some_items_removed">已刪除%d項記錄</string>
+    <string name="pref_enable_code_records_title">啟用驗證碼記錄</string>
+    <!-- preferences end -->
 
     <!-- theme color -->
     <string name="color_default">默認藍</string>
@@ -149,7 +160,7 @@
     <string name="remove">刪除</string>
     <string name="edit">編輯</string>
     <string name="actions">操作</string>
-    <string name="rule_list_empty_prompt">空空如也~</string>
+    <string name="list_empty_prompt">空空如也~</string>
     <string name="code_length_empty_prompt">請輸入驗證碼長度</string>
     <string name="rule_company_empty_hint">請輸入公司或組織名</string>
     <string name="rule_keyword_empty_hint">請輸入驗證碼關鍵字</string>

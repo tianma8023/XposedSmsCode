@@ -5,11 +5,21 @@ import android.view.View;
 
 public class BaseItemCallback<E> implements ItemCallback<E> {
     @Override
-    public void onItemClicked(E item, int position) {
+    public void onItemClicked(View itemView, E item, int position) {
+        onItemClicked(item, position);
+    }
+
+    protected void onItemClicked(E item, int position) {
+
     }
 
     @Override
-    public boolean onItemLongClicked(E item, int position) {
+    public boolean onItemLongClicked(View itemView, E item, int position) {
+        return onItemLongClicked(item, position);
+    }
+
+
+    protected boolean onItemLongClicked(E item, int position) {
         return false;
     }
 

@@ -73,14 +73,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.VH> {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mItemCallback.onItemClicked(item, position);
+                        mItemCallback.onItemClicked(itemView, item, position);
                     }
                 });
 
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        return mItemCallback.onItemLongClicked(item, position);
+                        return mItemCallback.onItemLongClicked(itemView, item, position);
                     }
                 });
 

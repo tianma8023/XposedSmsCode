@@ -22,7 +22,7 @@ import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
-import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
+import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.ArrayList;
@@ -160,7 +160,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 mInnerHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        String text = getString(R.string.auto_focus_failed_prompt, secs);;
+                        String text = getString(R.string.auto_focus_failed_prompt, secs);
                         Toast.makeText(SmsCodeAutoInputService.this, text, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -254,7 +254,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 }
                 String hint = hintSequence.toString();
 
-                boolean flag = VerificationUtils.containsVerificationKeywords(getApplicationContext(), hint);
+                boolean flag = SmsCodeUtils.containsCodeKeywords(getApplicationContext(), hint);
                 if (flag) {
                     // 模拟输入
                     inputText(nodeInfo, smsCode);
@@ -274,7 +274,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 }
                 String hintOrText = text.toString();
 
-                boolean flag = VerificationUtils.containsVerificationKeywords(getApplicationContext(), hintOrText);
+                boolean flag = SmsCodeUtils.containsCodeKeywords(getApplicationContext(), hintOrText);
                 if (flag) {
                     // 模拟输入
                     inputText(nodeInfo, smsCode);
@@ -295,14 +295,14 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(1);
             CharSequence pnHintSequence = phoneNumberNode.getHintText();
             if (!TextUtils.isEmpty(pnHintSequence)) {
-                if (VerificationUtils.containsPhoneNumberKeywords(pnHintSequence.toString())) {
+                if (SmsCodeUtils.containsPhoneNumberKeywords(pnHintSequence.toString())) {
                     inputText(smsCodeNode, smsCode);
                     return true;
                 }
             }
             CharSequence pnTextSequence = phoneNumberNode.getText();
             if (!TextUtils.isEmpty(pnTextSequence)) {
-                if (VerificationUtils.isPossiblePhoneNumber(pnTextSequence.toString())) {
+                if (SmsCodeUtils.isPossiblePhoneNumber(pnTextSequence.toString())) {
                     inputText(smsCodeNode, smsCode);
                     return true;
                 }
@@ -321,7 +321,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
                 }
                 String hintOrText = text.toString();
 
-                boolean flag = VerificationUtils.containsVerificationKeywords(getApplicationContext(), hintOrText);
+                boolean flag = SmsCodeUtils.containsCodeKeywords(getApplicationContext(), hintOrText);
                 if (flag) {
                     // 模拟输入
                     inputText(nodeInfo, smsCode);
@@ -342,7 +342,7 @@ public class SmsCodeAutoInputService extends BaseAccessibilityService {
             AccessibilityNodeInfo smsCodeNode = editTextNodes.get(1);
             CharSequence pnTextSequence = phoneNumberNode.getText();
             if (!TextUtils.isEmpty(pnTextSequence)) {
-                if (VerificationUtils.isPossiblePhoneNumber(pnTextSequence.toString())) {
+                if (SmsCodeUtils.isPossiblePhoneNumber(pnTextSequence.toString())) {
                     inputText(smsCodeNode, smsCode);
                     return true;
                 }

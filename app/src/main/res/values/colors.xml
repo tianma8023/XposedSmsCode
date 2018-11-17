@@ -37,4 +37,7 @@
     <color name="faq_textColor_black">#202020</color>
     <color name="faq_textColorSecondary_black">#818181</color>
 
+    <color name="item_pressed_color_light">#DCDCDC</color>
+    <color name="item_pressed_color_dark">#595959</color>
+
 </resources>

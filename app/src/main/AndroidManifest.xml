@@ -84,10 +84,9 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name=".provider.SharedPreferencesProvider"
-            android:authorities="${applicationId}.preferences"
-            android:exported="true"/>
+        <activity
+            android:name=".app.record.CodeRecordsActivity"
+            android:label="@string/smscode_records"/>
 
         <service
             android:name=".service.accessibility.SmsCodeAutoInputService"
@@ -113,6 +112,11 @@
             android:enabled="true"
             android:exported="true">
         </receiver>
+
+        <provider
+            android:name=".provider.SharedPreferencesProvider"
+            android:authorities="${applicationId}.preferences"
+            android:exported="true"/>
     </application>
 
 </manifest>

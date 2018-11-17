@@ -8,6 +8,8 @@ import com.github.tianma8023.xposed.smscode.entity.DaoMaster;
 import com.github.tianma8023.xposed.smscode.entity.DaoSession;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRule;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRuleDao;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsgDao;
 
 import org.greenrobot.greendao.AbstractDao;
 
@@ -25,8 +27,8 @@ public class DBManager {
     private DaoSession mDaoSession;
 
     private DBManager(Context context) {
-        DaoMaster.DevOpenHelper dbOpenHelper =
-                new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME);
+        TSQLiteOpenHelper dbOpenHelper =
+                new TSQLiteOpenHelper(context.getApplicationContext(), DB_NAME);
         SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
         mDaoSession = new DaoMaster(database).newSession();
     }
@@ -70,6 +72,12 @@ public class DBManager {
         abstractDao.delete(entity);
     }
 
+    @SuppressWarnings("unchecked")
+    private <T> void removeEntities(Class<T> entityClass, List<T> entities) {
+        AbstractDao abstractDao = getAbstractDao(entityClass);
+        abstractDao.deleteInTx(entities);
+    }
+
     private <T> void removeAll(Class<T> entityClass) {
         AbstractDao abstractDao = getAbstractDao(entityClass);
         abstractDao.deleteAll();
@@ -111,5 +119,23 @@ public class DBManager {
 
     public void removeAllSmsCodeRules() {
         removeAll(SmsCodeRule.class);
+    }
+
+    public void addSmsMsg(SmsMsg smsMsg) {
+        addEntity(SmsMsg.class, smsMsg);
+    }
+
+    public void addSmsMsgList(List<SmsMsg> smsMsgList) {
+        addEntities(SmsMsg.class, smsMsgList);
+    }
+
+    public List<SmsMsg> queryAllSmsMsg() {
+        return mDaoSession.queryBuilder(SmsMsg.class)
+                .orderDesc(SmsMsgDao.Properties.Date)
+                .list();
+    }
+
+    public void removeSmsMsgList(List<SmsMsg> smsMsgList) {
+        removeEntities(SmsMsg.class, smsMsgList);
     }
 }

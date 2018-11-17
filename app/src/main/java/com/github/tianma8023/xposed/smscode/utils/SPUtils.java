@@ -185,4 +185,12 @@ public class SPUtils {
         return getBoolean(preferences,
                 PrefConst.KEY_MANUAL_FOCUS_IF_FAILED, PrefConst.MANUAL_FOCUS_IF_FAILED_DEFAULT);
     }
+
+    /**
+     * 是否记录短信验证码
+     */
+    public static boolean recordSmsCodeEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_ENABLE_CODE_RECORDS, PrefConst.ENABLE_CODE_RECORDS_DEFAULT);
+    }
 }

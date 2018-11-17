@@ -27,17 +27,20 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
-import com.github.tianma8023.xposed.smscode.entity.SmsMessageData;
+import com.github.tianma8023.xposed.smscode.db.DBManager;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 import com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInputService;
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
+import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;
-import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -111,10 +114,10 @@ public class SmsCodeService extends IntentService {
             return;
         }
 
-        SmsMessageData smsMessageData = SmsMessageData.fromIntent(mSmsIntent);
+        SmsMsg smsMsg = SmsMsg.fromIntent(mSmsIntent);
 
-        String sender = smsMessageData.getSender();
-        String msgBody = smsMessageData.getBody();
+        String sender = smsMsg.getSender();
+        String msgBody = smsMsg.getBody();
         XLog.i("Received a new SMS message");
         if (BuildConfig.DEBUG) {
             XLog.i("Sender: %s", sender);
@@ -126,9 +129,9 @@ public class SmsCodeService extends IntentService {
 
         if (TextUtils.isEmpty(msgBody))
             return;
-        String verificationCode = VerificationUtils.parseVerificationCodeIfExists(this, msgBody);
+        String smsCode = SmsCodeUtils.parseSmsCodeIfExists(this, msgBody);
 
-        if (TextUtils.isEmpty(verificationCode)) { // Not verification code msg.
+        if (TextUtils.isEmpty(smsCode)) { // Not verification code msg.
             return;
         }
 
@@ -164,10 +167,10 @@ public class SmsCodeService extends IntentService {
             }
         }
 
-        XLog.i("Verification code: %s", verificationCode);
+        XLog.i("Verification code: %s", smsCode);
 
         Message copyMsg = new Message();
-        copyMsg.obj = verificationCode;
+        copyMsg.obj = smsCode;
         copyMsg.what = MSG_SMSCODE_EXTRACTED;
         innerHandler.sendMessage(copyMsg);
 
@@ -175,7 +178,7 @@ public class SmsCodeService extends IntentService {
             XLog.d("Delete SMS enabled");
             // delete sms
             Message deleteMsg = new Message();
-            deleteMsg.obj = smsMessageData;
+            deleteMsg.obj = smsMsg;
             deleteMsg.what = MSG_DELETE_SMS;
             innerHandler.sendMessageDelayed(deleteMsg, 6000);
         } else {
@@ -183,10 +186,38 @@ public class SmsCodeService extends IntentService {
             if (SPUtils.markAsReadEnabled(mPreferences)) {
                 XLog.d("Mark SMS as read enabled");
                 Message markMsg = new Message();
-                markMsg.obj = smsMessageData;
+                markMsg.obj = smsMsg;
                 markMsg.what = MSG_MARK_AS_READ;
                 innerHandler.sendMessageDelayed(markMsg, 6000);
             }
+        }
+
+        if (SPUtils.recordSmsCodeEnabled(mPreferences)) {
+            smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
+            smsMsg.setSmsCode(smsCode);
+            smsMsg.setDate(System.currentTimeMillis());
+
+            recordSmsMsg(smsMsg);
+        }
+    }
+
+    private void recordSmsMsg(SmsMsg smsMsg) {
+        try {
+            DBManager dm = DBManager.get(this);
+            dm.addSmsMsg(smsMsg);
+            XLog.d("add SMS message record succeed");
+
+            List<SmsMsg> smsMsgList = dm.queryAllSmsMsg();
+            if (smsMsgList.size() > PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT) {
+                List<SmsMsg> outdatedMsgList = new ArrayList<>();
+                for (int i = PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT; i < smsMsgList.size(); i++) {
+                    outdatedMsgList.add(smsMsgList.get(i));
+                }
+                dm.removeSmsMsgList(outdatedMsgList);
+                XLog.d("Remove outdated SMS message records succeed");
+            }
+        } catch (Exception e) {
+            XLog.e("add SMS message record failed", e);
         }
     }
 
@@ -198,16 +229,16 @@ public class SmsCodeService extends IntentService {
                     onSmsCodeExtracted((String) msg.obj);
                     break;
                 case MSG_MARK_AS_READ: {
-                    SmsMessageData smsMessageData = (SmsMessageData) msg.obj;
-                    String sender = smsMessageData.getSender();
-                    String body = smsMessageData.getBody();
+                    SmsMsg smsMsg = (SmsMsg) msg.obj;
+                    String sender = smsMsg.getSender();
+                    String body = smsMsg.getBody();
                     markSmsAsRead(sender, body);
                     break;
                 }
                 case MSG_DELETE_SMS: {
-                    SmsMessageData smsMessageData = (SmsMessageData) msg.obj;
-                    String sender = smsMessageData.getSender();
-                    String body = smsMessageData.getBody();
+                    SmsMsg smsMsg = (SmsMsg) msg.obj;
+                    String sender = smsMsg.getSender();
+                    String body = smsMsg.getBody();
                     deleteSms(sender, body);
                     break;
                 }

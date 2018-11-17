@@ -68,6 +68,17 @@
     <string name="pref_delete_sms_summary">Warning! Delete verification sms if succeed</string>
     <string name="pref_copy_to_clipboard_title">Copy to clipboard</string>
     <string name="pref_copy_to_clipboard_summary">Copy code to clipboard if it\'s extracted</string>
+    <string name="pref_entry_code_records_title">Records of SMS code</string>
+    <string name="pref_entry_code_records_summary">Reserve %d recent records at most</string>
+    <string name="pref_code_records_title">SMS code records</string>
+    <string name="smscode_records">Code Records</string>
+    <string name="edit_smscode_records">Edit Code Records</string>
+    <string name="prompt_sms_code_copied">Sms Code copied: %s</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_select_all">Select All</string>
+    <string name="some_items_removed">Removed %d record(s)</string>
+    <string name="pref_enable_code_records_title">Reserve SMS code records</string>
+    <!-- preferences end -->
 
     <!-- theme color -->
     <string name="color_default">Default</string>
@@ -144,7 +155,7 @@
     <string name="remove">Remove</string>
     <string name="edit">Edit</string>
     <string name="actions">Actions</string>
-    <string name="rule_list_empty_prompt">No SMS code rules yet!</string>
+    <string name="list_empty_prompt">No items yet!</string>
     <string name="code_length_empty_prompt">Please enter the code length</string>
     <string name="rule_company_empty_hint">Please enter institution or company</string>
     <string name="rule_keyword_empty_hint">Please enter SMS code keyword</string>

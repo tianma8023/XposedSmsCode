@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 /**
  * 验证码相关Utils
  */
-public class VerificationUtils {
+public class SmsCodeUtils {
 
-    private VerificationUtils() {
+    private SmsCodeUtils() {
     }
 
     /**
@@ -37,18 +37,18 @@ public class VerificationUtils {
      * @param context context
      * @param content sms message content
      */
-    public static boolean containsVerificationKeywords(Context context, String content) {
+    public static boolean containsCodeKeywords(Context context, String content) {
         String keywordsRegex = loadVerificationKeywords(context);
-        return containsVerificationKeywords(keywordsRegex, content);
+        return containsCodeKeywords(keywordsRegex, content);
     }
 
     /**
      * 是否包含短信验证码关键字
      *
-     * @param keywordsRegex verification message keywords (regex expressions)
+     * @param keywordsRegex SMS code message keywords (regex expressions)
      * @param content       sms message content
      */
-    private static boolean containsVerificationKeywords(String keywordsRegex, String content) {
+    private static boolean containsCodeKeywords(String keywordsRegex, String content) {
         Pattern pattern = Pattern.compile(keywordsRegex);
         Matcher matcher = pattern.matcher(content);
         return matcher.find();
@@ -62,7 +62,7 @@ public class VerificationUtils {
     /**
      * 解析文本中的验证码并返回，如果不存在返回空字符
      */
-    public static String parseVerificationCodeIfExists(Context context, String content) {
+    public static String parseSmsCodeIfExists(Context context, String content) {
         String result = parseByCustomRules(context, content);
         if (TextUtils.isEmpty(result)) {
             result = parseByDefaultRule(context, content);
@@ -71,47 +71,20 @@ public class VerificationUtils {
     }
 
     /**
-     * Parse verification code by default rule
+     * Parse SMS code by default rule
+     *
      * @param context context
      * @param content message body
-     * @return the verification code if matches, otherwise return empty string
+     * @return the SMS code if matches, otherwise return empty string
      */
     private static String parseByDefaultRule(Context context, String content) {
         String result = "";
         String keywordsRegex = loadVerificationKeywords(context);
-        if (containsVerificationKeywords(keywordsRegex, content)) {
+        if (containsCodeKeywords(keywordsRegex, content)) {
             if (containsChinese(content)) {
-                result = getVerificationCodeCN(keywordsRegex, content);
+                result = getSmsCodeCN(keywordsRegex, content);
             } else {
-                result = getVerificationCodeEN(keywordsRegex, content);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 是否是中文验证码短信
-     */
-    public static boolean isVerificationMsgCN(String content) {
-        boolean result = false;
-        for (String keyWord : SmsCodeConst.VERIFICATION_KEY_WORDS_CN) {
-            if (content.contains(keyWord)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 是否是英文验证码短信
-     */
-    public static boolean isVerificationMsgEN(String content) {
-        boolean result = false;
-        for (String keyWord : SmsCodeConst.VERIFICATION_KEY_WORDS_EN) {
-            if (content.contains(keyWord)) {
-                result = true;
-                break;
+                result = getSmsCodeEN(keywordsRegex, content);
             }
         }
         return result;
@@ -120,12 +93,12 @@ public class VerificationUtils {
     /**
      * 获取中文短信中包含的验证码
      */
-    private static String getVerificationCodeCN(String keywordsRegex, String content) {
+    private static String getSmsCodeCN(String keywordsRegex, String content) {
         // 之前的正则表达式是 [a-zA-Z0-9]{4,8}
         // 现在的正则表达式是 [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)? 匹配数字和字母之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
-        String verificationRegex = "[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)?";
-        return getVerificationCode(verificationRegex, keywordsRegex, content);
+        String codeRegex = "[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)?";
+        return getSmsCode(codeRegex, keywordsRegex, content);
     }
 
     /* 匹配度：6位纯数字，匹配度最高 */
@@ -163,31 +136,30 @@ public class VerificationUtils {
         if (curIndex + strLength + magicNumber < endIndex) {
             endIndex = curIndex + strLength + magicNumber;
         }
-        return containsVerificationKeywords(keywordsRegex, content.substring(beginIndex, endIndex));
+        return containsCodeKeywords(keywordsRegex, content.substring(beginIndex, endIndex));
     }
 
     /**
      * 获取英文短信包含的验证码
      */
-    private static String getVerificationCodeEN(String keywordsRegex, String content) {
+    private static String getSmsCodeEN(String keywordsRegex, String content) {
         // 之前的正则表达式是 [0-9]{4,8} 匹配由数字组成的4到8长度的字符串
         // 现在的正则表达式是 [0-9]+(\\.[0-9]+)? 匹配数字之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
-        String verificationRegex = "[0-9]+(\\.[0-9]+)?";
-        return getVerificationCode(verificationRegex, keywordsRegex, content);
+        String codeRegex = "[0-9]+(\\.[0-9]+)?";
+        return getSmsCode(codeRegex, keywordsRegex, content);
     }
 
     /*
-     * Parse verification code
+     * Parse SMS code
      *
-     * @param verificationRegex verification code regular expression
-     * @param keywordsRegex     verification code SMS keywords expression
+     * @param codeRegex SMS code regular expression
+     * @param keywordsRegex     SMS code SMS keywords expression
      * @param content           SMS content
-     * @return the verification code if it's found, otherwise return empty string ""
+     * @return the SMS code if it's found, otherwise return empty string ""
      */
-    private static String getVerificationCode(String verificationRegex,
-                                              String keywordsRegex, String content) {
-        Pattern p = Pattern.compile(verificationRegex);
+    private static String getSmsCode(String codeRegex, String keywordsRegex, String content) {
+        Pattern p = Pattern.compile(codeRegex);
         Matcher m = p.matcher(content);
         List<String> possibleCodes = new ArrayList<>();
         while (m.find()) {
@@ -200,13 +172,13 @@ public class VerificationUtils {
             return "";
         }
         int maxMatchLevel = LEVEL_NONE;
-        String verificationCode = "";
+        String smsCode = "";
         for (String possibleCode : possibleCodes) {
             if (isNearToKeywords(keywordsRegex, possibleCode, content)) {
                 final int curLevel = getMatchLevel(possibleCode);
                 if (curLevel > maxMatchLevel) {
                     maxMatchLevel = curLevel;
-                    verificationCode = possibleCode;
+                    smsCode = possibleCode;
                 }
             }
         }
@@ -215,11 +187,11 @@ public class VerificationUtils {
                 final int curLevel = getMatchLevel(possibleCode);
                 if (curLevel > maxMatchLevel) {
                     maxMatchLevel = curLevel;
-                    verificationCode = possibleCode;
+                    smsCode = possibleCode;
                 }
             }
         }
-        return verificationCode;
+        return smsCode;
     }
 
     public static boolean isPossiblePhoneNumber(String text) {
@@ -233,15 +205,16 @@ public class VerificationUtils {
     }
 
     /**
-     * Parse verification code by custom rules
+     * Parse SMS code by custom rules
+     *
      * @param context context
      * @param content message body
-     * @return the verification code if matches, otherwise return empty string
+     * @return the SMS code if matches, otherwise return empty string
      */
     private static String parseByCustomRules(Context context, String content) {
         List<SmsCodeRule> rules = DBManager.get(context).queryAllSmsCodeRules();
         String lowerContent = content.toLowerCase();
-        for(SmsCodeRule rule : rules) {
+        for (SmsCodeRule rule : rules) {
             if (lowerContent.contains(rule.getCompany().toLowerCase())
                     && content.contains(rule.getCodeKeyword().toLowerCase())) { // case insensitive
                 Pattern pattern = Pattern.compile(rule.getCodeRegex());
@@ -252,5 +225,32 @@ public class VerificationUtils {
             }
         }
         return "";
+    }
+
+    /**
+     * Parse company info from message content if it exists
+     *
+     * @param content message content
+     * @return company info if it exists, otherwise return empty string
+     */
+    public static String parseCompany(String content) {
+        String regex = "((?<=【)(.*)(?=】))|((?<=\\[)(.*)(?=\\]))";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        List<String> possibleCompanies = new ArrayList<>();
+        while (matcher.find()) {
+            possibleCompanies.add(matcher.group());
+        }
+        StringBuilder sb = new StringBuilder();
+        boolean needComma = false; // 是否需要逗号分隔
+        for (String company : possibleCompanies) {
+            if (needComma) {
+                sb.append(", ");
+            } else {
+                needComma = true;
+            }
+            sb.append(company);
+        }
+        return sb.toString();
     }
 }

@@ -94,6 +94,23 @@
             android:persistent="false"/>
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/pref_code_records_title">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_lock_open"
+            android:key="@string/pref_enable_code_records"
+            android:title="@string/pref_enable_code_records_title"/>
+
+        <Preference
+            android:icon="@drawable/ic_records"
+            android:key="@string/pref_entry_code_records"
+            android:persistent="false"
+            android:summary="@string/pref_entry_code_records_summary"
+            android:title="@string/pref_entry_code_records_title"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_debug_title">
         <SwitchPreference
             android:icon="@drawable/ic_log"

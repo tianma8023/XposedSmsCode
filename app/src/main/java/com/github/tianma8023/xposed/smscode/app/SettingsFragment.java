@@ -1,5 +1,6 @@
 package com.github.tianma8023.xposed.smscode.app;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.app.record.CodeRecordsActivity;
 import com.github.tianma8023.xposed.smscode.app.rule.CodeRulesActivity;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.constant.Const;
@@ -29,7 +31,7 @@ import com.github.tianma8023.xposed.smscode.utils.AppOpsUtils;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.Utils;
-import com.github.tianma8023.xposed.smscode.utils.VerificationUtils;
+import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 /**
@@ -39,7 +41,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     public static final String EXTRA_KEY_CURRENT_THEME = "extra_key_current_theme";
 
-    private HomeActivity mHomeActivity;
+    private Activity mActivity;
 
     public interface OnPreferenceClickCallback {
         void onPreferenceClicked(String key, String title, boolean nestedPreference);
@@ -80,6 +82,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_CODE_RULES).setOnPreferenceClickListener(this);
 
+        Preference recordsEntryPref = findPreference(PrefConst.KEY_ENTRY_CODE_RECORDS);
+        recordsEntryPref.setOnPreferenceClickListener(this);
+        initRecordEntryPreference(recordsEntryPref);
+
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
@@ -109,7 +115,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mHomeActivity = (HomeActivity) getActivity();
+        mActivity = getActivity();
     }
 
     public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
@@ -128,7 +134,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), false);
             }
         } else if (PrefConst.KEY_CODE_RULES.equals(key)) {
-            CodeRulesActivity.startToMe(mHomeActivity);
+            CodeRulesActivity.startToMe(mActivity);
         } else if (PrefConst.KEY_SMSCODE_TEST.equals(key)) {
             showSmsCodeTestDialog();
         } else if (PrefConst.KEY_JOIN_QQ_GROUP.equals(key)) {
@@ -139,6 +145,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             donateByAlipay();
         } else if (PrefConst.KEY_DONATE_BY_WECHAT.equals(key)) {
             donateByWechat();
+        } else if (PrefConst.KEY_ENTRY_CODE_RECORDS.equals(key)) {
+            CodeRecordsActivity.startToMe(mActivity);
         } else {
             return false;
         }
@@ -161,21 +169,21 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             startActivity(intent);
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
-            Toast.makeText(mHomeActivity, R.string.prompt_join_qq_group_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.prompt_join_qq_group_failed, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void aboutProject() {
-        Utils.showWebPage(mHomeActivity, Const.PROJECT_SOURCE_CODE_URL);
+        Utils.showWebPage(mActivity, Const.PROJECT_SOURCE_CODE_URL);
     }
 
     private void donateByAlipay() {
-        if (!PackageUtils.isAlipayInstalled(mHomeActivity)) { // uninstalled
-            Toast.makeText(mHomeActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
+        if (!PackageUtils.isAlipayInstalled(mActivity)) { // uninstalled
+            Toast.makeText(mActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!PackageUtils.isAlipayEnabled(mHomeActivity)) { // installed but disabled
-            Toast.makeText(mHomeActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
+        if (!PackageUtils.isAlipayEnabled(mActivity)) { // installed but disabled
+            Toast.makeText(mActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -184,12 +192,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void donateByWechat() {
-        if (!PackageUtils.isWeChatInstalled(mHomeActivity)) { // uninstalled
-            Toast.makeText(mHomeActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
+        if (!PackageUtils.isWeChatInstalled(mActivity)) { // uninstalled
+            Toast.makeText(mActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!PackageUtils.isWeChatEnabled(mHomeActivity)) { // installed but disabled
-            Toast.makeText(mHomeActivity, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
+        if (!PackageUtils.isWeChatEnabled(mActivity)) { // installed but disabled
+            Toast.makeText(mActivity, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent();
@@ -205,7 +213,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             hideOrShowLauncherIcon((Boolean) newValue);
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
-        } else if (PrefConst.KEY_MARK_AS_READ.equals(key)){
+        } else if (PrefConst.KEY_MARK_AS_READ.equals(key)) {
             return checkAppOpsPermission((Boolean) newValue);
         } else if (PrefConst.KEY_DELETE_SMS.equals(key)) {
             return checkAppOpsPermission((Boolean) newValue);
@@ -216,8 +224,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void hideOrShowLauncherIcon(boolean hide) {
-        PackageManager pm = mHomeActivity.getPackageManager();
-        ComponentName launcherCN = new ComponentName(mHomeActivity, Const.HOME_ACTIVITY_ALIAS);
+        PackageManager pm = mActivity.getPackageManager();
+        ComponentName launcherCN = new ComponentName(mActivity, Const.HOME_ACTIVITY_ALIAS);
         int state = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
         pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
     }
@@ -231,12 +239,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void showSmsCodeTestDialog() {
-        new MaterialDialog.Builder(mHomeActivity)
+        new MaterialDialog.Builder(mActivity)
                 .title(R.string.pref_smscode_test_title)
                 .input(R.string.sms_content_hint, 0, true, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        new Thread(new SmsCodeTestTask(mHomeActivity, input.toString())).start();
+                        new Thread(new SmsCodeTestTask(mActivity, input.toString())).start();
                     }
                 })
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
@@ -261,7 +269,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             if (TextUtils.isEmpty(mMsgBody)) {
                 msg.obj = "";
             } else {
-                msg.obj = VerificationUtils.parseVerificationCodeIfExists(mContext, mMsgBody);
+                msg.obj = SmsCodeUtils.parseSmsCodeIfExists(mContext, mMsgBody);
             }
             mHandler.sendMessage(msg);
         }
@@ -288,7 +296,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         } else {
             text = getString(R.string.cur_verification_code, verificationCode);
         }
-        Toast.makeText(mHomeActivity, text, Toast.LENGTH_LONG).show();
+        Toast.makeText(mActivity, text, Toast.LENGTH_LONG).show();
     }
 
     private boolean checkAppOpsPermission(boolean on) {
@@ -299,17 +307,22 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         String packageName = BuildConfig.APPLICATION_ID;
         int uid = Process.myUid();
         int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
-        if (!AppOpsUtils.checkOp(mHomeActivity, opWriteSms, uid, packageName)) {
+        if (!AppOpsUtils.checkOp(mActivity, opWriteSms, uid, packageName)) {
             // Don't have write sms AppOps permission
             try {
-                AppOpsUtils.allowOp(mHomeActivity, opWriteSms, uid, packageName);
+                AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
                 return true;
             } catch (Exception e) {
-                Toast.makeText(mHomeActivity, "没有相关权限，请重启后重新打开", Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, "没有相关权限，请重启后重新打开", Toast.LENGTH_LONG).show();
                 return false;
             }
         } else {
             return true;
         }
+    }
+
+    private void initRecordEntryPreference(Preference preference) {
+        String summary = getString(R.string.pref_entry_code_records_summary, PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT);
+        preference.setSummary(summary);
     }
 }

@@ -79,7 +79,7 @@ android {
                 def fileName = ""
                 if (variant.buildType.name == 'release') {
                     fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_r.apk"
-                } else if(variant.buildType.name == 'debug'){
+                } else if (variant.buildType.name == 'debug') {
                     fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_d.apk"
                 }
                 outputFileName = fileName
@@ -102,8 +102,12 @@ android {
     }
 
     productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_NAME:name]
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_NAME: name]
     }
+}
+
+greendao {
+    schemaVersion 4
 }
 
 dependencies {
@@ -146,6 +150,8 @@ dependencies {
 
     // GreenDao
     implementation 'org.greenrobot:greendao:3.2.2'
+    // GreenDao Upgrade Helper
+    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
