@@ -1,4 +1,9 @@
 # Update Logs
+- 18.11.17 v1.5.3
+  1. Add configurable options: retain SMS code records.
+  2. Add App shortcuts.
+  3. Bug fix: crash when share backup files.
+  4. No longer support 4.4.x
 - 18.10.28 v1.5.2
   1. Add icon for every preference.
   2. Minify APK size.
