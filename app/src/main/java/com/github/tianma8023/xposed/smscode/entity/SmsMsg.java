@@ -21,7 +21,6 @@ public class SmsMsg implements Parcelable {
     private Long id;
 
     // Sender
-    @Transient
     private String sender;
 
     // Message content
@@ -113,9 +112,10 @@ public class SmsMsg implements Parcelable {
     public SmsMsg() {
     }
 
-    @Generated(hash = 1194418112)
-    public SmsMsg(Long id, long date, String company, String smsCode) {
+    @Generated(hash = 1682862228)
+    public SmsMsg(Long id, String sender, long date, String company, String smsCode) {
         this.id = id;
+        this.sender = sender;
         this.date = date;
         this.company = company;
         this.smsCode = smsCode;
