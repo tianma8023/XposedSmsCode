@@ -16,7 +16,7 @@ Welcome any feedbacks.
 
 # Attention
 - **This module is suitable for AOSP ROM, it may not work well on other 3rd-party Rom.**
-- **Compatibility: Requires Android 4.4+ (api level ≥ 19).**
+- **Compatibility: Requires Android 5.0+ (api level ≥ 21).**
 - **Read the FAQ in app first if you encountered any problems.**
 
 # Features
