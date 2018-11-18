@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/list_empty_prompt"
-        android:textSize="14sp"/>
+        android:textSize="16sp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/rule_list_fab"

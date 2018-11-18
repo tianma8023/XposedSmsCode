@@ -7,8 +7,8 @@
         android:shortcutShortLabel="@string/smscode_records">
         <intent
             android:action="android.intent.action.View"
-            android:targetClass="com.github.tianma8023.smscode.app.record.CodeRecordsActivity"
-            android:targetPackage="com.github.tianma8023.smscode"/>
+            android:targetClass="com.github.tianma8023.xposed.smscode.app.record.CodeRecordsActivity"
+            android:targetPackage="com.github.tianma8023.xposed.smscode"/>
         <categories
             android:name="android.shortcut.conversation"/>
     </shortcut>
@@ -20,8 +20,8 @@
         android:shortcutShortLabel="@string/rule_list">
         <intent
             android:action="android.intent.action.View"
-            android:targetClass="com.github.tianma8023.smscode.app.rule.CodeRulesActivity"
-            android:targetPackage="com.github.tianma8023.smscode"/>
+            android:targetClass="com.github.tianma8023.xposed.smscode.app.rule.CodeRulesActivity"
+            android:targetPackage="com.github.tianma8023.xposed.smscode"/>
         <categories
             android:name="android.shortcut.conversation"/>
     </shortcut>
