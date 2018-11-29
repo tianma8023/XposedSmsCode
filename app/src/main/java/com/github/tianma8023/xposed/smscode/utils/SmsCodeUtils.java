@@ -234,7 +234,7 @@ public class SmsCodeUtils {
      * @return company info if it exists, otherwise return empty string
      */
     public static String parseCompany(String content) {
-        String regex = "((?<=【)(.*)(?=】))|((?<=\\[)(.*)(?=\\]))";
+        String regex = "((?<=【)(.*?)(?=】))|((?<=\\[)(.*?)(?=\\]))";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
         List<String> possibleCompanies = new ArrayList<>();
@@ -242,12 +242,12 @@ public class SmsCodeUtils {
             possibleCompanies.add(matcher.group());
         }
         StringBuilder sb = new StringBuilder();
-        boolean needComma = false; // 是否需要逗号分隔
+        boolean needBlank = false; // 是否需要空格分隔
         for (String company : possibleCompanies) {
-            if (needComma) {
-                sb.append(", ");
+            if (needBlank) {
+                sb.append(' ');
             } else {
-                needComma = true;
+                needBlank = true;
             }
             sb.append(company);
         }
