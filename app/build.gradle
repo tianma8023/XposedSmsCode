@@ -17,8 +17,8 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 21
-        versionName "1.5.3"
+        versionCode 22
+        versionName "1.5.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")

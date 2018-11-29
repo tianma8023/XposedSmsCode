@@ -1,4 +1,6 @@
 # Update Logs
+- 18.11.29 v1.5.4
+  1. Bug fix：code record company parse issue.
 - 18.11.17 v1.5.3
   1. Add configurable options: retain SMS code records.
   2. Add App shortcuts.
