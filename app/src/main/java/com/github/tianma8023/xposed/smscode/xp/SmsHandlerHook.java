@@ -192,12 +192,73 @@ public class SmsHandlerHook implements IHook {
             return;
         }
 
+//        registerCommandReceiver();
+
         // Send a broadcast, let receiver handle the rest of the works.
         Intent broadcastIntent = new Intent();
         broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
         broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
-//        mAppContext.sendBroadcast(broadcastIntent);
         mModContext.sendBroadcast(broadcastIntent);
+
+//        mCountDownLatch = new CountDownLatch(1);
+//        try {
+//            mCountDownLatch.await(12, TimeUnit.SECONDS);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        unregisterCommandReceiver();
+//
+//        if (mBlockSmsBroadcast) {
+//            sendEventBroadcastComplete(param.thisObject);
+//            param.setResult(null);
+//            mBlockSmsBroadcast = false;
+//        }
     }
+
+//    private CountDownLatch mCountDownLatch;
+//    private boolean mBlockSmsBroadcast = false;
+//
+//    public static final String ACTION_HANDLE_SMS = SMSCODE_PACKAGE + ".action_handle_sms";
+//    public static final String EXTRA_BLOCK_SMS_BROADCAST = "extra_block_sms_broadcast";
+//
+//    private class CommandReceiver extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            if (ACTION_HANDLE_SMS.equals(action)) {
+//                mBlockSmsBroadcast = intent.getBooleanExtra(EXTRA_BLOCK_SMS_BROADCAST, false);
+//                if (mCountDownLatch != null && mCountDownLatch.getCount() == 1) {
+//                    mCountDownLatch.countDown();
+//                }
+//            }
+//        }
+//    }
+//
+//    private CommandReceiver mCommandReceiver;
+//
+//    private void registerCommandReceiver() {
+//        if (mCommandReceiver == null) {
+//            mCommandReceiver = new CommandReceiver();
+//            IntentFilter intentFilter = new IntentFilter();
+//            intentFilter.addAction(ACTION_HANDLE_SMS);
+//            mModContext.registerReceiver(mCommandReceiver, intentFilter);
+//        }
+//    }
+//
+//    private void unregisterCommandReceiver() {
+//        if (mCommandReceiver != null) {
+//            mModContext.unregisterReceiver(mCommandReceiver);
+//            mCommandReceiver = null;
+//        }
+//    }
+//
+//    private static final int EVENT_BROADCAST_COMPLETE = 3;
+//
+//    private void sendEventBroadcastComplete(Object inboundSmsHandler) {
+//        XLog.d("send event(EVENT_BROADCAST_COMPLETE)");
+//        XposedHelpers.callMethod(inboundSmsHandler, "sendMessage", EVENT_BROADCAST_COMPLETE);
+//    }
 
 }

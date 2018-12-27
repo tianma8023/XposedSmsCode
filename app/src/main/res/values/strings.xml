@@ -78,6 +78,8 @@
     <string name="action_select_all">Select All</string>
     <string name="some_items_removed">Removed %d record(s)</string>
     <string name="pref_enable_code_records_title">Reserve SMS code records</string>
+    <string name="pref_block_notify_title">Block notification</string>
+    <string name="pref_block_notify_summary">Block code SMS notification</string>
     <!-- preferences end -->
 
     <!-- theme color -->

@@ -64,6 +64,14 @@
             android:title="@string/pref_delete_sms_title"
             android:summary="@string/pref_delete_sms_summary"
             android:dependency="@string/pref_enable"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_block"
+            android:key="@string/pref_block_notification"
+            android:summary="@string/pref_block_notify_summary"
+            android:title="@string/pref_block_notify_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_smscode_title">

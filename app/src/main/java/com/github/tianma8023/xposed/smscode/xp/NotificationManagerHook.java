@@ -1,0 +1,119 @@
+package com.github.tianma8023.xposed.smscode.xp;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Handler;
+import android.text.TextUtils;
+
+import com.crossbowffs.remotepreferences.RemotePreferences;
+import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
+import com.github.tianma8023.xposed.smscode.utils.SPUtils;
+import com.github.tianma8023.xposed.smscode.utils.SettingsUtils;
+import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
+import com.github.tianma8023.xposed.smscode.utils.XLog;
+
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
+/**
+ * Hook android.app.NotificationManager for block code SMS notification.
+ */
+public class NotificationManagerHook implements IHook {
+
+    private Context mContext;
+    private RemotePreferences mRemotePreferences;
+
+    @Override
+    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (mContext != null) {
+            String defSmsAppPackage = SettingsUtils.getDefaultSmsAppPackage(mContext);
+            if (!TextUtils.isEmpty(defSmsAppPackage) && defSmsAppPackage.equals(lpparam.packageName)) {
+                hookNotificationManager(lpparam);
+            }
+        } else {
+            hookNotificationManager(lpparam);
+        }
+    }
+
+    private void hookNotificationManager(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            hookConstructor();
+            hookNotify();
+        } catch (Exception e) {
+            XLog.e("failed to hook NotificationManager");
+        }
+    }
+
+    private void hookConstructor() {
+        XposedHelpers.findAndHookConstructor(NotificationManager.class,
+                Context.class,
+                Handler.class,
+                new ConstructorHook());
+    }
+
+    private class ConstructorHook extends XC_MethodHook {
+        @Override
+        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            afterConstructor(param);
+        }
+    }
+
+    private void afterConstructor(XC_MethodHook.MethodHookParam param) {
+        mContext = (Context) param.args[0];
+        if (mRemotePreferences == null) {
+            mRemotePreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mContext);
+        }
+    }
+
+    /**
+     * NotificationManager#notify(String tag, int id, Notification notification)
+     */
+    private void hookNotify() {
+        XposedHelpers.findAndHookMethod(NotificationManager.class,
+                "notify",
+                /*           tag */ String.class,
+                /*            id */ int.class,
+                /*  notification */ Notification.class,
+                new NotifyHook());
+    }
+
+    private class NotifyHook extends XC_MethodHook {
+
+        @Override
+        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            beforeNotify(param);
+        }
+    }
+
+    /**
+     * before the method NotificationManager#notify()
+     */
+    private void beforeNotify(XC_MethodHook.MethodHookParam param) {
+        if (!SPUtils.isEnabled(mRemotePreferences)) {
+            return;
+        }
+        if (!SPUtils.blockNotificationEnabled(mRemotePreferences)) {
+            return;
+        }
+
+        String defSmsAppPackage = SettingsUtils.getDefaultSmsAppPackage(mContext);
+        if (!mContext.getPackageName().equals(defSmsAppPackage)) {
+            return;
+        }
+
+        Notification notification = (Notification) param.args[2];
+        // message content
+        CharSequence text = notification.extras.getCharSequence(Notification.EXTRA_TEXT);
+
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
+        if (SmsCodeUtils.containsCodeKeywords(mContext, text.toString())) {
+            XLog.d("blocked code SMS notification");
+            param.setResult(null);
+        }
+    }
+
+}

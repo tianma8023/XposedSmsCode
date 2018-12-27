@@ -193,4 +193,14 @@ public class SPUtils {
         return getBoolean(preferences,
                 PrefConst.KEY_ENABLE_CODE_RECORDS, PrefConst.ENABLE_CODE_RECORDS_DEFAULT);
     }
+
+    /**
+     * 是否拦截短信通知
+     * @param preferences
+     * @return
+     */
+    public static boolean blockNotificationEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences,
+                PrefConst.KEY_BLOCK_NOTIFICATION, PrefConst.BLOCK_NOTIFICATION_DEFAULT);
+    }
 }

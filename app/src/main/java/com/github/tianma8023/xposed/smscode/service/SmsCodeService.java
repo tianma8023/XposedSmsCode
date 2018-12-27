@@ -108,13 +108,17 @@ public class SmsCodeService extends IntentService {
         }
     }
 
-    private void doWork(Intent mSmsIntent) {
+    /**
+     *
+     * @param smsIntent intent that contains SMS message data.
+     */
+    private void doWork(Intent smsIntent) {
         if (!SPUtils.isEnabled(mPreferences)) {
             XLog.i("SmsCode disabled, exiting");
             return;
         }
 
-        SmsMsg smsMsg = SmsMsg.fromIntent(mSmsIntent);
+        SmsMsg smsMsg = SmsMsg.fromIntent(smsIntent);
 
         String sender = smsMsg.getSender();
         String msgBody = smsMsg.getBody();
@@ -364,4 +368,10 @@ public class SmsCodeService extends IntentService {
             e.printStackTrace();
         }
     }
+
+//    private void broadcastSmsBlock(boolean blockSmsBroadcast) {
+//        Intent intent = new Intent(SmsHandlerHook.ACTION_HANDLE_SMS);
+//        intent.putExtra(SmsHandlerHook.EXTRA_BLOCK_SMS_BROADCAST, blockSmsBroadcast);
+//        sendBroadcast(intent);
+//    }
 }
