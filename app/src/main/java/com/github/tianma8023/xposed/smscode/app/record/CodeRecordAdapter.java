@@ -3,6 +3,7 @@ package com.github.tianma8023.xposed.smscode.app.record;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.adapter.ItemCallback;
+import com.github.tianma8023.xposed.smscode.adapter.ItemChildCallback;
 import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +33,7 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
     private SimpleDateFormat mFormat;
 
     private ItemCallback<RecordItem> mItemCallback;
+    private ItemChildCallback<RecordItem> mItemChildCallback;
 
     CodeRecordAdapter(Context context, List<RecordItem> records) {
         mContext = context;
@@ -41,6 +44,10 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
 
     public void setItemCallback(ItemCallback<RecordItem> itemCallback) {
         mItemCallback = itemCallback;
+    }
+
+    public void setItemChildCallback(ItemChildCallback<RecordItem> itemChildCallback) {
+        mItemChildCallback = itemChildCallback;
     }
 
     @NonNull
@@ -73,6 +80,9 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
         @BindView(R.id.date_text_view)
         TextView mDateTv;
 
+        @BindView(R.id.record_details_view)
+        TextView mDetailsView;
+
         VH(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -90,6 +100,10 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
             mSmsCodeTv.setText(smsMsg.getSmsCode());
             mDateTv.setText(mFormat.format(new Date(smsMsg.getDate())));
             itemView.setSelected(data.isSelected());
+
+            if (TextUtils.isEmpty(smsMsg.getBody())) {
+                mDetailsView.setVisibility(View.GONE);
+            }
         }
 
         void bindListener(final RecordItem data, final int position) {
@@ -108,6 +122,15 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
                     }
                 });
             }
+
+            mDetailsView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mItemChildCallback != null) {
+                        mItemChildCallback.onItemChildClicked(mDetailsView, data, position);
+                    }
+                }
+            });
         }
     }
 

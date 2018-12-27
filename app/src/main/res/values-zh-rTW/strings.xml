@@ -83,6 +83,8 @@
     <string name="action_delete">刪除</string>
     <string name="action_select_all">全選</string>
     <string name="some_items_removed">已刪除%d項記錄</string>
+    <string name="message_details">簡訊詳情</string>
+    <string name="copy_smscode">複製驗證碼</string>
     <string name="pref_enable_code_records_title">啟用驗證碼記錄</string>
     <string name="pref_block_notify_title">攔截簡訊通知</string>
     <string name="pref_block_notify_summary">攔截驗證碼簡訊通知</string>

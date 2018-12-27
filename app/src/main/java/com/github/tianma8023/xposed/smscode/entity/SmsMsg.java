@@ -10,7 +10,6 @@ import com.github.tianma8023.xposed.smscode.utils.SmsMessageUtils;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Transient;
 
 import java.text.Normalizer;
 
@@ -24,7 +23,6 @@ public class SmsMsg implements Parcelable {
     private String sender;
 
     // Message content
-    @Transient
     private String body;
 
     // Receive date
@@ -112,10 +110,11 @@ public class SmsMsg implements Parcelable {
     public SmsMsg() {
     }
 
-    @Generated(hash = 1682862228)
-    public SmsMsg(Long id, String sender, long date, String company, String smsCode) {
+    @Generated(hash = 1308161448)
+    public SmsMsg(Long id, String sender, String body, long date, String company, String smsCode) {
         this.id = id;
         this.sender = sender;
+        this.body = body;
         this.date = date;
         this.company = company;
         this.smsCode = smsCode;
