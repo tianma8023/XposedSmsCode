@@ -34,8 +34,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/rule_keyword_hint"
             android:imeOptions="actionNext"
-            android:singleLine="true"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -53,8 +53,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/rule_code_regex_hint"
             android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -62,9 +62,11 @@
         android:id="@+id/rule_code_regex_quick_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_below="@id/rule_keyword_input_layout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/text_margin_dp_4"
         android:background="@drawable/rule_code_regex_quick_choose_selector"
+        android:padding="@dimen/text_margin_dp_6"
         android:text="@string/quick_choose"
         android:textColor="?attr/faq_textColor"/>
 
