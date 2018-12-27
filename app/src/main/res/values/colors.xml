@@ -5,31 +5,35 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorPrimary_red">#F44336</color>
-    <color name="colorPrimaryDark_red">#CF382D</color>
+    <color name="colorPrimaryDark_red">#F44336</color>
     <color name="colorAccent_red">#FF4D3E</color>
 
     <color name="colorPrimary_pink">#FB7299</color>
-    <color name="colorPrimaryDark_pink">#D56082</color>
+    <color name="colorPrimaryDark_pink">#FB7299</color>
     <color name="colorAccent_pink">#FF83AF</color>
 
-    <color name="colorPrimary_yellow">#FFC107</color>
-    <color name="colorPrimaryDark_yellow">#D8A405</color>
-    <color name="colorAccent_yellow">#FFCA28</color>
+    <color name="colorPrimary_yellow">#ffb300</color>
+    <color name="colorPrimaryDark_yellow">#ffb300</color>
+    <color name="colorAccent_yellow">#ffc107</color>
 
     <color name="colorPrimary_green">#4CAF50</color>
-    <color name="colorPrimaryDark_green">#388E3C</color>
-    <color name="colorAccent_green">#4CAF50</color>
+    <color name="colorPrimaryDark_green">#4CAF50</color>
+    <color name="colorAccent_green">#66bb6a</color>
+
+    <color name="colorPrimary_teal">#00796b</color>
+    <color name="colorPrimaryDark_teal">#00796b</color>
+    <color name="colorAccent_teal">#00897b</color>
 
     <color name="colorPrimary_blue">#2196F3</color>
-    <color name="colorPrimaryDark_blue">#1C7FCE</color>
+    <color name="colorPrimaryDark_blue">#2196F3</color>
     <color name="colorAccent_blue">#25ACFF</color>
 
     <color name="colorPrimary_violet">#9C27B0</color>
-    <color name="colorPrimaryDark_violet">#842195</color>
+    <color name="colorPrimaryDark_violet">#9C27B0</color>
     <color name="colorAccent_violet">#B32CCA</color>
 
     <color name="colorPrimary_black">#212121</color>
-    <color name="colorPrimaryDark_black">#1C1C1C</color>
+    <color name="colorPrimaryDark_black">#212121</color>
 
     <color name="faq_textColor_white">#f0f0f0</color>
     <color name="faq_textColorSecondary_white">#6f6f6f</color>

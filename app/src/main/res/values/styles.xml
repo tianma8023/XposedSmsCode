@@ -29,6 +29,12 @@
         <item name="colorAccent">@color/colorAccent_yellow</item>
     </style>
 
+    <style name="AppTheme.Teal">
+        <item name="colorPrimary">@color/colorPrimary_teal</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_teal</item>
+        <item name="colorAccent">@color/colorAccent_teal</item>
+    </style>
+
     <style name="AppTheme.Green">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary_green</item>

@@ -45,13 +45,14 @@
     <string name="cannot_parse_smscode">無法正確辨識驗證碼</string>
     <string name="auto_input_accessibility_service_description">利用無障礙服務啟用自動輸入。\n\n如果不需要此項功能，則建議關閉。</string>
     <string name="pref_experimental_title">實驗性功能</string>
-    <string name="pref_entry_auto_input_code_title">自動輸入驗證碼</string>
-    <string name="pref_entry_auto_input_code_summary">嘗試自動輸入驗證碼</string>
+    <string name="pref_entry_auto_input_code_title">自動輸入設定</string>
+    <string name="pref_entry_auto_input_code_summary">驗證碼自動輸入設定</string>
     <string name="open_auto_input_accessibility">打開無障礙服務</string>
     <string name="open_auto_input_accessibility_prompt">需要打開無障礙服務啟用自動輸入。\n\n注意：在一些第三方Rom上，無障礙服務會被系統自動關閉，所以此選項可能無效。</string>
     <string name="go_to_open">去打開</string>
     <string name="smscode_auto_input_service_label">簡訊驗證碼自動輸入服務(Xposed)</string>
     <string name="pref_enable_auto_input_code_title">啟用自動輸入</string>
+    <string name="pref_enable_auto_input_code_summary">嘗試自動輸入驗證碼</string>
     <string name="acquire_root_permission">獲取Root權限</string>
     <string name="acquire_root_permission_prompt">需要獲取Root權限啟用自動輸入</string>
     <string name="okay">好的</string>
@@ -92,6 +93,7 @@
     <string name="red">姨媽紅</string>
     <string name="pink">櫻花粉</string>
     <string name="yellow">鹹蛋黃</string>
+    <string name="teal">水鴨青</string>
     <string name="green">原諒綠</string>
     <string name="blue">胖次藍</string>
     <string name="violet">基佬紫</string>

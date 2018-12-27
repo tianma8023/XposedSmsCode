@@ -40,13 +40,14 @@
     <string name="cannot_parse_smscode">Cannot parse SMS code.</string>
     <string name="auto_input_accessibility_service_description">Accessibility for auto input SMS Code.\n\nIf you don\'t need auto-input codes service, this accessibility service is advised to be closed.</string>
     <string name="pref_experimental_title">Experimental</string>
-    <string name="pref_entry_auto_input_code_title">Auto-input SMS code</string>
-    <string name="pref_entry_auto_input_code_summary">Try to input SMS code automatically</string>
+    <string name="pref_entry_auto_input_code_title">Auto-input Settings</string>
+    <string name="pref_entry_auto_input_code_summary">Auto-input SMS code settings</string>
     <string name="open_auto_input_accessibility">Open auto-input accessibility</string>
     <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open.\n\nNote that: accessibility service will be auto-closed frequently by system on some 3rd party ROM.</string>
     <string name="go_to_open">Open it</string>
     <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
     <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
+    <string name="pref_enable_auto_input_code_summary">Try to input SMS code automatically</string>
     <string name="acquire_root_permission">ROOT permission required</string>
     <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
     <string name="okay">OK</string>
@@ -87,6 +88,7 @@
     <string name="red">Red</string>
     <string name="pink">Pink</string>
     <string name="yellow">Yellow</string>
+    <string name="teal">Teal</string>
     <string name="green">Green</string>
     <string name="blue">Blue</string>
     <string name="violet">Violet</string>

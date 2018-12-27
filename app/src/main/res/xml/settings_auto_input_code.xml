@@ -9,7 +9,7 @@
             android:icon="@drawable/ic_lock_open"
             android:key="@string/pref_enable_auto_input_code"
             android:title="@string/pref_enable_auto_input_code_title"
-            android:summary="@string/pref_entry_auto_input_code_summary"
+            android:summary="@string/pref_enable_auto_input_code_summary"
             android:defaultValue="false"/>
 
         <ListPreference

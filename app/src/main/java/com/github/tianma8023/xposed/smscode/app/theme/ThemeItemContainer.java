@@ -34,32 +34,35 @@ public class ThemeItemContainer {
     private List<ThemeItem> loadThemeItems() {
         List<ThemeItem> themeItems = new ArrayList<>();
         @StringRes int[] colorNameResArray = {
-                R.string.color_default,
+//                R.string.color_default,
+                R.string.blue,
                 R.string.red,
                 R.string.pink,
                 R.string.yellow,
+                R.string.teal,
                 R.string.green,
-                R.string.blue,
                 R.string.violet,
                 R.string.black,
         };
         @ColorRes int[] colorValueResArray = {
-                R.color.colorPrimaryDark,
+//                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark_blue,
                 R.color.colorPrimaryDark_red,
                 R.color.colorPrimaryDark_pink,
                 R.color.colorPrimaryDark_yellow,
+                R.color.colorPrimary_teal,
                 R.color.colorPrimaryDark_green,
-                R.color.colorPrimaryDark_blue,
                 R.color.colorPrimary_violet,
                 R.color.colorPrimary_black,
         };
         @StyleRes int[] themeResArray = {
-                R.style.AppTheme,
+//                R.style.AppTheme,
+                R.style.AppTheme_Blue,
                 R.style.AppTheme_Red,
                 R.style.AppTheme_Pink,
                 R.style.AppTheme_Yellow,
+                R.style.AppTheme_Teal,
                 R.style.AppTheme_Green,
-                R.style.AppTheme_Blue,
                 R.style.AppTheme_Violet,
                 R.style.AppTheme_Black,
         };
