@@ -1,4 +1,7 @@
 # Update Logs
+- 18.12.29 v1.5.5
+  1. Optimization: SMS message details can be shown in code records.
+  2. Others: copywriting fix.
 - 18.11.29 v1.5.4
   1. Bug fix：code record company parse issue.
 - 18.11.17 v1.5.3
