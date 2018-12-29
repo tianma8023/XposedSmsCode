@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.entity;
+package com.github.tianma8023.xposed.smscode.aidl;
 
 import android.content.Intent;
 import android.os.Parcel;
@@ -122,8 +122,17 @@ public class SmsMsg implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
         dest.writeString(sender);
         dest.writeString(body);
+        dest.writeLong(date);
+        dest.writeString(company);
+        dest.writeString(smsCode);
     }
 
     public Long getId() {

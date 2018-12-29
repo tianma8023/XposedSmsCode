@@ -10,7 +10,6 @@ import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SettingsUtils;
-import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -106,14 +105,25 @@ public class NotificationManagerHook implements IHook {
         Notification notification = (Notification) param.args[2];
         // message content
         CharSequence text = notification.extras.getCharSequence(Notification.EXTRA_TEXT);
-
+        CharSequence title = notification.extras.getCharSequence(Notification.EXTRA_TITLE);
+//        XLog.d("notification: %s", notification.toString());
+//        XLog.d("notification extras: %s", notification.extras);
+        XLog.d("notification title: %s", title);
+        XLog.d("notification text: %s", text);
+        XLog.d("notification ----------------------------");
+        XLog.d("notification ----------------------------");
         if (TextUtils.isEmpty(text)) {
             return;
         }
-        if (SmsCodeUtils.containsCodeKeywords(mContext, text.toString())) {
-            XLog.d("blocked code SMS notification");
-            param.setResult(null);
-        }
+//        if (SmsCodeUtils.containsCodeKeywords(mContext, text.toString())) {
+////            NotificationManager manager = (NotificationManager) param.thisObject;
+////            String tag = (String) param.args[0];
+////            int id = (int) param.args[1];
+////            manager.cancel(tag, id);
+//            param.setResult(null);
+//            XLog.d("blocked code SMS notification");
+//        }
+        param.setResult(null);
     }
 
 }

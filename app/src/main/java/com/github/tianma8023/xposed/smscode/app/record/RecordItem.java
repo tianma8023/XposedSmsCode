@@ -1,7 +1,7 @@
 package com.github.tianma8023.xposed.smscode.app.record;
 
 
-import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
+import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
 
 import java.util.Objects;
 

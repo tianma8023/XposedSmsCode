@@ -108,7 +108,8 @@
         <service
             android:name=".service.SmsCodeService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true"
+            android:process=":remote">
         </service>
 
         <receiver

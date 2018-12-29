@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.adapter.ItemCallback;
 import com.github.tianma8023.xposed.smscode.adapter.ItemChildCallback;
-import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
+import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

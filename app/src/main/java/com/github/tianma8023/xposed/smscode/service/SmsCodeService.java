@@ -9,10 +9,14 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
 import android.provider.Telephony;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -25,10 +29,12 @@ import android.widget.Toast;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.aidl.ISmsMsgListener;
+import com.github.tianma8023.xposed.smscode.aidl.ISmsMsgManager;
+import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
 import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.db.DBManager;
-import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 import com.github.tianma8023.xposed.smscode.service.accessibility.SmsCodeAutoInputService;
 import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
@@ -69,6 +75,8 @@ public class SmsCodeService extends IntentService {
     private boolean mIsAutoInputRootMode;
     private String mFocusMode;
 
+    private RemoteCallbackList<ISmsMsgListener> mListenerList = new RemoteCallbackList<>();
+
     public SmsCodeService() {
         this(SERVICE_NAME);
     }
@@ -81,6 +89,18 @@ public class SmsCodeService extends IntentService {
     public SmsCodeService(String name) {
         super(name);
     }
+
+    private Binder mBinder = new ISmsMsgManager.Stub() {
+        @Override
+        public void registerListener(ISmsMsgListener listener) throws RemoteException {
+            mListenerList.register(listener);
+        }
+
+        @Override
+        public void unregisterListener(ISmsMsgListener listener) throws RemoteException {
+            mListenerList.unregister(listener);
+        }
+    };
 
     @Override
     public void onCreate() {
@@ -98,6 +118,12 @@ public class SmsCodeService extends IntentService {
                     .build();
             startForeground(NOTIFY_ID_FOREGROUND_SVC, notification);
         }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
     }
 
     @Override
@@ -203,6 +229,9 @@ public class SmsCodeService extends IntentService {
 
             recordSmsMsg(smsMsg);
         }
+
+        onNewSmsMsgParsed(smsMsg);
+        sleep(5);
     }
 
     private void recordSmsMsg(SmsMsg smsMsg) {
@@ -374,4 +403,22 @@ public class SmsCodeService extends IntentService {
 //        intent.putExtra(SmsHandlerHook.EXTRA_BLOCK_SMS_BROADCAST, blockSmsBroadcast);
 //        sendBroadcast(intent);
 //    }
+
+    private void onNewSmsMsgParsed(SmsMsg smsMsg){
+        XLog.d("onNewSmsMsgParsed: %s", smsMsg.getBody());
+        XLog.d("new SmsMsg parsed, notify all listeners");
+
+        final int N = mListenerList.beginBroadcast();
+        for (int i = 0; i < N; i++) {
+            ISmsMsgListener listener = mListenerList.getBroadcastItem(i);
+            if (listener != null) {
+                try {
+                    listener.onNewSmsMsgParsed(smsMsg);
+                } catch (RemoteException e) {
+                    XLog.e("error occurs in ISmsMsgListener#onNewSmsMsgParsed()");
+                }
+            }
+        }
+        mListenerList.finishBroadcast();
+    }
 }

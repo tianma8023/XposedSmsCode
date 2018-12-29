@@ -12,6 +12,7 @@ import android.os.Message;
 import android.os.Process;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -97,6 +98,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         // getPreferenceScreen().removePreference(experimentalGroup);
         findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
         findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
+        // hide block notification
+        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
+        experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_NOTIFICATION));
 
         // version info preference
         Preference versionPref = findPreference(PrefConst.KEY_VERSION);

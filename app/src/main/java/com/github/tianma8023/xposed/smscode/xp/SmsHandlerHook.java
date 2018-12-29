@@ -192,14 +192,17 @@ public class SmsHandlerHook implements IHook {
             return;
         }
 
-//        registerCommandReceiver();
-
         // Send a broadcast, let receiver handle the rest of the works.
         Intent broadcastIntent = new Intent();
         broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
         broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
         mModContext.sendBroadcast(broadcastIntent);
-
+//        Intent serviceIntent = new Intent();
+//        serviceIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeService.class.getName()));
+//        serviceIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
+//        mModContext.startService(serviceIntent);
+//        mModContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+//
 //        mCountDownLatch = new CountDownLatch(1);
 //        try {
 //            mCountDownLatch.await(12, TimeUnit.SECONDS);
@@ -207,17 +210,58 @@ public class SmsHandlerHook implements IHook {
 //            e.printStackTrace();
 //        }
 //
-//        unregisterCommandReceiver();
 //
 //        if (mBlockSmsBroadcast) {
 //            sendEventBroadcastComplete(param.thisObject);
-//            param.setResult(null);
 //            mBlockSmsBroadcast = false;
+//            param.setResult(null);
 //        }
+//
+//        unbindService();
     }
 
 //    private CountDownLatch mCountDownLatch;
 //    private boolean mBlockSmsBroadcast = false;
+//
+//    private ISmsMsgManager mRemoteMsgManager;
+//
+//    private ServiceConnection mServiceConnection = new ServiceConnection() {
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            ISmsMsgManager smsMsgManager = ISmsMsgManager.Stub.asInterface(service);
+//            mRemoteMsgManager = smsMsgManager;
+//            try {
+//                smsMsgManager.registerListener(mSmsMsgListener);
+//            } catch (RemoteException e) {
+//                XLog.e("error occurs in register SmsMsg listener", e);
+//            }
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            mRemoteMsgManager = null;
+//        }
+//    };
+//
+//    private ISmsMsgListener mSmsMsgListener = new ISmsMsgListener.Stub() {
+//        @Override
+//        public void onNewSmsMsgParsed(SmsMsg smsMsg) throws RemoteException {
+//            XLog.d("received new SmsMsg: %s", smsMsg.getBody());
+//            mCountDownLatch.countDown();
+//        }
+//    };
+//
+//    private void unbindService() {
+//        // unregister listener
+//        if (mRemoteMsgManager != null && mRemoteMsgManager.asBinder().isBinderAlive()) {
+//            try {
+//                mRemoteMsgManager.unregisterListener(mSmsMsgListener);
+//            } catch (RemoteException e) {
+//                XLog.e("error occurs when unregister SmsMsg listener", e);
+//            }
+//        }
+//        mModContext.unbindService(mServiceConnection);
+//    }
 //
 //    public static final String ACTION_HANDLE_SMS = SMSCODE_PACKAGE + ".action_handle_sms";
 //    public static final String EXTRA_BLOCK_SMS_BROADCAST = "extra_block_sms_broadcast";

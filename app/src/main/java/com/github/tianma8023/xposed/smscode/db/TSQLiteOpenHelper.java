@@ -3,9 +3,9 @@ package com.github.tianma8023.xposed.smscode.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.github.tianma8023.xposed.smscode.entity.DaoMaster;
+import com.github.tianma8023.xposed.smscode.aidl.DaoMaster;
+import com.github.tianma8023.xposed.smscode.aidl.SmsMsgDao;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRuleDao;
-import com.github.tianma8023.xposed.smscode.entity.SmsMsgDao;
 import com.github.yuweiguocn.library.greendao.MigrationHelper;
 
 import org.greenrobot.greendao.database.Database;
