@@ -9,6 +9,7 @@
         <item name="faq_textColorSecondary">@color/faq_textColorSecondary_black</item>
         <item name="preferenceIconColor">?android:attr/colorAccent</item>
         <item name="itemPressedColor">@color/item_pressed_color_light</item>
+        <item name="toolbarPopupStyle">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="AppTheme.Red">
@@ -61,6 +62,7 @@
         <item name="faq_textColor">@color/faq_textColor_white</item>
         <item name="faq_textColorSecondary">@color/faq_textColorSecondary_white</item>
         <item name="itemPressedColor">@color/item_pressed_color_dark</item>
+        <item name="toolbarPopupStyle">@style/ThemeOverlay.AppCompat.Dark</item>
     </style>
 
     <style name="AppTheme.Black" parent="AppTheme.Dark">
