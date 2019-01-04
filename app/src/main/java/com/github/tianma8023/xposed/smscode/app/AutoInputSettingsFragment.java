@@ -3,7 +3,6 @@ package com.github.tianma8023.xposed.smscode.app;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -31,9 +30,14 @@ public class AutoInputSettingsFragment extends PreferenceFragmentCompat implemen
     private String mFocusMode;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings_auto_input_code);
-
 
         SwitchPreference autoInputPref = (SwitchPreference) findPreference(PrefConst.KEY_ENABLE_AUTO_INPUT_CODE);
         autoInputPref.setOnPreferenceChangeListener(this);
@@ -52,12 +56,6 @@ public class AutoInputSettingsFragment extends PreferenceFragmentCompat implemen
         refreshAutoInputModePreference(mAutoInputMode);
         refreshFocusModePreference(focusModePref, focusModePref.getValue());
         refreshManualFocusIfFailedPreference();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mContext = getActivity();
     }
 
     @Override
@@ -123,6 +121,7 @@ public class AutoInputSettingsFragment extends PreferenceFragmentCompat implemen
     private void refreshEnableAutoInputPreference(boolean autoInputEnabled) {
         if (autoInputEnabled && TextUtils.isEmpty(mAutoInputModePref.getValue())) {
             Toast.makeText(getActivity(), R.string.pref_auto_input_mode_summary_default, Toast.LENGTH_SHORT).show();
+            onDisplayPreferenceDialog(mAutoInputModePref);
         }
     }
 
