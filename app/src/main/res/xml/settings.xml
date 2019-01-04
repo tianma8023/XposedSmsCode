@@ -76,7 +76,7 @@
 
     <PreferenceCategory android:title="@string/pref_smscode_title">
 
-        <com.github.tianma8023.xposed.smscode.preference.ResettableEditPreference
+        <com.github.tianma8023.xposed.smscode.preference.ResetEditPreference
             android:icon="@drawable/ic_key_words"
             android:key="@string/pref_smscode_keywords"
             android:title="@string/pref_smscode_keywords_title"

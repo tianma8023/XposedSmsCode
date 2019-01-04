@@ -1,7 +1,6 @@
 package com.github.tianma8023.xposed.smscode.app.rule;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -9,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -96,7 +96,7 @@ public class RuleEditFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_rule_edit, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
@@ -123,7 +123,7 @@ public class RuleEditFragment extends Fragment {
                 return false;
             }
         });
-        initArguments();
+        initWithArgs();
     }
 
     @Override
@@ -138,8 +138,11 @@ public class RuleEditFragment extends Fragment {
         XEventBus.unregister(this);
     }
 
-    private void initArguments() {
+    private void initWithArgs() {
         Bundle args = getArguments();
+        if (args == null) {
+            return;
+        }
         mRuleEditType = args.getInt(KEY_RULE_EDIT_TYPE);
         mCodeRule = args.getParcelable(KEY_CODE_RULE);
         if (mRuleEditType == EDIT_TYPE_UPDATE && mCodeRule != null) {

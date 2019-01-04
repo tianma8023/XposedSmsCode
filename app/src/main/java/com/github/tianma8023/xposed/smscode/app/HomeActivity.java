@@ -1,9 +1,9 @@
 package com.github.tianma8023.xposed.smscode.app;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -103,7 +103,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         }
 
         settingsFragment.setOnPreferenceClickCallback(this);
-        mFragmentManager = getFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction()
                 .replace(R.id.home_content, settingsFragment)
                 .commit();

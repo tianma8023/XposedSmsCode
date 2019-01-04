@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceGroup;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceGroup;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,6 +31,8 @@ import com.github.tianma8023.xposed.smscode.app.rule.CodeRulesActivity;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
+import com.github.tianma8023.xposed.smscode.preference.ResetEditPreference;
+import com.github.tianma8023.xposed.smscode.preference.ResetEditPreferenceDialogFragCompat;
 import com.github.tianma8023.xposed.smscode.utils.AppOpsUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
@@ -40,7 +44,7 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 /**
  * 首选项Fragment
  */
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
     public static final String EXTRA_CURRENT_THEME = "extra_current_theme";
     public static final String EXTRA_ACTION = "extra_action";
@@ -70,10 +74,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         return fragment;
     }
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
 
         // general group
@@ -130,6 +132,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void initChooseThemePreference(Preference chooseThemePref) {
         Bundle args = getArguments();
+        if (args == null) {
+            return;
+        }
         ThemeItem themeItem = args.getParcelable(EXTRA_CURRENT_THEME);
         if (themeItem != null) {
             chooseThemePref.setSummary(themeItem.getColorNameRes());
@@ -152,7 +157,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         String extraAction = args.getString(EXTRA_ACTION);
         if (ACTION_GET_RED_PACKET.equals(extraAction)) {
             args.remove(EXTRA_ACTION);
-//            scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
+            scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
             getAlipayPacket();
         }
     }
@@ -404,6 +409,25 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             }
         } else {
             return true;
+        }
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        boolean handled = false;
+        if (preference instanceof ResetEditPreference) {
+            DialogFragment dialogFragment =
+                    ResetEditPreferenceDialogFragCompat.newInstance(preference.getKey());
+
+            FragmentManager fm = getFragmentManager();
+            if (fm != null) {
+                dialogFragment.setTargetFragment(this, 0);
+                dialogFragment.show(fm, "android.support.v7.preference.PreferenceFragment.DIALOG");
+                handled = true;
+            }
+        }
+        if (!handled) {
+            super.onDisplayPreferenceDialog(preference);
         }
     }
 

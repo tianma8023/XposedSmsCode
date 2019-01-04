@@ -68,6 +68,6 @@
         android:background="@drawable/rule_code_regex_quick_choose_selector"
         android:padding="@dimen/text_margin_dp_6"
         android:text="@string/quick_choose"
-        android:textColor="?attr/faq_textColor"/>
+        android:textColor="@color/faq_textColor_white"/>
 
 </RelativeLayout>
