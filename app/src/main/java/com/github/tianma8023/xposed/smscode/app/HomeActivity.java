@@ -2,6 +2,7 @@ package com.github.tianma8023.xposed.smscode.app;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
@@ -51,19 +52,6 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        // init main fragment
-        RemotePreferences preferences =
-                RemotePreferencesUtils.getDefaultRemotePreferences(this);
-        int curIndex = SPUtils.getCurrentThemeIndex(preferences);
-        ThemeItem curThemeItem = ThemeItemContainer.get().getItemAt(curIndex);
-        SettingsFragment settingsFragment = SettingsFragment.newInstance(curThemeItem);
-        settingsFragment.setOnPreferenceClickCallback(this);
-        mFragmentManager = getFragmentManager();
-        mFragmentManager.beginTransaction()
-                .replace(R.id.home_content, settingsFragment)
-                .commit();
-        mCurrentFragment = settingsFragment;
-
         // setup toolbar
         setupToolbar();
 
@@ -72,6 +60,8 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         }
 
         initUmengAnalyze();
+
+        handleIntent(getIntent());
     }
 
     private void initUmengAnalyze() {
@@ -91,6 +81,33 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
                 .content(R.string.enable_module_message)
                 .positiveText(R.string.i_know)
                 .show();
+    }
+
+    private void handleIntent(Intent intent) {
+        RemotePreferences preferences =
+                RemotePreferencesUtils.getDefaultRemotePreferences(this);
+        int themeIdx = SPUtils.getCurrentThemeIndex(preferences);
+        ThemeItem themeItem = ThemeItemContainer.get().getItemAt(themeIdx);
+
+        String action = intent.getAction();
+        SettingsFragment settingsFragment = null;
+        if (Intent.ACTION_VIEW.equals(action)) {
+            String extraAction = intent.getStringExtra(SettingsFragment.EXTRA_ACTION);
+            if (SettingsFragment.ACTION_GET_RED_PACKET.equals(extraAction)) {
+                settingsFragment = SettingsFragment.newInstance(themeItem, extraAction);
+            }
+        }
+
+        if (settingsFragment == null) {
+            settingsFragment = SettingsFragment.newInstance(themeItem);
+        }
+
+        settingsFragment.setOnPreferenceClickCallback(this);
+        mFragmentManager = getFragmentManager();
+        mFragmentManager.beginTransaction()
+                .replace(R.id.home_content, settingsFragment)
+                .commit();
+        mCurrentFragment = settingsFragment;
     }
 
     @Override

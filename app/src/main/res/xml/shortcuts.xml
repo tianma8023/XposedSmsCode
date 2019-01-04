@@ -6,7 +6,7 @@
         android:shortcutId="smscode_records"
         android:shortcutShortLabel="@string/smscode_records">
         <intent
-            android:action="android.intent.action.View"
+            android:action="android.intent.action.VIEW"
             android:targetClass="com.github.tianma8023.xposed.smscode.app.record.CodeRecordsActivity"
             android:targetPackage="com.github.tianma8023.xposed.smscode"/>
         <categories
@@ -19,9 +19,24 @@
         android:shortcutId="smscode_rules"
         android:shortcutShortLabel="@string/rule_list">
         <intent
-            android:action="android.intent.action.View"
+            android:action="android.intent.action.VIEW"
             android:targetClass="com.github.tianma8023.xposed.smscode.app.rule.CodeRulesActivity"
             android:targetPackage="com.github.tianma8023.xposed.smscode"/>
+        <categories
+            android:name="android.shortcut.conversation"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_alipay_red_packet"
+        android:shortcutId="get_red_packet"
+        android:shortcutShortLabel="@string/get_red_packet">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.github.tianma8023.xposed.smscode.app.HomeActivity"
+            android:targetPackage="com.github.tianma8023.xposed.smscode">
+            <extra android:name="extra_action" android:value="get_red_packet"/>
+        </intent>
         <categories
             android:name="android.shortcut.conversation"/>
     </shortcut>

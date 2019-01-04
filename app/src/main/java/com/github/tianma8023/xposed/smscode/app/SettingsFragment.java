@@ -42,7 +42,9 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
  */
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
-    public static final String EXTRA_KEY_CURRENT_THEME = "extra_key_current_theme";
+    public static final String EXTRA_CURRENT_THEME = "extra_current_theme";
+    public static final String EXTRA_ACTION = "extra_action";
+    public static final String ACTION_GET_RED_PACKET = "get_red_packet";
 
     private Activity mActivity;
 
@@ -56,12 +58,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     public static SettingsFragment newInstance(ThemeItem curThemeItem) {
+        return newInstance(curThemeItem, null);
+    }
+
+    public static SettingsFragment newInstance(ThemeItem curThemeItem, String extraAction) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_KEY_CURRENT_THEME, curThemeItem);
+        args.putParcelable(EXTRA_CURRENT_THEME, curThemeItem);
+        args.putString(EXTRA_ACTION, extraAction);
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,7 +130,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void initChooseThemePreference(Preference chooseThemePref) {
         Bundle args = getArguments();
-        ThemeItem themeItem = args.getParcelable(EXTRA_KEY_CURRENT_THEME);
+        ThemeItem themeItem = args.getParcelable(EXTRA_CURRENT_THEME);
         if (themeItem != null) {
             chooseThemePref.setSummary(themeItem.getColorNameRes());
         }
@@ -133,6 +141,20 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = getActivity();
+
+        onHandleArguments(getArguments());
+    }
+
+    private void onHandleArguments(Bundle args) {
+        if (args == null) {
+            return;
+        }
+        String extraAction = args.getString(EXTRA_ACTION);
+        if (ACTION_GET_RED_PACKET.equals(extraAction)) {
+            args.remove(EXTRA_ACTION);
+//            scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
+            getAlipayPacket();
+        }
     }
 
     public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
