@@ -36,7 +36,7 @@ public class BackupManager {
     }
 
     public static File getBackupDir() {
-        File sdcard = StorageUtils.getSDCardDir();
+        File sdcard = StorageUtils.getPublicDocumentsDir();
         return new File(sdcard, BACKUP_DIRECTORY);
     }
 
@@ -45,7 +45,7 @@ public class BackupManager {
     }
 
     public static String getDefaultBackupFilename() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd", Locale.getDefault());
         String dateStr = sdf.format(new Date());
         File backupDir = getBackupDir();
         String basename = BACKUP_FILE_NAME_PREFIX + dateStr;
@@ -69,7 +69,12 @@ public class BackupManager {
             Arrays.sort(files, new Comparator<File>() {
                 @Override
                 public int compare(File f1, File f2) {
-                    return f1.getName().compareTo(f2.getName());
+                    String s1 = f1.getName();
+                    String s2 = f2.getName();
+                    int extLength = BACKUP_FILE_EXTENSION.length();
+                    s1 = s1.substring(0, s1.length() - extLength);
+                    s2 = s2.substring(0, s2.length() - extLength);
+                    return s1.compareTo(s2);
                 }
             });
         }

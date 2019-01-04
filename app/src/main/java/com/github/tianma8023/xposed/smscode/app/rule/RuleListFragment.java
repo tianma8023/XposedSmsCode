@@ -331,6 +331,12 @@ public class RuleListFragment extends Fragment {
             return;
         }
 
+        if (mRuleAdapter.getItemCount() == 0) {
+            Snackbar.make(mRecyclerView, R.string.rule_list_empty_snack_prompt, Snackbar.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         final String defaultFilename = BackupManager.getDefaultBackupFilename();
         String hint = getString(R.string.backup_file_name);
         String content = getString(R.string.backup_file_dir, BackupManager.getBackupDir().getAbsolutePath());

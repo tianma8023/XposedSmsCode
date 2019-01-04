@@ -167,6 +167,7 @@
     <string name="edit">編輯</string>
     <string name="actions">操作</string>
     <string name="list_empty_prompt">空空如也~</string>
+    <string name="rule_list_empty_snack_prompt">規則列表為空，無須導出</string>
     <string name="code_length_empty_prompt">請輸入驗證碼長度</string>
     <string name="rule_company_empty_hint">請輸入公司或組織名</string>
     <string name="rule_keyword_empty_hint">請輸入驗證碼關鍵字</string>

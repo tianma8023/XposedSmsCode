@@ -49,4 +49,11 @@ public class StorageUtils {
         return Environment.getExternalStorageDirectory();
     }
 
+    /**
+     * get sdcard public documents directory
+     * @return
+     */
+    public static File getPublicDocumentsDir() {
+        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+    }
 }

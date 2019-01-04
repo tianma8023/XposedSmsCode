@@ -162,6 +162,7 @@
     <string name="edit">Edit</string>
     <string name="actions">Actions</string>
     <string name="list_empty_prompt">No items yet!</string>
+    <string name="rule_list_empty_snack_prompt">Rule list is empty, no need to export.</string>
     <string name="code_length_empty_prompt">Please enter the code length</string>
     <string name="rule_company_empty_hint">Please enter institution or company</string>
     <string name="rule_keyword_empty_hint">Please enter SMS code keyword</string>
@@ -175,8 +176,8 @@
     <string name="import_failed_version_unknown">Import failed, version unknown</string>
     <string name="import_failed_backup_invalid">Import failed, backup invalid</string>
     <string name="import_failed_read_error">Import failed, read file error</string>
-    <string name="export_succeed">Export succeed, try again please</string>
-    <string name="export_failed">Export failed</string>
+    <string name="export_succeed">Export succeed</string>
+    <string name="export_failed">Export failed, try again please</string>
     <string name="import_confirmation_title">Import confirmation</string>
     <string name="import_confirmation_message">Retain current rules when import new rules?</string>
     <string name="yes">Yes</string>
