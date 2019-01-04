@@ -14,6 +14,7 @@ public interface Const {
     String ALIPAY_PACKAGE_NAME = "com.eg.android.AlipayGphone";
     String ALIPAY_QRCODE_URI_PREFIX = "alipayqr://platformapi/startapp?saId=10000007&qrcode=";
     String ALIPAY_QRCODE_URL = "HTTPS://QR.ALIPAY.COM/FKX074142EKXD0OIMV8B60";
+    String ALIPAY_RED_PACKET_CODE = "638310579";
 
     String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     String WECHAT_LAUNCHER_UI = WECHAT_PACKAGE_NAME + ".ui.LauncherUI";

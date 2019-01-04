@@ -57,7 +57,7 @@
     <string name="channel_name_foreground_service">解析短信时的通知</string>
     <string name="sms_code_notification_title">短信解析中……</string>
     <string name="action_home_faq_title">常见问题</string>
-    <string name="pref_debug_title">调试</string>
+    <string name="pref_others_title">其他</string>
     <string name="pref_verbose_log_mode_title">输出详细日志</string>
     <string name="pref_verbose_log_mode_summary">输出详细的日志到Xposed(仅用于调试)</string>
     <string name="pref_choose_theme_title">主题</string>
@@ -174,4 +174,16 @@
     <string name="import_rules">导入规则</string>
     <string name="no_external_permission_prompt">没有权限，请启用模块并重启后再试</string>
     <!-- sms code rule end -->
+
+    <!-- alipay packet start -->
+    <string name="pref_get_alipay_packet_title">领取支付宝红包</string>
+    <string name="pref_get_alipay_packet_summary">每天可领取支付宝红包</string>
+    <string name="pref_get_alipay_packet_content">打开支付宝首页搜索 %s 可每天领取红包~</string>
+    <string name="copy_packet_code_open_alipay">复制红包码并打开支付宝</string>
+    <string name="alipay_red_packet_code_copied">红包码已复制</string>
+    <string name="get_red_packet">领取红包</string>
+    <string name="donation_tips_title">捐赠提示</string>
+    <string name="donation_tips_content">捐赠前您可以先领取支付宝红包哦~</string>
+    <string name="donate_directly">直接捐赠</string>
+    <!-- alipay packet end -->
 </resources>

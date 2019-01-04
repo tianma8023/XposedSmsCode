@@ -54,7 +54,7 @@
     <string name="channel_name_foreground_service">Notifications for parsing SMS message</string>
     <string name="sms_code_notification_title">Parsing SMS message……</string>
     <string name="action_home_faq_title">FAQs</string>
-    <string name="pref_debug_title">Debug</string>
+    <string name="pref_others_title">Others</string>
     <string name="pref_verbose_log_mode_title">Detailed log</string>
     <string name="pref_verbose_log_mode_summary">Print detailed log(only for debug)</string>
     <string name="pref_choose_theme_title">Theme</string>
@@ -195,4 +195,16 @@
     <string name="import_rules">Import Rules</string>
     <string name="no_external_permission_prompt">No permission, reboot and try again</string>
     <!-- sms code rule end -->
+
+    <!-- alipay packet start -->
+    <string name="pref_get_alipay_packet_title">Get Alipay red packet</string>
+    <string name="pref_get_alipay_packet_summary">Get free alipay red packet everyday</string>
+    <string name="pref_get_alipay_packet_content">Open alipay and search %s, you can receive red packet everyday.</string>
+    <string name="copy_packet_code_open_alipay"><![CDATA[Copy code & Open alipay]]></string>
+    <string name="alipay_red_packet_code_copied">Alipay red packet code is copied</string>
+    <string name="get_red_packet">Get red packet</string>
+    <string name="donation_tips_title">Donation Tips</string>
+    <string name="donation_tips_content">Before donation, you can go to receive alipay red packet first.</string>
+    <string name="donate_directly">Donate directly</string>
+    <!-- alipay packet end -->
 </resources>

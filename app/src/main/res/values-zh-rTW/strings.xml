@@ -59,7 +59,7 @@
     <string name="channel_name_foreground_service">分析簡訊時的通知</string>
     <string name="sms_code_notification_title">簡訊分析中……</string>
     <string name="action_home_faq_title">常見問題</string>
-    <string name="pref_debug_title">調試</string>
+    <string name="pref_others_title">其他</string>
     <string name="pref_verbose_log_mode_title">輸出詳細日誌</string>
     <string name="pref_verbose_log_mode_summary">輸出詳細的日誌到Xposed(僅用於調試)</string>
     <string name="pref_choose_theme_title">主題</string>
@@ -200,4 +200,16 @@
     <string name="import_rules">導入規則</string>
     <string name="no_external_permission_prompt">沒有權限，請啟用模組并重啟后再試</string>
     <!-- sms code rule end -->
+
+    <!-- alipay packet start -->
+    <string name="pref_get_alipay_packet_title">領取支付寶紅包</string>
+    <string name="pref_get_alipay_packet_summary">每天可領取支付寶紅包</string>
+    <string name="pref_get_alipay_packet_content">打開支付寶首頁搜索 %s 可每天領取紅包~</string>
+    <string name="copy_packet_code_open_alipay">複製紅包碼并打開支付寶</string>
+    <string name="alipay_red_packet_code_copied">紅包碼已複製</string>
+    <string name="get_red_packet">領取紅包</string>
+    <string name="donation_tips_title">捐贈提示</string>
+    <string name="donation_tips_content">捐贈前您可以先領取支付寶紅包哦~</string>
+    <string name="donate_directly">直接捐贈</string>
+    <!-- alipay packet end -->
 </resources>

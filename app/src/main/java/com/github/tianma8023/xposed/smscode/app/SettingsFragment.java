@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
@@ -29,10 +30,11 @@ import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.AppOpsUtils;
+import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
-import com.github.tianma8023.xposed.smscode.utils.Utils;
 import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
+import com.github.tianma8023.xposed.smscode.utils.Utils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 /**
@@ -64,8 +66,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.settings);
+
+        // general group
         if (!ModuleUtils.isModuleEnabled()) {
             Preference enablePref = findPreference(PrefConst.KEY_ENABLE);
             enablePref.setEnabled(false);
@@ -73,38 +76,48 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
 
         findPreference(PrefConst.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
-        findPreference(PrefConst.KEY_VERBOSE_LOG_MODE).setOnPreferenceChangeListener(this);
 
-        findPreference(PrefConst.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_CODE_RULES).setOnPreferenceClickListener(this);
-
-        Preference recordsEntryPref = findPreference(PrefConst.KEY_ENTRY_CODE_RECORDS);
-        recordsEntryPref.setOnPreferenceClickListener(this);
-        initRecordEntryPreference(recordsEntryPref);
 
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
+        // general group end
 
-        // Hide experimental preference group.
-        // PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
-        // Preference markAsReadPref = findPreference(PrefConst.KEY_MARK_AS_READ);
-        // experimentalGroup.removePreference(markAsReadPref);
-        // getPreferenceScreen().removePreference(experimentalGroup);
+        // experimental group
         findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
         findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
+
         // hide block notification
         PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
         experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_NOTIFICATION));
+        // experimental group end
 
+        // code message group
+        findPreference(PrefConst.KEY_CODE_RULES).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
+        // code message group end
+
+        // code records group
+        Preference recordsEntryPref = findPreference(PrefConst.KEY_ENTRY_CODE_RECORDS);
+        recordsEntryPref.setOnPreferenceClickListener(this);
+        initRecordEntryPreference(recordsEntryPref);
+        // code records group end
+
+        // others group
+        findPreference(PrefConst.KEY_VERBOSE_LOG_MODE).setOnPreferenceChangeListener(this);
+        // others group end
+
+        // about group
         // version info preference
         Preference versionPref = findPreference(PrefConst.KEY_VERSION);
         showVersionInfo(versionPref);
+        findPreference(PrefConst.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_GET_ALIPAY_PACKET).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
+        // about group end
     }
 
     private void initChooseThemePreference(Preference chooseThemePref) {
@@ -151,6 +164,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             donateByWechat();
         } else if (PrefConst.KEY_ENTRY_CODE_RECORDS.equals(key)) {
             CodeRecordsActivity.startToMe(mActivity);
+        } else if (PrefConst.KEY_GET_ALIPAY_PACKET.equals(key)) {
+            getAlipayPacket();
         } else {
             return false;
         }
@@ -181,18 +196,63 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         Utils.showWebPage(mActivity, Const.PROJECT_SOURCE_CODE_URL);
     }
 
-    private void donateByAlipay() {
+    private boolean checkAlipayExists() {
         if (!PackageUtils.isAlipayInstalled(mActivity)) { // uninstalled
             Toast.makeText(mActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if (!PackageUtils.isAlipayEnabled(mActivity)) { // installed but disabled
             Toast.makeText(mActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(Const.ALIPAY_QRCODE_URI_PREFIX + Const.ALIPAY_QRCODE_URL));
-        startActivity(intent);
+        return true;
+    }
+
+    private void getAlipayPacket() {
+        final String packetCode = Const.ALIPAY_RED_PACKET_CODE;
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.pref_get_alipay_packet_title)
+                .content(getString(R.string.pref_get_alipay_packet_content, packetCode))
+                .positiveText(R.string.copy_packet_code_open_alipay)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ClipboardUtils.copyToClipboard(mActivity, packetCode);
+                        Toast.makeText(mActivity, R.string.alipay_red_packet_code_copied, Toast.LENGTH_SHORT).show();
+
+                        if (checkAlipayExists()) {
+                            PackageManager pm = mActivity.getPackageManager();
+                            Intent intent = pm.getLaunchIntentForPackage(Const.ALIPAY_PACKAGE_NAME);
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void donateByAlipay() {
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.donation_tips_title)
+                .content(R.string.donation_tips_content)
+                .positiveText(R.string.donate_directly)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if (checkAlipayExists()) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse(Const.ALIPAY_QRCODE_URI_PREFIX + Const.ALIPAY_QRCODE_URL));
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .negativeText(R.string.get_red_packet)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        getAlipayPacket();
+                    }
+                })
+                .show();
     }
 
     private void donateByWechat() {
