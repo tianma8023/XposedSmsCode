@@ -1,4 +1,9 @@
 # Update Logs
+- 19.01.05 v1.5.6 Reboot not required
+  1. Beautify parts of UI
+  2. Add entry: get alipay red packet
+  3. Optimize the Auto-input mode selection and donation process.
+  4. Backup code rule files under /sdcard/Documents/
 - 18.12.29 v1.5.5
   1. Optimization: SMS message details can be shown in code records.
   2. Others: copywriting fix.
@@ -62,4 +67,4 @@
 - 18.06.26 v1.0.1 
   1. Custom SMS code keywords rules of regular expressions.
   2. SMS code test feature added.
-- 18.05.27 v0.0.1 Basic funtions added.
+- 18.05.27 v0.0.1 Basic functions added.
