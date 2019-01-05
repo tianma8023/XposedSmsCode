@@ -145,7 +145,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity = getActivity();
+        mActivity = requireActivity();
 
         onHandleArguments(getArguments());
     }
@@ -159,7 +159,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             args.remove(EXTRA_ACTION);
             scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
             getAlipayPacket();
+        } else {
+            if (!ModuleUtils.isModuleEnabled()) {
+                showEnableModuleDialog();
+            }
         }
+    }
+
+    private void showEnableModuleDialog() {
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.enable_module_title)
+                .content(R.string.enable_module_message)
+                .positiveText(R.string.i_know)
+                .show();
     }
 
     public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
@@ -245,7 +257,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         ClipboardUtils.copyToClipboard(mActivity, packetCode);
-                        Toast.makeText(mActivity, R.string.alipay_red_packet_code_copied, Toast.LENGTH_SHORT).show();
+                        String text = getString(R.string.alipay_red_packet_code_copied, Const.ALIPAY_RED_PACKET_CODE);
+                        Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
 
                         if (checkAlipayExists()) {
                             PackageManager pm = mActivity.getPackageManager();

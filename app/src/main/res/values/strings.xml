@@ -202,7 +202,7 @@
     <string name="pref_get_alipay_packet_summary">Get free alipay red packet everyday</string>
     <string name="pref_get_alipay_packet_content">Open alipay and search %s, you can receive red packet everyday.</string>
     <string name="copy_packet_code_open_alipay"><![CDATA[Copy code & Open alipay]]></string>
-    <string name="alipay_red_packet_code_copied">Alipay red packet code is copied</string>
+    <string name="alipay_red_packet_code_copied">Alipay red packet code copied: %s</string>
     <string name="get_red_packet">Get red packet</string>
     <string name="donation_tips_title">Donation Tips</string>
     <string name="donation_tips_content">Before donation, you can go to receive alipay red packet first.</string>

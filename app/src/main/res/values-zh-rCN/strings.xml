@@ -181,7 +181,7 @@
     <string name="pref_get_alipay_packet_summary">每天可领取支付宝红包</string>
     <string name="pref_get_alipay_packet_content">打开支付宝首页搜索 %s 可每天领取红包~</string>
     <string name="copy_packet_code_open_alipay">复制红包码并打开支付宝</string>
-    <string name="alipay_red_packet_code_copied">红包码已复制</string>
+    <string name="alipay_red_packet_code_copied">已复制红包码：%s</string>
     <string name="get_red_packet">领取红包</string>
     <string name="donation_tips_title">捐赠提示</string>
     <string name="donation_tips_content">捐赠前您可以先领取支付宝红包哦~</string>

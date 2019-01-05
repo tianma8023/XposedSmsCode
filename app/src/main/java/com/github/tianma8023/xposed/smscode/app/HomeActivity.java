@@ -23,7 +23,6 @@ import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemContainer;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
-import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -55,10 +54,6 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         // setup toolbar
         setupToolbar();
 
-        if (!ModuleUtils.isModuleEnabled()) {
-            showEnableModuleDialog();
-        }
-
         initUmengAnalyze();
 
         handleIntent(getIntent());
@@ -72,15 +67,6 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         setSupportActionBar(mToolbar);
 
         refreshActionBar(getString(R.string.app_name));
-    }
-
-
-    private void showEnableModuleDialog() {
-        new MaterialDialog.Builder(this)
-                .title(R.string.enable_module_title)
-                .content(R.string.enable_module_message)
-                .positiveText(R.string.i_know)
-                .show();
     }
 
     private void handleIntent(Intent intent) {
