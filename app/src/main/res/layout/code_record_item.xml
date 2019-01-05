@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/code_record_item_background_selector"
+        android:background="@drawable/code_record_item_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="@dimen/text_margin_dp_16"

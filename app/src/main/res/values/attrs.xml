@@ -4,7 +4,7 @@
         <attr name="faq_textColor" format="color|reference"/>
         <attr name="faq_textColorSecondary" format="color|reference"/>
         <attr name="preferenceIconColor" format="color|reference"/>
-        <attr name="itemPressedColor" format="color|reference"/>
         <attr name="toolbarPopupStyle" format="reference"/>
+        <attr name="itemBackgroundColor" format="color|reference"/>
     </declare-styleable>
 </resources>

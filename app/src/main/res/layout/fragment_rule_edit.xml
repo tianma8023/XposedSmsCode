@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
                 android:padding="@dimen/text_margin_dp_16">
 
@@ -58,16 +59,17 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/rule_code_regex_quick_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_keyword_input_layout"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/text_margin_dp_4"
-        android:background="@drawable/rule_code_regex_quick_choose_selector"
+        android:background="@drawable/code_rule_quick_choose_bg"
         android:padding="@dimen/text_margin_dp_6"
         android:text="@string/quick_choose"
+        app:rippleColor="?attr/colorControlHighlight"
         android:textColor="@color/faq_textColor_white"/>
 
 </RelativeLayout>
