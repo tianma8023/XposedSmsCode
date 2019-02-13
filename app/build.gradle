@@ -73,31 +73,34 @@ android {
     }
 
     applicationVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.endsWith(".apk")) {
+//                def fileName = ""
+//                if (variant.buildType.name == 'release') {
+//                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_r.apk"
+//                } else if (variant.buildType.name == 'debug') {
+//                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_d.apk"
+//                }
+//                outputFileName = fileName
+//            }
+//        }
         variant.outputs.all { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith(".apk")) {
-                def fileName = ""
-                if (variant.buildType.name == 'release') {
-                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_r.apk"
-                } else if (variant.buildType.name == 'debug') {
-                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_d.apk"
-                }
-                outputFileName = fileName
-            }
+            output.outputFileName = "XposedSmsCode_v${variant.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_${variant.buildType.name.charAt(0)}.apk"
         }
     }
 
-    flavorDimensions "default"
+    flavorDimensions "type"
 
     productFlavors {
         coolapk {
-            dimension "default"
+            dimension "type"
         }
-        xposedRepo {
-            dimension "default"
+        xposed {
+            dimension "type"
         }
         github {
-            dimension "default"
+            dimension "type"
         }
     }
 
