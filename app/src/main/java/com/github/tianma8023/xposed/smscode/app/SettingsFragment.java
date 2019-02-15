@@ -417,7 +417,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
                 return true;
             } catch (Exception e) {
-                Toast.makeText(mActivity, "没有相关权限，请重启后重新打开", Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.no_permission_prompt, Toast.LENGTH_LONG).show();
                 return false;
             }
         } else {

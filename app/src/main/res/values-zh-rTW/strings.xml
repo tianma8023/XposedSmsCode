@@ -199,7 +199,7 @@
     <string name="action_rule_help">幫助</string>
     <string name="share">分享</string>
     <string name="import_rules">導入規則</string>
-    <string name="no_external_permission_prompt">沒有權限，請啟用模組并重啟后再試</string>
+    <string name="no_permission_prompt">沒有相關權限，請啟用模組并重啟后再試</string>
     <!-- sms code rule end -->
 
     <!-- alipay packet start -->

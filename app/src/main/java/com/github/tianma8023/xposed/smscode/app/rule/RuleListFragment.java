@@ -421,7 +421,7 @@ public class RuleListFragment extends Fragment {
 
     private void showNoPermissionInfo() {
         Snackbar.make(mRecyclerView,
-                R.string.no_external_permission_prompt, Snackbar.LENGTH_SHORT).show();
+                R.string.no_permission_prompt, Snackbar.LENGTH_SHORT).show();
     }
 
     private void showImportDialogConfirm(final Uri uri) {

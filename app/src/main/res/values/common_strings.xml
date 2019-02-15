@@ -46,13 +46,13 @@
     <string name="focus_mode_manual">focus_mode_manual</string>
 
     <string-array name="pref_focus_mode_entryValues">
-        <item>@string/focus_mode_auto</item>
         <item>@string/focus_mode_manual</item>
+        <item>@string/focus_mode_auto</item>
     </string-array>
 
     <string-array name="pref_focus_mode_entries">
-        <item>@string/focus_mode_entry_auto</item>
         <item>@string/focus_mode_entry_manual</item>
+        <item>@string/focus_mode_entry_auto</item>
     </string-array>
     <!-- Focus mode end -->
 

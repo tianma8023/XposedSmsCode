@@ -3,18 +3,6 @@ package com.github.tianma8023.xposed.smscode.utils;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.CLEAR_CLIPBOARD_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.ENABLE_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.FOCUS_MODE_AUTO;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_CLEAR_CLIPBOARD;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_ENABLE;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_FOCUS_MODE;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SHOW_TOAST;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_SMSCODE_KEYWORDS;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.KEY_VERBOSE_LOG_MODE;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.SHOW_TOAST_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.SMSCODE_KEYWORDS_DEFAULT;
-import static com.github.tianma8023.xposed.smscode.constant.PrefConst.VERBOSE_LOG_MODE_DEFAULT;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getBoolean;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getInt;
 import static com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils.getString;
@@ -40,7 +28,7 @@ public class SPUtils {
      * 总开关是否打开
      */
     public static boolean isEnabled(RemotePreferences preferences) {
-        return getBoolean(preferences, KEY_ENABLE, ENABLE_DEFAULT);
+        return getBoolean(preferences, PrefConst.KEY_ENABLE, PrefConst.ENABLE_DEFAULT);
     }
 
     /**
@@ -48,7 +36,7 @@ public class SPUtils {
      */
     public static boolean isVerboseLogMode(RemotePreferences preferences) {
         return getBoolean(preferences,
-                KEY_VERBOSE_LOG_MODE, VERBOSE_LOG_MODE_DEFAULT);
+                PrefConst.KEY_VERBOSE_LOG_MODE, PrefConst.VERBOSE_LOG_MODE_DEFAULT);
     }
 
     /**
@@ -96,7 +84,7 @@ public class SPUtils {
      */
     public static boolean shouldClearClipboard(RemotePreferences preferences) {
         return getBoolean(preferences,
-                KEY_CLEAR_CLIPBOARD, CLEAR_CLIPBOARD_DEFAULT);
+                PrefConst.KEY_CLEAR_CLIPBOARD, PrefConst.CLEAR_CLIPBOARD_DEFAULT);
     }
 
     /**
@@ -104,23 +92,21 @@ public class SPUtils {
      */
     public static boolean shouldShowToast(RemotePreferences preferences) {
         return getBoolean(preferences,
-                KEY_SHOW_TOAST, SHOW_TOAST_DEFAULT);
+                PrefConst.KEY_SHOW_TOAST, PrefConst.SHOW_TOAST_DEFAULT);
     }
 
     /**
      * 获取对焦模式
      */
     public static String getFocusMode(RemotePreferences preferences) {
-        return getString(preferences,
-                KEY_FOCUS_MODE, FOCUS_MODE_AUTO);
+        return getString(preferences, PrefConst.KEY_FOCUS_MODE, PrefConst.FOCUS_MODE_AUTO);
     }
 
     /**
      * 获取短信验证码关键字
      */
     public static String getSMSCodeKeywords(RemotePreferences preferences) {
-        return getString(preferences,
-                KEY_SMSCODE_KEYWORDS, SMSCODE_KEYWORDS_DEFAULT);
+        return getString(preferences, PrefConst.KEY_SMSCODE_KEYWORDS, PrefConst.SMSCODE_KEYWORDS_DEFAULT);
     }
 
     /**
@@ -196,6 +182,7 @@ public class SPUtils {
 
     /**
      * 是否拦截短信通知
+     *
      * @param preferences
      * @return
      */
