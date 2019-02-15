@@ -12,45 +12,48 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="itemBackgroundColor">@color/item_background_color_light</item>
     </style>
+    
+    <style name="AppTheme.Light" parent="AppTheme">
+    </style>
 
-    <style name="AppTheme.Red">
+    <style name="AppTheme.Red" parent="AppTheme.Light">
         <item name="colorPrimary">@color/colorPrimary_red</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_red</item>
         <item name="colorAccent">@color/colorAccent_red</item>
     </style>
 
-    <style name="AppTheme.Pink">
+    <style name="AppTheme.Pink" parent="AppTheme.Light">
         <item name="colorPrimary">@color/colorPrimary_pink</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_pink</item>
         <item name="colorAccent">@color/colorAccent_pink</item>
     </style>
 
-    <style name="AppTheme.Yellow">
+    <style name="AppTheme.Yellow" parent="AppTheme.Light">
         <item name="colorPrimary">@color/colorPrimary_yellow</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_yellow</item>
         <item name="colorAccent">@color/colorAccent_yellow</item>
     </style>
 
-    <style name="AppTheme.Teal">
+    <style name="AppTheme.Teal" parent="AppTheme.Light">
         <item name="colorPrimary">@color/colorPrimary_teal</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_teal</item>
         <item name="colorAccent">@color/colorAccent_teal</item>
     </style>
 
-    <style name="AppTheme.Green">
+    <style name="AppTheme.Green" parent="AppTheme.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary_green</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_green</item>
         <item name="colorAccent">@color/colorAccent_green</item>
     </style>
 
-    <style name="AppTheme.Blue">
+    <style name="AppTheme.Blue" parent="AppTheme.Light">
         <item name="colorPrimary">@color/colorPrimary_blue</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_blue</item>
         <item name="colorAccent">@color/colorAccent_blue</item>
     </style>
 
-    <style name="AppTheme.Violet">
+    <style name="AppTheme.Violet" parent="AppTheme.Light">
         <item name="colorPrimary">@color/colorPrimary_violet</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_violet</item>
         <item name="colorAccent">@color/colorAccent_violet</item>

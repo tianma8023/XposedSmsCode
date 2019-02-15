@@ -2,11 +2,13 @@
 <resources>
 
     <style name="AppTheme.Light">
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="AppTheme.Black" parent="AppTheme.Dark">
         <item name="android:navigationBarColor">@color/colorPrimaryDark_black</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
 </resources>
