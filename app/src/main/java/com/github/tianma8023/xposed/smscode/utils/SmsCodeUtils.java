@@ -97,7 +97,7 @@ public class SmsCodeUtils {
         // 之前的正则表达式是 [a-zA-Z0-9]{4,8}
         // 现在的正则表达式是 [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)? 匹配数字和字母之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
-        String codeRegex = "[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)?";
+        String codeRegex = "(?<![a-zA-Z0-9])[a-zA-Z0-9]{4,8}(?![a-zA-Z0-9])";
         return getSmsCode(codeRegex, keywordsRegex, content);
     }
 
@@ -129,7 +129,7 @@ public class SmsCodeUtils {
         int beginIndex = 0, endIndex = content.length() - 1;
         int curIndex = content.indexOf(possibleCode);
         int strLength = possibleCode.length();
-        int magicNumber = 14;
+        int magicNumber = 30;
         if (curIndex - magicNumber > 0) {
             beginIndex = curIndex - magicNumber;
         }
@@ -146,7 +146,7 @@ public class SmsCodeUtils {
         // 之前的正则表达式是 [0-9]{4,8} 匹配由数字组成的4到8长度的字符串
         // 现在的正则表达式是 [0-9]+(\\.[0-9]+)? 匹配数字之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
-        String codeRegex = "[0-9]+(\\.[0-9]+)?";
+        String codeRegex = "(?<![0-9])[0-9]{4,8}(?![0-9])";
         return getSmsCode(codeRegex, keywordsRegex, content);
     }
 
@@ -164,9 +164,7 @@ public class SmsCodeUtils {
         List<String> possibleCodes = new ArrayList<>();
         while (m.find()) {
             final String matchedStr = m.group();
-            if (matchedStr.length() >= 4 && matchedStr.length() <= 8 && !matchedStr.contains(".")) {
-                possibleCodes.add(matchedStr);
-            }
+            possibleCodes.add(matchedStr);
         }
         if (possibleCodes.isEmpty()) { // no possible code
             return "";
