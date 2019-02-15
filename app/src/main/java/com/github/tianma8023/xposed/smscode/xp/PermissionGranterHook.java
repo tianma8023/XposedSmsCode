@@ -23,21 +23,29 @@ public class PermissionGranterHook implements IHook {
     private static final String CLASS_PACKAGE_MANAGER_SERVICE = "com.android.server.pm.PackageManagerService";
     private static final String CLASS_PACKAGE_PARSER_PACKAGE = "android.content.pm.PackageParser.Package";
 
+    // for Android 28+
+    private static final String CLASS_PERMISSION_MANAGER_SERVICE = "com.android.server.pm.permission.PermissionManagerService";
+    private static final String CLASS_PERMISSION_CALLBACK = "com.android.server.pm.permission.PermissionManagerInternal.PermissionCallback";
+
     private static final List<String> PERMISSIONS_TO_GRANT = PermConst.PERMISSIONS_TO_GRANT;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
-            try {
+            if (Build.VERSION.SDK_INT >= 28) { // Android 9.0+
+                hookPermissionManagerService(lpparam);
+            } else { // Android 5.0 ~ 8.1
                 hookPackageManagerService(lpparam);
-            } catch (Exception e) {
-                XLog.e("Failed to hook PackageManagerService", e);
             }
         }
     }
 
     private static void hookPackageManagerService(XC_LoadPackage.LoadPackageParam lpparam) {
-        hookGrantPermissionsLPw(lpparam);
+        try {
+            hookGrantPermissionsLPw(lpparam);
+        } catch (Exception e) {
+            XLog.e("Failed to hook PackageManagerService", e);
+        }
     }
 
     private static void hookGrantPermissionsLPw(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -71,19 +79,18 @@ public class PermissionGranterHook implements IHook {
         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    afterGrantPermissionsLPwHandlerSinceM(param);
+                    afterGrantPermissionsLPwSinceM(param);
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    afterGrantPermissionsLPwHandlerSinceKitkat(param);
+                    afterGrantPermissionsLPwSinceKitkat(param);
                 }
             } catch (Exception e) {
                 XLog.e("Hook grantPermissionsLPw() failed", e);
             }
         }
-
     }
 
     @SuppressWarnings("unchecked")
-    private static void afterGrantPermissionsLPwHandlerSinceM(XC_MethodHook.MethodHookParam param) {
+    private static void afterGrantPermissionsLPwSinceM(XC_MethodHook.MethodHookParam param) {
         // android.content.pm.PackageParser.Package 对象
         Object pkg = param.args[0];
 
@@ -122,7 +129,7 @@ public class PermissionGranterHook implements IHook {
     }
 
     @SuppressWarnings("unchecked")
-    private static void afterGrantPermissionsLPwHandlerSinceKitkat(XC_MethodHook.MethodHookParam param) {
+    private static void afterGrantPermissionsLPwSinceKitkat(XC_MethodHook.MethodHookParam param) {
         // API 19
 
         // android.content.pm.PackageParser.Package object
@@ -162,6 +169,76 @@ public class PermissionGranterHook implements IHook {
                     XLog.d("Add permission " + bpToGrant);
                 } else {
                     XLog.d("Already have " + permissionToGrant + " permission");
+                }
+            }
+        }
+    }
+
+    private static void hookPermissionManagerService(XC_LoadPackage.LoadPackageParam lpparam) {
+        try {
+            hookGrantPermissions(lpparam);
+        } catch (Exception e) {
+            XLog.e("Failed to hook PermissionManagerService", e);
+        }
+    }
+
+    private static void hookGrantPermissions(XC_LoadPackage.LoadPackageParam lpparam) {
+        XLog.d("Hooking grantPermissions() for Android 28+");
+        XposedHelpers.findAndHookMethod(CLASS_PERMISSION_MANAGER_SERVICE, lpparam.classLoader, "grantPermissions",
+                /* PackageParser.Package pkg   */ CLASS_PACKAGE_PARSER_PACKAGE,
+                /* boolean replace             */ boolean.class,
+                /* String packageOfInterest    */ String.class,
+                /* PermissionCallback callback */ CLASS_PERMISSION_CALLBACK,
+                /* */new GrantPermissionsHook());
+    }
+
+    private static class GrantPermissionsHook extends XC_MethodHook {
+
+        @Override
+        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            try {
+                afterGrantPermissionsSinceP(param);
+            } catch (Exception e) {
+                XLog.e("Hook grantPermissions() failed", e);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void afterGrantPermissionsSinceP(XC_MethodHook.MethodHookParam param) {
+        // android.content.pm.PackageParser.Package 对象
+        Object pkg = param.args[0];
+
+        final String packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
+
+        if (SMSCODE_PACKAGE.equals(packageName)) {
+            XLog.d("packageName = %s", packageName);
+            // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
+            final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
+            // com.android.server.pm.permission.PermissionsState 对象
+            final Object permissionsState = XposedHelpers.callMethod(extras, "getPermissionsState");
+
+            // Manifest.xml 中声明的permission列表
+            final List<String> requestedPermissions = (List<String>)
+                    XposedHelpers.getObjectField(pkg, "requestedPermissions");
+
+            // com.android.server.pm.permission.PermissionSettings mSettings 对象
+            final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
+            // ArrayMap<String, com.android.server.pm.permission.BasePermission> mPermissions 对象
+            final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
+
+            for (String permissionToGrant : PERMISSIONS_TO_GRANT) {
+                if (!requestedPermissions.contains(permissionToGrant)) {
+                    boolean granted = (boolean) XposedHelpers.callMethod(
+                            permissionsState, "hasInstallPermission", permissionToGrant);
+                    if (!granted) {
+                        // com.android.server.pm.permission.BasePermission bpToGrant
+                        final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
+                        int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
+                        XLog.d("Add permission " + bpToGrant + "; result = " + result);
+                    } else {
+                        XLog.d("Already have " + permissionToGrant + " permission");
+                    }
                 }
             }
         }
