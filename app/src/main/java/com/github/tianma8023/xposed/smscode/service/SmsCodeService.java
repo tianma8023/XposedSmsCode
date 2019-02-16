@@ -231,7 +231,6 @@ public class SmsCodeService extends IntentService {
         }
 
         onNewSmsMsgParsed(smsMsg);
-        sleep(5);
     }
 
     private void recordSmsMsg(SmsMsg smsMsg) {
