@@ -1,7 +1,11 @@
 package com.github.tianma8023.xposed.smscode.app;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -12,9 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crossbowffs.remotepreferences.RemotePreferences;
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.adapter.BaseItemCallback;
 import com.github.tianma8023.xposed.smscode.adapter.ItemCallback;
@@ -25,6 +32,7 @@ import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemContainer;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
+import com.github.tianma8023.xposed.smscode.utils.SettingsUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -34,7 +42,8 @@ import butterknife.ButterKnife;
  * 主界面
  */
 public class HomeActivity extends BaseActivity implements SettingsFragment.OnPreferenceClickCallback {
-    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     private static final String TAG_NESTED = "tag_nested";
     private static final String TAG_FAQ = "tag_faq";
@@ -164,7 +173,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
 
     private void refreshActionBar(String title) {
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setTitle(title);
             actionBar.setHomeButtonEnabled(true);
             if (mCurrentFragment instanceof SettingsFragment) {
@@ -196,18 +205,28 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
             case R.id.action_home_faq:
                 onFAQSelected();
                 return true;
+            case R.id.action_ignore_battery_optimization:
+                onIgnoreBatteryOptimizationSelected();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_home, menu);
         MenuItem faqItem = menu.findItem(R.id.action_home_faq);
         if (mCurrentFragment instanceof FaqFragment) {
             faqItem.setVisible(false);
         } else {
             faqItem.setVisible(true);
+        }
+
+        MenuItem ignoreOptimizeItem = menu.findItem(R.id.action_ignore_battery_optimization);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            ignoreOptimizeItem.setVisible(false);
+        } else {
+            ignoreOptimizeItem.setVisible(true);
         }
         return true;
     }
@@ -222,5 +241,49 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         mCurrentFragment = faqFragment;
         refreshActionBar(getString(R.string.action_home_faq_title));
         invalidateOptionsMenu();
+    }
+
+    private void onIgnoreBatteryOptimizationSelected() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.ignore_battery_optimization_statement)
+                .content(R.string.ignore_battery_optimization_content)
+                .positiveText(R.string.yes)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ignoreBatteryOptimization();
+                    }
+                })
+                .negativeText(R.string.no)
+                .show();
+    }
+
+    @SuppressLint("BatteryLife")
+    private void ignoreBatteryOptimization() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        if (pm == null) {
+            return;
+        }
+
+        if (pm.isIgnoringBatteryOptimizations(BuildConfig.APPLICATION_ID)) {
+            Toast.makeText(this, R.string.battery_optimization_ignored, Toast.LENGTH_LONG).show();
+        } else {
+            try {
+                // 申请忽略电源优化
+                SettingsUtils.requestIgnoreBatteryOptimization(this);
+            } catch (Exception e) {
+                try {
+                    // 跳转至电源优化界面
+                    SettingsUtils.gotoIgnoreBatteryOptimizationSettings(this);
+                    Toast.makeText(this, R.string.ignore_battery_optimization_manually, Toast.LENGTH_LONG).show();
+                } catch (Exception e1) {
+                    Toast.makeText(this, R.string.ignore_battery_optimization_settings_failed, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 }

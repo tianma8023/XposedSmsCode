@@ -8,4 +8,8 @@
         android:title="@string/action_home_faq_title"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/action_ignore_battery_optimization"
+        android:title="@string/ignore_battery_optimization"
+        app:showAsAction="never"/>
 </menu>

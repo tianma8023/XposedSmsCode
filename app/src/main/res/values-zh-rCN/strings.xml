@@ -187,4 +187,13 @@
     <string name="donation_tips_content">捐赠前您可以先领取支付宝红包哦~</string>
     <string name="donate_directly">直接捐赠</string>
     <!-- alipay packet end -->
+
+    <!-- ignore battery optimization -->
+    <string name="ignore_battery_optimization">忽略电池优化</string>
+    <string name="ignore_battery_optimization_statement">忽略电池优化声明</string>
+    <string name="ignore_battery_optimization_content">如果您的App能正常使用，则无需忽略电池优化。\n\n承诺忽略电池优化后不会很耗电。\n\n确认忽略电池优化吗？</string>
+    <string name="battery_optimization_ignored">已关闭此应用的电源优化</string>
+    <string name="ignore_battery_optimization_manually">请手动设置忽略电源优化</string>
+    <string name="ignore_battery_optimization_settings_failed">跳转到电池优化失败，请手动设置</string>
+    <!-- ignore battery optimization end -->
 </resources>

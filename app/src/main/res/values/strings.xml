@@ -208,4 +208,13 @@
     <string name="donation_tips_content">Before donation, you can go to receive alipay red packet first.</string>
     <string name="donate_directly">Donate directly</string>
     <!-- alipay packet end -->
+
+    <!-- ignore battery optimization -->
+    <string name="ignore_battery_optimization">Ignore Battery Optimization</string>
+    <string name="ignore_battery_optimization_statement">Ignore Battery Optimization Statement</string>
+    <string name="ignore_battery_optimization_content">There is no need to ignore battery optimization if this App works well. Are you sure to ignore it?</string>
+    <string name="battery_optimization_ignored">Battery optimization has been ignored</string>
+    <string name="ignore_battery_optimization_manually">Please ignore battery optimization manually</string>
+    <string name="ignore_battery_optimization_settings_failed">Go to battery optimization settings failed, please setting it manually</string>
+    <!-- ignore battery optimization end -->
 </resources>
