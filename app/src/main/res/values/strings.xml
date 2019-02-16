@@ -9,6 +9,8 @@
     <string name="enable_module_title">Module Inactive</string>
     <string name="enable_module_message">Please activate this module, or this App won\'t work!</string>
     <string name="i_know">I see</string>
+    <string name="ignore">Ignore</string>
+    <string name="open_xposed_installer">Open Xposed Installer</string>
     <string name="pref_enable_summary_alt">Please activate this module first!</string>
     <string name="pref_show_toast_title">Show Toast</string>
     <string name="pref_show_toast_summary">Show Toast when the SMS Code is copied</string>
@@ -18,9 +20,9 @@
     <string name="pref_donate_by_alipay_title">Donate by Alipay</string>
     <string name="pref_donate_by_wechat_title">Donate by Wechat</string>
     <string name="browser_install_or_enable_prompt">Please install or enable browser first</string>
-    <string name="alipay_install_prompt">Please install Alipay first</string>
+    <string name="alipay_install_prompt">Please install Alipay</string>
     <string name="alipay_enable_prompt">Please enable Alipay</string>
-    <string name="wechat_install_prompt">Please install Wechat first</string>
+    <string name="wechat_install_prompt">Please install Wechat</string>
     <string name="wechat_enable_prompt">Please enable Wechat</string>
     <string name="pref_hide_launcher_icon_title">Hide launcher icon</string>
     <string name="pref_hide_launcher_icon_summary">It can be open in Xposed Modules if launcher icon is hidden</string>
@@ -217,4 +219,18 @@
     <string name="ignore_battery_optimization_manually">Please ignore battery optimization manually</string>
     <string name="ignore_battery_optimization_settings_failed">Go to battery optimization settings failed, please setting it manually</string>
     <!-- ignore battery optimization end -->
+
+    <!-- taichi users notice -->
+    <string name="taichi_users_notice">Taichi Users Notice</string>
+    <string name="taichi_users_notice_content">
+        1. These Apps should be added to TaiChi before you use this module:\n
+        \t· Phone Services(com.android.phone)\n
+        \t· Android System(android)\n\n
+        2. If this module is inactive after updating, please re-check this module in TaiChi module manage list and reopen this module.
+    </string>
+    <string name="open_taichi">Open TaiChi</string>
+    <string name="taichi_install_prompt">Please install TaiChi</string>
+    <string name="taichi_enable_prompt">Please enable TaiChi</string>
+    <string name="xposed_not_installed">Please install or enable Xposed installer</string>
+    <!-- taichi users notice end -->
 </resources>

@@ -31,6 +31,14 @@ public class PackageUtils {
         return isPackageEnabled(context, Const.ALIPAY_PACKAGE_NAME);
     }
 
+    public static boolean isTaichiInstalled(Context context) {
+        return isPackageInstalled(context, Const.TAICHI_PACKAGE_NAME);
+    }
+
+    public static boolean isTaichiEnabled(Context context) {
+        return isPackageEnabled(context, Const.TAICHI_PACKAGE_NAME);
+    }
+
     /**
      * 指定的包名对应的App是否已安装
      */

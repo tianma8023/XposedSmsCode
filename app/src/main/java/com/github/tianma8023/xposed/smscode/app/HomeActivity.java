@@ -29,7 +29,9 @@ import com.github.tianma8023.xposed.smscode.app.faq.FaqFragment;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemContainer;
+import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
+import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SettingsUtils;
@@ -208,6 +210,9 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
             case R.id.action_ignore_battery_optimization:
                 onIgnoreBatteryOptimizationSelected();
                 return true;
+            case R.id.action_taichi_users_notice:
+                onTaichiUsersNoticeSelected();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -283,6 +288,38 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
                 } catch (Exception e1) {
                     Toast.makeText(this, R.string.ignore_battery_optimization_settings_failed, Toast.LENGTH_LONG).show();
                 }
+            }
+        }
+    }
+
+    private void onTaichiUsersNoticeSelected() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.taichi_users_notice)
+                .content(R.string.taichi_users_notice_content)
+                .negativeText(R.string.i_know)
+                .positiveText(R.string.open_taichi)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        openTaichi();
+                    }
+                })
+                .show();
+    }
+
+    private void openTaichi() {
+        if (PackageUtils.isTaichiEnabled(this)) {
+            // installed & enabled
+            Intent intent = new Intent();
+            intent.setClassName(Const.TAICHI_PACKAGE_NAME, Const.TAICHI_MAIN_PAGE);
+            startActivity(intent);
+        } else {
+            if (!PackageUtils.isTaichiInstalled(this)) {
+                // not installed
+                Toast.makeText(this, R.string.taichi_install_prompt, Toast.LENGTH_SHORT).show();
+            } else {
+                // installed & disabled
+                Toast.makeText(this, R.string.taichi_enable_prompt, Toast.LENGTH_SHORT).show();
             }
         }
     }

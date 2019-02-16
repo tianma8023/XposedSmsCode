@@ -2,9 +2,6 @@
     <string name="app_name">验证码提取器(Xposed)</string>
     <string name="xposed_description">提取新短信中的验证码并复制到剪贴板，并能自动输入验证码</string>
 
-    <!-- General -->
-    <string name="i_know">知道了</string>
-
     <!-- Preferences -->
     <string name="pref_general_title">通用</string>
     <string name="pref_enable_title">启用</string>
@@ -12,6 +9,9 @@
     <string name="enable_module_message">请先激活本模块，否则本应用将无法工作！</string>
     <string name="pref_enable_summary">使用此开关不需要重启设备</string>
     <string name="pref_enable_summary_alt">模块未激活，请先激活本模块</string>
+    <string name="i_know">知道了</string>
+    <string name="ignore">忽略</string>
+    <string name="open_xposed_installer">打开Xposed</string>
     <string name="pref_show_toast_title">显示Toast</string>
     <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
     <string name="pref_donate_by_alipay_title">支付宝捐赠</string>
@@ -195,4 +195,18 @@
     <string name="ignore_battery_optimization_manually">请手动设置忽略电源优化</string>
     <string name="ignore_battery_optimization_settings_failed">跳转到电池优化失败，请手动设置</string>
     <!-- ignore battery optimization end -->
+
+    <!-- taichi users notice -->
+    <string name="taichi_users_notice">太极用户须知</string>
+    <string name="taichi_users_notice_content">
+        1. 太极用户如需使用所有功能，需要将以下应用添加至太极中：\n
+        \t· 电话服务(com.android.phone)\n
+        \t· Android系统(android)\n\n
+        2. 每次更新后，若模块失效，请在太极的模块管理列表中重新勾选本模块，并重新打开本应用。
+    </string>
+    <string name="open_taichi">打开太极</string>
+    <string name="taichi_install_prompt">请先安装太极</string>
+    <string name="taichi_enable_prompt">请先启用太极</string>
+    <string name="xposed_not_installed">请安装或启用Xposed Installer</string>
+    <!-- taichi users notice end -->
 </resources>

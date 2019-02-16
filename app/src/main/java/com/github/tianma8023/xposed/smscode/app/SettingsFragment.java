@@ -180,7 +180,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         new MaterialDialog.Builder(mActivity)
                 .title(R.string.enable_module_title)
                 .content(R.string.enable_module_message)
-                .positiveText(R.string.i_know)
+                .neutralText(R.string.ignore)
+                .negativeText(R.string.open_taichi)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        openTaichi();
+                    }
+                })
+                .positiveText(R.string.open_xposed_installer)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        openXposedInstaller();
+                    }
+                })
                 .show();
     }
 
@@ -246,15 +260,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private boolean checkAlipayExists() {
-        if (!PackageUtils.isAlipayInstalled(mActivity)) { // uninstalled
-            Toast.makeText(mActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
+        if (PackageUtils.isAlipayEnabled(mActivity)) {
+            // installed & enabled
+            return true;
+        } else {
+            if (!PackageUtils.isAlipayInstalled(mActivity)) { // uninstalled
+                // not installed
+                Toast.makeText(mActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
+            } else {
+                // installed & disabled
+                Toast.makeText(mActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
+            }
             return false;
         }
-        if (!PackageUtils.isAlipayEnabled(mActivity)) { // installed but disabled
-            Toast.makeText(mActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
     }
 
     private void getAlipayPacket() {
@@ -306,18 +324,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void donateByWechat() {
-        if (!PackageUtils.isWeChatInstalled(mActivity)) { // uninstalled
-            Toast.makeText(mActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
-            return;
+        if (PackageUtils.isWeChatEnabled(mActivity)) {
+            // installed & enabled
+            Intent intent = new Intent();
+            intent.setClassName(Const.WECHAT_PACKAGE_NAME, Const.WECHAT_LAUNCHER_UI);
+            intent.putExtra(Const.WECHAT_KEY_EXTRA_DONATE, true);
+            startActivity(intent);
+        } else {
+            if (!PackageUtils.isWeChatInstalled(mActivity)) {
+                // uninstalled
+                Toast.makeText(mActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
+            } else {
+                // uninstalled & disabled
+                Toast.makeText(mActivity, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
+            }
         }
-        if (!PackageUtils.isWeChatEnabled(mActivity)) { // installed but disabled
-            Toast.makeText(mActivity, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent intent = new Intent();
-        intent.setClassName(Const.WECHAT_PACKAGE_NAME, Const.WECHAT_LAUNCHER_UI);
-        intent.putExtra(Const.WECHAT_KEY_EXTRA_DONATE, true);
-        startActivity(intent);
     }
 
     @Override
@@ -457,5 +478,28 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     private void initRecordEntryPreference(Preference preference) {
         String summary = getString(R.string.pref_entry_code_records_summary, PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT);
         preference.setSummary(summary);
+    }
+
+    private void openXposedInstaller() {
+        if(!ModuleUtils.startXposedActivity(mActivity, ModuleUtils.Section.MODULES)) {
+            Toast.makeText(mActivity, R.string.xposed_not_installed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openTaichi() {
+        if (PackageUtils.isTaichiEnabled(mActivity)) {
+            // installed & enabled
+            Intent intent = new Intent();
+            intent.setClassName(Const.TAICHI_PACKAGE_NAME, Const.TAICHI_MAIN_PAGE);
+            startActivity(intent);
+        } else {
+            if (!PackageUtils.isTaichiInstalled(mActivity)) {
+                // not installed
+                Toast.makeText(mActivity, R.string.taichi_install_prompt, Toast.LENGTH_SHORT).show();
+            } else {
+                // installed & disabled
+                Toast.makeText(mActivity, R.string.taichi_enable_prompt, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

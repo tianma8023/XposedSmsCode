@@ -6,10 +6,15 @@
         android:id="@+id/action_home_faq"
         android:icon="@drawable/ic_help"
         android:title="@string/action_home_faq_title"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_ignore_battery_optimization"
         android:title="@string/ignore_battery_optimization"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_taichi_users_notice"
+        android:title="@string/taichi_users_notice"
         app:showAsAction="never"/>
 </menu>

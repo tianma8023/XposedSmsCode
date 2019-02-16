@@ -27,4 +27,8 @@ public interface Const {
 
     String PROJECT_DOC_BASE_URL = "https://tianma8023.github.io/SmsCodeExtractor";
     String DOC_SMS_CODE_RULE_HELP ="sms_code_rule_help";
+
+    String TAICHI_PACKAGE_NAME = "me.weishu.exp";
+    String TAICHI_MAIN_PAGE = "me.weishu.exp.ui.MainActivity";
+
 }
