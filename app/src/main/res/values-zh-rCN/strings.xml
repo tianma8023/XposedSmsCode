@@ -4,15 +4,14 @@
 
     <!-- General -->
     <string name="i_know">知道了</string>
-    
-    <string name="enable_module_title">启用Xposed模块</string>
-    <string name="enable_module_message">请先在XposedInstaller中启用本模块，否则本应用将无法工作！</string>
 
     <!-- Preferences -->
     <string name="pref_general_title">通用</string>
     <string name="pref_enable_title">启用</string>
+    <string name="enable_module_title">模块未激活</string>
+    <string name="enable_module_message">请先激活本模块，否则本应用将无法工作！</string>
     <string name="pref_enable_summary">使用此开关不需要重启设备</string>
-    <string name="pref_enable_summary_alt">请先在XposedInstaller中启用本模块</string>
+    <string name="pref_enable_summary_alt">模块未激活，请先激活本模块</string>
     <string name="pref_show_toast_title">显示Toast</string>
     <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
     <string name="pref_donate_by_alipay_title">支付宝捐赠</string>
