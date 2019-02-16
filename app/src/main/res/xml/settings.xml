@@ -129,7 +129,9 @@
             android:defaultValue="false"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_about_title">
+    <PreferenceCategory
+        android:key="@string/pref_about"
+        android:title="@string/pref_about_title">
 
         <Preference
             android:icon="@drawable/ic_info"

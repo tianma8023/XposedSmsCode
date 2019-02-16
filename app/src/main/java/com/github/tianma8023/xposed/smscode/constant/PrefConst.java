@@ -40,6 +40,7 @@ public interface PrefConst {
     String KEY_SMSCODE_TEST = "pref_smscode_test";
     String KEY_CODE_RULES = "pref_code_rules";
 
+    String KEY_ABOUT = "pref_about";
     String KEY_VERSION = "pref_version";
     String KEY_JOIN_QQ_GROUP = "pref_join_qq_group";
     String KEY_SOURCE_CODE = "pref_source_code";

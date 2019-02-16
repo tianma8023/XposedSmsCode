@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -126,7 +127,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_GET_ALIPAY_PACKET).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_DONATE_BY_WECHAT).setOnPreferenceClickListener(this);
+
+        Preference wechatDonatePref = findPreference(PrefConst.KEY_DONATE_BY_WECHAT);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
+            wechatDonatePref.setOnPreferenceClickListener(this);
+        } else {
+            // Hide wechat donate entry on Android 9+.
+            // Because wechat will crash when open wallet for unknown reason.
+            PreferenceGroup aboutGroup = (PreferenceGroup) findPreference(PrefConst.KEY_ABOUT);
+            aboutGroup.removePreference(wechatDonatePref);
+        }
         // about group end
     }
 
