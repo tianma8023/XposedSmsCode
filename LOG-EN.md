@@ -1,4 +1,10 @@
 # Update Logs
+- 19.02.16 v1.6.0 Reboot required
+  1. New: adapt TaiChi·Magisk
+  2. New: new entry for ignoring battery optimzation and notice for TaiChi users
+  3. Optimization: optimize the algorithm of parsing SMS Code, adapt the navigation bar color
+  4. Bug fixes: wechat wallet crash for EdXposed users on Android P
+  5. Other optimizations.
 - 19.01.05 v1.5.6 Reboot not required
   1. Beautify parts of UI
   2. Add entry: get alipay red packet

@@ -17,12 +17,12 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 24
-        versionName "1.5.6"
+        versionCode 25
+        versionName "1.6.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "21")
+        buildConfigField("int", "MODULE_VERSION", "25")
 
         vectorDrawables.generatedDensities = ['hdpi']
 
