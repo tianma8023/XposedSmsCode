@@ -29,7 +29,6 @@ import com.github.tianma8023.xposed.smscode.app.faq.FaqFragment;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItem;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemContainer;
-import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
@@ -292,35 +291,24 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         }
     }
 
-    private void onTaichiUsersNoticeSelected() {
+    void onTaichiUsersNoticeSelected() {
         new MaterialDialog.Builder(this)
                 .title(R.string.taichi_users_notice)
                 .content(R.string.taichi_users_notice_content)
-                .negativeText(R.string.i_know)
-                .positiveText(R.string.open_taichi)
+                .negativeText(R.string.add_apps_in_taichi)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        PackageUtils.startAddAppsInTaiChi(HomeActivity.this);
+                    }
+                })
+                .positiveText(R.string.check_module_in_taichi)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        openTaichi();
+                        PackageUtils.startCheckModuleInTaiChi(HomeActivity.this);
                     }
                 })
                 .show();
-    }
-
-    private void openTaichi() {
-        if (PackageUtils.isTaichiEnabled(this)) {
-            // installed & enabled
-            Intent intent = new Intent();
-            intent.setClassName(Const.TAICHI_PACKAGE_NAME, Const.TAICHI_MAIN_PAGE);
-            startActivity(intent);
-        } else {
-            if (!PackageUtils.isTaichiInstalled(this)) {
-                // not installed
-                Toast.makeText(this, R.string.taichi_install_prompt, Toast.LENGTH_SHORT).show();
-            } else {
-                // installed & disabled
-                Toast.makeText(this, R.string.taichi_enable_prompt, Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

@@ -1,11 +1,8 @@
 package com.github.tianma8023.xposed.smscode.app;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,7 +48,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public static final String EXTRA_ACTION = "extra_action";
     public static final String ACTION_GET_RED_PACKET = "get_red_packet";
 
-    private Activity mActivity;
+    private HomeActivity mActivity;
 
     public interface OnPreferenceClickCallback {
         void onPreferenceClicked(String key, String title, boolean nestedPreference);
@@ -155,7 +152,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity = requireActivity();
+        mActivity = (HomeActivity) requireActivity();
 
         onHandleArguments(getArguments());
     }
@@ -181,11 +178,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 .title(R.string.enable_module_title)
                 .content(R.string.enable_module_message)
                 .neutralText(R.string.ignore)
-                .negativeText(R.string.open_taichi)
+                .negativeText(R.string.taichi_users_notice)
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        openTaichi();
+                        mActivity.onTaichiUsersNoticeSelected();
                     }
                 })
                 .positiveText(R.string.open_xposed_installer)
@@ -242,37 +239,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void joinQQGroup() {
-        String key = Const.QQ_GROUP_KEY;
-        Intent intent = new Intent();
-        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
-        // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            // 未安装手Q或安装的版本不支持
-            Toast.makeText(mActivity, R.string.prompt_join_qq_group_failed, Toast.LENGTH_SHORT).show();
-        }
+        PackageUtils.joinQQGroup(mActivity);
     }
 
     private void aboutProject() {
         Utils.showWebPage(mActivity, Const.PROJECT_SOURCE_CODE_URL);
-    }
-
-    private boolean checkAlipayExists() {
-        if (PackageUtils.isAlipayEnabled(mActivity)) {
-            // installed & enabled
-            return true;
-        } else {
-            if (!PackageUtils.isAlipayInstalled(mActivity)) { // uninstalled
-                // not installed
-                Toast.makeText(mActivity, R.string.alipay_install_prompt, Toast.LENGTH_SHORT).show();
-            } else {
-                // installed & disabled
-                Toast.makeText(mActivity, R.string.alipay_enable_prompt, Toast.LENGTH_SHORT).show();
-            }
-            return false;
-        }
     }
 
     private void getAlipayPacket() {
@@ -288,11 +259,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                         String text = getString(R.string.alipay_red_packet_code_copied, Const.ALIPAY_RED_PACKET_CODE);
                         Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
 
-                        if (checkAlipayExists()) {
-                            PackageManager pm = mActivity.getPackageManager();
-                            Intent intent = pm.getLaunchIntentForPackage(Const.ALIPAY_PACKAGE_NAME);
-                            startActivity(intent);
-                        }
+                        PackageUtils.startAlipayActivity(mActivity);
                     }
                 })
                 .show();
@@ -306,11 +273,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (checkAlipayExists()) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse(Const.ALIPAY_QRCODE_URI_PREFIX + Const.ALIPAY_QRCODE_URL));
-                            startActivity(intent);
-                        }
+                        PackageUtils.startAlipayDonatePage(mActivity);
                     }
                 })
                 .negativeText(R.string.get_red_packet)
@@ -324,21 +287,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void donateByWechat() {
-        if (PackageUtils.isWeChatEnabled(mActivity)) {
-            // installed & enabled
-            Intent intent = new Intent();
-            intent.setClassName(Const.WECHAT_PACKAGE_NAME, Const.WECHAT_LAUNCHER_UI);
-            intent.putExtra(Const.WECHAT_KEY_EXTRA_DONATE, true);
-            startActivity(intent);
-        } else {
-            if (!PackageUtils.isWeChatInstalled(mActivity)) {
-                // uninstalled
-                Toast.makeText(mActivity, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
-            } else {
-                // uninstalled & disabled
-                Toast.makeText(mActivity, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
-            }
-        }
+        PackageUtils.startWechatActivity(mActivity);
     }
 
     @Override
@@ -481,25 +430,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void openXposedInstaller() {
-        if(!ModuleUtils.startXposedActivity(mActivity, ModuleUtils.Section.MODULES)) {
+        if(!PackageUtils.startXposedActivity(mActivity, PackageUtils.Section.MODULES)) {
             Toast.makeText(mActivity, R.string.xposed_not_installed, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void openTaichi() {
-        if (PackageUtils.isTaichiEnabled(mActivity)) {
-            // installed & enabled
-            Intent intent = new Intent();
-            intent.setClassName(Const.TAICHI_PACKAGE_NAME, Const.TAICHI_MAIN_PAGE);
-            startActivity(intent);
-        } else {
-            if (!PackageUtils.isTaichiInstalled(mActivity)) {
-                // not installed
-                Toast.makeText(mActivity, R.string.taichi_install_prompt, Toast.LENGTH_SHORT).show();
-            } else {
-                // installed & disabled
-                Toast.makeText(mActivity, R.string.taichi_enable_prompt, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 }

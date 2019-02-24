@@ -18,6 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  */
 public class PermissionGranterHook implements IHook {
 
+    public static final String ANDROID_PACKAGE = "android";
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
     private static final String CLASS_PACKAGE_MANAGER_SERVICE = "com.android.server.pm.PackageManagerService";
@@ -31,7 +32,7 @@ public class PermissionGranterHook implements IHook {
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
+        if (ANDROID_PACKAGE.equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
             if (Build.VERSION.SDK_INT >= 28) { // Android 9.0+
                 hookPermissionManagerService(lpparam);
             } else { // Android 5.0 ~ 8.1
