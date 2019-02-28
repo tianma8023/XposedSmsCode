@@ -97,8 +97,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
 
         // hide block notification
-        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
-        experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_NOTIFICATION));
+//        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
+//        experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_SMS));
         // experimental group end
 
         // code message group

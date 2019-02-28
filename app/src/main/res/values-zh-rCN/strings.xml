@@ -27,7 +27,7 @@
     <string name="pref_hide_launcher_icon_title">隐藏应用图标</string>
     <string name="pref_hide_launcher_icon_summary">隐藏后仍可以从Xposed模块处打开本模块</string>
     <string name="cur_verification_code">当前验证码：%s</string>
-    <string name="pref_mark_as_read_title">标记为已读</string>
+    <string name="pref_mark_as_read_title">验证码短信标记为已读</string>
     <string name="pref_mark_as_read_summary">将验证码短信标记为已读</string>
     <string name="pref_smscode_keywords_title">验证码短信关键字</string>
     <string name="pref_smscode_keywords_summary">短信包含关键字(正则表达式)</string>
@@ -67,7 +67,7 @@
     <string name="pref_version_summary"><![CDATA[当前版本：%1$s (%2$d)]]></string>
     <string name="pref_clear_clipboard_title">清除剪切板</string>
     <string name="pref_clear_clipboard_summary">自动输入成功后清除剪切板</string>
-    <string name="pref_delete_sms_title">短信删除</string>
+    <string name="pref_delete_sms_title">验证码短信删除</string>
     <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
     <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
@@ -83,8 +83,8 @@
     <string name="message_details">短信详情</string>
     <string name="copy_smscode">复制验证码</string>
     <string name="pref_enable_code_records_title">启用验证码记录</string>
-    <string name="pref_block_notify_title">拦截短信通知</string>
-    <string name="pref_block_notify_summary">拦截验证码短信通知</string>
+    <string name="pref_block_sms_title">验证码短信拦截</string>
+    <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
     <!-- preferences end -->
 
     <!-- theme color -->

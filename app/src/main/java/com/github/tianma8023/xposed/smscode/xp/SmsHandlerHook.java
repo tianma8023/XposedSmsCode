@@ -4,15 +4,29 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.os.UserHandle;
 import android.provider.Telephony;
 
+import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.github.tianma8023.xposed.smscode.receiver.SmsCodeReceiver;
+import com.github.tianma8023.xposed.smscode.aidl.ISmsMsgListener;
+import com.github.tianma8023.xposed.smscode.aidl.ISmsMsgManager;
+import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
 import com.github.tianma8023.xposed.smscode.service.SmsCodeService;
+import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
+import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -195,116 +209,136 @@ public class SmsHandlerHook implements IHook {
         }
 
         // Send a broadcast, let receiver handle the rest of the works.
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
-        broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
-        mModContext.sendBroadcast(broadcastIntent);
-//        Intent serviceIntent = new Intent();
-//        serviceIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeService.class.getName()));
-//        serviceIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
-//        mModContext.startService(serviceIntent);
-//        mModContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-//
-//        mCountDownLatch = new CountDownLatch(1);
-//        try {
-//            mCountDownLatch.await(12, TimeUnit.SECONDS);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        if (mBlockSmsBroadcast) {
-//            sendEventBroadcastComplete(param.thisObject);
-//            mBlockSmsBroadcast = false;
-//            param.setResult(null);
-//        }
-//
-//        unbindService();
+//        Intent broadcastIntent = new Intent();
+//        broadcastIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeReceiver.class.getName()));
+//        broadcastIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
+//        mModContext.sendBroadcast(broadcastIntent);
+        Intent serviceIntent = new Intent();
+        serviceIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeService.class.getName()));
+        serviceIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
+        mModContext.startService(serviceIntent);
+        mModContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+
+        mCountDownLatch = new CountDownLatch(1);
+        try {
+            mCountDownLatch.await(12, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        if (mBlockSmsBroadcast) {
+            deleteRawTableAndSendMessage(param.thisObject, param.args[receiverIndex]);
+            mBlockSmsBroadcast = false;
+            param.setResult(null);
+        }
+
+        unbindService();
     }
 
-//    private CountDownLatch mCountDownLatch;
-//    private boolean mBlockSmsBroadcast = false;
-//
-//    private ISmsMsgManager mRemoteMsgManager;
-//
-//    private ServiceConnection mServiceConnection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            ISmsMsgManager smsMsgManager = ISmsMsgManager.Stub.asInterface(service);
-//            mRemoteMsgManager = smsMsgManager;
-//            try {
-//                smsMsgManager.registerListener(mSmsMsgListener);
-//            } catch (RemoteException e) {
-//                XLog.e("error occurs in register SmsMsg listener", e);
-//            }
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            mRemoteMsgManager = null;
-//        }
-//    };
-//
-//    private ISmsMsgListener mSmsMsgListener = new ISmsMsgListener.Stub() {
-//        @Override
-//        public void onNewSmsMsgParsed(SmsMsg smsMsg) throws RemoteException {
-//            XLog.d("received new SmsMsg: %s", smsMsg.getBody());
-//            mCountDownLatch.countDown();
-//        }
-//    };
-//
-//    private void unbindService() {
-//        // unregister listener
-//        if (mRemoteMsgManager != null && mRemoteMsgManager.asBinder().isBinderAlive()) {
-//            try {
-//                mRemoteMsgManager.unregisterListener(mSmsMsgListener);
-//            } catch (RemoteException e) {
-//                XLog.e("error occurs when unregister SmsMsg listener", e);
-//            }
-//        }
-//        mModContext.unbindService(mServiceConnection);
-//    }
-//
-//    public static final String ACTION_HANDLE_SMS = SMSCODE_PACKAGE + ".action_handle_sms";
-//    public static final String EXTRA_BLOCK_SMS_BROADCAST = "extra_block_sms_broadcast";
-//
-//    private class CommandReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String action = intent.getAction();
-//            if (ACTION_HANDLE_SMS.equals(action)) {
-//                mBlockSmsBroadcast = intent.getBooleanExtra(EXTRA_BLOCK_SMS_BROADCAST, false);
-//                if (mCountDownLatch != null && mCountDownLatch.getCount() == 1) {
-//                    mCountDownLatch.countDown();
-//                }
-//            }
-//        }
-//    }
-//
-//    private CommandReceiver mCommandReceiver;
-//
-//    private void registerCommandReceiver() {
-//        if (mCommandReceiver == null) {
-//            mCommandReceiver = new CommandReceiver();
-//            IntentFilter intentFilter = new IntentFilter();
-//            intentFilter.addAction(ACTION_HANDLE_SMS);
-//            mModContext.registerReceiver(mCommandReceiver, intentFilter);
-//        }
-//    }
-//
-//    private void unregisterCommandReceiver() {
-//        if (mCommandReceiver != null) {
-//            mModContext.unregisterReceiver(mCommandReceiver);
-//            mCommandReceiver = null;
-//        }
-//    }
-//
-//    private static final int EVENT_BROADCAST_COMPLETE = 3;
-//
-//    private void sendEventBroadcastComplete(Object inboundSmsHandler) {
-//        XLog.d("send event(EVENT_BROADCAST_COMPLETE)");
-//        XposedHelpers.callMethod(inboundSmsHandler, "sendMessage", EVENT_BROADCAST_COMPLETE);
-//    }
+    private static final int EVENT_BROADCAST_COMPLETE = 3;
+
+    private void deleteRawTableAndSendMessage(Object inboundSmsHandler, Object smsReceiver) {
+        long token= Binder.clearCallingIdentity();
+        try {
+            deleteFromRawTable(inboundSmsHandler, smsReceiver);
+        } catch (Throwable e) {
+            XLog.e("error occurs when delete SMS data from raw table", e);
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+
+        sendEventBroadcastComplete(inboundSmsHandler);
+    }
+
+    private void sendEventBroadcastComplete(Object inboundSmsHandler) {
+        XLog.d("send event(EVENT_BROADCAST_COMPLETE)");
+        XposedHelpers.callMethod(inboundSmsHandler, "sendMessage", EVENT_BROADCAST_COMPLETE);
+    }
+
+    private void deleteFromRawTable(Object inboundSmsHandler, Object smsReceiver) throws ReflectiveOperationException{
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            deleteFromRawTable24(inboundSmsHandler, smsReceiver);
+        } else {
+            deleteFromRawTable19(inboundSmsHandler, smsReceiver);
+        }
+    }
+
+    private void deleteFromRawTable19(Object inboundSmsHandler, Object smsReceiver) throws ReflectiveOperationException {
+        XLog.d("delete raw SMS data from database on Android 19+");
+        Object deleteWhere = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhere");
+        Object deleteWhereArgs = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhereArgs");
+
+        callDeclaredMethod(SMS_HANDLER_CLASS, inboundSmsHandler, "deleteFromRawTable",
+                /* String deleteWhere       */ deleteWhere,
+                /* String[] deleteWhereArgs */ deleteWhereArgs);
+    }
+
+    private void deleteFromRawTable24(Object inboundSmsHandler, Object smsReceiver) throws ReflectiveOperationException{
+        XLog.d("delete raw SMS data from database on Android 24+");
+        Object deleteWhere = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhere");
+        Object deleteWhereArgs = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhereArgs");
+        final int MARK_DELETED = 2;
+
+        callDeclaredMethod(SMS_HANDLER_CLASS, inboundSmsHandler, "deleteFromRawTable",
+                /* String deleteWhere       */ deleteWhere,
+                /* String[] deleteWhereArgs */ deleteWhereArgs,
+                /* int deleteType           */ MARK_DELETED);
+    }
+
+    private CountDownLatch mCountDownLatch;
+    private boolean mBlockSmsBroadcast = false;
+
+    private ISmsMsgManager mRemoteMsgManager;
+
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ISmsMsgManager smsMsgManager = ISmsMsgManager.Stub.asInterface(service);
+            mRemoteMsgManager = smsMsgManager;
+            try {
+                smsMsgManager.registerListener(mSmsMsgListener);
+            } catch (RemoteException e) {
+                XLog.e("error occurs in register SmsMsg listener", e);
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mRemoteMsgManager = null;
+        }
+    };
+
+    private ISmsMsgListener mSmsMsgListener = new ISmsMsgListener.Stub() {
+        @Override
+        public void onNewSmsMsgParsed(SmsMsg smsMsg) throws RemoteException {
+            XLog.d("received new SmsMsg: %s", smsMsg.getBody());
+            RemotePreferences remotePreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mModContext);
+            if (SPUtils.blockSmsEnabled(remotePreferences)) {
+                mBlockSmsBroadcast = true;
+            }
+            mCountDownLatch.countDown();
+        }
+    };
+
+    private void unbindService() {
+        // unregister listener
+        if (mRemoteMsgManager != null && mRemoteMsgManager.asBinder().isBinderAlive()) {
+            try {
+                mRemoteMsgManager.unregisterListener(mSmsMsgListener);
+            } catch (RemoteException e) {
+                XLog.e("error occurs when unregister SmsMsg listener", e);
+            }
+        }
+        mModContext.unbindService(mServiceConnection);
+    }
+
+    private static Object callDeclaredMethod(String className, Object obj, String methodName, Object... args) throws InvocationTargetException, IllegalAccessException {
+        // XposedHelpers#callMethod() 方法，不能反射调用 private 的方法
+        // 而本方法可以反射调用指定类的 private 方法
+        Class<?> clz = XposedHelpers.findClass(className, obj.getClass().getClassLoader());
+        Method method = XposedHelpers.findMethodBestMatch(clz, methodName, args);
+        return method.invoke(obj, args);
+    }
 
 }

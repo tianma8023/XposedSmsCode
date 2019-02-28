@@ -93,7 +93,7 @@ public class NotificationManagerHook implements IHook {
         if (!SPUtils.isEnabled(mRemotePreferences)) {
             return;
         }
-        if (!SPUtils.blockNotificationEnabled(mRemotePreferences)) {
+        if (!SPUtils.blockSmsEnabled(mRemotePreferences)) {
             return;
         }
 

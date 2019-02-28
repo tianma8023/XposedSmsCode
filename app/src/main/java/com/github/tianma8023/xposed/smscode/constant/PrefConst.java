@@ -28,8 +28,8 @@ public interface PrefConst {
     boolean MARK_AS_READ_DEFAULT = false;
     String KEY_DELETE_SMS = "pref_delete_sms";
     boolean DELETE_SMS_DEFAULT = false;
-    String KEY_BLOCK_NOTIFICATION = "pref_block_notification";
-    boolean BLOCK_NOTIFICATION_DEFAULT = false;
+    String KEY_BLOCK_SMS = "pref_block_sms";
+    boolean BLOCK_SMS_DEFAULT = false;
 
     String KEY_ENTRY_AUTO_INPUT_CODE = "pref_entry_auto_input_code";
 

@@ -84,8 +84,8 @@
     <string name="message_details">簡訊詳情</string>
     <string name="copy_smscode">複製驗證碼</string>
     <string name="pref_enable_code_records_title">啟用驗證碼記錄</string>
-    <string name="pref_block_notify_title">攔截簡訊通知</string>
-    <string name="pref_block_notify_summary">攔截驗證碼簡訊通知</string>
+    <string name="pref_block_sms_title">驗證碼簡訊攔截</string>
+    <string name="pref_block_sms_summary">警告：擷取成功後驗證碼簡訊將完全被攔截(屏蔽簡訊和通知)</string>
     <!-- preferences end -->
 
     <!-- theme color -->

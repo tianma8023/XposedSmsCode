@@ -68,7 +68,7 @@
     <string name="pref_clear_clipboard_title">Clear clipboard</string>
     <string name="pref_clear_clipboard_summary">Clear clipboard if auto input succeed</string>
     <string name="pref_delete_sms_title">Delete SMS</string>
-    <string name="pref_delete_sms_summary">Warning! Delete code SMS if succeed</string>
+    <string name="pref_delete_sms_summary">Warning! Code SMS will be deleted if extract succeed</string>
     <string name="pref_copy_to_clipboard_title">Copy to clipboard</string>
     <string name="pref_copy_to_clipboard_summary">Copy code to clipboard if it\'s extracted</string>
     <string name="pref_entry_code_records_title">Records of SMS code</string>
@@ -83,8 +83,8 @@
     <string name="copy_smscode">Copy Code</string>
     <string name="message_details">Message Details</string>
     <string name="pref_enable_code_records_title">Reserve SMS code records</string>
-    <string name="pref_block_notify_title">Block notification</string>
-    <string name="pref_block_notify_summary">Block code SMS notification</string>
+    <string name="pref_block_sms_title">Block Code SMS</string>
+    <string name="pref_block_sms_summary">Warning! Code SMS will be blocked if extract succeed</string>
     <!-- preferences end -->
 
     <!-- theme color -->

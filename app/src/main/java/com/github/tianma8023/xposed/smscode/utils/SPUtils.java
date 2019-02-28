@@ -186,8 +186,8 @@ public class SPUtils {
      * @param preferences
      * @return
      */
-    public static boolean blockNotificationEnabled(RemotePreferences preferences) {
+    public static boolean blockSmsEnabled(RemotePreferences preferences) {
         return getBoolean(preferences,
-                PrefConst.KEY_BLOCK_NOTIFICATION, PrefConst.BLOCK_NOTIFICATION_DEFAULT);
+                PrefConst.KEY_BLOCK_SMS, PrefConst.BLOCK_SMS_DEFAULT);
     }
 }

@@ -150,11 +150,11 @@ public class SmsCodeService extends IntentService {
         String msgBody = smsMsg.getBody();
         XLog.i("Received a new SMS message");
         if (BuildConfig.DEBUG) {
-            XLog.i("Sender: %s", sender);
-            XLog.i("Body: %s", msgBody);
+            XLog.d("Sender: %s", sender);
+            XLog.d("Body: %s", msgBody);
         } else {
-            XLog.i("Sender: %s", StringUtils.escape(sender));
-            XLog.i("Body: %s", StringUtils.escape(msgBody));
+            XLog.d("Sender: %s", StringUtils.escape(sender));
+            XLog.d("Body: %s", StringUtils.escape(msgBody));
         }
 
         if (TextUtils.isEmpty(msgBody))
@@ -404,7 +404,6 @@ public class SmsCodeService extends IntentService {
 //    }
 
     private void onNewSmsMsgParsed(SmsMsg smsMsg){
-        XLog.d("onNewSmsMsgParsed: %s", smsMsg.getBody());
         XLog.d("new SmsMsg parsed, notify all listeners");
 
         final int N = mListenerList.beginBroadcast();

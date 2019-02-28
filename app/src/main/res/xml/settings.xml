@@ -69,9 +69,9 @@
             android:defaultValue="false"
             android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_block"
-            android:key="@string/pref_block_notification"
-            android:summary="@string/pref_block_notify_summary"
-            android:title="@string/pref_block_notify_title"/>
+            android:key="@string/pref_block_sms"
+            android:summary="@string/pref_block_sms_summary"
+            android:title="@string/pref_block_sms_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_smscode_title">
