@@ -2,75 +2,58 @@
     <string name="app_name">SMS Code Extractor(Xposed)</string>
     <string name="xposed_description">Extract code from new SMS message and copy it to clipboard. It can also Auto-input SMS code</string>
 
-    <!-- preferences -->
-    <string name="pref_general_title">General</string>
-    <string name="pref_enable_title">Enable SMS code</string>
-    <string name="pref_enable_summary">Reboot is not required</string>
-    <string name="enable_module_title">Module Inactive</string>
-    <string name="enable_module_message">Please activate this module, or this App won\'t work!</string>
+    <!-- general -->
     <string name="i_know">I see</string>
     <string name="ignore">Ignore</string>
-    <string name="open_xposed_installer">Open Xposed Installer</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="okay">OK</string>
+    <!-- general end -->
+
+    <!-- preferences general -->
+    <string name="pref_general_title">General</string>
+    <string name="pref_enable_title">Enable SMS code</string>
+    <string name="enable_module_title">Module Inactive</string>
+    <string name="enable_module_message">Please activate this module, or this App won\'t work!</string>
+    <string name="pref_enable_summary">Reboot is not required</string>
     <string name="pref_enable_summary_alt">Please activate this module first!</string>
-    <string name="pref_show_toast_title">Show Toast</string>
-    <string name="pref_show_toast_summary">Show Toast when the SMS Code is copied</string>
-    <string name="pref_about_title">About</string>
-    <string name="pref_source_code_summary">Welcome to star ♪(＾∀＾●)ﾉ</string>
-    <string name="pref_source_code_title">Source code</string>
-    <string name="pref_donate_by_alipay_title">Donate by Alipay</string>
-    <string name="pref_donate_by_wechat_title">Donate by Wechat</string>
-    <string name="browser_install_or_enable_prompt">Please install or enable browser first</string>
-    <string name="alipay_install_prompt">Please install Alipay</string>
-    <string name="alipay_enable_prompt">Please enable Alipay</string>
-    <string name="wechat_install_prompt">Please install Wechat</string>
-    <string name="wechat_enable_prompt">Please enable Wechat</string>
+    <string name="open_xposed_installer">Open Xposed Installer</string>
     <string name="pref_hide_launcher_icon_title">Hide launcher icon</string>
     <string name="pref_hide_launcher_icon_summary">It can be open in Xposed Modules if launcher icon is hidden</string>
-    <string name="cur_verification_code">Current SMS code is %s</string>
+    <string name="pref_show_toast_title">Show Toast</string>
+    <string name="pref_show_toast_summary">Show Toast when the SMS Code is copied</string>
+    <string name="pref_copy_to_clipboard_title">Copy to clipboard</string>
+    <string name="pref_copy_to_clipboard_summary">Copy code to clipboard if it\'s extracted</string>
+    <string name="pref_choose_theme_title">Theme</string>
+    <!-- preferences general end -->
+
+    <!-- preference experimental -->
+    <string name="pref_experimental_title">Experimental</string>
     <string name="pref_mark_as_read_title">Mark as read</string>
     <string name="pref_mark_as_read_summary">Mark code SMS as read if succeed</string>
+    <string name="pref_delete_sms_title">Delete SMS</string>
+    <string name="pref_delete_sms_summary">Warning! Code SMS will be deleted if extract succeed</string>
+    <string name="pref_block_sms_title">Block Code SMS</string>
+    <string name="pref_block_sms_summary">Warning! Code SMS will be blocked if extract succeed</string>
+    <!-- preference experimental end -->
+
+    <!-- preference Code SMS -->
+    <string name="pref_smscode_title">SMS Code</string>
     <string name="pref_smscode_keywords_title">Keywords</string>
     <string name="pref_smscode_keywords_summary">Keywords that SMS code contains(Regular Expressions)</string>
-    <string name="pref_smscode_title">SMS Code</string>
     <string name="reset">Reset</string>
     <string name="code_keywords_hint">Keywords(Regular Expressions)</string>
     <string name="pref_smscode_test_title">SMS code test</string>
     <string name="pref_smscode_test_summary">Test whether SMS code can be recognized or not</string>
     <string name="sms_content_hint">SMS content</string>
     <string name="test">Test</string>
-    <string name="cancel">Cancel</string>
+    <string name="cur_verification_code">Current SMS code is %s</string>
     <string name="cannot_parse_smscode">Cannot parse SMS code.</string>
-    <string name="auto_input_accessibility_service_description">Accessibility for auto input SMS Code.\n\nIf you don\'t need auto-input codes service, this accessibility service is advised to be closed.</string>
-    <string name="pref_experimental_title">Experimental</string>
-    <string name="pref_entry_auto_input_code_title">Auto-input Settings</string>
-    <string name="pref_entry_auto_input_code_summary">Auto-input SMS code settings</string>
-    <string name="open_auto_input_accessibility">Open auto-input accessibility</string>
-    <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open.\n\nNote that: accessibility service will be auto-closed frequently by system on some 3rd party ROM.</string>
-    <string name="go_to_open">Open it</string>
-    <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
-    <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
-    <string name="pref_enable_auto_input_code_summary">Try to input SMS code automatically</string>
-    <string name="acquire_root_permission">ROOT permission required</string>
-    <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
-    <string name="okay">OK</string>
-    <string name="channel_name_foreground_service">Notifications for parsing SMS message</string>
-    <string name="sms_code_notification_title">Parsing SMS message……</string>
-    <string name="action_home_faq_title">FAQs</string>
-    <string name="pref_others_title">Others</string>
-    <string name="pref_verbose_log_mode_title">Detailed log</string>
-    <string name="pref_verbose_log_mode_summary">Print detailed log(only for debug)</string>
-    <string name="pref_choose_theme_title">Theme</string>
-    <string name="pref_join_qq_group_title">Communication and Bug report</string>
-    <string name="pref_join_qq_group_summary">QQ group: 478884682</string>
-    <string name="prompt_join_qq_group_failed">Please install or enable QQ first</string>
-    <string name="pref_version_title">Version</string>
-    <string name="pref_version_summary"><![CDATA[Current version: %1$s (%2$d)]]></string>
-    <string name="pref_clear_clipboard_title">Clear clipboard</string>
-    <string name="pref_clear_clipboard_summary">Clear clipboard if auto input succeed</string>
-    <string name="pref_delete_sms_title">Delete SMS</string>
-    <string name="pref_delete_sms_summary">Warning! Code SMS will be deleted if extract succeed</string>
-    <string name="pref_copy_to_clipboard_title">Copy to clipboard</string>
-    <string name="pref_copy_to_clipboard_summary">Copy code to clipboard if it\'s extracted</string>
+    <!-- preference Code SMS end -->
+
+    <!-- preference code records -->
     <string name="pref_entry_code_records_title">Records of SMS code</string>
     <string name="pref_entry_code_records_summary">Reserve %d recent records at most</string>
     <string name="pref_code_records_title">SMS code records</string>
@@ -80,73 +63,68 @@
     <string name="action_delete">Delete</string>
     <string name="action_select_all">Select All</string>
     <string name="some_items_removed">Removed %d record(s)</string>
-    <string name="copy_smscode">Copy Code</string>
     <string name="message_details">Message Details</string>
+    <string name="copy_smscode">Copy Code</string>
     <string name="pref_enable_code_records_title">Reserve SMS code records</string>
-    <string name="pref_block_sms_title">Block Code SMS</string>
-    <string name="pref_block_sms_summary">Warning! Code SMS will be blocked if extract succeed</string>
-    <!-- preferences end -->
+    <!-- preference code records end -->
 
-    <!-- theme color -->
-    <string name="color_default">Default</string>
-    <string name="red">Red</string>
-    <string name="pink">Pink</string>
-    <string name="yellow">Yellow</string>
-    <string name="teal">Teal</string>
-    <string name="green">Green</string>
-    <string name="blue">Blue</string>
-    <string name="violet">Violet</string>
-    <string name="black">Dark</string>
-    <!-- theme color end -->
+    <!-- preference others -->
+    <string name="pref_others_title">Others</string>
+    <string name="pref_verbose_log_mode_title">Detailed log</string>
+    <string name="pref_verbose_log_mode_summary">Print detailed log(only for debug)</string>
+    <!-- preference others end -->
 
-    <!-- Auto input mode -->
+    <!-- preference about -->
+    <string name="pref_about_title">About</string>
+    <string name="pref_version_title">Version</string>
+    <string name="pref_version_summary"><![CDATA[Current version: %1$s (%2$d)]]></string>
+    <string name="pref_join_qq_group_title">Communication and Bug report</string>
+    <string name="pref_join_qq_group_summary">QQ group: 478884682</string>
+    <string name="prompt_join_qq_group_failed">Please install or enable QQ first</string>
+    <string name="pref_source_code_title">Source code</string>
+    <string name="browser_install_or_enable_prompt">Please install or enable browser first</string>
+    <string name="pref_source_code_summary">Welcome to star ♪(＾∀＾●)ﾉ</string>
+    <string name="pref_donate_by_alipay_title">Donate by Alipay</string>
+    <string name="alipay_install_prompt">Please install Alipay</string>
+    <string name="alipay_enable_prompt">Please enable Alipay</string>
+    <string name="pref_donate_by_wechat_title">Donate by Wechat</string>
+    <string name="wechat_install_prompt">Please install Wechat</string>
+    <string name="wechat_enable_prompt">Please enable Wechat</string>
+    <!-- preference about end -->
+
+    <!-- auto-input SMS Code -->
+    <string name="pref_entry_auto_input_code_title">Auto-input Settings</string>
+    <string name="pref_entry_auto_input_code_summary">Auto-input SMS code settings</string>
+    <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
+    <string name="pref_enable_auto_input_code_summary">Try to input SMS code automatically</string>
+    <string name="auto_input_accessibility_service_description">Accessibility for auto input SMS Code.\n\nIf you don\'t need auto-input codes service, this accessibility service is advised to be closed.</string>
+    <string name="open_auto_input_accessibility">Open auto-input accessibility</string>
+    <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open.\n\nNote that: accessibility service will be auto-closed frequently by system on some 3rd party ROM.</string>
+    <string name="go_to_open">Open it</string>
+    <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
+    <string name="acquire_root_permission">ROOT permission required</string>
+    <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
+    <string name="pref_manual_focus_if_failed_title">Auto focus to manual focus</string>
+    <string name="pref_manual_focus_if_failed_summary">Manual focus if auto focus failed</string>
+    <string name="auto_focus_failed_prompt">Auto focus failed, please manual focus in %ds</string>
+    <string name="pref_clear_clipboard_title">Clear clipboard</string>
+    <string name="pref_clear_clipboard_summary">Clear clipboard if auto input succeed</string>
+    <!-- auto-input SMS Code end -->
+
+    <!-- auto-input mode -->
     <string name="pref_auto_input_mode_title">Auto Input Mode</string>
     <string name="pref_auto_input_mode_summary_default">Please choose an auto-input mode.</string>
     <string name="pref_auto_input_mode_accessibility">Accessibility Service Mode</string>
     <string name="pref_auto_input_mode_root">Root Mode</string>
-    <!-- Auto input mode end -->
+    <!-- auto-input mode end -->
 
-    <!-- Focus Mode -->
+    <!-- focus mode -->
     <string name="pref_focus_mode_title">Focus Mode</string>
     <string name="focus_mode_entry_auto">Auto Focus(auto focus SMS code input box)</string>
     <string name="focus_mode_entry_manual">Manual Focus(manual focus SMS code input box)</string>
-    <!-- Focus Mode end -->
-
-    <string name="pref_manual_focus_if_failed_title">Auto focus to manual focus</string>
-    <string name="pref_manual_focus_if_failed_summary">Manual focus if auto focus failed</string>
-    <string name="auto_focus_failed_prompt">Auto focus failed, please manual focus in %ds</string>
-
-    <string name="simplified_question">Q:\u00A0</string>
-    <string name="simplified_answer">A:\u00A0</string>
-
-    <!-- FAQ -->
-    <string-array name="question_list">
-        <item>产品初衷是什么？</item>
-        <item>这个模块适用的Rom是什么？</item>
-        <item>自动输入的原理是什么？无障碍模式和ROOT模式的区别在哪里？</item>
-        <item>这个模块开服务了吗？占用后台资源吗？</item>
-        <item>模块失效怎么办？</item>
-        <item>为什么自动输入在大部分App上能成功，在部分App上却失败？</item>
-        <item>对焦模式中的自动寻找和手动指定有什么区别，各有什么优劣？</item>
-        <item>短信标记为已读或者删除短信，为什么不生效？</item>
-    </string-array>
-
-    <string-array name="answer_list">
-        <item>不做毒瘤，绿色Android，不忘初心。</item>
-        <item>适用于AOSP之类的偏原生的Rom，其他第三方中度或者重度定制的ROM可能不适用。</item>
-        <item>收到验证码后，通过无障碍服务查找当前界面的验证码输入框，然后将验证码自动输入。\n\n无障碍模式下需要手动开启自动输入的无障碍服务(系统后台就会一直跑着这个服务)\n\nROOT模式则是通过ROOT或其他Hack的方式动态地启用/关闭无障碍服务，即在解析到验证码时打开，在自动输入完毕时关闭。\n\n个人推荐采用ROOT方式。</item>
-        <item>开了两个服务，一个服务用来解析短信中的验证码，一个服务用来自动输入(即前面的无障碍服务)。\n\n解析验证码的服务在接收到验证码短信时开启，在解析完毕之后关闭，不占用什么资源。</item>
-        <item>
-            1. 在验证码短信测试中先测试短信内容能否被正确解析。\n\n2. 因为用到了服务和广播，所以检查是否在应用控制类软件（黑域、应用管理、绿色守护等）的黑名单中。\n\n3. 检查模块的组件（广播接收器、服务、内容提供者等）是否被组件控制类软件（Blocker、写轮眼等）禁用。\n\n4. 检查是否在电池优化名单中，如果在请移到白名单（原理已说明，其实不耗电）。\n\n5. 检查是否打开验证码安全保护开关（华为，oppo等国内Rom），miui则是要赋予"通知类短信"权限。\n\n6. 最后还是不行的话，给自启动试试看。\n\n7. 联系开发者，反馈问题。
-        </item>
-        <item>属于正常现象，因为有些应用的验证码输入框是自定义的控件，可能没有遵循Android设计规范，故而不能被正确识别。</item>
-        <item>自动寻找模式：模块程序自动寻找识别到验证码输入框之后，再自动粘贴进去。\n优势：全自动化。\n劣势：在极少数界面中因识别不了验证码输入框而失效。\n\n手动对焦模式：用户手动指定验证码输入框，即光标在哪里就在那里自动输入。\n优势：准确率高。\n劣势：非全自动化，需要多点一下屏幕。</item>
-        <item>如果您设备上默认的短信 App 使用的是它自己的短信数据库，而不是系统的短信数据库，那么标记为已读或者删除验证码短信都可能不会生效。如果发生这样的事情，就说明在您的设备上可能不会生效。</item>
-    </string-array>
-    <!-- FAQ end -->
+    <!-- focus mode end -->
 
     <!-- sms code rule -->
-    <string name="confirm">Confirm</string>
     <string name="rule_company_hint">Institution or Company</string>
     <string name="rule_keyword_hint">SMS Code Keyword</string>
     <string name="rule_code_length">SMS code length</string>
@@ -184,8 +162,6 @@
     <string name="export_failed">Export failed, try again please</string>
     <string name="import_confirmation_title">Import confirmation</string>
     <string name="import_confirmation_message">Retain current rules when import new rules?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="importing">Importing</string>
     <string name="no_backup_exists">No backup file exists</string>
     <string name="choose_backup_file">Choose backup file</string>
@@ -200,6 +176,29 @@
     <string name="import_rules">Import Rules</string>
     <string name="no_permission_prompt">No relative permissions, reboot and try again</string>
     <!-- sms code rule end -->
+
+    <!-- theme color -->
+    <string name="color_default">Default</string>
+    <string name="red">Red</string>
+    <string name="pink">Pink</string>
+    <string name="yellow">Yellow</string>
+    <string name="teal">Teal</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="violet">Violet</string>
+    <string name="black">Dark</string>
+    <!-- theme color end -->
+
+    <!-- SMS parsing notification -->
+    <string name="channel_name_foreground_service">Notifications for parsing SMS message</string>
+    <string name="sms_code_notification_title">Parsing SMS message……</string>
+    <!-- SMS parsing notification end -->
+
+    <!-- faq -->
+    <string name="action_home_faq_title">FAQs</string>
+    <string name="simplified_question">Q:\u00A0</string>
+    <string name="simplified_answer">A:\u00A0</string>
+    <!-- faq end -->
 
     <!-- alipay packet start -->
     <string name="pref_get_alipay_packet_title">Get Alipay red packet</string>
@@ -224,9 +223,7 @@
 
     <!-- taichi users notice -->
     <string name="taichi_users_notice">Taichi Users Notice</string>
-    <string name="taichi_users_notice_content">
-        1. This module should run under the TaiChi Magisk.\n\n2. These Apps should be added to TaiChi before you use this module:\n- Phone Services(com.android.phone)\n- Android System(android)\n\n3. If this module is inactive after updating, please re-check this module in TaiChi module manage list and reopen this module.
-    </string>
+    <string name="taichi_users_notice_content">1. This module should run under the TaiChi Magisk.\n\n2. These Apps should be added to TaiChi before you use this module:\n- Phone Services(com.android.phone)\n- Android System(android)\n\n3. If this module is inactive after updating, please re-check this module in TaiChi module manage list and reopen this module.</string>
     <string name="open_taichi">Open TaiChi</string>
     <string name="taichi_install_prompt">Please install TaiChi</string>
     <string name="taichi_enable_prompt">Please enable TaiChi</string>
@@ -234,4 +231,27 @@
     <string name="add_apps_in_taichi">Add Apps</string>
     <string name="check_module_in_taichi">Enable Module</string>
     <!-- taichi users notice end -->
+
+    <!-- faq -->
+    <string-array name="question_list">
+        <item>产品初衷是什么？</item>
+        <item>这个模块适用的Rom是什么？</item>
+        <item>自动输入的原理是什么？无障碍模式和ROOT模式的区别在哪里？</item>
+        <item>这个模块开服务了吗？占用后台资源吗？</item>
+        <item>模块失效怎么办？</item>
+        <item>为什么自动输入在大部分App上能成功，在部分App上却失败？</item>
+        <item>对焦模式中的自动寻找和手动指定有什么区别，各有什么优劣？</item>
+        <item>短信标记为已读或者删除短信，为什么不生效？</item>
+    </string-array>
+    <string-array name="answer_list">
+        <item>不做毒瘤，绿色Android，不忘初心。</item>
+        <item>适用于AOSP之类的偏原生的Rom，其他第三方中度或者重度定制的ROM可能不适用。</item>
+        <item>收到验证码后，通过无障碍服务查找当前界面的验证码输入框，然后将验证码自动输入。\n\n无障碍模式下需要手动开启自动输入的无障碍服务(系统后台就会一直跑着这个服务)\n\nROOT模式则是通过ROOT或其他Hack的方式动态地启用/关闭无障碍服务，即在解析到验证码时打开，在自动输入完毕时关闭。\n\n个人推荐采用ROOT方式。</item>
+        <item>开了两个服务，一个服务用来解析短信中的验证码，一个服务用来自动输入(即前面的无障碍服务)。\n\n解析验证码的服务在接收到验证码短信时开启，在解析完毕之后关闭，不占用什么资源。</item>
+        <item>1. 在验证码短信测试中先测试短信内容能否被正确解析。\n\n2. 因为用到了服务和广播，所以检查是否在应用控制类软件（黑域、应用管理、绿色守护等）的黑名单中。\n\n3. 检查模块的组件（广播接收器、服务、内容提供者等）是否被组件控制类软件（Blocker、写轮眼等）禁用。\n\n4. 检查是否在电池优化名单中，如果在请移到白名单（原理已说明，其实不耗电）。\n\n5. 检查是否打开验证码安全保护开关（华为，oppo等国内Rom），miui则是要赋予"通知类短信"权限。\n\n6. 最后还是不行的话，给自启动试试看。\n\n7. 联系开发者，反馈问题。</item>
+        <item>属于正常现象，因为有些应用的验证码输入框是自定义的控件，可能没有遵循Android设计规范，故而不能被正确识别。</item>
+        <item>自动寻找模式：模块程序自动寻找识别到验证码输入框之后，再自动粘贴进去。\n优势：全自动化。\n劣势：在极少数界面中因识别不了验证码输入框而失效。\n\n手动对焦模式：用户手动指定验证码输入框，即光标在哪里就在那里自动输入。\n优势：准确率高。\n劣势：非全自动化，需要多点一下屏幕。</item>
+        <item>如果您设备上默认的短信 App 使用的是它自己的短信数据库，而不是系统的短信数据库，那么标记为已读或者删除验证码短信都可能不会生效。如果发生这样的事情，就说明在您的设备上可能不会生效。</item>
+    </string-array>
+    <!-- faq end -->
 </resources>

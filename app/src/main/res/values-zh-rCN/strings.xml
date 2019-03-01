@@ -2,75 +2,58 @@
     <string name="app_name">验证码提取器(Xposed)</string>
     <string name="xposed_description">提取新短信中的验证码并复制到剪贴板，并能自动输入验证码</string>
 
-    <!-- Preferences -->
+    <!-- general -->
+    <string name="i_know">知道了</string>
+    <string name="ignore">忽略</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="okay">好的</string>
+    <!-- general end -->
+
+    <!-- preferences general -->
     <string name="pref_general_title">通用</string>
     <string name="pref_enable_title">启用</string>
     <string name="enable_module_title">模块未激活</string>
     <string name="enable_module_message">请先激活本模块，否则本应用将无法工作！</string>
     <string name="pref_enable_summary">使用此开关不需要重启设备</string>
     <string name="pref_enable_summary_alt">模块未激活，请先激活本模块</string>
-    <string name="i_know">知道了</string>
-    <string name="ignore">忽略</string>
     <string name="open_xposed_installer">打开Xposed</string>
-    <string name="pref_show_toast_title">显示Toast</string>
-    <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
-    <string name="pref_donate_by_alipay_title">支付宝捐赠</string>
-    <string name="pref_donate_by_wechat_title">微信捐赠</string>
-    <string name="pref_about_title">关于</string>
-    <string name="pref_source_code_title">项目源码</string>
-    <string name="pref_source_code_summary">欢迎Star ♪(＾∀＾)ﾉ</string>
-    <string name="browser_install_or_enable_prompt">请安装或启用浏览器</string>
-    <string name="alipay_install_prompt">请先安装支付宝</string>
-    <string name="alipay_enable_prompt">请先启用支付宝</string>
-    <string name="wechat_install_prompt">请先安装微信</string>
-    <string name="wechat_enable_prompt">请先启用微信</string>
     <string name="pref_hide_launcher_icon_title">隐藏应用图标</string>
     <string name="pref_hide_launcher_icon_summary">隐藏后仍可以从Xposed模块处打开本模块</string>
-    <string name="cur_verification_code">当前验证码：%s</string>
+    <string name="pref_show_toast_title">显示Toast</string>
+    <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
+    <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
+    <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
+    <string name="pref_choose_theme_title">主题</string>
+    <!-- preferences general end -->
+
+    <!-- preference experimental -->
+    <string name="pref_experimental_title">试验性功能</string>
     <string name="pref_mark_as_read_title">验证码短信标记为已读</string>
     <string name="pref_mark_as_read_summary">将验证码短信标记为已读</string>
+    <string name="pref_delete_sms_title">验证码短信删除</string>
+    <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
+    <string name="pref_block_sms_title">验证码短信拦截</string>
+    <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
+    <!-- preference experimental end -->
+
+    <!-- preference Code SMS -->
+    <string name="pref_smscode_title">验证码短信</string>
     <string name="pref_smscode_keywords_title">验证码短信关键字</string>
     <string name="pref_smscode_keywords_summary">短信包含关键字(正则表达式)</string>
-    <string name="pref_smscode_title">验证码短信</string>
     <string name="reset">重置</string>
     <string name="code_keywords_hint">关键字(正则表达式)</string>
     <string name="pref_smscode_test_title">验证码短信测试</string>
     <string name="pref_smscode_test_summary">测试短信中的验证码是否能被识别</string>
     <string name="sms_content_hint">短信内容</string>
     <string name="test">测试</string>
-    <string name="cancel">取消</string>
+    <string name="cur_verification_code">当前验证码：%s</string>
     <string name="cannot_parse_smscode">未能解析出验证码</string>
-    <string name="auto_input_accessibility_service_description">自动输入短信验证码的无障碍服务。\n\n如果不需要自动输入验证码，则建议关闭此无障碍服务。</string>
-    <string name="pref_experimental_title">试验性功能</string>
-    <string name="pref_entry_auto_input_code_title">自动输入设置</string>
-    <string name="pref_entry_auto_input_code_summary">验证码自动输入设置</string>
-    <string name="open_auto_input_accessibility">打开无障碍服务</string>
-    <string name="open_auto_input_accessibility_prompt">需要打开自动输入的无障碍服务。\n\n注意：在一些国产Rom上，无障碍服务会被系统自动关闭，所以此选项可能无效。</string>
-    <string name="go_to_open">去打开</string>
-    <string name="smscode_auto_input_service_label">短信验证码自动输入服务(Xposed)</string>
-    <string name="pref_enable_auto_input_code_title">启用自动输入</string>
-    <string name="pref_enable_auto_input_code_summary">尝试自动输入验证码</string>
-    <string name="acquire_root_permission">获取Root权限</string>
-    <string name="acquire_root_permission_prompt">需要获取Root权限来自动输入验证码</string>
-    <string name="okay">好的</string>
-    <string name="channel_name_foreground_service">解析短信时的通知</string>
-    <string name="sms_code_notification_title">短信解析中……</string>
-    <string name="action_home_faq_title">常见问题</string>
-    <string name="pref_others_title">其他</string>
-    <string name="pref_verbose_log_mode_title">输出详细日志</string>
-    <string name="pref_verbose_log_mode_summary">输出详细的日志到Xposed(仅用于调试)</string>
-    <string name="pref_choose_theme_title">主题</string>
-    <string name="pref_join_qq_group_title">加群反馈交流</string>
-    <string name="pref_join_qq_group_summary">QQ群：478884682</string>
-    <string name="prompt_join_qq_group_failed">请先安装或启用QQ</string>
-    <string name="pref_version_title">版本</string>
-    <string name="pref_version_summary"><![CDATA[当前版本：%1$s (%2$d)]]></string>
-    <string name="pref_clear_clipboard_title">清除剪切板</string>
-    <string name="pref_clear_clipboard_summary">自动输入成功后清除剪切板</string>
-    <string name="pref_delete_sms_title">验证码短信删除</string>
-    <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
-    <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
-    <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
+    <!-- preference Code SMS end -->
+
+    <!-- preference code records -->
     <string name="pref_entry_code_records_title">验证码历史记录</string>
     <string name="pref_entry_code_records_summary">最多保留%d条记录</string>
     <string name="pref_code_records_title">短信验证码记录</string>
@@ -83,44 +66,65 @@
     <string name="message_details">短信详情</string>
     <string name="copy_smscode">复制验证码</string>
     <string name="pref_enable_code_records_title">启用验证码记录</string>
-    <string name="pref_block_sms_title">验证码短信拦截</string>
-    <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
-    <!-- preferences end -->
+    <!-- preference code records end -->
 
-    <!-- theme color -->
-    <string name="color_default">默认蓝</string>
-    <string name="red">姨妈红</string>
-    <string name="pink">哔哩粉</string>
-    <string name="yellow">咸蛋黄</string>
-    <string name="teal">水鸭青</string>
-    <string name="green">原谅绿</string>
-    <string name="blue">胖次蓝</string>
-    <string name="violet">基佬紫</string>
-    <string name="black">Dark♂黑</string>
-    <!-- theme color end -->
+    <!-- preference others -->
+    <string name="pref_others_title">其他</string>
+    <string name="pref_verbose_log_mode_title">输出详细日志</string>
+    <string name="pref_verbose_log_mode_summary">输出详细的日志到Xposed(仅用于调试)</string>
+    <!-- preference others end -->
 
-    <!-- Auto input mode -->
+    <!-- preference about -->
+    <string name="pref_about_title">关于</string>
+    <string name="pref_version_title">版本</string>
+    <string name="pref_version_summary"><![CDATA[当前版本：%1$s (%2$d)]]></string>
+    <string name="pref_join_qq_group_title">加群反馈交流</string>
+    <string name="pref_join_qq_group_summary">QQ群：478884682</string>
+    <string name="prompt_join_qq_group_failed">请先安装或启用QQ</string>
+    <string name="pref_source_code_title">项目源码</string>
+    <string name="browser_install_or_enable_prompt">请安装或启用浏览器</string>
+    <string name="pref_source_code_summary">欢迎Star ♪(＾∀＾)ﾉ</string>
+    <string name="pref_donate_by_alipay_title">支付宝捐赠</string>
+    <string name="alipay_install_prompt">请先安装支付宝</string>
+    <string name="alipay_enable_prompt">请先启用支付宝</string>
+    <string name="pref_donate_by_wechat_title">微信捐赠</string>
+    <string name="wechat_install_prompt">请先安装微信</string>
+    <string name="wechat_enable_prompt">请先启用微信</string>
+    <!-- preference about end -->
+
+    <!-- auto-input SMS Code -->
+    <string name="pref_entry_auto_input_code_title">自动输入设置</string>
+    <string name="pref_entry_auto_input_code_summary">验证码自动输入设置</string>
+    <string name="pref_enable_auto_input_code_title">启用自动输入</string>
+    <string name="pref_enable_auto_input_code_summary">尝试自动输入验证码</string>
+    <string name="auto_input_accessibility_service_description">自动输入短信验证码的无障碍服务。\n\n如果不需要自动输入验证码，则建议关闭此无障碍服务。</string>
+    <string name="open_auto_input_accessibility">打开无障碍服务</string>
+    <string name="open_auto_input_accessibility_prompt">需要打开自动输入的无障碍服务。\n\n注意：在一些国产Rom上，无障碍服务会被系统自动关闭，所以此选项可能无效。</string>
+    <string name="go_to_open">去打开</string>
+    <string name="smscode_auto_input_service_label">短信验证码自动输入服务(Xposed)</string>
+    <string name="acquire_root_permission">获取Root权限</string>
+    <string name="acquire_root_permission_prompt">需要获取Root权限来自动输入验证码</string>
+    <string name="pref_manual_focus_if_failed_title">自动对焦转手动对焦</string>
+    <string name="pref_manual_focus_if_failed_summary">优先自动对焦，自动对焦失败后转手动对焦</string>
+    <string name="auto_focus_failed_prompt">自动对焦失败，请在%d秒内手动对焦</string>
+    <string name="pref_clear_clipboard_title">清除剪切板</string>
+    <string name="pref_clear_clipboard_summary">自动输入成功后清除剪切板</string>
+    <!-- auto-input SMS Code end -->
+
+    <!-- auto-input mode -->
     <string name="pref_auto_input_mode_title">自动输入模式</string>
     <string name="pref_auto_input_mode_summary_default">请选择自动输入模式</string>
     <string name="pref_auto_input_mode_accessibility">无障碍服务模式</string>
     <string name="pref_auto_input_mode_root">Root模式</string>
-    <!-- Auto input mode end -->
+    <!-- auto-input mode end -->
 
-    <!-- Focus Mode -->
+    <!-- focus mode -->
     <string name="pref_focus_mode_title">对焦模式</string>
     <string name="focus_mode_entry_auto">自动对焦(自动寻找验证码输入框)</string>
     <string name="focus_mode_entry_manual">手动对焦(手动指定验证码输入框)</string>
-    <!-- Focus Mode end -->
-
-    <string name="pref_manual_focus_if_failed_title">自动对焦转手动对焦</string>
-    <string name="pref_manual_focus_if_failed_summary">优先自动对焦，自动对焦失败后转手动对焦</string>
-    <string name="auto_focus_failed_prompt">自动对焦失败，请在%d秒内手动对焦</string>
-
-    <string name="simplified_question">问：</string>
-    <string name="simplified_answer">答：</string>
+    <!-- focus mode end -->
 
     <!-- sms code rule -->
-    <string name="confirm">确定</string>
     <string name="rule_company_hint">公司或组织名</string>
     <string name="rule_keyword_hint">验证码关键字</string>
     <string name="rule_code_length">验证码长度</string>
@@ -158,8 +162,6 @@
     <string name="export_failed">导出失败，请重试</string>
     <string name="import_confirmation_title">导入确认</string>
     <string name="import_confirmation_message">导入时是否需要保留当前规则？</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
     <string name="importing">正在导入</string>
     <string name="no_backup_exists">没有备份文件</string>
     <string name="choose_backup_file">选择备份文件</string>
@@ -174,6 +176,29 @@
     <string name="import_rules">导入规则</string>
     <string name="no_permission_prompt">没有相关权限，请启用模块并重启后再试</string>
     <!-- sms code rule end -->
+
+    <!-- theme color -->
+    <string name="color_default">默认蓝</string>
+    <string name="red">姨妈红</string>
+    <string name="pink">哔哩粉</string>
+    <string name="yellow">咸蛋黄</string>
+    <string name="teal">水鸭青</string>
+    <string name="green">原谅绿</string>
+    <string name="blue">胖次蓝</string>
+    <string name="violet">基佬紫</string>
+    <string name="black">Dark♂黑</string>
+    <!-- theme color end -->
+
+    <!-- SMS parsing notification -->
+    <string name="channel_name_foreground_service">解析短信时的通知</string>
+    <string name="sms_code_notification_title">短信解析中……</string>
+    <!-- SMS parsing notification end -->
+
+    <!-- faq -->
+    <string name="action_home_faq_title">常见问题</string>
+    <string name="simplified_question">问：</string>
+    <string name="simplified_answer">答：</string>
+    <!-- faq end -->
 
     <!-- alipay packet start -->
     <string name="pref_get_alipay_packet_title">领取支付宝红包</string>
@@ -198,9 +223,7 @@
 
     <!-- taichi users notice -->
     <string name="taichi_users_notice">太极用户须知</string>
-    <string name="taichi_users_notice_content">
-        1.本模块需在太极·magisk(太极·阳)环境下工作。\n\n2. 太极用户如需使用所有功能，需要将以下应用添加至太极中：\n\t· 电话服务(com.android.phone)\n\t· Android系统(android)\n\n3. 每次更新后，若模块失效，请在太极的模块管理列表中重新勾选本模块，并重新打开本应用。
-    </string>
+    <string name="taichi_users_notice_content">1.本模块需在太极·magisk(太极·阳)环境下工作。\n\n2. 太极用户如需使用所有功能，需要将以下应用添加至太极中：\n\t· 电话服务(com.android.phone)\n\t· Android系统(android)\n\n3. 每次更新后，若模块失效，请在太极的模块管理列表中重新勾选本模块，并重新打开本应用。</string>
     <string name="open_taichi">打开太极</string>
     <string name="taichi_install_prompt">请先安装太极</string>
     <string name="taichi_enable_prompt">请先启用太极</string>

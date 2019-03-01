@@ -221,7 +221,7 @@ public class SmsHandlerHook implements IHook {
 
         mCountDownLatch = new CountDownLatch(1);
         try {
-            mCountDownLatch.await(12, TimeUnit.SECONDS);
+            mCountDownLatch.await(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
