@@ -1,4 +1,7 @@
 # Update Logs
+- 19.03.01 v1.7.0 Reboot required
+  1. New option: block Code SMS.
+  2. Optimize: improve the experiences for TaiChi-Magisk users.
 - 19.02.16 v1.6.0 Reboot required
   1. New: adapt TaiChi·Magisk
   2. New: new entry for ignoring battery optimzation and notice for TaiChi users
