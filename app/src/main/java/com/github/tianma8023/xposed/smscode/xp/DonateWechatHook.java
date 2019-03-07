@@ -28,7 +28,6 @@ public class DonateWechatHook implements IHook {
         if (Const.WECHAT_PACKAGE_NAME.equals(lpparam.packageName)) {
             try {
                 hookLauncherUIOnCreate(lpparam);
-                hookQrRewardSelectMoneyUI(lpparam);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -43,10 +42,16 @@ public class DonateWechatHook implements IHook {
                 lpparam.classLoader,
                 "onCreate",
                 Bundle.class,
-                new LauncherUIOnCreateHook());
+                new LauncherUIOnCreateHook(lpparam));
     }
 
     private class LauncherUIOnCreateHook extends XC_MethodHook {
+
+        private XC_LoadPackage.LoadPackageParam mLoadPackageParam;
+
+        LauncherUIOnCreateHook(XC_LoadPackage.LoadPackageParam lpparam) {
+            mLoadPackageParam = lpparam;
+        }
 
         @Override
         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -70,6 +75,7 @@ public class DonateWechatHook implements IHook {
                         activity.finish();
                     }
 
+                    hookQrRewardSelectMoneyUI(mLoadPackageParam);
                 }
             }
         }

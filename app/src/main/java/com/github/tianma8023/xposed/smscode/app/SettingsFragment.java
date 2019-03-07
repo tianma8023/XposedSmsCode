@@ -3,7 +3,6 @@ package com.github.tianma8023.xposed.smscode.app;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +13,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceGroup;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -126,14 +124,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
 
         Preference wechatDonatePref = findPreference(PrefConst.KEY_DONATE_BY_WECHAT);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1) {
-            wechatDonatePref.setOnPreferenceClickListener(this);
-        } else {
-            // Hide wechat donate entry on Android 9+.
-            // Because wechat will crash when open wallet for unknown reason.
-            PreferenceGroup aboutGroup = (PreferenceGroup) findPreference(PrefConst.KEY_ABOUT);
-            aboutGroup.removePreference(wechatDonatePref);
-        }
+        wechatDonatePref.setOnPreferenceClickListener(this);
         // about group end
     }
 
@@ -430,7 +421,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void openXposedInstaller() {
-        if(!PackageUtils.startXposedActivity(mActivity, PackageUtils.Section.MODULES)) {
+        if (!PackageUtils.startXposedActivity(mActivity, PackageUtils.Section.MODULES)) {
             Toast.makeText(mActivity, R.string.xposed_not_installed, Toast.LENGTH_SHORT).show();
         }
     }

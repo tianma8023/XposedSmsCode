@@ -76,4 +76,5 @@
 - 18.06.26 v1.0.1 
   1. Custom SMS code keywords rules of regular expressions.
   2. SMS code test feature added.
-- 18.05.27 v0.0.1 Basic functions added.
+- 18.05.27 v0.0.1 
+  1. Basic functions added.
