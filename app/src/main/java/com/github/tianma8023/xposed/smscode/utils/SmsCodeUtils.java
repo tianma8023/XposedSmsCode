@@ -22,7 +22,9 @@ public class SmsCodeUtils {
     }
 
     /**
-     * 文本是否包含中文
+     * 是否包含中文
+     *
+     * @param text text
      */
     private static boolean containsChinese(String text) {
         String regex = "[\u4e00-\u9fa5]|。";
@@ -35,26 +37,27 @@ public class SmsCodeUtils {
      * 是否包含验证码短信关键字
      *
      * @param context context
-     * @param content sms message content
+     * @param content content
      */
     public static boolean containsCodeKeywords(Context context, String content) {
-        String keywordsRegex = loadVerificationKeywords(context);
-        return containsCodeKeywords(keywordsRegex, content);
+        String keywordsRegex = loadCodeKeywords(context);
+        String keyword = parseKeyword(keywordsRegex, content);
+        return !TextUtils.isEmpty(keyword);
     }
 
     /**
-     * 是否包含短信验证码关键字
-     *
-     * @param keywordsRegex SMS code message keywords (regex expressions)
-     * @param content       sms message content
+     * 解析文本内容中的验证码关键字，如果有则返回第一个匹配到的关键字，否则返回 空字符串
      */
-    private static boolean containsCodeKeywords(String keywordsRegex, String content) {
+    private static String parseKeyword(String keywordsRegex, String content) {
         Pattern pattern = Pattern.compile(keywordsRegex);
         Matcher matcher = pattern.matcher(content);
-        return matcher.find();
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return "";
     }
 
-    private static String loadVerificationKeywords(Context context) {
+    private static String loadCodeKeywords(Context context) {
         RemotePreferences preferences = RemotePreferencesUtils.getDefaultRemotePreferences(context);
         return SPUtils.getSMSCodeKeywords(preferences);
     }
@@ -79,12 +82,13 @@ public class SmsCodeUtils {
      */
     private static String parseByDefaultRule(Context context, String content) {
         String result = "";
-        String keywordsRegex = loadVerificationKeywords(context);
-        if (containsCodeKeywords(keywordsRegex, content)) {
+        String keywordsRegex = loadCodeKeywords(context);
+        String keyword = parseKeyword(keywordsRegex, content);
+        if (!TextUtils.isEmpty(keyword)) {
             if (containsChinese(content)) {
-                result = getSmsCodeCN(keywordsRegex, content);
+                result = getSmsCodeCN(keyword, content);
             } else {
-                result = getSmsCodeEN(keywordsRegex, content);
+                result = getSmsCodeEN(keyword, content);
             }
         }
         return result;
@@ -93,50 +97,12 @@ public class SmsCodeUtils {
     /**
      * 获取中文短信中包含的验证码
      */
-    private static String getSmsCodeCN(String keywordsRegex, String content) {
+    private static String getSmsCodeCN(String keyword, String content) {
         // 之前的正则表达式是 [a-zA-Z0-9]{4,8}
         // 现在的正则表达式是 [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)? 匹配数字和字母之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
         String codeRegex = "(?<![a-zA-Z0-9])[a-zA-Z0-9]{4,8}(?![a-zA-Z0-9])";
-        return getSmsCode(codeRegex, keywordsRegex, content);
-    }
-
-    /* 匹配度：6位纯数字，匹配度最高 */
-    private static final int LEVEL_DIGITAL_6 = 4;
-    /* 匹配度：4位纯数字，匹配度次之 */
-    private static final int LEVEL_DIGITAL_4 = 3;
-    /* 匹配度：纯数字, 匹配度最高*/
-    private static final int LEVEL_DIGITAL_OTHERS = 2;
-    /* 匹配度：数字+字母 混合, 匹配度其次*/
-    private static final int LEVEL_TEXT = 1;
-    /* 匹配度：纯字母, 匹配度最低*/
-    private static final int LEVEL_CHARACTER = 0;
-    private static final int LEVEL_NONE = -1;
-
-    private static int getMatchLevel(String possibleCode) {
-        if (possibleCode.matches("^[0-9]{6}$"))
-            return LEVEL_DIGITAL_6;
-        if (possibleCode.matches("^[0-9]{4}$"))
-            return LEVEL_DIGITAL_4;
-        if (possibleCode.matches("^[0-9]*$"))
-            return LEVEL_DIGITAL_OTHERS;
-        if (possibleCode.matches("^[a-zA-Z]*$"))
-            return LEVEL_CHARACTER;
-        return LEVEL_TEXT;
-    }
-
-    private static boolean isNearToKeywords(String keywordsRegex, String possibleCode, String content) {
-        int beginIndex = 0, endIndex = content.length() - 1;
-        int curIndex = content.indexOf(possibleCode);
-        int strLength = possibleCode.length();
-        int magicNumber = 30;
-        if (curIndex - magicNumber > 0) {
-            beginIndex = curIndex - magicNumber;
-        }
-        if (curIndex + strLength + magicNumber < endIndex) {
-            endIndex = curIndex + strLength + magicNumber;
-        }
-        return containsCodeKeywords(keywordsRegex, content.substring(beginIndex, endIndex));
+        return getSmsCode(codeRegex, keyword, content);
     }
 
     /**
@@ -154,11 +120,11 @@ public class SmsCodeUtils {
      * Parse SMS code
      *
      * @param codeRegex SMS code regular expression
-     * @param keywordsRegex     SMS code SMS keywords expression
+     * @param keyword     SMS code SMS keywords expression
      * @param content           SMS content
      * @return the SMS code if it's found, otherwise return empty string ""
      */
-    private static String getSmsCode(String codeRegex, String keywordsRegex, String content) {
+    private static String getSmsCode(String codeRegex, String keyword, String content) {
         Pattern p = Pattern.compile(codeRegex);
         Matcher m = p.matcher(content);
         List<String> possibleCodes = new ArrayList<>();
@@ -169,28 +135,89 @@ public class SmsCodeUtils {
         if (possibleCodes.isEmpty()) { // no possible code
             return "";
         }
-        int maxMatchLevel = LEVEL_NONE;
-        String smsCode = "";
+
+        List<String> filteredCodes = new ArrayList<>();
         for (String possibleCode : possibleCodes) {
-            if (isNearToKeywords(keywordsRegex, possibleCode, content)) {
-                final int curLevel = getMatchLevel(possibleCode);
-                if (curLevel > maxMatchLevel) {
-                    maxMatchLevel = curLevel;
-                    smsCode = possibleCode;
-                }
+            if (isNearToKeyword(keyword, possibleCode, content)) {
+                filteredCodes.add(possibleCode);
             }
         }
-        if (maxMatchLevel == LEVEL_NONE) { // no possible code near to keywords
-            for (String possibleCode : possibleCodes) {
-                final int curLevel = getMatchLevel(possibleCode);
-                if (curLevel > maxMatchLevel) {
-                    maxMatchLevel = curLevel;
-                    smsCode = possibleCode;
+        if (filteredCodes.isEmpty()) { // no possible code near to keywords
+            filteredCodes = possibleCodes;
+        }
+
+        int maxMatchLevel = LEVEL_NONE;
+        // minimum distance for possible code to keyword
+        int minDistance = content.length();
+        String smsCode = "";
+        for (String filteredCode : filteredCodes) {
+            final int curLevel = getMatchLevel(filteredCode);
+            if (curLevel > maxMatchLevel) {
+                maxMatchLevel = curLevel;
+                // reset the minDistance
+                minDistance = distanceToKeyword(keyword, filteredCode, content);
+                smsCode = filteredCode;
+            } else if (curLevel == maxMatchLevel) {
+                int curDistance = distanceToKeyword(keyword, filteredCode, content);
+                if (curDistance < minDistance) {
+                    minDistance = curDistance;
+                    smsCode = filteredCode;
                 }
             }
         }
         return smsCode;
     }
+
+    /* 匹配度：6位纯数字，匹配度最高 */
+    private static final int LEVEL_DIGITAL_6 = 4;
+    /* 匹配度：4位纯数字，匹配度次之 */
+    private static final int LEVEL_DIGITAL_4 = 3;
+    /* 匹配度：纯数字, 匹配度最高*/
+    private static final int LEVEL_DIGITAL_OTHERS = 2;
+    /* 匹配度：数字+字母 混合, 匹配度其次*/
+    private static final int LEVEL_TEXT = 1;
+    /* 匹配度：纯字母, 匹配度最低*/
+    private static final int LEVEL_CHARACTER = 0;
+    private static final int LEVEL_NONE = -1;
+
+    private static int getMatchLevel(String matchedStr) {
+        if (matchedStr.matches("^[0-9]{6}$"))
+            return LEVEL_DIGITAL_6;
+        if (matchedStr.matches("^[0-9]{4}$"))
+            return LEVEL_DIGITAL_4;
+        if (matchedStr.matches("^[0-9]*$"))
+            return LEVEL_DIGITAL_OTHERS;
+        if (matchedStr.matches("^[a-zA-Z]*$"))
+            return LEVEL_CHARACTER;
+        return LEVEL_TEXT;
+    }
+
+    /**
+     * 可能的验证码是否靠近关键字
+     */
+    private static boolean isNearToKeyword(String keyword, String possibleCode, String content) {
+        int beginIndex = 0, endIndex = content.length() - 1;
+        int curIndex = content.indexOf(possibleCode);
+        int strLength = possibleCode.length();
+        int magicNumber = 30;
+        if (curIndex - magicNumber > 0) {
+            beginIndex = curIndex - magicNumber;
+        }
+        if (curIndex + strLength + magicNumber < endIndex) {
+            endIndex = curIndex + strLength + magicNumber;
+        }
+        return content.substring(beginIndex, endIndex).contains(keyword);
+    }
+
+    /**
+     * 计算可能的验证码与关键字的距离
+     */
+    private static int distanceToKeyword(String keyword, String possibleCode, String content) {
+        int keywordIdx = content.indexOf(keyword);
+        int possibleCodeIdx = content.indexOf(possibleCode);
+        return Math.abs(keywordIdx - possibleCodeIdx);
+    }
+
 
     public static boolean isPossiblePhoneNumber(String text) {
         return text.matches("\\d{8,}");
@@ -214,7 +241,7 @@ public class SmsCodeUtils {
         String lowerContent = content.toLowerCase();
         for (SmsCodeRule rule : rules) {
             if (lowerContent.contains(rule.getCompany().toLowerCase())
-                    && content.contains(rule.getCodeKeyword().toLowerCase())) { // case insensitive
+                    && lowerContent.contains(rule.getCodeKeyword().toLowerCase())) {
                 Pattern pattern = Pattern.compile(rule.getCodeRegex());
                 Matcher matcher = pattern.matcher(content);
                 if (matcher.find()) {

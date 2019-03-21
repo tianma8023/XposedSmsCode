@@ -18,7 +18,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 26
-        versionName "1.7.0"
+        versionName "1.7.0 beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
