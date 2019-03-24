@@ -3,18 +3,25 @@ package com.github.tianma8023.xposed.smscode.constant;
 import android.Manifest;
 import android.os.Build;
 
+import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.github.tianma8023.xposed.smscode.xp.SmsHandlerHook;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Permission Constants
  */
 public class PermConst {
 
-    public final static List<String> PERMISSIONS_TO_GRANT;
+    public final static Map<String, List<String>> PACKAGE_PERMISSIONS;
 
     static {
-        PERMISSIONS_TO_GRANT = new ArrayList<>();
+        PACKAGE_PERMISSIONS = new HashMap<>();
+
+        List<String> smsCodePermissions = new ArrayList<>();
 
         // umeng sdk integration
         // <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -23,38 +30,59 @@ public class PermConst {
         // <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
         // tencent bugly integration
         // <uses-permission android:name="android.permission.READ_LOGS" />
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.ACCESS_NETWORK_STATE);
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.ACCESS_WIFI_STATE);
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.INTERNET);
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_PHONE_STATE);
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_LOGS);
+        smsCodePermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        smsCodePermissions.add(Manifest.permission.ACCESS_WIFI_STATE);
+        smsCodePermissions.add(Manifest.permission.INTERNET);
+        smsCodePermissions.add(Manifest.permission.READ_PHONE_STATE);
+        smsCodePermissions.add(Manifest.permission.READ_LOGS);
 
         // JobIntentService
         // <uses-permission android:name="android.permission.WAKE_LOCK"/>
-        // PERMISSIONS_TO_GRANT.add(Manifest.permission.WAKE_LOCK);
+        // smsCodePermissions.add(Manifest.permission.WAKE_LOCK);
 
         // Enable/Disable AccessibilityService programmatically
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_SETTINGS);
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_SECURE_SETTINGS);
+        smsCodePermissions.add(Manifest.permission.WRITE_SETTINGS);
+        smsCodePermissions.add(Manifest.permission.WRITE_SECURE_SETTINGS);
 
         // Backup import or export
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        smsCodePermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        smsCodePermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         // READ_SMS for Mark SMS as read & Delete extracted verification SMS
-        PERMISSIONS_TO_GRANT.add(Manifest.permission.READ_SMS);
+        smsCodePermissions.add(Manifest.permission.READ_SMS);
         // api version < android M
-        PERMISSIONS_TO_GRANT.add("android.permission.WRITE_SMS");
+        smsCodePermissions.add("android.permission.WRITE_SMS");
 
-        int sdkInt = Build.VERSION.SDK_INT;
         // Permission for grant AppOps permissions
-        if (sdkInt >= 28) {
+        if (Build.VERSION.SDK_INT >= 28) {
             // Android P
-            PERMISSIONS_TO_GRANT.add("android.permission.MANAGE_APP_OPS_MODES");
+            smsCodePermissions.add("android.permission.MANAGE_APP_OPS_MODES");
         } else {
             // android 4.4 ~ 8.1
-            PERMISSIONS_TO_GRANT.add("android.permission.UPDATE_APP_OPS_STATS");
+            smsCodePermissions.add("android.permission.UPDATE_APP_OPS_STATS");
         }
+
+        String smsCodePackage = BuildConfig.APPLICATION_ID;
+        PACKAGE_PERMISSIONS.put(smsCodePackage, smsCodePermissions);
+
+        List<String> phonePermissions = new ArrayList<>();
+        phonePermissions.add("android.permission.INJECT_EVENTS");
+
+        // READ_SMS for Mark SMS as read & Delete extracted verification SMS
+        phonePermissions.add(Manifest.permission.READ_SMS);
+        // api version < android M
+        phonePermissions.add("android.permission.WRITE_SMS");
+
+        // Permission for grant AppOps permissions
+        if (Build.VERSION.SDK_INT >= 28) {
+            // Android P
+            phonePermissions.add("android.permission.MANAGE_APP_OPS_MODES");
+        } else {
+            // android 4.4 ~ 8.1
+            phonePermissions.add("android.permission.UPDATE_APP_OPS_STATS");
+        }
+
+        PACKAGE_PERMISSIONS.put(SmsHandlerHook.ANDROID_PHONE_PACKAGE, phonePermissions);
     }
 
 }

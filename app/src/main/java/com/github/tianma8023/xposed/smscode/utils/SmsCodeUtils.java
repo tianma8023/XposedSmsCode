@@ -1,12 +1,16 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.constant.SmsCodeConst;
-import com.github.tianma8023.xposed.smscode.db.DBManager;
+import com.github.tianma8023.xposed.smscode.db.DBProvider;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRule;
+import com.github.tianma8023.xposed.smscode.entity.SmsCodeRuleDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,7 +241,7 @@ public class SmsCodeUtils {
      * @return the SMS code if matches, otherwise return empty string
      */
     private static String parseByCustomRules(Context context, String content) {
-        List<SmsCodeRule> rules = DBManager.get(context).queryAllSmsCodeRules();
+        List<SmsCodeRule> rules = queryAllSmsCodeRules(context);
         String lowerContent = content.toLowerCase();
         for (SmsCodeRule rule : rules) {
             if (lowerContent.contains(rule.getCompany().toLowerCase())
@@ -250,6 +254,35 @@ public class SmsCodeUtils {
             }
         }
         return "";
+    }
+
+    private static List<SmsCodeRule> queryAllSmsCodeRules(Context context) {
+        Uri smsCodeRuleUri = DBProvider.SMS_CODE_RULE_URI;
+        ContentResolver resolver = context.getContentResolver();
+
+        final String companyColumn = SmsCodeRuleDao.Properties.Company.columnName;
+        final String keywordColumn = SmsCodeRuleDao.Properties.CodeKeyword.columnName;
+        final String regexColumn = SmsCodeRuleDao.Properties.CodeRegex.columnName;
+
+        String[] projection = {
+                companyColumn,
+                keywordColumn,
+                regexColumn,
+        };
+
+        Cursor cursor = resolver.query(smsCodeRuleUri, projection, null, null, null);
+        List<SmsCodeRule> rules = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                SmsCodeRule rule = new SmsCodeRule();
+                rule.setCompany(cursor.getString(cursor.getColumnIndex(companyColumn)));
+                rule.setCodeKeyword(cursor.getString(cursor.getColumnIndex(keywordColumn)));
+                rule.setCodeRegex(cursor.getString(cursor.getColumnIndex(regexColumn)));
+                rules.add(rule);
+            }
+            cursor.close();
+        }
+        return rules;
     }
 
     /**

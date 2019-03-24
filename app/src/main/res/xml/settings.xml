@@ -33,12 +33,19 @@
             android:defaultValue="true"
             android:dependency="@string/pref_enable"/>
 
-        <Preference
+        <!--<Preference-->
+            <!--android:icon="@drawable/ic_automatic"-->
+            <!--android:key="@string/pref_entry_auto_input_code"-->
+            <!--android:dependency="@string/pref_enable"-->
+            <!--android:title="@string/pref_entry_auto_input_code_title"-->
+            <!--android:summary="@string/pref_entry_auto_input_code_summary" />-->
+
+        <SwitchPreference
             android:icon="@drawable/ic_automatic"
-            android:key="@string/pref_entry_auto_input_code"
-            android:dependency="@string/pref_enable"
-            android:title="@string/pref_entry_auto_input_code_title"
-            android:summary="@string/pref_entry_auto_input_code_summary" />
+            android:key="@string/pref_enable_auto_input_code"
+            android:title="@string/pref_enable_auto_input_code_title"
+            android:summary="@string/pref_enable_auto_input_code_summary"
+            android:defaultValue="false"/>
 
         <Preference
             android:icon="@drawable/ic_palette"

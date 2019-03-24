@@ -7,6 +7,7 @@ import com.github.tianma8023.xposed.smscode.constant.PermConst;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -28,7 +29,8 @@ public class PermissionGranterHook implements IHook {
     private static final String CLASS_PERMISSION_MANAGER_SERVICE = "com.android.server.pm.permission.PermissionManagerService";
     private static final String CLASS_PERMISSION_CALLBACK = "com.android.server.pm.permission.PermissionManagerInternal.PermissionCallback";
 
-    private static final List<String> PERMISSIONS_TO_GRANT = PermConst.PERMISSIONS_TO_GRANT;
+    //    private static final List<String> PERMISSIONS_TO_GRANT = PermConst.PERMISSIONS_TO_GRANT;
+    private static final Map<String, List<String>> PACKAGE_PERMISSIONS = PermConst.PACKAGE_PERMISSIONS;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -95,34 +97,39 @@ public class PermissionGranterHook implements IHook {
         // android.content.pm.PackageParser.Package 对象
         Object pkg = param.args[0];
 
-        final String packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
+        final String _packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
 
-        if (SMSCODE_PACKAGE.equals(packageName)) {
-            // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
-            final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
-            // com.android.server.pm.PermissionsState 对象
-            final Object permissionsState = XposedHelpers.callMethod(extras, "getPermissionsState");
+        Set<String> packageSet = PACKAGE_PERMISSIONS.keySet();
+        for (String packageName : packageSet) {
+            if (packageName.equals(_packageName)) {
+                XLog.d("packageName = %s", packageName);
+                // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
+                final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
+                // com.android.server.pm.PermissionsState 对象
+                final Object permissionsState = XposedHelpers.callMethod(extras, "getPermissionsState");
 
-            // Manifest.xml 中声明的permission列表
-            final List<String> requestedPermissions = (List<String>)
-                    XposedHelpers.getObjectField(pkg, "requestedPermissions");
+                // Manifest.xml 中声明的permission列表
+                final List<String> requestedPermissions = (List<String>)
+                        XposedHelpers.getObjectField(pkg, "requestedPermissions");
 
-            // com.android.server.pm.Settings mSettings 对象
-            final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
-            // ArrayMap<String, com.android.server.pm.BasePermission> mPermissions 对象
-            final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
+                // com.android.server.pm.Settings mSettings 对象
+                final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
+                // ArrayMap<String, com.android.server.pm.BasePermission> mPermissions 对象
+                final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
 
-            for (String permissionToGrant : PERMISSIONS_TO_GRANT) {
-                if (!requestedPermissions.contains(permissionToGrant)) {
-                    boolean granted = (boolean) XposedHelpers.callMethod(
-                            permissionsState, "hasInstallPermission", permissionToGrant);
-                    if (!granted) {
-                        // com.android.server.pm.BasePermission bpToGrant
-                        final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
-                        int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
-                        XLog.d("Add permission " + bpToGrant + "; result = " + result);
-                    } else {
-                        XLog.d("Already have " + permissionToGrant + " permission");
+                List<String> permissionsToGrant = PACKAGE_PERMISSIONS.get(packageName);
+                for (String permissionToGrant : permissionsToGrant) {
+                    if (!requestedPermissions.contains(permissionToGrant)) {
+                        boolean granted = (boolean) XposedHelpers.callMethod(
+                                permissionsState, "hasInstallPermission", permissionToGrant);
+                        if (!granted) {
+                            // com.android.server.pm.BasePermission bpToGrant
+                            final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
+                            int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
+                            XLog.d("Add permission " + bpToGrant + "; result = " + result);
+                        } else {
+                            XLog.d("Already have " + permissionToGrant + " permission");
+                        }
                     }
                 }
             }
@@ -136,40 +143,46 @@ public class PermissionGranterHook implements IHook {
         // android.content.pm.PackageParser.Package object
         Object pkg = param.args[0];
 
-        final String packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
-        if (SMSCODE_PACKAGE.equals(packageName)) {
-            // com.android.server.pm.PackageSetting mExtra object
-            final Object extra = XposedHelpers.getObjectField(pkg, "mExtras");
-            // PackageSetting extends PackageSettingBase
-            // PackageSettingBase extends GrantedPermissions
-            // Android 4.4~4.4.4 api 19 HashSet<String>
-            // Android 5.0 api 21 HashSet<String>
-            // Android 5.1 api 22 ArraySet<String>
-            final Set<String> grantedPermissions = (Set<String>)
-                    XposedHelpers.getObjectField(extra, "grantedPermissions");
+        final String _packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
 
-            // com.android.server.pm.Settings mSettings object
-            final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
-            // HashMap<String, com.android.server.pm.BasePermission> mPermissions obj
-            final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
+        Set<String> packageSet = PACKAGE_PERMISSIONS.keySet();
+        for (String packageName : packageSet) {
+            if (packageName.equals(_packageName)) {
+                XLog.d("packageName = %s", packageName);
+                // com.android.server.pm.PackageSetting mExtra object
+                final Object extra = XposedHelpers.getObjectField(pkg, "mExtras");
+                // PackageSetting extends PackageSettingBase
+                // PackageSettingBase extends GrantedPermissions
+                // Android 4.4~4.4.4 api 19 HashSet<String>
+                // Android 5.0 api 21 HashSet<String>
+                // Android 5.1 api 22 ArraySet<String>
+                final Set<String> grantedPermissions = (Set<String>)
+                        XposedHelpers.getObjectField(extra, "grantedPermissions");
 
-            for (String permissionToGrant : PERMISSIONS_TO_GRANT) {
-                if (!grantedPermissions.contains(permissionToGrant)) {
-                    // com.android.server.pm.BasePermission
-                    final Object bpToGrant = XposedHelpers.
-                            callMethod(permissions, "get", permissionToGrant);
-                    grantedPermissions.add(permissionToGrant);
+                // com.android.server.pm.Settings mSettings object
+                final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
+                // HashMap<String, com.android.server.pm.BasePermission> mPermissions obj
+                final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
 
-                    // granted permission gids
-                    int[] gpGids = (int[]) XposedHelpers.getObjectField(extra, "gids");
-                    // base permission to grant gids
-                    int[] bpGids = (int[]) XposedHelpers.getObjectField(bpToGrant, "gids");
-                    XposedHelpers.callStaticMethod(
-                            param.thisObject.getClass(), "appendInts", gpGids, bpGids);
+                List<String> permissionsToGrant = PACKAGE_PERMISSIONS.get(packageName);
+                for (String permissionToGrant : permissionsToGrant) {
+                    if (!grantedPermissions.contains(permissionToGrant)) {
+                        // com.android.server.pm.BasePermission
+                        final Object bpToGrant = XposedHelpers.
+                                callMethod(permissions, "get", permissionToGrant);
+                        grantedPermissions.add(permissionToGrant);
 
-                    XLog.d("Add permission " + bpToGrant);
-                } else {
-                    XLog.d("Already have " + permissionToGrant + " permission");
+                        // granted permission gids
+                        int[] gpGids = (int[]) XposedHelpers.getObjectField(extra, "gids");
+                        // base permission to grant gids
+                        int[] bpGids = (int[]) XposedHelpers.getObjectField(bpToGrant, "gids");
+                        XposedHelpers.callStaticMethod(
+                                param.thisObject.getClass(), "appendInts", gpGids, bpGids);
+
+                        XLog.d("Add permission " + bpToGrant);
+                    } else {
+                        XLog.d("Already have " + permissionToGrant + " permission");
+                    }
                 }
             }
         }
@@ -210,35 +223,39 @@ public class PermissionGranterHook implements IHook {
         // android.content.pm.PackageParser.Package 对象
         Object pkg = param.args[0];
 
-        final String packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
+        final String _packageName = (String) XposedHelpers.getObjectField(pkg, "packageName");
 
-        if (SMSCODE_PACKAGE.equals(packageName)) {
-            XLog.d("packageName = %s", packageName);
-            // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
-            final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
-            // com.android.server.pm.permission.PermissionsState 对象
-            final Object permissionsState = XposedHelpers.callMethod(extras, "getPermissionsState");
+        Set<String> packageSet = PACKAGE_PERMISSIONS.keySet();
+        for (String packageName : packageSet) {
+            if (packageName.equals(_packageName)) {
+                XLog.d("packageName = %s", packageName);
+                // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
+                final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
+                // com.android.server.pm.permission.PermissionsState 对象
+                final Object permissionsState = XposedHelpers.callMethod(extras, "getPermissionsState");
 
-            // Manifest.xml 中声明的permission列表
-            final List<String> requestedPermissions = (List<String>)
-                    XposedHelpers.getObjectField(pkg, "requestedPermissions");
+                // Manifest.xml 中声明的permission列表
+                final List<String> requestedPermissions = (List<String>)
+                        XposedHelpers.getObjectField(pkg, "requestedPermissions");
 
-            // com.android.server.pm.permission.PermissionSettings mSettings 对象
-            final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
-            // ArrayMap<String, com.android.server.pm.permission.BasePermission> mPermissions 对象
-            final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
+                // com.android.server.pm.permission.PermissionSettings mSettings 对象
+                final Object settings = XposedHelpers.getObjectField(param.thisObject, "mSettings");
+                // ArrayMap<String, com.android.server.pm.permission.BasePermission> mPermissions 对象
+                final Object permissions = XposedHelpers.getObjectField(settings, "mPermissions");
 
-            for (String permissionToGrant : PERMISSIONS_TO_GRANT) {
-                if (!requestedPermissions.contains(permissionToGrant)) {
-                    boolean granted = (boolean) XposedHelpers.callMethod(
-                            permissionsState, "hasInstallPermission", permissionToGrant);
-                    if (!granted) {
-                        // com.android.server.pm.permission.BasePermission bpToGrant
-                        final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
-                        int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
-                        XLog.d("Add permission " + bpToGrant + "; result = " + result);
-                    } else {
-                        XLog.d("Already have " + permissionToGrant + " permission");
+                List<String> permissionsToGrant = PACKAGE_PERMISSIONS.get(packageName);
+                for (String permissionToGrant : permissionsToGrant) {
+                    if (!requestedPermissions.contains(permissionToGrant)) {
+                        boolean granted = (boolean) XposedHelpers.callMethod(
+                                permissionsState, "hasInstallPermission", permissionToGrant);
+                        if (!granted) {
+                            // com.android.server.pm.permission.BasePermission bpToGrant
+                            final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
+                            int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
+                            XLog.d("Add permission " + bpToGrant + "; result = " + result);
+                        } else {
+                            XLog.d("Already have " + permissionToGrant + " permission");
+                        }
                     }
                 }
             }

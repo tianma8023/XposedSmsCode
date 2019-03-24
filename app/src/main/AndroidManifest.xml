@@ -125,6 +125,11 @@
             android:exported="true"/>
 
         <provider
+            android:name=".db.DBProvider"
+            android:authorities="${applicationId}.db.provider"
+            android:exported="true"/>
+
+        <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.files"
             android:exported="false"

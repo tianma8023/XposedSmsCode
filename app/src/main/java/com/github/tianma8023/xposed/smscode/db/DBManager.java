@@ -2,7 +2,6 @@ package com.github.tianma8023.xposed.smscode.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 
 import com.github.tianma8023.xposed.smscode.aidl.DaoMaster;
 import com.github.tianma8023.xposed.smscode.aidl.DaoSession;
@@ -25,15 +24,16 @@ public class DBManager {
     private static DBManager sInstance;
 
     private DaoSession mDaoSession;
+    private SQLiteDatabase mSQLiteDatabase;
 
     private DBManager(Context context) {
         TSQLiteOpenHelper dbOpenHelper =
                 new TSQLiteOpenHelper(context.getApplicationContext(), DB_NAME);
-        SQLiteDatabase database = dbOpenHelper.getWritableDatabase();
-        mDaoSession = new DaoMaster(database).newSession();
+        mSQLiteDatabase = dbOpenHelper.getWritableDatabase();
+        mDaoSession = new DaoMaster(mSQLiteDatabase).newSession();
     }
 
-    public static DBManager get(@NonNull Context context) {
+    public static DBManager get(Context context) {
         if (sInstance == null) {
             synchronized (DBManager.class) {
                 if (sInstance == null) {
@@ -137,5 +137,9 @@ public class DBManager {
 
     public void removeSmsMsgList(List<SmsMsg> smsMsgList) {
         removeEntities(SmsMsg.class, smsMsgList);
+    }
+
+    SQLiteDatabase getSQLiteDatabase() {
+        return mSQLiteDatabase;
     }
 }
