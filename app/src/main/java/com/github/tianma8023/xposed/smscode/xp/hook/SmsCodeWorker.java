@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp;
+package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import android.Manifest;
 import android.content.ContentProviderOperation;

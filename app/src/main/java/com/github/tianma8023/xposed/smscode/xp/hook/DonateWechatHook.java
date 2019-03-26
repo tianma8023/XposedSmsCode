@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp;
+package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * class com.tencent.mm.ui.LauncherUI <br/>
  * class com.tencent.mm.plugin.collect.reward.ui.QrRewardSelectMoneyUI
  */
-public class DonateWechatHook implements IHook {
+public class DonateWechatHook extends AbsHook {
 
     private static final String KEY_SCENE = "key_scene";
     private static final String KEY_QRCODE_URL = "key_qrcode_url";

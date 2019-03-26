@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.constant.Const;
-import com.github.tianma8023.xposed.smscode.xp.PermissionGranterHook;
-import com.github.tianma8023.xposed.smscode.xp.SmsHandlerHook;
+import com.github.tianma8023.xposed.smscode.xp.hook.PermissionGranterHook;
+import com.github.tianma8023.xposed.smscode.xp.hook.SmsHandlerHook;
 
 /**
  * 包相关工具类

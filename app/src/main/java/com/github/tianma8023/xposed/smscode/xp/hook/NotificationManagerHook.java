@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp;
+package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -19,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook android.app.NotificationManager for block code SMS notification.
  */
-public class NotificationManagerHook implements IHook {
+public class NotificationManagerHook extends AbsHook  {
 
     private Context mContext;
     private RemotePreferences mRemotePreferences;

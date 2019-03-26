@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp;
+package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import android.os.Build;
 
@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook com.android.server.pm.PackageManagerService to grant permissions.
  */
-public class PermissionGranterHook implements IHook {
+public class PermissionGranterHook extends AbsHook  {
 
     public static final String ANDROID_PACKAGE = "android";
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
@@ -248,6 +248,7 @@ public class PermissionGranterHook implements IHook {
                     if (!requestedPermissions.contains(permissionToGrant)) {
                         boolean granted = (boolean) XposedHelpers.callMethod(
                                 permissionsState, "hasInstallPermission", permissionToGrant);
+                        // grant permissions
                         if (!granted) {
                             // com.android.server.pm.permission.BasePermission bpToGrant
                             final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
@@ -256,6 +257,16 @@ public class PermissionGranterHook implements IHook {
                         } else {
                             XLog.d("Already have " + permissionToGrant + " permission");
                         }
+                        // revoke permissions
+//                        if (!granted) {
+//                            XLog.d("Don't have " + permissionToGrant + " permission");
+//                        } else {
+//                            XLog.d("Already have " + permissionToGrant + " permission");
+//                            // com.android.server.pm.permission.BasePermission bpToGrant
+//                            final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
+//                            int result = (int) XposedHelpers.callMethod(permissionsState, "revokeInstallPermission", bpToGrant);
+//                            XLog.d("Remove permission " + bpToGrant + "; result = " + result);
+//                        }
                     }
                 }
             }

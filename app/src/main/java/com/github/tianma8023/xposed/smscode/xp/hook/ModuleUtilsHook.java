@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp;
+package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
@@ -11,7 +11,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.github.tianma8023.xposed.smscode.utils.ModuleUtils
  */
-public class ModuleUtilsHook implements IHook {
+public class ModuleUtilsHook extends AbsHook {
 
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
     private static final int MODULE_VERSION = BuildConfig.MODULE_VERSION;

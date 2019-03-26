@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp;
+package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -28,7 +28,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.android.internal.telephony.InBoundSmsHandler
  */
-public class SmsHandlerHook implements IHook {
+public class SmsHandlerHook extends AbsHook {
 
     public static final String ANDROID_PHONE_PACKAGE = "com.android.phone";
 
@@ -200,34 +200,11 @@ public class SmsHandlerHook implements IHook {
             return;
         }
 
-        // Send a broadcast, let receiver handle the rest of the works.
-//        Intent serviceIntent = new Intent();
-//        serviceIntent.setComponent(new ComponentName(SMSCODE_PACKAGE, SmsCodeService.class.getName()));
-//        serviceIntent.putExtra(SmsCodeService.EXTRA_KEY_SMS_INTENT, intent);
-//        mPhoneContext.startService(serviceIntent);
-//        mPhoneContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-//
-//        mCountDownLatch = new CountDownLatch(1);
-//        try {
-//            mCountDownLatch.await(10, TimeUnit.SECONDS);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        if (mBlockSmsBroadcast) {
-//            deleteRawTableAndSendMessage(param.thisObject, param.args[receiverIndex]);
-//            mBlockSmsBroadcast = false;
-//            param.setResult(null);
-//        }
-//
-//        unbindService();
-
         ParseResult parseResult = new SmsCodeWorker(mAppContext, mPhoneContext, intent).parse();
         if (parseResult != null) {// parse succeed
             if (parseResult.isAutoInput()) {
-                XLog.d("auto inputting code...");
-                inputText(parseResult.getSmsMsg().getSmsCode());
+                boolean inputResult = autoInputText(parseResult.getSmsMsg().getSmsCode());
+                XLog.d("auto input result %b", inputResult);
             }
 
             if (parseResult.isBlockSms()) {
@@ -287,53 +264,6 @@ public class SmsHandlerHook implements IHook {
                 /* String[] deleteWhereArgs */ deleteWhereArgs,
                 /* int deleteType           */ MARK_DELETED);
     }
-//
-//    private CountDownLatch mCountDownLatch;
-//    private boolean mBlockSmsBroadcast = false;
-//
-//    private ISmsMsgManager mRemoteMsgManager;
-//
-//    private ServiceConnection mServiceConnection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            ISmsMsgManager smsMsgManager = ISmsMsgManager.Stub.asInterface(service);
-//            mRemoteMsgManager = smsMsgManager;
-//            try {
-//                smsMsgManager.registerListener(mSmsMsgListener);
-//            } catch (RemoteException e) {
-//                XLog.e("error occurs in register SmsMsg listener", e);
-//            }
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//            mRemoteMsgManager = null;
-//        }
-//    };
-//
-//    private ISmsMsgListener mSmsMsgListener = new ISmsMsgListener.Stub() {
-//        @Override
-//        public void onNewSmsMsgParsed(SmsMsg smsMsg) throws RemoteException {
-//            XLog.d("received new SmsMsg: %s", smsMsg.getBody());
-//            RemotePreferences remotePreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mPhoneContext);
-//            if (SPUtils.blockSmsEnabled(remotePreferences)) {
-//                mBlockSmsBroadcast = true;
-//            }
-//            mCountDownLatch.countDown();
-//        }
-//    };
-//
-//    private void unbindService() {
-//        // unregister listener
-//        if (mRemoteMsgManager != null && mRemoteMsgManager.asBinder().isBinderAlive()) {
-//            try {
-//                mRemoteMsgManager.unregisterListener(mSmsMsgListener);
-//            } catch (RemoteException e) {
-//                XLog.e("error occurs when unregister SmsMsg listener", e);
-//            }
-//        }
-//        mPhoneContext.unbindService(mServiceConnection);
-//    }
 
     private static Object callDeclaredMethod(String className, Object obj, String methodName, Object... args) throws InvocationTargetException, IllegalAccessException {
         // XposedHelpers#callMethod() 方法，不能反射调用 private 的方法
@@ -343,11 +273,24 @@ public class SmsHandlerHook implements IHook {
         return method.invoke(obj, args);
     }
 
+    private boolean autoInputText(String text) {
+        try {
+            XLog.d("try auto input by InputManagerService");
+            sendText(text);
+            return true;
+        } catch (Throwable throwable) {
+            XLog.e("error occurs when auto input text", throwable);
+            return false;
+        }
+    }
+
     /**
      * refer: com.android.commands.input.Input#sendText()
+     *
+     * @throws Throwable throwable throws if the caller has no android.permission.INJECT_EVENTS permission
      * @param text
      */
-    private void inputText(String text) {
+    private void sendText(String text) throws Throwable {
         int source = InputDevice.SOURCE_KEYBOARD;
 
         StringBuilder sb = new StringBuilder(text);
@@ -382,27 +325,16 @@ public class SmsHandlerHook implements IHook {
      * refer com.android.commands.input.Input#injectKeyEvent()
      */
     @SuppressLint("PrivateApi")
-    private void injectKeyEvent(KeyEvent keyEvent) {
-        try {
-            InputManager inputManager = (InputManager) XposedHelpers.callStaticMethod(InputManager.class, "getInstance");
+    private void injectKeyEvent(KeyEvent keyEvent) throws Throwable {
+        InputManager inputManager = (InputManager) XposedHelpers.callStaticMethod(InputManager.class, "getInstance");
 
-            int INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH =
-                    XposedHelpers.getStaticIntField(InputManager.class, "INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH");
+        int INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH =
+                XposedHelpers.getStaticIntField(InputManager.class, "INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH");
 
-            Class<?>[] paramTypes = {
-                    KeyEvent.class,
-                    int.class,
-            };
+        Class<?>[] paramTypes = {KeyEvent.class, int.class,};
+        Object[] args = {keyEvent, INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH,};
 
-            Object[] args = {
-                    keyEvent,
-                    INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH,
-            };
-            XposedHelpers.callMethod(inputManager, "injectInputEvent", paramTypes, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-            XLog.e("error occurs when injectKeyEvent", e);
-        }
+        XposedHelpers.callMethod(inputManager, "injectInputEvent", paramTypes, args);
     }
 
 }
