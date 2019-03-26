@@ -118,20 +118,20 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
     }
 
     private void onNestedPreferenceClicked(String key, String title) {
-        Fragment newFragment = null;
-        if (PrefConst.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
-            newFragment = new AutoInputSettingsFragment();
-        }
-        if (newFragment == null)
-            return;
-
-        mFragmentManager
-                .beginTransaction()
-                .replace(R.id.home_content, newFragment, TAG_NESTED)
-                .addToBackStack(TAG_NESTED)
-                .commit();
-        mCurrentFragment = newFragment;
-        refreshActionBar(title);
+//        Fragment newFragment = null;
+//        if (PrefConst.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
+//            newFragment = new AutoInputSettingsFragment();
+//        }
+//        if (newFragment == null)
+//            return;
+//
+//        mFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.home_content, newFragment, TAG_NESTED)
+//                .addToBackStack(TAG_NESTED)
+//                .commit();
+//        mCurrentFragment = newFragment;
+//        refreshActionBar(title);
     }
 
     private ItemCallback<ThemeItem> mThemeItemCallback = new BaseItemCallback<ThemeItem>() {

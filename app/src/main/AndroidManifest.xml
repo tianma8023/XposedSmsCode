@@ -93,31 +93,31 @@
             android:name=".app.record.CodeRecordsActivity"
             android:label="@string/smscode_records"/>
 
-        <service
-            android:name=".service.accessibility.SmsCodeAutoInputService"
-            android:label="@string/smscode_auto_input_service_label"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService"/>
-            </intent-filter>
+        <!--<service-->
+            <!--android:name=".service.accessibility.SmsCodeAutoInputService"-->
+            <!--android:label="@string/smscode_auto_input_service_label"-->
+            <!--android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.accessibilityservice.AccessibilityService"/>-->
+            <!--</intent-filter>-->
 
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config"/>
-        </service>
+            <!--<meta-data-->
+                <!--android:name="android.accessibilityservice"-->
+                <!--android:resource="@xml/accessibility_service_config"/>-->
+        <!--</service>-->
 
-        <service
-            android:name=".service.SmsCodeService"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":remote">
-        </service>
+        <!--<service-->
+            <!--android:name=".service.SmsCodeService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true"-->
+            <!--android:process=":remote">-->
+        <!--</service>-->
 
-        <receiver
-            android:name=".receiver.SmsCodeReceiver"
-            android:enabled="true"
-            android:exported="true">
-        </receiver>
+        <!--<receiver-->
+            <!--android:name=".receiver.SmsCodeReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+        <!--</receiver>-->
 
         <provider
             android:name=".provider.SharedPreferencesProvider"
