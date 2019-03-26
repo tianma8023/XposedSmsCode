@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -29,7 +28,6 @@ import com.github.tianma8023.xposed.smscode.constant.Const;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.preference.ResetEditPreference;
 import com.github.tianma8023.xposed.smscode.preference.ResetEditPreferenceDialogFragCompat;
-import com.github.tianma8023.xposed.smscode.utils.AppOpsUtils;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
@@ -288,11 +286,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             hideOrShowLauncherIcon((Boolean) newValue);
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
-        } else if (PrefConst.KEY_MARK_AS_READ.equals(key)) {
+        } /* else if (PrefConst.KEY_MARK_AS_READ.equals(key)) {
             return checkAppOpsPermission((Boolean) newValue);
         } else if (PrefConst.KEY_DELETE_SMS.equals(key)) {
             return checkAppOpsPermission((Boolean) newValue);
-        } else {
+        } */ else {
             return false;
         }
         return true;
@@ -374,27 +372,27 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Toast.makeText(mActivity, text, Toast.LENGTH_LONG).show();
     }
 
-    private boolean checkAppOpsPermission(boolean on) {
-        if (!on) {
-            return true;
-        }
-
-        String packageName = BuildConfig.APPLICATION_ID;
-        int uid = Process.myUid();
-        int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
-        if (!AppOpsUtils.checkOp(mActivity, opWriteSms, uid, packageName)) {
-            // Don't have write sms AppOps permission
-            try {
-                AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
-                return true;
-            } catch (Exception e) {
-                Toast.makeText(mActivity, R.string.no_permission_prompt, Toast.LENGTH_LONG).show();
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
+//    private boolean checkAppOpsPermission(boolean on) {
+//        if (!on) {
+//            return true;
+//        }
+//
+//        String packageName = BuildConfig.APPLICATION_ID;
+//        int uid = Process.myUid();
+//        int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
+//        if (!AppOpsUtils.checkOp(mActivity, opWriteSms, uid, packageName)) {
+//            // Don't have write sms AppOps permission
+//            try {
+//                AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
+//                return true;
+//            } catch (Exception e) {
+//                Toast.makeText(mActivity, R.string.no_permission_prompt, Toast.LENGTH_LONG).show();
+//                return false;
+//            }
+//        } else {
+//            return true;
+//        }
+//    }
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
