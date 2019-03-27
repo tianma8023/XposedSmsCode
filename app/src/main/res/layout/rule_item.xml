@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/text_margin_dp_16"
-    android:layout_marginTop="@dimen/text_margin_dp_8"
-    android:layout_marginEnd="@dimen/text_margin_dp_16"
-    android:layout_marginBottom="@dimen/text_margin_dp_8"
-    app:cardCornerRadius="@dimen/text_margin_dp_6"
-    app:cardElevation="@dimen/text_margin_dp_6">
+    android:layout_marginStart="@dimen/dp_12"
+    android:layout_marginTop="@dimen/dp_6"
+    android:layout_marginEnd="@dimen/dp_12"
+    android:layout_marginBottom="@dimen/dp_6"
+    app:cardCornerRadius="@dimen/dp_6"
+    app:cardElevation="@dimen/dp_6">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +17,10 @@
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/text_margin_dp_16"
-        android:paddingBottom="@dimen/text_margin_dp_16">
+        android:paddingStart="@dimen/dp_4"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_4"
+        android:paddingBottom="@dimen/dp_8">
 
         <TextView
             android:id="@+id/rule_company_text_view"

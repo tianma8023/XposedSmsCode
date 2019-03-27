@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
-                android:padding="@dimen/text_margin_dp_16">
+                android:padding="@dimen/dp_16">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/rule_company_input_layout"
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_company_input_layout"
-        android:layout_marginTop="@dimen/text_margin_dp_8">
+        android:layout_marginTop="@dimen/dp_8">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/rule_keyword_edit_text"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_keyword_input_layout"
-        android:layout_marginTop="@dimen/text_margin_dp_8"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_toStartOf="@+id/rule_code_regex_quick_choose">
 
         <android.support.design.widget.TextInputEditText
@@ -65,11 +65,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_keyword_input_layout"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="@dimen/text_margin_dp_4"
+        android:layout_marginStart="@dimen/dp_4"
         android:background="@drawable/code_rule_quick_choose_bg"
-        android:padding="@dimen/text_margin_dp_6"
+        android:padding="@dimen/dp_6"
         android:text="@string/quick_choose"
-        app:rippleColor="?attr/colorControlHighlight"
-        android:textColor="@color/faq_textColor_white"/>
+        android:textColor="@color/faq_textColor_white"
+        app:rippleColor="?attr/colorControlHighlight"/>
 
 </RelativeLayout>

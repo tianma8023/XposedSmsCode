@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="floating_action_button_margin">16dp</dimen>
-    <dimen name="text_margin_dp_4">4dp</dimen>
-    <dimen name="text_margin_dp_6">6dp</dimen>
-    <dimen name="text_margin_dp_8">8dp</dimen>
-    <dimen name="text_margin_dp_12">12dp</dimen>
-    <dimen name="text_margin_dp_16">16dp</dimen>
-    <dimen name="text_margin_dp_24">24dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
 </resources>
