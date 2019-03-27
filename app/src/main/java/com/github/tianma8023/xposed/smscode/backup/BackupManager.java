@@ -87,17 +87,11 @@ public class BackupManager {
             parentFile.mkdirs();
         }
 
-        RuleExporter exporter = null;
-        try {
-            exporter = new RuleExporter(file);
+        try (RuleExporter exporter = new RuleExporter(file)) {
             exporter.doExport(ruleList);
             return ExportResult.SUCCESS;
         } catch (IOException e) {
             return ExportResult.FAILED;
-        } finally {
-            if (exporter != null) {
-                exporter.close();
-            }
         }
     }
 

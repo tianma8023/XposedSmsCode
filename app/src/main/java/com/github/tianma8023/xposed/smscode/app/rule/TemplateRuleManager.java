@@ -14,7 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class TemplateRuleManager {
 
@@ -46,13 +46,13 @@ public class TemplateRuleManager {
         OutputStreamWriter osw = null;
         try {
             osw = new OutputStreamWriter(
-                    new FileOutputStream(templateFile), "UTF-8");
+                    new FileOutputStream(templateFile), StandardCharsets.UTF_8);
             Gson gson = new GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create();
             gson.toJson(template, osw);
             return true;
-        } catch (UnsupportedEncodingException | FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
         } finally {
@@ -72,13 +72,13 @@ public class TemplateRuleManager {
         SmsCodeRule smsCodeRule = new SmsCodeRule();
         try {
             isr = new InputStreamReader(
-                    new FileInputStream(templateFile), "UTF-8");
+                    new FileInputStream(templateFile), StandardCharsets.UTF_8);
 
             Gson gson = new GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create();
             smsCodeRule = gson.fromJson(isr, SmsCodeRule.class);
-        } catch (UnsupportedEncodingException | FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
             if (isr != null) {

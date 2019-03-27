@@ -175,7 +175,6 @@ public class PackageUtils {
 
     /**
      * Join QQ group
-     * @param context
      */
     public static void joinQQGroup(Context context) {
         String key = Const.QQ_GROUP_KEY;

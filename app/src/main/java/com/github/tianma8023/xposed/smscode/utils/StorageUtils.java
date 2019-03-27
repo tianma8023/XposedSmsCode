@@ -51,7 +51,7 @@ public class StorageUtils {
 
     /**
      * get sdcard public documents directory
-     * @return
+     * @return SD card public documents directory
      */
     public static File getPublicDocumentsDir() {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);

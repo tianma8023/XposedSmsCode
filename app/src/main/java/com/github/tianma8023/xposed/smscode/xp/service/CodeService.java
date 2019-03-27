@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.hardware.input.InputManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.InputDevice;
@@ -49,8 +50,7 @@ public class CodeService extends ISmsCodeService.Stub {
 
     private static String getServiceName() {
         // 5.0 之后，selinux "user." 前缀
-//        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? "user." : "") + SERVICE_NAME;
-        return SERVICE_NAME;
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? "user." : "") + SERVICE_NAME;
     }
 
     @SuppressLint("PrivateApi")
@@ -104,7 +104,7 @@ public class CodeService extends ISmsCodeService.Stub {
 
     /**
      * refer: com.android.commands.input.Input#sendText()
-     * @param text
+     * @param text text to input
      */
     private void inputText(String text) {
         int source = InputDevice.SOURCE_KEYBOARD;

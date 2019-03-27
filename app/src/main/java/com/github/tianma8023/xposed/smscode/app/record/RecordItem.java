@@ -10,9 +10,8 @@ public class RecordItem {
     private SmsMsg smsMsg;
     private boolean selected;
 
-    RecordItem(SmsMsg smsMsg, boolean selected) {
+    RecordItem(SmsMsg smsMsg) {
         this.smsMsg = smsMsg;
-        this.selected = selected;
     }
 
     public SmsMsg getSmsMsg() {

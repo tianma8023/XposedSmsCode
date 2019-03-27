@@ -60,8 +60,8 @@ public class AccessibilityUtils {
     /**
      * 获取无障碍服务的ID
      *
-     * @param serviceClz
-     * @return
+     * @param serviceClz accessibility service class
+     * @return ID of accessibility service
      */
     public static String getServiceId(Class<? extends AccessibilityService> serviceClz) {
         // eg.
@@ -80,8 +80,8 @@ public class AccessibilityUtils {
     /**
      * 获取无障碍服务的名称
      *
-     * @param serviceClz
-     * @return
+     * @param serviceClz accessibility service class
+     * @return name of accessibility service
      */
     public static String getServiceName(Class<? extends AccessibilityService> serviceClz) {
         // eg.
@@ -157,11 +157,11 @@ public class AccessibilityUtils {
                     XLog.d("accessibility_enabled: " + accessibilityEnabled);
                     if (!accessibilityEnabled) {
                         accessibilityEnabled = setAccessibilityEnabled(context, true);
+                        XLog.d("put accessibility_enabled: " + accessibilityEnabled);
                         if (!accessibilityEnabled) {
                             return false;
                         }
                     }
-                    XLog.d("put accessibility_enabled: " + accessibilityEnabled);
                 }
             }
             return enabled;

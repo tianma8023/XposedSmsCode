@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -22,11 +22,7 @@ public class RuleExporter implements Closeable{
 
     public RuleExporter(OutputStream out) {
         OutputStreamWriter osw;
-        try {
-            osw = new OutputStreamWriter(out, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new AssertionError(e);
-        }
+        osw = new OutputStreamWriter(out, StandardCharsets.UTF_8);
         mJsonWriter = new JsonWriter(osw);
         mJsonWriter.setIndent("\t"); // pretty print
     }

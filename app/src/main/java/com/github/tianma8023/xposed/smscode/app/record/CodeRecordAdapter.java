@@ -196,7 +196,7 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
     public void addItems(List<SmsMsg> smsMsgList) {
         List<RecordItem> itemsToAdd = new ArrayList<>();
         for (SmsMsg msg : smsMsgList) {
-            RecordItem item = new RecordItem(msg, false);
+            RecordItem item = new RecordItem(msg);
             if (!mRecords.contains(item)) {
                 itemsToAdd.add(item);
             }

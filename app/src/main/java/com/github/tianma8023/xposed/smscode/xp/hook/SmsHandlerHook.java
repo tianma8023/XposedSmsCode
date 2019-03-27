@@ -288,7 +288,6 @@ public class SmsHandlerHook extends AbsHook {
      * refer: com.android.commands.input.Input#sendText()
      *
      * @throws Throwable throwable throws if the caller has no android.permission.INJECT_EVENTS permission
-     * @param text
      */
     private void sendText(String text) throws Throwable {
         int source = InputDevice.SOURCE_KEYBOARD;

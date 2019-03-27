@@ -182,9 +182,6 @@ public class SPUtils {
 
     /**
      * 是否拦截短信通知
-     *
-     * @param preferences
-     * @return
      */
     public static boolean blockSmsEnabled(RemotePreferences preferences) {
         return getBoolean(preferences,

@@ -87,10 +87,11 @@ public class ShellUtils {
                     XLog.d("accessibility_enabled: " + accessibilityEnabled);
                     if (!accessibilityEnabled) {
                         accessibilityEnabled = setAccessibilityEnabled(true);
-                        if (!accessibilityEnabled)
+                        XLog.d("put accessibility_enabled: " + accessibilityEnabled);
+                        if (!accessibilityEnabled) {
                             return false;
+                        }
                     }
-                    XLog.d("put accessibility_enabled: " + accessibilityEnabled);
                 }
             }
             return enabled;
