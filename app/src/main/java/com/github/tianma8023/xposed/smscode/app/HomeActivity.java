@@ -55,12 +55,12 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        // setup toolbar
-        setupToolbar();
-
         initUmengAnalyze();
 
         handleIntent(getIntent());
+
+        // setup toolbar
+        setupToolbar();
     }
 
     private void initUmengAnalyze() {
