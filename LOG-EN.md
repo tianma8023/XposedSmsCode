@@ -1,4 +1,10 @@
 # Update Logs
+- 19.03.28 v2.0.0 Reboot required
+  1. Important change: no service anymore.
+  2. Optimization: optimize the algorithm of parsing SMS code.
+  3. New option: kill me if extract succeed.
+  4. Change: more prompt for TaiChi users.
+  5. Fix: crash when open WeChat wallet for EdXposed users.
 - 19.03.01 v1.7.0 Reboot required
   1. New option: block Code SMS.
   2. Optimize: improve the experiences for TaiChi-Magisk users.
@@ -6,7 +12,7 @@
   1. New: adapt TaiChi·Magisk
   2. New: new entry for ignoring battery optimzation and notice for TaiChi users
   3. Optimization: optimize the algorithm of parsing SMS Code, adapt the navigation bar color
-  4. Bug fixes: wechat wallet crash for EdXposed users on Android P
+  4. Bug fixes: WeChat wallet crash for EdXposed users on Android P
   5. Other optimizations.
 - 19.01.05 v1.5.6 Reboot not required
   1. Beautify parts of UI
