@@ -89,9 +89,9 @@
     <string name="pref_donate_by_alipay_title">支付寶捐贈</string>
     <string name="alipay_install_prompt">請先安裝支付寶</string>
     <string name="alipay_enable_prompt">請先啟用支付寶</string>
-    <string name="pref_donate_by_wechat_title">微信捐贈</string>
-    <string name="wechat_install_prompt">請先安裝微信</string>
-    <string name="wechat_enable_prompt">請先啟用微信</string>
+    <string name="pref_donate_by_wechat_title">WeChat捐贈</string>
+    <string name="wechat_install_prompt">請先安裝WeChat</string>
+    <string name="wechat_enable_prompt">請先啟用WeChat</string>
     <!-- preference about end -->
 
     <!-- auto-input SMS Code -->
@@ -225,7 +225,7 @@
 
     <!-- taichi users notice -->
     <string name="taichi_users_notice">太極用戶須知</string>
-    <string name="taichi_users_notice_content">1. 本模組需在太極·magisk(太極·陽)下運行\n\n2. 太極用戶如需使用所有功能，需要將以下程式添加至太極中：\n\t· 電話語音(com.android.phone)\n\t· Android系統(android)\n\n3. 每次更新後，若模組失效，請在太極的模組管理列表中重新勾選本模組，並重新打開本App。</string>
+    <string name="taichi_users_notice_content">1. 本模組需在太極·magisk(太極·陽)下運行\n\n2. 太極用戶如需使用所有功能，需要將以下程式添加至太極中：\n\t· 電話語音(com.android.phone)\n\t· Android系統(android)\n\t· WeChat(可選，僅用於WeChat捐贈)\n\n3. 每次更新後，若模組失效，請在太極的模組管理列表中重新勾選本模組，並重新打開本App。\n\n4. 由於太極的限制，目前沒辦法授予自動輸入相關權限，因而無法自動輸入，解決方案請見\"常見問題\"。</string>
     <string name="open_taichi">打開太極</string>
     <string name="taichi_install_prompt">請先安裝太極</string>
     <string name="taichi_enable_prompt">請先啟用太極</string>
@@ -236,23 +236,17 @@
 
     <!-- faq -->
     <string-array name="question_list">
-        <item>這個產品的初衷是什麼？</item>
+        <item>產品的初衷是什麼？</item>
         <item>這個模組適用於什麼樣的Rom呢？</item>
-        <item>自動輸入的原理是什麼？無障礙模式和Root模式的差別在哪裡呢？</item>
-        <item>這個模組需要在背景執行嗎？會占用多少資源呢？</item>
+        <item>太极无法自动输入，怎么解决？</item>
         <item>模組失效該怎麼辦？</item>
-        <item>為什麼自動輸入在大部分應用上能成功，在特定應用上卻失敗？</item>
-        <item>對焦模式中的自動尋找和手動指定有什麽區別，各有什麽優劣？</item>
         <item>標記簡訊為已讀或者刪除簡訊，為什麼不生效</item>
     </string-array>
     <string-array name="answer_list">
         <item>不做毒瘤，綠色Android，不忘初心。</item>
-        <item>適用於基於AOSP的類原生Rom，在其他第三方中度或高度訂製化的Rom可能無法正常運作。</item>
-        <item>收到驗證碼後，尋找當前介面的驗證碼輸入框，然後自動輸入。\n\n無障礙模式打開後，系統會在背景持續運行這項服務\n\nRoot模式是透過Root或其他Hack的方式動態開啟/關閉無障礙服務，在分析驗證碼時打開，自動輸入完畢後關閉。\n\n個人推薦使用Root模式。</item>
-        <item>此模組使用了兩項服務，一項用來解析簡訊中的驗證碼，一項用來自動輸入(無障礙服務)。\n\n分析驗證碼的服務會在接收到簡訊時開啟，並在分析完畢後關閉，基本上不占用資源。</item>
-        <item>1. 在驗證碼簡訊測試功能中先測試一下內容是否能被正確分析。\n\n2. 因為使用到相關服務及推播，建議將此模組加入應用控制類程式(黑閾、綠色守護等)的白名單中。\n\n3. 檢查模組的組件（廣播接收器、服務、內容提供者）是否被組件控制類軟體（Blocker、寫輪眼等）禁用。\n\n4. 檢查本模組是否在電池優化名單中，如果在請移至白名單（原理已說明，其實不耗電）。\n\n5. 檢查是否打開驗證碼安全保護開關（華為，oppo等國內Rom），miui則是要賦予"通知類簡訊"權限。\n\n6. 最後還是不行的話，嘗試給自啟動試試看。\n\n7. 請聯繫開發者，反饋問題。</item>
-        <item>屬於正常現象，因為有些應用的驗證碼輸入框是自定義的控件，可能沒有遵循Android設計規範，故而不能被正確識別。</item>
-        <item>自動尋找模式：模組程式自動尋找識別出驗證碼輸入框之後，再自動粘貼進去。\n優勢：全自動化。\n劣勢：在極少數界面中因識別不了驗證碼輸入框而失效。\n\n手動對焦模式：用戶手動指定驗證碼輸入框，即光標在哪裏就在那裏自動輸入。\n優勢：準確率高。\n劣勢：非全自動化，需要多點一下屏幕。</item>
+        <item>適用於基於AOSP的類原生Rom，在其他第三方高度訂製化的Rom可能無法正常運作。</item>
+        <item>請使用Xposed或者EdXposed框架重新正確加載一次本模組，目的是授予自動輸入相關權限，若測試能自動輸入，則可換回太極。此方法一勞永逸。</item>
+        <item>1. 因為使用到ContentProvider，所以需要放在應用控制類程式(黑閾、應用管理、綠色守護等)的白名單中。\n\n2. 檢查模組的組件(ContentProvider)是否被組件控制類軟體(Blocker、寫輪眼等)禁用。\n\n3. 檢查是否打開驗證碼安全保護開關(華為，oppo等國內Rom)。\n\n4. 請聯繫開發者，反饋問題。</item>
         <item>如果您設備上默認的簡訊 App 使用的是它自己的簡訊數據庫，而不是系統的簡訊數據庫，那麼標記為已讀或者刪除驗證碼簡訊都可能不會生效。如果發生這樣的事情，就說明在您的設備上可能不會生效。</item>
     </string-array>
     <!-- faq end -->

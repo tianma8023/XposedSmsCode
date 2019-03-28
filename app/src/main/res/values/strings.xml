@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SMS Code Extractor(Xposed)</string>
+    <string name="app_name">XposedSmsCode</string>
     <string name="xposed_description">Extract code from new SMS message and copy it to clipboard. It can also Auto-input SMS code</string>
 
     <!-- general -->
@@ -197,7 +197,7 @@
     <!-- SMS parsing notification end -->
 
     <!-- faq -->
-    <string name="action_home_faq_title">FAQs</string>
+    <string name="action_home_faq_title">FAQ</string>
     <string name="simplified_question">Q:\u00A0</string>
     <string name="simplified_answer">A:\u00A0</string>
     <!-- faq end -->
@@ -225,7 +225,7 @@
 
     <!-- taichi users notice -->
     <string name="taichi_users_notice">Taichi Users Notice</string>
-    <string name="taichi_users_notice_content">1. This module should run under the TaiChi Magisk.\n\n2. These Apps should be added to TaiChi before you use this module:\n- Phone Services(com.android.phone)\n- Android System(android)\n\n3. If this module is inactive after updating, please re-check this module in TaiChi module manage list and reopen this module.</string>
+    <string name="taichi_users_notice_content">1. This module should run under the TaiChi Magisk.\n\n2. These Apps should be added to TaiChi before you use this module:\n- Phone Services(com.android.phone)\n- Android System(android)\n- WeChat(Optional, only used for WeChat donation)\n\n3. If this module is inactive after updating, please re-check this module in TaiChi module manage list and reopen this module.\n\n4. Due to the limitation of TaiChi, there is no way to grant auto-input permission. See the \"FAQ\" for the solution.</string>
     <string name="open_taichi">Open TaiChi</string>
     <string name="taichi_install_prompt">Please install TaiChi</string>
     <string name="taichi_enable_prompt">Please enable TaiChi</string>
@@ -236,24 +236,18 @@
 
     <!-- faq -->
     <string-array name="question_list">
-        <item>产品初衷是什么？</item>
-        <item>这个模块适用的Rom是什么？</item>
-        <item>自动输入的原理是什么？无障碍模式和ROOT模式的区别在哪里？</item>
-        <item>这个模块开服务了吗？占用后台资源吗？</item>
-        <item>模块失效怎么办？</item>
-        <item>为什么自动输入在大部分App上能成功，在部分App上却失败？</item>
-        <item>对焦模式中的自动寻找和手动指定有什么区别，各有什么优劣？</item>
-        <item>短信标记为已读或者删除短信，为什么不生效？</item>
+        <item>What\'s the original intention of this App?</item>
+        <item>Which Roms is this module suitable for?</item>
+        <item>It can\'t auto-input in TaiChi Magisk, how to do it?</item>
+        <item>empty</item>
+        <item>Why can\'t it mark SMS as read or delete SMS?</item>
     </string-array>
     <string-array name="answer_list">
-        <item>不做毒瘤，绿色Android，不忘初心。</item>
-        <item>适用于AOSP之类的偏原生的Rom，其他第三方中度或者重度定制的ROM可能不适用。</item>
-        <item>收到验证码后，通过无障碍服务查找当前界面的验证码输入框，然后将验证码自动输入。\n\n无障碍模式下需要手动开启自动输入的无障碍服务(系统后台就会一直跑着这个服务)\n\nROOT模式则是通过ROOT或其他Hack的方式动态地启用/关闭无障碍服务，即在解析到验证码时打开，在自动输入完毕时关闭。\n\n个人推荐采用ROOT方式。</item>
-        <item>开了两个服务，一个服务用来解析短信中的验证码，一个服务用来自动输入(即前面的无障碍服务)。\n\n解析验证码的服务在接收到验证码短信时开启，在解析完毕之后关闭，不占用什么资源。</item>
-        <item>1. 在验证码短信测试中先测试短信内容能否被正确解析。\n\n2. 因为用到了服务和广播，所以检查是否在应用控制类软件（黑域、应用管理、绿色守护等）的黑名单中。\n\n3. 检查模块的组件（广播接收器、服务、内容提供者等）是否被组件控制类软件（Blocker、写轮眼等）禁用。\n\n4. 检查是否在电池优化名单中，如果在请移到白名单（原理已说明，其实不耗电）。\n\n5. 检查是否打开验证码安全保护开关（华为，oppo等国内Rom），miui则是要赋予"通知类短信"权限。\n\n6. 最后还是不行的话，给自启动试试看。\n\n7. 联系开发者，反馈问题。</item>
-        <item>属于正常现象，因为有些应用的验证码输入框是自定义的控件，可能没有遵循Android设计规范，故而不能被正确识别。</item>
-        <item>自动寻找模式：模块程序自动寻找识别到验证码输入框之后，再自动粘贴进去。\n优势：全自动化。\n劣势：在极少数界面中因识别不了验证码输入框而失效。\n\n手动对焦模式：用户手动指定验证码输入框，即光标在哪里就在那里自动输入。\n优势：准确率高。\n劣势：非全自动化，需要多点一下屏幕。</item>
-        <item>如果您设备上默认的短信 App 使用的是它自己的短信数据库，而不是系统的短信数据库，那么标记为已读或者删除验证码短信都可能不会生效。如果发生这样的事情，就说明在您的设备上可能不会生效。</item>
+        <item>Don\'t be evil. Green Android.</item>
+        <item>It\'s suitable for AOSP Rom, may not be suitable for other third-party heavily customized Rom.</item>
+        <item>Please use the Xposed or EdXposed framework to reload this module correctly, which aims to grant auto-input permissions. If test passed, you can switch back to TaiChi. This method is once for all.</item>
+        <item>empty</item>
+        <item>If the system default SMS app uses its own SMS database instead of the system\'s, it will not take effect for marking SMS as read or deleting SMS. If this happens, it may not work well on your device.</item>
     </string-array>
     <!-- faq end -->
 </resources>

@@ -22,6 +22,9 @@ public class FaqItemContainer {
         String[] questionArr = res.getStringArray(R.array.question_list);
         String[] answerArr = res.getStringArray(R.array.answer_list);
         for (int i = 0; i < questionArr.length; i++) {
+            if ("empty".equals(questionArr[i])) {
+                continue;
+            }
             mFaqItems.add(new FaqItem(questionArr[i], answerArr[i]));
         }
     }
