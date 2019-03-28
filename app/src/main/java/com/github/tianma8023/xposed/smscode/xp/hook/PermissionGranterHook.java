@@ -2,7 +2,6 @@ package com.github.tianma8023.xposed.smscode.xp.hook;
 
 import android.os.Build;
 
-import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.constant.PermConst;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
@@ -20,7 +19,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class PermissionGranterHook extends AbsHook  {
 
     public static final String ANDROID_PACKAGE = "android";
-    private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
     private static final String CLASS_PACKAGE_MANAGER_SERVICE = "com.android.server.pm.PackageManagerService";
     private static final String CLASS_PACKAGE_PARSER_PACKAGE = "android.content.pm.PackageParser.Package";
@@ -29,7 +27,6 @@ public class PermissionGranterHook extends AbsHook  {
     private static final String CLASS_PERMISSION_MANAGER_SERVICE = "com.android.server.pm.permission.PermissionManagerService";
     private static final String CLASS_PERMISSION_CALLBACK = "com.android.server.pm.permission.PermissionManagerInternal.PermissionCallback";
 
-    //    private static final List<String> PERMISSIONS_TO_GRANT = PermConst.PERMISSIONS_TO_GRANT;
     private static final Map<String, List<String>> PACKAGE_PERMISSIONS = PermConst.PACKAGE_PERMISSIONS;
 
     @Override
@@ -126,7 +123,7 @@ public class PermissionGranterHook extends AbsHook  {
                             // com.android.server.pm.BasePermission bpToGrant
                             final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
                             int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
-                            XLog.d("Add permission " + bpToGrant + "; result = " + result);
+                            XLog.d("Add " + bpToGrant + "; result = " + result);
                         } else {
                             XLog.d("Already have " + permissionToGrant + " permission");
                         }
@@ -179,7 +176,7 @@ public class PermissionGranterHook extends AbsHook  {
                         XposedHelpers.callStaticMethod(
                                 param.thisObject.getClass(), "appendInts", gpGids, bpGids);
 
-                        XLog.d("Add permission " + bpToGrant);
+                        XLog.d("Add " + bpToGrant);
                     } else {
                         XLog.d("Already have " + permissionToGrant + " permission");
                     }
@@ -253,7 +250,7 @@ public class PermissionGranterHook extends AbsHook  {
                             // com.android.server.pm.permission.BasePermission bpToGrant
                             final Object bpToGrant = XposedHelpers.callMethod(permissions, "get", permissionToGrant);
                             int result = (int) XposedHelpers.callMethod(permissionsState, "grantInstallPermission", bpToGrant);
-                            XLog.d("Add permission " + bpToGrant + "; result = " + result);
+                            XLog.d("Add " + bpToGrant + "; result = " + result);
                         } else {
                             XLog.d("Already have " + permissionToGrant + " permission");
                         }

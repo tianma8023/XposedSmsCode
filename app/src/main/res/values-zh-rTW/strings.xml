@@ -37,6 +37,8 @@
     <string name="pref_delete_sms_summary">警告：擷取成功后驗證碼簡訊將被刪除</string>
     <string name="pref_block_sms_title">驗證碼簡訊攔截</string>
     <string name="pref_block_sms_summary">警告：擷取成功後驗證碼簡訊將完全被攔截(屏蔽簡訊和通知)</string>
+    <string name="pref_kill_me_title">自殺</string>
+    <string name="pref_kill_me_summary">擷取成功後殺掉本應用</string>
     <!-- preference experimental end -->
 
     <!-- preference Code SMS -->

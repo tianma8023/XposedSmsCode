@@ -30,6 +30,8 @@ public interface PrefConst {
     boolean DELETE_SMS_DEFAULT = false;
     String KEY_BLOCK_SMS = "pref_block_sms";
     boolean BLOCK_SMS_DEFAULT = false;
+    String KEY_KILL_ME = "pref_kill_me";
+    boolean KILL_ME_DEFAULT = false;
 
     String KEY_ENTRY_AUTO_INPUT_CODE = "pref_entry_auto_input_code";
 

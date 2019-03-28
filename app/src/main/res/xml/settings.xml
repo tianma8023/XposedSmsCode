@@ -41,11 +41,12 @@
             <!--android:summary="@string/pref_entry_auto_input_code_summary" />-->
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_automatic"
             android:key="@string/pref_enable_auto_input_code"
-            android:title="@string/pref_enable_auto_input_code_title"
             android:summary="@string/pref_enable_auto_input_code_summary"
-            android:defaultValue="false"/>
+            android:title="@string/pref_enable_auto_input_code_title"/>
 
         <Preference
             android:icon="@drawable/ic_palette"
@@ -79,6 +80,14 @@
             android:key="@string/pref_block_sms"
             android:summary="@string/pref_block_sms_summary"
             android:title="@string/pref_block_sms_title"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_kill"
+            android:key="@string/pref_kill_me"
+            android:summary="@string/pref_kill_me_summary"
+            android:title="@string/pref_kill_me_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_smscode_title">

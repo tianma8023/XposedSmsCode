@@ -187,4 +187,11 @@ public class SPUtils {
         return getBoolean(preferences,
                 PrefConst.KEY_BLOCK_SMS, PrefConst.BLOCK_SMS_DEFAULT);
     }
+
+    /**
+     * 验证码提取成功后是否杀掉模块进程
+     */
+    public static boolean killMeEnabled(RemotePreferences preferences) {
+        return getBoolean(preferences, PrefConst.KEY_KILL_ME, PrefConst.KILL_ME_DEFAULT);
+    }
 }

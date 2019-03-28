@@ -41,32 +41,36 @@ public class PermConst {
         // smsCodePermissions.add(Manifest.permission.WAKE_LOCK);
 
         // Enable/Disable AccessibilityService programmatically
-        smsCodePermissions.add(Manifest.permission.WRITE_SETTINGS);
-        smsCodePermissions.add(Manifest.permission.WRITE_SECURE_SETTINGS);
+//        smsCodePermissions.add(Manifest.permission.WRITE_SETTINGS);
+//        smsCodePermissions.add(Manifest.permission.WRITE_SECURE_SETTINGS);
 
         // Backup import or export
         smsCodePermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         smsCodePermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        // READ_SMS for Mark SMS as read & Delete extracted verification SMS
-        smsCodePermissions.add(Manifest.permission.READ_SMS);
-        // api version < android M
-        smsCodePermissions.add("android.permission.WRITE_SMS");
-
-        // Permission for grant AppOps permissions
-        if (Build.VERSION.SDK_INT >= 28) {
-            // Android P
-            smsCodePermissions.add("android.permission.MANAGE_APP_OPS_MODES");
-        } else {
-            // android 4.4 ~ 8.1
-            smsCodePermissions.add("android.permission.UPDATE_APP_OPS_STATS");
-        }
+//        // READ_SMS for Mark SMS as read & Delete extracted verification SMS
+//        smsCodePermissions.add(Manifest.permission.READ_SMS);
+//        // api version < android M
+//        smsCodePermissions.add("android.permission.WRITE_SMS");
+//
+//        // Permission for grant AppOps permissions
+//        if (Build.VERSION.SDK_INT >= 28) {
+//            // Android P
+//            smsCodePermissions.add("android.permission.MANAGE_APP_OPS_MODES");
+//        } else {
+//            // android 4.4 ~ 8.1
+//            smsCodePermissions.add("android.permission.UPDATE_APP_OPS_STATS");
+//        }
 
         String smsCodePackage = BuildConfig.APPLICATION_ID;
         PACKAGE_PERMISSIONS.put(smsCodePackage, smsCodePermissions);
 
         List<String> phonePermissions = new ArrayList<>();
+        // permission for InputManager#injectInputEvent();
         phonePermissions.add("android.permission.INJECT_EVENTS");
+
+        // permission for kill background process - ActivityManagerService#
+        phonePermissions.add(Manifest.permission.KILL_BACKGROUND_PROCESSES);
 
         // READ_SMS for Mark SMS as read & Delete extracted verification SMS
         phonePermissions.add(Manifest.permission.READ_SMS);

@@ -37,6 +37,8 @@
     <string name="pref_delete_sms_summary">Warning! Code SMS will be deleted if extract succeed</string>
     <string name="pref_block_sms_title">Block Code SMS</string>
     <string name="pref_block_sms_summary">Warning! Code SMS will be blocked if extract succeed</string>
+    <string name="pref_kill_me_title">Kill me</string>
+    <string name="pref_kill_me_summary">Kill this module app if extract succeed</string>
     <!-- preference experimental end -->
 
     <!-- preference Code SMS -->

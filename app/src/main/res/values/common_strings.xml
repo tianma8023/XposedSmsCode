@@ -16,6 +16,7 @@
     <string name="pref_mark_as_read">pref_mark_as_read</string>
     <string name="pref_delete_sms">pref_delete_sms</string>
     <string name="pref_block_sms">pref_block_sms</string>
+    <string name="pref_kill_me">pref_kill_me</string>
 
     <string name="pref_smscode_keywords">pref_smscode_keywords</string>
     <string name="pref_smscode_test">pref_smscode_test</string>

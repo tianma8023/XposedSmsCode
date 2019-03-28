@@ -37,6 +37,8 @@
     <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
     <string name="pref_block_sms_title">验证码短信拦截</string>
     <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
+    <string name="pref_kill_me_title">自杀</string>
+    <string name="pref_kill_me_summary">提取成功后杀掉本应用</string>
     <!-- preference experimental end -->
 
     <!-- preference Code SMS -->

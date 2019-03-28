@@ -1,18 +1,13 @@
 package com.github.tianma8023.xposed.smscode.xp.hook;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.input.InputManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.provider.Telephony;
-import android.view.InputDevice;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
@@ -200,13 +195,8 @@ public class SmsHandlerHook extends AbsHook {
             return;
         }
 
-        ParseResult parseResult = new SmsCodeWorker(mAppContext, mPhoneContext, intent).parse();
+        ParseResult parseResult = new SmsCodeWorker(mAppContext, intent).parse();
         if (parseResult != null) {// parse succeed
-            if (parseResult.isAutoInput()) {
-                boolean inputResult = autoInputText(parseResult.getSmsMsg().getSmsCode());
-                XLog.d("auto input result %b", inputResult);
-            }
-
             if (parseResult.isBlockSms()) {
                 XLog.d("blocking code SMS...");
                 deleteRawTableAndSendMessage(param.thisObject, param.args[receiverIndex]);
@@ -271,69 +261,6 @@ public class SmsHandlerHook extends AbsHook {
         Class<?> clz = XposedHelpers.findClass(className, obj.getClass().getClassLoader());
         Method method = XposedHelpers.findMethodBestMatch(clz, methodName, args);
         return method.invoke(obj, args);
-    }
-
-    private boolean autoInputText(String text) {
-        try {
-            XLog.d("try auto input by InputManagerService");
-            sendText(text);
-            return true;
-        } catch (Throwable throwable) {
-            XLog.e("error occurs when auto input text", throwable);
-            return false;
-        }
-    }
-
-    /**
-     * refer: com.android.commands.input.Input#sendText()
-     *
-     * @throws Throwable throwable throws if the caller has no android.permission.INJECT_EVENTS permission
-     */
-    private void sendText(String text) throws Throwable {
-        int source = InputDevice.SOURCE_KEYBOARD;
-
-        StringBuilder sb = new StringBuilder(text);
-
-        boolean escapeFlag = false;
-        for (int i = 0; i < sb.length(); i++) {
-            if (escapeFlag) {
-                escapeFlag = false;
-                if (sb.charAt(i) == 's') {
-                    sb.setCharAt(i, ' ');
-                    sb.deleteCharAt(--i);
-                }
-            }
-            if (sb.charAt(i) == '%') {
-                escapeFlag = true;
-            }
-        }
-
-        char[] chars = sb.toString().toCharArray();
-
-        KeyCharacterMap kcm = KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD);
-        KeyEvent[] events = kcm.getEvents(chars);
-        for (KeyEvent keyEvent : events) {
-            if (source != keyEvent.getSource()) {
-                keyEvent.setSource(source);
-            }
-            injectKeyEvent(keyEvent);
-        }
-    }
-
-    /**
-     * refer com.android.commands.input.Input#injectKeyEvent()
-     */
-    @SuppressLint("PrivateApi")
-    private void injectKeyEvent(KeyEvent keyEvent) throws Throwable {
-        InputManager inputManager = (InputManager) XposedHelpers.callStaticMethod(InputManager.class, "getInstance");
-
-        int INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH =
-                XposedHelpers.getStaticIntField(InputManager.class, "INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH");
-
-        Class<?>[] paramTypes = {KeyEvent.class, int.class,};
-        Object[] args = {keyEvent, INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH,};
-
-        XposedHelpers.callMethod(inputManager, "injectInputEvent", paramTypes, args);
     }
 
 }
