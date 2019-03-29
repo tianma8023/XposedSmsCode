@@ -345,6 +345,7 @@ public class SmsCodeWorker {
             }
 
             cursor.close();
+            XLog.d("add SMS record succeed");
         } catch (Exception e) {
             XLog.e("add SMS message record failed", e);
         }
