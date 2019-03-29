@@ -51,7 +51,7 @@ public interface PrefConst {
     String KEY_DONATE_BY_WECHAT = "pref_donate_by_wechat";
 
     String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
-    boolean ENABLE_AUTO_INPUT_CODE_DEFAULT = false;
+    boolean ENABLE_AUTO_INPUT_CODE_DEFAULT = true;
     String KEY_AUTO_INPUT_MODE = "pref_auto_input_mode";
     String AUTO_INPUT_MODE_DEFAULT = "";
     String AUTO_INPUT_MODE_ROOT = "auto_input_mode_root";

@@ -41,7 +41,7 @@
             <!--android:summary="@string/pref_entry_auto_input_code_summary" />-->
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_automatic"
             android:key="@string/pref_enable_auto_input_code"
