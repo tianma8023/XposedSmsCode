@@ -1,4 +1,7 @@
 # Update Logs
+- 19.03.29 v2.0.1 Reboot required
+  1. Fix: Module invalid issue before Android P.
+  2. Change: change the default value for some options.
 - 19.03.28 v2.0.0 Reboot required
   1. Important change: no service anymore.
   2. Optimization: optimize the algorithm of parsing SMS code.
