@@ -64,6 +64,7 @@ public class SmsCodeWorker {
     private static final int MSG_RECORD_SMS_MSG = 0xfb;
     private static final int MSG_KILL_ME = 0xfa;
     private static final int MSG_AUTO_INPUT_CODE = 0xf9;
+    private static final int MSG_COPY_TO_CLIPBOARD = 0xf8;
 
     private Handler uiHandler;
     private Handler workerHandler;
@@ -116,7 +117,8 @@ public class SmsCodeWorker {
 
         // 是否复制到剪切板
         if (SPUtils.copyToClipboardEnabled(mPreferences)) {
-            ClipboardUtils.copyToClipboard(mAppContext, smsCode);
+            Message copyMsg = uiHandler.obtainMessage(MSG_COPY_TO_CLIPBOARD, smsCode);
+            uiHandler.sendMessage(copyMsg);
         }
 
         // 是否显示toast
@@ -174,6 +176,10 @@ public class SmsCodeWorker {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case MSG_COPY_TO_CLIPBOARD: {
+                    copyToClipboard((String) msg.obj);
+                    break;
+                }
                 case MSG_SHOW_TOAST: {
                     showToast((String) msg.obj);
                     break;
@@ -208,6 +214,10 @@ public class SmsCodeWorker {
                     throw new IllegalArgumentException("Unsupported msg type");
             }
         }
+    }
+
+    private void copyToClipboard(String smsCode) {
+        ClipboardUtils.copyToClipboard(mAppContext, smsCode);
     }
 
     private void showToast(String toast) {
