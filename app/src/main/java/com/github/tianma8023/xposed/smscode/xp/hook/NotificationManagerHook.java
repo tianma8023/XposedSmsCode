@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.github.tianma8023.xposed.smscode.utils.SPUtils;
+import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SettingsUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
@@ -90,10 +90,10 @@ public class NotificationManagerHook extends AbsHook  {
      * before the method NotificationManager#notify()
      */
     private void beforeNotify(XC_MethodHook.MethodHookParam param) {
-        if (!SPUtils.isEnabled(mPreferences)) {
+        if (!XSPUtils.isEnabled(mPreferences)) {
             return;
         }
-        if (!SPUtils.blockSmsEnabled(mPreferences)) {
+        if (!XSPUtils.blockSmsEnabled(mPreferences)) {
             return;
         }
 

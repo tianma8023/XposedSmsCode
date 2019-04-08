@@ -39,7 +39,7 @@
 //import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 //import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 //import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
-//import com.github.tianma8023.xposed.smscode.utils.SPUtils;
+//import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 //import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
 //import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 //import com.github.tianma8023.xposed.smscode.utils.StringUtils;
@@ -139,7 +139,7 @@
 //     * @param smsIntent intent that contains SMS message data.
 //     */
 //    private void doWork(Intent smsIntent) {
-//        if (!SPUtils.isEnabled(mPreferences)) {
+//        if (!XSPUtils.isEnabled(mPreferences)) {
 //            XLog.i("SmsCode disabled, exiting");
 //            return;
 //        }
@@ -165,19 +165,19 @@
 //            return;
 //        }
 //
-//        boolean verboseLog = SPUtils.isVerboseLogMode(mPreferences);
+//        boolean verboseLog = XSPUtils.isVerboseLogMode(mPreferences);
 //        if (verboseLog) {
 //            XLog.setLogLevel(Log.VERBOSE);
 //        } else {
 //            XLog.setLogLevel(BuildConfig.LOG_LEVEL);
 //        }
 //
-//        mAutoInputEnabled = SPUtils.autoInputCodeEnabled(mPreferences);
+//        mAutoInputEnabled = XSPUtils.autoInputCodeEnabled(mPreferences);
 //        XLog.d("AutoInputEnabled: " + mAutoInputEnabled);
 //        if (mAutoInputEnabled) {
-//            mFocusMode = SPUtils.getFocusMode(mPreferences);
+//            mFocusMode = XSPUtils.getFocusMode(mPreferences);
 //            mIsAutoInputRootMode = PrefConst.AUTO_INPUT_MODE_ROOT.
-//                    equals(SPUtils.getAutoInputMode(mPreferences));
+//                    equals(XSPUtils.getAutoInputMode(mPreferences));
 //
 //            XLog.d("FocusMode: %s", mFocusMode);
 //            XLog.d("AutoInputRootMode: " + mIsAutoInputRootMode);
@@ -204,7 +204,7 @@
 //        copyMsg.what = MSG_SMSCODE_EXTRACTED;
 //        innerHandler.sendMessage(copyMsg);
 //
-//        if (SPUtils.deleteSmsEnabled(mPreferences)) {
+//        if (XSPUtils.deleteSmsEnabled(mPreferences)) {
 //            XLog.d("Delete SMS enabled");
 //            // delete sms
 //            Message deleteMsg = new Message();
@@ -213,7 +213,7 @@
 //            innerHandler.sendMessageDelayed(deleteMsg, 6000);
 //        } else {
 //            // mark sms as read or not.
-//            if (SPUtils.markAsReadEnabled(mPreferences)) {
+//            if (XSPUtils.markAsReadEnabled(mPreferences)) {
 //                XLog.d("Mark SMS as read enabled");
 //                Message markMsg = new Message();
 //                markMsg.obj = smsMsg;
@@ -222,7 +222,7 @@
 //            }
 //        }
 //
-//        if (SPUtils.recordSmsCodeEnabled(mPreferences)) {
+//        if (XSPUtils.recordSmsCodeEnabled(mPreferences)) {
 //            smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
 //            smsMsg.setSmsCode(smsCode);
 //            smsMsg.setDate(System.currentTimeMillis());
@@ -279,12 +279,12 @@
 //    };
 //
 //    private void onSmsCodeExtracted(final String smsCode) {
-//        boolean copyToClipboardEnabled = SPUtils.copyToClipboardEnabled(mPreferences);
+//        boolean copyToClipboardEnabled = XSPUtils.copyToClipboardEnabled(mPreferences);
 //        if (copyToClipboardEnabled) {
 //            ClipboardUtils.copyToClipboard(this, smsCode);
 //        }
 //
-//        if (SPUtils.shouldShowToast(mPreferences)) {
+//        if (XSPUtils.shouldShowToast(mPreferences)) {
 //            String text = this.getString(R.string.cur_verification_code, smsCode);
 //            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 //        }
@@ -297,7 +297,7 @@
 //                if (success) {
 //                    XLog.i("Auto input succeed");
 //                    if (copyToClipboardEnabled &&
-//                            SPUtils.shouldClearClipboard(mPreferences)) {
+//                            XSPUtils.shouldClearClipboard(mPreferences)) {
 //                        ClipboardUtils.clearClipboard(this);
 //                    }
 //                }

@@ -34,7 +34,7 @@ import com.github.tianma8023.xposed.smscode.app.record.CodeRecordRestoreManager;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.db.DBProvider;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
-import com.github.tianma8023.xposed.smscode.utils.SPUtils;
+import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
@@ -83,7 +83,7 @@ public class SmsCodeWorker {
     }
 
     public ParseResult parse() {
-        if (!SPUtils.isEnabled(mPreferences)) {
+        if (!XSPUtils.isEnabled(mPreferences)) {
             XLog.i("SmsCode disabled, exiting");
             return null;
         }
@@ -109,7 +109,7 @@ public class SmsCodeWorker {
             return null;
         }
 
-        boolean verboseLog = SPUtils.isVerboseLogMode(mPreferences);
+        boolean verboseLog = XSPUtils.isVerboseLogMode(mPreferences);
         if (verboseLog) {
             XLog.setLogLevel(Log.VERBOSE);
         } else {
@@ -117,25 +117,25 @@ public class SmsCodeWorker {
         }
 
         // 是否复制到剪切板
-        if (SPUtils.copyToClipboardEnabled(mPreferences)) {
+        if (XSPUtils.copyToClipboardEnabled(mPreferences)) {
             Message copyMsg = uiHandler.obtainMessage(MSG_COPY_TO_CLIPBOARD, smsCode);
             uiHandler.sendMessage(copyMsg);
         }
 
         // 是否显示toast
-        if (SPUtils.shouldShowToast(mPreferences)) {
+        if (XSPUtils.shouldShowToast(mPreferences)) {
             Message toastMsg = uiHandler.obtainMessage(MSG_SHOW_TOAST, smsCode);
             uiHandler.sendMessage(toastMsg);
         }
 
         // 是否自动输入
-        if (SPUtils.autoInputCodeEnabled(mPreferences)) {
+        if (XSPUtils.autoInputCodeEnabled(mPreferences)) {
             Message autoInputMsg = workerHandler.obtainMessage(MSG_AUTO_INPUT_CODE, smsMsg);
             workerHandler.sendMessage(autoInputMsg);
         }
 
         // 是否记录验证码短信
-        if (SPUtils.recordSmsCodeEnabled(mPreferences)) {
+        if (XSPUtils.recordSmsCodeEnabled(mPreferences)) {
             smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
             smsMsg.setDate(System.currentTimeMillis());
 
@@ -144,19 +144,19 @@ public class SmsCodeWorker {
         }
 
         // 是否删除验证码短信
-        if (SPUtils.deleteSmsEnabled(mPreferences)) {
+        if (XSPUtils.deleteSmsEnabled(mPreferences)) {
             Message deleteMsg = workerHandler.obtainMessage(MSG_DELETE_SMS, smsMsg);
             workerHandler.sendMessageDelayed(deleteMsg, 3000);
         } else {
             // 是否标记验证码短信为已读
-            if (SPUtils.markAsReadEnabled(mPreferences)) {
+            if (XSPUtils.markAsReadEnabled(mPreferences)) {
                 Message markMsg = workerHandler.obtainMessage(MSG_MARK_AS_READ, smsMsg);
                 workerHandler.sendMessageDelayed(markMsg, 3000);
             }
         }
 
         // 是否自杀
-        if (SPUtils.killMeEnabled(mPreferences)) {
+        if (XSPUtils.killMeEnabled(mPreferences)) {
             workerHandler.sendEmptyMessageDelayed(MSG_KILL_ME, 4000);
         }
 
@@ -164,7 +164,7 @@ public class SmsCodeWorker {
         workerHandler.sendEmptyMessageDelayed(MSG_QUIT_QUEUE, 5000);
 
         ParseResult parseResult = new ParseResult();
-        parseResult.setBlockSms(SPUtils.blockSmsEnabled(mPreferences));
+        parseResult.setBlockSms(XSPUtils.blockSmsEnabled(mPreferences));
         return parseResult;
     }
 

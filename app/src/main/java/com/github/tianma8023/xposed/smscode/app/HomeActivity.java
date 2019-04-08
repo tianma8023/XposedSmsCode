@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.adapter.BaseItemCallback;
 import com.github.tianma8023.xposed.smscode.adapter.ItemCallback;
@@ -26,7 +25,6 @@ import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemAdapter;
 import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemContainer;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
-import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -74,9 +72,7 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
     }
 
     private void handleIntent(Intent intent) {
-        RemotePreferences preferences =
-                RemotePreferencesUtils.getDefaultRemotePreferences(this);
-        int themeIdx = SPUtils.getCurrentThemeIndex(preferences);
+        int themeIdx = SPUtils.getCurrentThemeIndex(this);
         ThemeItem themeItem = ThemeItemContainer.get().getItemAt(themeIdx);
 
         String action = intent.getAction();
@@ -135,14 +131,11 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
                 mThemeChooseDialog.dismiss();
             }
 
-            RemotePreferences preferences =
-                    RemotePreferencesUtils.getDefaultRemotePreferences(HomeActivity.this);
-
-            if (SPUtils.getCurrentThemeIndex(preferences) == position) {
+            if (SPUtils.getCurrentThemeIndex(HomeActivity.this) == position) {
                 return;
             }
 
-            SPUtils.setCurrentThemeIndex(preferences, position);
+            SPUtils.setCurrentThemeIndex(HomeActivity.this, position);
 
             recreate();
         }

@@ -20,7 +20,7 @@
 //import com.github.tianma8023.xposed.smscode.utils.AccessibilityUtils;
 //import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 //import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
-//import com.github.tianma8023.xposed.smscode.utils.SPUtils;
+//import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 //import com.github.tianma8023.xposed.smscode.utils.ShellUtils;
 //import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 //import com.github.tianma8023.xposed.smscode.utils.XLog;
@@ -116,8 +116,8 @@
 //
 //        if (success) {
 //            XLog.i("Auto input succeed");
-//            if (SPUtils.copyToClipboardEnabled(mPreferences)
-//                    && SPUtils.shouldClearClipboard(mPreferences)) {
+//            if (XSPUtils.copyToClipboardEnabled(mPreferences)
+//                    && XSPUtils.shouldClearClipboard(mPreferences)) {
 //                // clear clipboard
 //                ClipboardUtils.clearClipboard(this);
 //            }
@@ -125,7 +125,7 @@
 //            XLog.i("Auto input failed");
 //        }
 //
-//        String autoInputMode = SPUtils.getAutoInputMode(mPreferences);
+//        String autoInputMode = XSPUtils.getAutoInputMode(mPreferences);
 //        if (PrefConst.AUTO_INPUT_MODE_ROOT.equals(autoInputMode)) {
 //            Intent stopAutoInput = new Intent();
 //            stopAutoInput.setAction(ACTION_STOP_AUTO_INPUT_SERVICE);
@@ -140,9 +140,9 @@
 //     */
 //    private boolean tryToAutoInputSMSCode(String smsCode) {
 //        boolean success = false;
-//        String focusMode = SPUtils.getFocusMode(mPreferences);
+//        String focusMode = XSPUtils.getFocusMode(mPreferences);
 //        boolean isRootAutoInputMode =
-//                PrefConst.AUTO_INPUT_MODE_ROOT.equals(SPUtils.getAutoInputMode(mPreferences));
+//                PrefConst.AUTO_INPUT_MODE_ROOT.equals(XSPUtils.getAutoInputMode(mPreferences));
 //        if (PrefConst.FOCUS_MODE_AUTO.equals(focusMode)) {
 //            // focus mode: auto focus
 //            for (int i = 0; i < AUTO_INPUT_MAX_TRY_TIMES; i++) {
@@ -154,7 +154,7 @@
 //                sleep(100);
 //            }
 //
-//            if (!success && SPUtils.manualFocusIfFailedEnabled(mPreferences)) {
+//            if (!success && XSPUtils.manualFocusIfFailedEnabled(mPreferences)) {
 //                XLog.d("auto focus failed, transfer to manual focus");
 //                final int secs = 3;
 //                mInnerHandler.post(new Runnable() {

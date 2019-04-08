@@ -119,10 +119,10 @@
             <!--android:exported="true">-->
         <!--</receiver>-->
 
-        <provider
-            android:name=".provider.SharedPreferencesProvider"
-            android:authorities="${applicationId}.preferences"
-            android:exported="true"/>
+        <!--<provider-->
+            <!--android:name=".provider.SharedPreferencesProvider"-->
+            <!--android:authorities="${applicationId}.preferences"-->
+            <!--android:exported="true"/>-->
 
         <provider
             android:name=".db.DBProvider"

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.constant.SmsCodeConst;
 import com.github.tianma8023.xposed.smscode.db.DBProvider;
@@ -70,13 +69,12 @@ public class SmsCodeUtils {
     }
 
     private static String loadCodeKeywordsBySP(Context context) {
-        RemotePreferences preferences = RemotePreferencesUtils.getDefaultRemotePreferences(context);
-        return SPUtils.getSMSCodeKeywords(preferences);
+        return SPUtils.getSMSCodeKeywords(context);
     }
 
     private static String loadCodeKeywordsByXSP() {
         XSharedPreferences preferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
-        return SPUtils.getSMSCodeKeywords(preferences);
+        return XSPUtils.getSMSCodeKeywords(preferences);
     }
 
     /**
