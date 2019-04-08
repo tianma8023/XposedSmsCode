@@ -6,13 +6,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SettingsUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -22,7 +22,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class NotificationManagerHook extends AbsHook  {
 
     private Context mContext;
-    private RemotePreferences mRemotePreferences;
+    private XSharedPreferences mPreferences;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -61,8 +61,8 @@ public class NotificationManagerHook extends AbsHook  {
 
     private void afterConstructor(XC_MethodHook.MethodHookParam param) {
         mContext = (Context) param.args[0];
-        if (mRemotePreferences == null) {
-            mRemotePreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mContext);
+        if (mPreferences == null) {
+            mPreferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         }
     }
 
@@ -90,10 +90,10 @@ public class NotificationManagerHook extends AbsHook  {
      * before the method NotificationManager#notify()
      */
     private void beforeNotify(XC_MethodHook.MethodHookParam param) {
-        if (!SPUtils.isEnabled(mRemotePreferences)) {
+        if (!SPUtils.isEnabled(mPreferences)) {
             return;
         }
-        if (!SPUtils.blockSmsEnabled(mRemotePreferences)) {
+        if (!SPUtils.blockSmsEnabled(mPreferences)) {
             return;
         }
 

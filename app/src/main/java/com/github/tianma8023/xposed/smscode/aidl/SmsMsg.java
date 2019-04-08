@@ -155,4 +155,16 @@ public class SmsMsg implements Parcelable {
             return new SmsMsg[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "SmsMsg{" +
+                "id=" + id +
+                ", sender='" + sender + '\'' +
+                ", body='" + body + '\'' +
+                ", date=" + date +
+                ", company='" + company + '\'' +
+                ", smsCode='" + smsCode + '\'' +
+                '}';
+    }
 }

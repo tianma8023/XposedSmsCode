@@ -28,7 +28,7 @@ public class SmsCodeApplication extends Application{
         initBugly();
 
 //        initNotificationChannel();
-//        performTransitionTask();
+        performTransitionTask();
     }
 
     private void initNotificationChannel() {

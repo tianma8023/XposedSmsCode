@@ -26,15 +26,14 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
 import com.github.tianma8023.xposed.smscode.aidl.SmsMsgDao;
+import com.github.tianma8023.xposed.smscode.app.record.CodeRecordRestoreManager;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.db.DBProvider;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
-import com.github.tianma8023.xposed.smscode.utils.RemotePreferencesUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;
@@ -42,6 +41,7 @@ import com.github.tianma8023.xposed.smscode.utils.XLog;
 
 import java.util.ArrayList;
 
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
 
 public class SmsCodeWorker {
@@ -54,7 +54,7 @@ public class SmsCodeWorker {
     }
 
     private Context mAppContext;
-    private RemotePreferences mPreferences;
+    private XSharedPreferences mPreferences;
     private Intent mSmsIntent;
 
     private static final int MSG_QUIT_QUEUE = 0xff;
@@ -71,7 +71,8 @@ public class SmsCodeWorker {
 
     public SmsCodeWorker(Context appContext, Intent smsIntent) {
         mAppContext = appContext;
-        mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mAppContext);
+//        mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mAppContext);
+        mPreferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         mSmsIntent = smsIntent;
 
         HandlerThread workerThread = new HandlerThread("SmsCodeWorker");
@@ -102,7 +103,7 @@ public class SmsCodeWorker {
             return null;
         }
 
-        String smsCode = SmsCodeUtils.parseSmsCodeIfExists(mAppContext, msgBody);
+        String smsCode = SmsCodeUtils.parseSmsCodeIfExists(mAppContext, msgBody, true);
         smsMsg.setSmsCode(smsCode);
         if (TextUtils.isEmpty(smsCode)) { // Not verification code msg.
             return null;
@@ -346,8 +347,12 @@ public class SmsCodeWorker {
 
             cursor.close();
             XLog.d("add SMS record succeed");
-        } catch (Exception e) {
-            XLog.e("add SMS message record failed", e);
+        } catch (Exception e1) {
+            // ContentProvider dead.
+            // Write file to do data transition
+            if (CodeRecordRestoreManager.exportToFile(smsMsg)) {
+                XLog.d("export code record to file succeed");
+            }
         }
     }
 

@@ -2,6 +2,8 @@ package com.github.tianma8023.xposed.smscode.migrate;
 
 import android.content.Context;
 
+import com.github.tianma8023.xposed.smscode.migrate.db.DBTransition;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,8 @@ public class TransitionTask implements Runnable {
 
     private void init(Context context) {
         mTransitionList = new ArrayList<>();
-        mTransitionList.add(new PreferencesTransition(context));
+//        mTransitionList.add(new PreferencesTransition(context));
+        mTransitionList.add(new DBTransition(context));
     }
 
     @Override

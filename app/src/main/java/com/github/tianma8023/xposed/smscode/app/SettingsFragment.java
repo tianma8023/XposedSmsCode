@@ -1,5 +1,6 @@
 package com.github.tianma8023.xposed.smscode.app;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -32,8 +33,11 @@ import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.ModuleUtils;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
+import com.github.tianma8023.xposed.smscode.utils.StorageUtils;
 import com.github.tianma8023.xposed.smscode.utils.Utils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
+
+import java.io.File;
 
 /**
  * 首选项Fragment
@@ -160,6 +164,29 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 showEnableModuleDialog();
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        setPreferenceWorldWritable();
+        setInternalFilesWritable();
+    }
+
+    @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
+    private void setPreferenceWorldWritable() {
+        // dataDir: /data/data/<package_name>/
+        // spDir: /data/data/<package_name>/shared_prefs/
+        // spFile: /data/data/<package_name>/shared_prefs/<preferences_name>.xml
+        String preferencesName = getPreferenceManager().getSharedPreferencesName();
+        File prefsFile = StorageUtils.getSharedPreferencesFile(mActivity, preferencesName);
+        StorageUtils.setFileWorldWritable(prefsFile, 2);
+    }
+
+    private void setInternalFilesWritable() {
+        // dataDir or external dataDir
+        // filesDir or external filesDir
+        StorageUtils.setFileWorldWritable(StorageUtils.getFilesDir(), 1);
     }
 
     private void showEnableModuleDialog() {
@@ -342,7 +369,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             if (TextUtils.isEmpty(mMsgBody)) {
                 msg.obj = "";
             } else {
-                msg.obj = SmsCodeUtils.parseSmsCodeIfExists(mContext, mMsgBody);
+                msg.obj = SmsCodeUtils.parseSmsCodeIfExists(mContext, mMsgBody, false);
             }
             mHandler.sendMessage(msg);
         }

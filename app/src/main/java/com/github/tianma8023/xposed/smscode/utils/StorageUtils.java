@@ -1,7 +1,11 @@
 package com.github.tianma8023.xposed.smscode.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 
 import java.io.File;
 
@@ -43,6 +47,7 @@ public class StorageUtils {
 
     /**
      * Get sdcard directory
+     *
      * @return SD card directory
      */
     public static File getSDCardDir() {
@@ -51,9 +56,97 @@ public class StorageUtils {
 
     /**
      * get sdcard public documents directory
+     *
      * @return SD card public documents directory
      */
     public static File getPublicDocumentsDir() {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+    }
+
+    public static File getSharedPreferencesFile(Context context, String preferencesName) {
+        File dataDir = ContextCompat.getDataDir(context);
+        File prefsDir = new File(dataDir, "shared_prefs");
+        return new File(prefsDir, preferencesName + ".xml");
+    }
+
+    /**
+     * Get internal data dir. /data/data/<package_name>/
+     */
+    public static File getInternalDataDir() {
+        return new File(Environment.getDataDirectory(),
+                "data/" + BuildConfig.APPLICATION_ID);
+    }
+
+    /**
+     * Get internal files dir. /data/data/<package_name>/files/
+     *
+     * @return
+     */
+    public static File getInternalFilesDir() {
+        return new File(getInternalDataDir(), "files");
+    }
+
+    /**
+     * Get external files dir. /sdcard/Android/data/<package_name>/files/
+     */
+    public static File getExternalFilesDir() {
+        return new File(Environment.getExternalStorageDirectory(),
+                "Android/data/" + BuildConfig.APPLICATION_ID + "/files/");
+    }
+
+    /**
+     * Get files dir
+     * @see StorageUtils#getExternalFilesDir()
+     * @see StorageUtils#getInternalFilesDir()
+     */
+    public static File getFilesDir() {
+        if (isSDCardMounted()) {
+            File externalFilesDir = getExternalFilesDir();
+            if (!externalFilesDir.exists()) {
+                externalFilesDir.mkdirs();
+            }
+            return externalFilesDir;
+        } else {
+            return getInternalFilesDir();
+        }
+    }
+
+    /**
+     * Set file world writable
+     */
+    @SuppressLint({"SetWorldWritable", "SetWorldReadable"})
+    public static void setFileWorldWritable(File file, int parentDepth) {
+        if (!file.exists()) {
+            return;
+        }
+        parentDepth = parentDepth + 1;
+        for (int i = 0; i < parentDepth; i++) {
+            file.setExecutable(true, false);
+            file.setWritable(true, false);
+            file.setReadable(true, false);
+            file = file.getParentFile();
+            if (file == null) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Set file world readable
+     */
+    @SuppressLint("SetWorldReadable")
+    public static void setFileWorldReadable(File file, int parentDepth) {
+        if (!file.exists()) {
+            return;
+        }
+
+        for (int i = 0; i < parentDepth; i++) {
+            file.setReadable(true, false);
+            file.setExecutable(true, false);
+            file = file.getParentFile();
+            if (file == null) {
+                break;
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.constant.SmsCodeConst;
 import com.github.tianma8023.xposed.smscode.db.DBProvider;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRule;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.robv.android.xposed.XSharedPreferences;
 
 /**
  * 验证码相关Utils
@@ -43,8 +46,13 @@ public class SmsCodeUtils {
      * @param context context
      * @param content content
      */
-    public static boolean containsCodeKeywords(Context context, String content) {
-        String keywordsRegex = loadCodeKeywords(context);
+    public static boolean containsCodeKeywords(Context context, String content, boolean useXSP) {
+        String keywordsRegex;
+        if (useXSP) {
+            keywordsRegex = loadCodeKeywordsByXSP();
+        } else {
+            keywordsRegex = loadCodeKeywordsBySP(context);
+        }
         String keyword = parseKeyword(keywordsRegex, content);
         return !TextUtils.isEmpty(keyword);
     }
@@ -61,18 +69,23 @@ public class SmsCodeUtils {
         return "";
     }
 
-    private static String loadCodeKeywords(Context context) {
+    private static String loadCodeKeywordsBySP(Context context) {
         RemotePreferences preferences = RemotePreferencesUtils.getDefaultRemotePreferences(context);
+        return SPUtils.getSMSCodeKeywords(preferences);
+    }
+
+    private static String loadCodeKeywordsByXSP() {
+        XSharedPreferences preferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         return SPUtils.getSMSCodeKeywords(preferences);
     }
 
     /**
      * 解析文本中的验证码并返回，如果不存在返回空字符
      */
-    public static String parseSmsCodeIfExists(Context context, String content) {
+    public static String parseSmsCodeIfExists(Context context, String content, boolean useXSP) {
         String result = parseByCustomRules(context, content);
         if (TextUtils.isEmpty(result)) {
-            result = parseByDefaultRule(context, content);
+            result = parseByDefaultRule(context, content, useXSP);
         }
         return result;
     }
@@ -82,11 +95,17 @@ public class SmsCodeUtils {
      *
      * @param context context
      * @param content message body
+     * @param useXSP whether use XSharedPreferences or not.
      * @return the SMS code if matches, otherwise return empty string
      */
-    private static String parseByDefaultRule(Context context, String content) {
+    private static String parseByDefaultRule(Context context, String content, boolean useXSP) {
         String result = "";
-        String keywordsRegex = loadCodeKeywords(context);
+        String keywordsRegex;
+        if (useXSP) {
+            keywordsRegex = loadCodeKeywordsByXSP();
+        } else {
+            keywordsRegex = loadCodeKeywordsBySP(context);
+        }
         String keyword = parseKeyword(keywordsRegex, content);
         if (!TextUtils.isEmpty(keyword)) {
             if (containsChinese(content)) {
