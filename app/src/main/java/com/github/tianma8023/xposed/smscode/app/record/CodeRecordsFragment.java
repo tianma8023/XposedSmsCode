@@ -6,6 +6,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,6 +49,9 @@ public class CodeRecordsFragment extends BackPressFragment {
 
     private Activity mActivity;
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @BindView(R.id.code_records_recycler_view)
     RecyclerView mRecyclerView;
 
@@ -74,6 +78,12 @@ public class CodeRecordsFragment extends BackPressFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_code_records, container, false);
         ButterKnife.bind(this, rootView);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
         return rootView;
     }
 
@@ -124,8 +134,14 @@ public class CodeRecordsFragment extends BackPressFragment {
     }
 
     private void refreshData() {
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
         List<SmsMsg> smsMsgList = DBManager.get(mActivity).queryAllSmsMsg();
         mCodeRecordAdapter.addItems(smsMsgList);
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void refreshEmptyView() {
@@ -229,6 +245,7 @@ public class CodeRecordsFragment extends BackPressFragment {
 
     private void removeSelectedItems() {
         final List<SmsMsg> itemsToRemove = mCodeRecordAdapter.removeSelectedItems();
+        mSwipeRefreshLayout.setEnabled(false);
         String text = getString(R.string.some_items_removed, itemsToRemove.size());
         Snackbar snackbar = Snackbar.make(mRecyclerView, text, Snackbar.LENGTH_LONG);
         snackbar.addCallback(new Snackbar.Callback() {
@@ -237,6 +254,7 @@ public class CodeRecordsFragment extends BackPressFragment {
                 if (event != DISMISS_EVENT_ACTION) {
                     try {
                         DBManager.get(mActivity).removeSmsMsgList(itemsToRemove);
+                        mSwipeRefreshLayout.setEnabled(true);
                     } catch (Exception e) {
                         XLog.e("Error occurs when remove SMS records", e);
                     }
@@ -245,7 +263,7 @@ public class CodeRecordsFragment extends BackPressFragment {
         });
         snackbar.setAction(R.string.revoke, new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 mCodeRecordAdapter.addItems(itemsToRemove);
             }
         });
