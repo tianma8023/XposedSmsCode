@@ -17,11 +17,11 @@
     <string name="pref_enable_title">啟用</string>
     <string name="enable_module_title">模組未激活</string>
     <string name="enable_module_message">請先激活本模組，否則本模組將無法正常運作！</string>
-    <string name="pref_enable_summary">啟用/關閉功能不需重新開機</string>
+    <string name="pref_enable_summary">模組已激活</string>
     <string name="pref_enable_summary_alt">請先激活本模組</string>
     <string name="open_xposed_installer">打開Xposed</string>
     <string name="pref_hide_launcher_icon_title">隱藏應用圖示</string>
-    <string name="pref_hide_launcher_icon_summary">隱藏後仍可以從XposedInstaller打開本模組</string>
+    <string name="pref_hide_launcher_icon_summary">隱藏後可從模組列表中打開本模組</string>
     <string name="pref_show_toast_title">顯示快顯訊息</string>
     <string name="pref_show_toast_summary">接收到驗證碼時顯示快顯訊息</string>
     <string name="pref_copy_to_clipboard_title">拷貝到剪切板</string>
@@ -225,7 +225,7 @@
 
     <!-- taichi users notice -->
     <string name="taichi_users_notice">太極用戶須知</string>
-    <string name="taichi_users_notice_content">1. 本模組需在太極·magisk(太極·陽)下運行\n\n2. 太極用戶如需使用所有功能，需要將以下程式添加至太極中：\n\t· 電話語音(com.android.phone)\n\t· Android系統(android)\n\t· WeChat(可選，僅用於WeChat捐贈)\n\n3. 每次更新後，若模組失效，請在太極的模組管理列表中重新勾選本模組，並重新打開本App。\n\n4. 由於太極的限制，目前沒辦法授予自動輸入相關權限，因而無法自動輸入，解決方案請見\"常見問題\"。</string>
+    <string name="taichi_users_notice_content">1. 本模組需在太極·magisk(太極·陽)下運行\n\n2. 太極用戶如需使用所有功能，需要將以下程式添加至太極中：\n\t· 電話語音(com.android.phone)\n\t· Android系統(android)\n\t· WeChat(可選，僅用於WeChat捐贈)\n\n3. 每次更新後，若模組失效，請在太極的模組管理列表中重新勾選本模組，並重啟手機。\n\n4. 由於太極的限制，目前沒辦法授予自動輸入相關權限，因而無法自動輸入，解決方案請見\"常見問題\"。</string>
     <string name="open_taichi">打開太極</string>
     <string name="taichi_install_prompt">請先安裝太極</string>
     <string name="taichi_enable_prompt">請先啟用太極</string>
