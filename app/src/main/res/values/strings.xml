@@ -46,7 +46,17 @@
     <string name="pref_show_code_notification_title">Show notification</string>
     <string name="pref_show_code_notification_summary">Show notification when the SMS code is extracted</string>
     <string name="pref_auto_cancel_notification_title">Auto cancel notification</string>
-    <string name="pref_auto_cancel_notification_summary">Auto cancel SMS code notification after 1 minute</string>
+    <string name="pref_auto_cancel_notification_summary">Auto cancel SMS code notification</string>
+    <!-- notification retention time -->
+    <string name="pref_notification_retention_time_title">Notification retention time</string>
+    <string name="pref_notification_retention_time_summary">%s</string>
+    <string name="notification_retention_time_5_secs_entry">5 s</string>
+    <string name="notification_retention_time_10_secs_entry">10 s</string>
+    <string name="notification_retention_time_30_secs_entry">30 s</string>
+    <string name="notification_retention_time_1_min_entry">1 min</string>
+    <string name="notification_retention_time_5_mins_entry">5 mins</string>
+    <!-- notification retention time -->
+
     <!-- preference smscode notification -->
 
     <!-- preference Code SMS -->

@@ -48,13 +48,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public static final String EXTRA_ACTION = "extra_action";
     public static final String ACTION_GET_RED_PACKET = "get_red_packet";
 
-    private HomeActivity mActivity;
-
     public interface OnPreferenceClickCallback {
         void onPreferenceClicked(String key, String title, boolean nestedPreference);
     }
 
     private OnPreferenceClickCallback mPreferenceClickCallback;
+
+    private HomeActivity mActivity;
 
     public SettingsFragment() {
     }

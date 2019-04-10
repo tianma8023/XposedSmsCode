@@ -509,7 +509,8 @@ public class SmsCodeWorker {
         if (XSPUtils.autoCancelCodeNotification(mPreferences)) {
             Message cancelNotifyMsg = workerHandler
                     .obtainMessage(MSG_CANCEL_NOTIFICATION, notificationId);
-            workerHandler.sendMessageDelayed(cancelNotifyMsg, 60 * 1000);
+            int retentionTime = XSPUtils.getNotificationRetentionTime(mPreferences) * 1000;
+            workerHandler.sendMessageDelayed(cancelNotifyMsg, retentionTime);
             mPreQuitQueueCount.getAndIncrement();
         }
     }

@@ -94,19 +94,29 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:icon="@drawable/ic_notification"
             android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_notification"
             android:key="@string/pref_show_code_notification"
             android:summary="@string/pref_show_code_notification_summary"
             android:title="@string/pref_show_code_notification_title"/>
 
         <SwitchPreference
             android:defaultValue="false"
-            android:icon="@drawable/ic_clear"
             android:dependency="@string/pref_show_code_notification"
+            android:icon="@drawable/ic_clear"
             android:key="@string/pref_auto_cancel_notification"
             android:summary="@string/pref_auto_cancel_notification_summary"
             android:title="@string/pref_auto_cancel_notification_title"/>
+
+        <ListPreference
+            android:defaultValue="@string/notification_retention_time_5_secs"
+            android:dependency="@string/pref_auto_cancel_notification"
+            android:entries="@array/notification_retention_time_entry_list"
+            android:entryValues="@array/notification_retention_time_list"
+            android:icon="@drawable/ic_time"
+            android:key="@string/pref_notification_retention_time"
+            android:summary="@string/pref_notification_retention_time_summary"
+            android:title="@string/pref_notification_retention_time_title"/>
 
     </PreferenceCategory>
 

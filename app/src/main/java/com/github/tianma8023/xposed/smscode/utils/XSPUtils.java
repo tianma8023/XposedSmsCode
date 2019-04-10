@@ -112,4 +112,13 @@ public class XSPUtils {
         return preferences.getBoolean(PrefConst.KEY_AUTO_CANCEL_CODE_NOTIFICATION,
                 PrefConst.AUTO_CANCEL_CODE_NOTIFICATION_DEFAULT);
     }
+
+    /**
+     * 获取验证码通知保留时间
+     */
+    public static int getNotificationRetentionTime(XSharedPreferences preferences) {
+        String value = preferences.getString(PrefConst.KEY_NOTIFICATION_RETENTION_TIME,
+                PrefConst.NOTIFICATION_RETENTION_TIME_DEFAULT);
+        return Integer.valueOf(value);
+    }
 }

@@ -20,6 +20,7 @@
 
     <string name="pref_show_code_notification">pref_show_code_notification</string>
     <string name="pref_auto_cancel_notification">pref_auto_cancel_code_notification</string>
+    <string name="pref_notification_retention_time">pref_notification_retention_time</string>
 
     <string name="pref_smscode_keywords">pref_smscode_keywords</string>
     <string name="pref_smscode_test">pref_smscode_test</string>
@@ -92,4 +93,28 @@
     <string name="sms_code_type_letter">[a\-zA\-Z]</string>
     <string name="sms_code_type_text">[a\-zA\-Z0\-9]</string>
     <!-- sms code types end -->
+
+    <!-- notification retention time -->
+    <string-array name="notification_retention_time_entry_list">
+        <item>@string/notification_retention_time_5_secs_entry</item>
+        <item>@string/notification_retention_time_10_secs_entry</item>
+        <item>@string/notification_retention_time_30_secs_entry</item>
+        <item>@string/notification_retention_time_1_min_entry</item>
+        <item>@string/notification_retention_time_5_mins_entry</item>
+    </string-array>
+
+    <string-array name="notification_retention_time_list">
+        <item>@string/notification_retention_time_5_secs</item>
+        <item>@string/notification_retention_time_10_secs</item>
+        <item>@string/notification_retention_time_30_secs</item>
+        <item>@string/notification_retention_time_1_min</item>
+        <item>@string/notification_retention_time_5_mins</item>
+    </string-array>
+
+    <string name="notification_retention_time_5_secs">5</string>
+    <string name="notification_retention_time_10_secs">10</string>
+    <string name="notification_retention_time_30_secs">30</string>
+    <string name="notification_retention_time_1_min">60</string>
+    <string name="notification_retention_time_5_mins">300</string>
+    <!-- notification retention time end -->
 </resources>

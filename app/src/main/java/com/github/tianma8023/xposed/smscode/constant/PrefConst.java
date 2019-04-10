@@ -37,6 +37,8 @@ public interface PrefConst {
     boolean SHOW_CODE_NOTIFICATION_DEFAULT = false;
     String KEY_AUTO_CANCEL_CODE_NOTIFICATION = "pref_auto_cancel_code_notification";
     boolean AUTO_CANCEL_CODE_NOTIFICATION_DEFAULT = false;
+    String KEY_NOTIFICATION_RETENTION_TIME = "pref_notification_retention_time";
+    String NOTIFICATION_RETENTION_TIME_DEFAULT = "5";
 
     String KEY_ENTRY_AUTO_INPUT_CODE = "pref_entry_auto_input_code";
 
