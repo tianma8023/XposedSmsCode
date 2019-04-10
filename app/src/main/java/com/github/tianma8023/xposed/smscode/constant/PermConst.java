@@ -4,7 +4,7 @@ import android.Manifest;
 import android.os.Build;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.github.tianma8023.xposed.smscode.xp.hook.SmsHandlerHook;
+import com.github.tianma8023.xposed.smscode.xp.hook.code.SmsHandlerHook;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -33,6 +33,11 @@ public interface PrefConst {
     String KEY_KILL_ME = "pref_kill_me";
     boolean KILL_ME_DEFAULT = false;
 
+    String KEY_SHOW_CODE_NOTIFICATION = "pref_show_code_notification";
+    boolean SHOW_CODE_NOTIFICATION_DEFAULT = false;
+    String KEY_AUTO_CANCEL_CODE_NOTIFICATION = "pref_auto_cancel_code_notification";
+    boolean AUTO_CANCEL_CODE_NOTIFICATION_DEFAULT = false;
+
     String KEY_ENTRY_AUTO_INPUT_CODE = "pref_entry_auto_input_code";
 
     String KEY_HIDE_LAUNCHER_ICON = "pref_hide_launcher_icon";

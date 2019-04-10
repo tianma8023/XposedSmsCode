@@ -1,6 +1,5 @@
 package com.github.tianma8023.xposed.smscode.xp.hook;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 
@@ -12,7 +11,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-public class CodeServiceHook extends AbsHook {
+public class CodeServiceHook extends BaseHook {
 
     private static final String AMS_CLS = "com.android.server.am.ActivityManagerService";
 
@@ -40,7 +39,7 @@ public class CodeServiceHook extends AbsHook {
     }
 
 
-    @SuppressLint("PrivateApi")
+
     private void hookSinceLollipop() throws Throwable {
         // android 5.0+
         XLog.i("hooking ActivityThread...");

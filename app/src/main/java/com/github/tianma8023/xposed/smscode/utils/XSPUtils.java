@@ -96,4 +96,20 @@ public class XSPUtils {
         return preferences.getBoolean(PrefConst.KEY_KILL_ME,
                 PrefConst.KILL_ME_DEFAULT);
     }
+
+    /**
+     * 是否显示验证码通知
+     */
+    public static boolean showCodeNotification(XSharedPreferences preferences) {
+        return preferences.getBoolean(PrefConst.KEY_SHOW_CODE_NOTIFICATION,
+                PrefConst.SHOW_CODE_NOTIFICATION_DEFAULT);
+    }
+
+    /**
+     * 是否自动清除验证码通知
+     */
+    public static boolean autoCancelCodeNotification(XSharedPreferences preferences) {
+        return preferences.getBoolean(PrefConst.KEY_AUTO_CANCEL_CODE_NOTIFICATION,
+                PrefConst.AUTO_CANCEL_CODE_NOTIFICATION_DEFAULT);
+    }
 }

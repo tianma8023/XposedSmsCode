@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.xp.hook;
+package com.github.tianma8023.xposed.smscode.xp.hook.code;
 
 public class ParseResult {
 

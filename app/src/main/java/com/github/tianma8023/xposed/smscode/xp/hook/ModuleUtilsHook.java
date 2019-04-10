@@ -11,7 +11,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.github.tianma8023.xposed.smscode.utils.ModuleUtils
  */
-public class ModuleUtilsHook extends AbsHook {
+public class ModuleUtilsHook extends BaseHook {
 
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
     private static final int MODULE_VERSION = BuildConfig.MODULE_VERSION;

@@ -1,5 +1,6 @@
-package com.github.tianma8023.xposed.smscode.xp.hook;
+package com.github.tianma8023.xposed.smscode.xp.hook.code;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,11 @@ import android.os.UserHandle;
 import android.provider.Telephony;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.github.tianma8023.xposed.smscode.R;
+import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
+import com.github.tianma8023.xposed.smscode.utils.NotificationUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
+import com.github.tianma8023.xposed.smscode.xp.hook.BaseHook;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,7 +28,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook class com.android.internal.telephony.InBoundSmsHandler
  */
-public class SmsHandlerHook extends AbsHook {
+public class SmsHandlerHook extends BaseHook {
 
     public static final String ANDROID_PHONE_PACKAGE = "com.android.phone";
 
@@ -161,9 +166,20 @@ public class SmsHandlerHook extends AbsHook {
             try {
                 mAppContext = mPhoneContext.createPackageContext(SMSCODE_PACKAGE,
                         Context.CONTEXT_IGNORE_SECURITY);
+                initNotificationChannel();
             } catch (Exception e) {
                 XLog.e("Create app context failed: %s", e);
             }
+        }
+    }
+
+    private void initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION;
+            String channelName = mAppContext.getString(R.string.channel_name_smscode_notification);
+            NotificationUtils.createNotificationChannel(mPhoneContext,
+                    channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+            XLog.d("init notification channel succeed");
         }
     }
 
@@ -195,7 +211,7 @@ public class SmsHandlerHook extends AbsHook {
             return;
         }
 
-        ParseResult parseResult = new SmsCodeWorker(mAppContext, intent).parse();
+        ParseResult parseResult = new SmsCodeWorker(mAppContext, mPhoneContext, intent).parse();
         if (parseResult != null) {// parse succeed
             if (parseResult.isBlockSms()) {
                 XLog.d("blocking code SMS...");

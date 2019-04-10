@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * class com.tencent.mm.ui.LauncherUI <br/>
  * class com.tencent.mm.plugin.collect.reward.ui.QrRewardSelectMoneyUI
  */
-public class DonateWechatHook extends AbsHook {
+public class DonateWechatHook extends BaseHook {
 
     private static final String KEY_SCENE = "key_scene";
     private static final String KEY_QRCODE_URL = "key_qrcode_url";

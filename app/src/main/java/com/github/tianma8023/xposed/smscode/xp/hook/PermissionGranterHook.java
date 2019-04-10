@@ -16,7 +16,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook com.android.server.pm.PackageManagerService to grant permissions.
  */
-public class PermissionGranterHook extends AbsHook  {
+public class PermissionGranterHook extends BaseHook {
 
     public static final String ANDROID_PACKAGE = "android";
 
@@ -31,7 +31,7 @@ public class PermissionGranterHook extends AbsHook  {
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (ANDROID_PACKAGE.equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
+        if (ANDROID_PACKAGE.equals(lpparam.packageName) && ANDROID_PACKAGE.equals(lpparam.processName)) {
             if (Build.VERSION.SDK_INT >= 28) { // Android 9.0+
                 hookPermissionManagerService(lpparam);
             } else { // Android 5.0 ~ 8.1
@@ -43,7 +43,7 @@ public class PermissionGranterHook extends AbsHook  {
     private static void hookPackageManagerService(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             hookGrantPermissionsLPw(lpparam);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             XLog.e("Failed to hook PackageManagerService", e);
         }
     }
@@ -83,7 +83,7 @@ public class PermissionGranterHook extends AbsHook  {
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     afterGrantPermissionsLPwSinceKitkat(param);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 XLog.e("Hook grantPermissionsLPw() failed", e);
             }
         }
@@ -188,7 +188,7 @@ public class PermissionGranterHook extends AbsHook  {
     private static void hookPermissionManagerService(XC_LoadPackage.LoadPackageParam lpparam) {
         try {
             hookGrantPermissions(lpparam);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             XLog.e("Failed to hook PermissionManagerService", e);
         }
     }
@@ -209,7 +209,7 @@ public class PermissionGranterHook extends AbsHook  {
         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
             try {
                 afterGrantPermissionsSinceP(param);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 XLog.e("Hook grantPermissions() failed", e);
             }
         }

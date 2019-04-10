@@ -18,6 +18,9 @@
     <string name="pref_block_sms">pref_block_sms</string>
     <string name="pref_kill_me">pref_kill_me</string>
 
+    <string name="pref_show_code_notification">pref_show_code_notification</string>
+    <string name="pref_auto_cancel_notification">pref_auto_cancel_code_notification</string>
+
     <string name="pref_smscode_keywords">pref_smscode_keywords</string>
     <string name="pref_smscode_test">pref_smscode_test</string>
     <string name="pref_code_rules">pref_code_rules</string>

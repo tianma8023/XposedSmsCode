@@ -1,10 +1,10 @@
 package com.github.tianma8023.xposed.smscode.xp;
 
-import com.github.tianma8023.xposed.smscode.xp.hook.AbsHook;
+import com.github.tianma8023.xposed.smscode.xp.hook.BaseHook;
 import com.github.tianma8023.xposed.smscode.xp.hook.DonateWechatHook;
 import com.github.tianma8023.xposed.smscode.xp.hook.ModuleUtilsHook;
 import com.github.tianma8023.xposed.smscode.xp.hook.PermissionGranterHook;
-import com.github.tianma8023.xposed.smscode.xp.hook.SmsHandlerHook;
+import com.github.tianma8023.xposed.smscode.xp.hook.code.SmsHandlerHook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
-    private List<AbsHook> mHookList;
+    private List<BaseHook> mHookList;
 
     {
         mHookList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit 
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable{
-        for(AbsHook hook : mHookList) {
+        for(BaseHook hook : mHookList) {
             if (hook.hookInitZygote()) {
                 hook.initZygote(startupParam);
             }
@@ -38,7 +38,7 @@ public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit 
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        for (AbsHook hook : mHookList) {
+        for (BaseHook hook : mHookList) {
             if (hook.hookOnLoadPackage()) {
                 hook.onLoadPackage(lpparam);
             }

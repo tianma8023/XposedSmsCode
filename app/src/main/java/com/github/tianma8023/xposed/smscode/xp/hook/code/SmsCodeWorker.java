@@ -1,8 +1,10 @@
-package com.github.tianma8023.xposed.smscode.xp.hook;
+package com.github.tianma8023.xposed.smscode.xp.hook.code;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -10,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.Handler;
@@ -18,6 +21,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.Telephony;
 import android.support.annotation.IntDef;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,15 +35,17 @@ import com.github.tianma8023.xposed.smscode.R;
 import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
 import com.github.tianma8023.xposed.smscode.aidl.SmsMsgDao;
 import com.github.tianma8023.xposed.smscode.app.record.CodeRecordRestoreManager;
+import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.db.DBProvider;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
-import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
+import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
@@ -53,6 +59,7 @@ public class SmsCodeWorker {
     @interface SmsOp {
     }
 
+    private Context mPhoneContext;
     private Context mAppContext;
     private XSharedPreferences mPreferences;
     private Intent mSmsIntent;
@@ -65,13 +72,20 @@ public class SmsCodeWorker {
     private static final int MSG_KILL_ME = 0xfa;
     private static final int MSG_AUTO_INPUT_CODE = 0xf9;
     private static final int MSG_COPY_TO_CLIPBOARD = 0xf8;
+    private static final int MSG_SHOW_CODE_NOTIFICATION = 0xf7;
+    private static final int MSG_CANCEL_NOTIFICATION = 0xf6;
+    private static final int MSG_PRE_QUIT_QUEUE = 0xf5;
+
+    private AtomicInteger mPreQuitQueueCount;
+
+    private static final int DEFAULT_QUIT_COUNT = 0;
 
     private Handler uiHandler;
     private Handler workerHandler;
 
-    public SmsCodeWorker(Context appContext, Intent smsIntent) {
+    public SmsCodeWorker(Context appContext, Context phoneContext, Intent smsIntent) {
         mAppContext = appContext;
-//        mPreferences = RemotePreferencesUtils.getDefaultRemotePreferences(mAppContext);
+        mPhoneContext = phoneContext;
         mPreferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         mSmsIntent = smsIntent;
 
@@ -80,6 +94,8 @@ public class SmsCodeWorker {
         workerHandler = new WorkerHandler(workerThread.getLooper());
 
         uiHandler = new WorkerHandler(Looper.getMainLooper());
+
+        mPreQuitQueueCount = new AtomicInteger(DEFAULT_QUIT_COUNT);
     }
 
     public ParseResult parse() {
@@ -134,6 +150,12 @@ public class SmsCodeWorker {
             workerHandler.sendMessage(autoInputMsg);
         }
 
+        // 是否显示通知
+        if (XSPUtils.showCodeNotification(mPreferences)) {
+            Message notificationMsg = workerHandler.obtainMessage(MSG_SHOW_CODE_NOTIFICATION, smsMsg);
+            workerHandler.sendMessage(notificationMsg);
+        }
+
         // 是否记录验证码短信
         if (XSPUtils.recordSmsCodeEnabled(mPreferences)) {
             smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
@@ -147,21 +169,21 @@ public class SmsCodeWorker {
         if (XSPUtils.deleteSmsEnabled(mPreferences)) {
             Message deleteMsg = workerHandler.obtainMessage(MSG_DELETE_SMS, smsMsg);
             workerHandler.sendMessageDelayed(deleteMsg, 3000);
+            mPreQuitQueueCount.getAndIncrement();
         } else {
             // 是否标记验证码短信为已读
             if (XSPUtils.markAsReadEnabled(mPreferences)) {
                 Message markMsg = workerHandler.obtainMessage(MSG_MARK_AS_READ, smsMsg);
                 workerHandler.sendMessageDelayed(markMsg, 3000);
+                mPreQuitQueueCount.getAndIncrement();
             }
         }
 
         // 是否自杀
         if (XSPUtils.killMeEnabled(mPreferences)) {
             workerHandler.sendEmptyMessageDelayed(MSG_KILL_ME, 4000);
+            mPreQuitQueueCount.getAndIncrement();
         }
-
-        // 结束Looper
-        workerHandler.sendEmptyMessageDelayed(MSG_QUIT_QUEUE, 5000);
 
         ParseResult parseResult = new ParseResult();
         parseResult.setBlockSms(XSPUtils.blockSmsEnabled(mPreferences));
@@ -188,16 +210,17 @@ public class SmsCodeWorker {
                 case MSG_DELETE_SMS: {
                     SmsMsg smsMsg = (SmsMsg) msg.obj;
                     deleteSms(smsMsg.getSender(), smsMsg.getBody());
+                    handlePreQuitQueue();
                     break;
                 }
                 case MSG_MARK_AS_READ: {
                     SmsMsg smsMsg = (SmsMsg) msg.obj;
                     markSmsAsRead(smsMsg.getSender(), smsMsg.getBody());
+                    handlePreQuitQueue();
                     break;
                 }
                 case MSG_RECORD_SMS_MSG: {
-                    SmsMsg smsMsg = (SmsMsg) msg.obj;
-                    recordSmsMsg(smsMsg);
+                    recordSmsMsg((SmsMsg) msg.obj);
                     break;
                 }
                 case MSG_AUTO_INPUT_CODE: {
@@ -208,9 +231,23 @@ public class SmsCodeWorker {
                 case MSG_QUIT_QUEUE:
                     quit();
                     break;
-                case MSG_KILL_ME:
+                case MSG_KILL_ME: {
                     killBackgroundProcess(BuildConfig.APPLICATION_ID);
+                    handlePreQuitQueue();
                     break;
+                }
+                case MSG_SHOW_CODE_NOTIFICATION: {
+                    showCodeNotification((SmsMsg) msg.obj);
+                    break;
+                }
+                case MSG_CANCEL_NOTIFICATION: {
+                    cancelNotification((Integer) msg.obj);
+                    handlePreQuitQueue();
+                    break;
+                }
+                case MSG_PRE_QUIT_QUEUE: {
+                    break;
+                }
                 default:
                     throw new IllegalArgumentException("Unsupported msg type");
             }
@@ -376,6 +413,7 @@ public class SmsCodeWorker {
     private void quit() {
         if (workerHandler != null) {
             workerHandler.getLooper().quitSafely();
+            XLog.d("worker thread quit");
         }
     }
 
@@ -439,6 +477,57 @@ public class SmsCodeWorker {
         Object[] args = {keyEvent, INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH,};
 
         XposedHelpers.callMethod(inputManager, "injectInputEvent", paramTypes, args);
+    }
+
+    private void showCodeNotification(SmsMsg smsMsg) {
+        NotificationManager manager = (NotificationManager) mPhoneContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) {
+            return;
+        }
+
+        String company = smsMsg.getCompany();
+        String smsCode = smsMsg.getSmsCode();
+        String title = TextUtils.isEmpty(company) ? smsMsg.getSender() : company;
+        String content = mAppContext.getString(R.string.code_notification_content, smsCode);
+
+        int notificationId = smsMsg.hashCode();
+
+        Notification notification = new NotificationCompat.Builder(mAppContext, NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION)
+                .setSmallIcon(R.drawable.ic_app_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(mAppContext.getResources(), R.drawable.ic_app_icon))
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle(title)
+                .setContentText(content)
+//                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(mAppContext, R.color.ic_launcher_background))
+                .setGroup(NotificationConst.GROUP_KEY_SMSCODE_NOTIFICATION)
+                .build();
+
+        manager.notify(notificationId, notification);
+
+        if (XSPUtils.autoCancelCodeNotification(mPreferences)) {
+            Message cancelNotifyMsg = workerHandler
+                    .obtainMessage(MSG_CANCEL_NOTIFICATION, notificationId);
+            workerHandler.sendMessageDelayed(cancelNotifyMsg, 60 * 1000);
+            mPreQuitQueueCount.getAndIncrement();
+        }
+    }
+
+    private void cancelNotification(int notificationId) {
+        NotificationManager manager = (NotificationManager) mPhoneContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) {
+            return;
+        }
+        manager.cancel(notificationId);
+    }
+
+    private void handlePreQuitQueue() {
+        mPreQuitQueueCount.decrementAndGet();
+        if (mPreQuitQueueCount.get() <= DEFAULT_QUIT_COUNT) {
+            // 结束Looper
+            workerHandler.sendEmptyMessageDelayed(MSG_QUIT_QUEUE, 1000);
+        }
     }
 
 }

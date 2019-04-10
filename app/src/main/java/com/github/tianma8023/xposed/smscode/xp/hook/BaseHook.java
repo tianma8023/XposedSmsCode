@@ -3,7 +3,7 @@ package com.github.tianma8023.xposed.smscode.xp.hook;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class AbsHook implements IHook {
+public class BaseHook implements IHook {
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {

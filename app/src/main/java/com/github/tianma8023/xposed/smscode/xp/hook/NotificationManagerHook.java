@@ -19,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Hook android.app.NotificationManager for block code SMS notification.
  */
-public class NotificationManagerHook extends AbsHook  {
+public class NotificationManagerHook extends BaseHook {
 
     private Context mContext;
     private XSharedPreferences mPreferences;

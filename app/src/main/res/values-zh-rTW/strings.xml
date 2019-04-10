@@ -41,6 +41,13 @@
     <string name="pref_kill_me_summary">擷取成功後殺掉本應用</string>
     <!-- preference experimental end -->
 
+    <!-- preference smscode notification -->
+    <string name="pref_show_code_notification_title">顯示通知</string>
+    <string name="pref_show_code_notification_summary">收到驗證碼時顯示通知</string>
+    <string name="pref_auto_cancel_notification_title">自動清除通知</string>
+    <string name="pref_auto_cancel_notification_summary">1分鐘後自動清除驗證碼通知</string>
+    <!-- preference smscode notification -->
+
     <!-- preference Code SMS -->
     <string name="pref_smscode_title">驗證碼簡訊</string>
     <string name="pref_smscode_keywords_title">驗證碼簡訊關鍵字</string>
@@ -194,6 +201,8 @@
     <!-- SMS parsing notification -->
     <string name="channel_name_foreground_service">分析簡訊時的通知</string>
     <string name="sms_code_notification_title">簡訊分析中……</string>
+    <string name="channel_name_smscode_notification">驗證碼通知</string>
+    <string name="code_notification_content">驗證碼：%s</string>
     <!-- SMS parsing notification end -->
 
     <!-- faq -->
