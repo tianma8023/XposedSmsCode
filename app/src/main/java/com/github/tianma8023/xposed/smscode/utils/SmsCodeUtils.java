@@ -123,8 +123,30 @@ public class SmsCodeUtils {
         // 现在的正则表达式是 [a-zA-Z0-9]+(\.[a-zA-Z0-9]+)? 匹配数字和字母之间最多一个.的字符串
         // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
         String codeRegex = "(?<![a-zA-Z0-9])[a-zA-Z0-9]{4,8}(?![a-zA-Z0-9])";
-        content = removeAllWhiteSpaces(content);
-        return getSmsCode(codeRegex, keyword, content);
+        String smsCode = getSmsCode(codeRegex, keyword, content);
+        if (TextUtils.isEmpty(smsCode)) {
+            // 没解析出就去掉所有空白字符再处理
+            content = removeAllWhiteSpaces(content);
+            smsCode = getSmsCode(codeRegex, keyword, content);
+        }
+        return smsCode;
+    }
+
+    /**
+     * 获取英文短信包含的验证码
+     */
+    private static String getSmsCodeEN(String keyword, String content) {
+        // 之前的正则表达式是 [0-9]{4,8} 匹配由数字组成的4到8长度的字符串
+        // 现在的正则表达式是 [0-9]+(\\.[0-9]+)? 匹配数字之间最多一个.的字符串
+        // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
+        String codeRegex = "(?<![0-9])[0-9]{4,8}(?![0-9])";
+        String smsCode = getSmsCode(codeRegex, keyword, content);
+        if (TextUtils.isEmpty(smsCode)) {
+            // 没解析出就去掉所有空白字符再处理
+            content = removeAllWhiteSpaces(content);
+            smsCode = getSmsCode(codeRegex, keyword, content);
+        }
+        return smsCode;
     }
 
     /**
@@ -132,17 +154,6 @@ public class SmsCodeUtils {
      */
     private static String removeAllWhiteSpaces(String content) {
         return content.replaceAll("\\s*", "");
-    }
-
-    /**
-     * 获取英文短信包含的验证码
-     */
-    private static String getSmsCodeEN(String keywordsRegex, String content) {
-        // 之前的正则表达式是 [0-9]{4,8} 匹配由数字组成的4到8长度的字符串
-        // 现在的正则表达式是 [0-9]+(\\.[0-9]+)? 匹配数字之间最多一个.的字符串
-        // 之前的不能识别和剔除小数，比如 123456.231，很容易就把 123456 作为验证码。
-        String codeRegex = "(?<![0-9])[0-9]{4,8}(?![0-9])";
-        return getSmsCode(codeRegex, keywordsRegex, content);
     }
 
     /*
