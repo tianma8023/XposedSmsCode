@@ -74,16 +74,14 @@ public class SmsCodeWorker {
     private static final int MSG_COPY_TO_CLIPBOARD = 0xf8;
     private static final int MSG_SHOW_CODE_NOTIFICATION = 0xf7;
     private static final int MSG_CANCEL_NOTIFICATION = 0xf6;
-    private static final int MSG_PRE_QUIT_QUEUE = 0xf5;
 
     private AtomicInteger mPreQuitQueueCount;
-
     private static final int DEFAULT_QUIT_COUNT = 0;
 
     private Handler uiHandler;
     private Handler workerHandler;
 
-    public SmsCodeWorker(Context appContext, Context phoneContext, Intent smsIntent) {
+    SmsCodeWorker(Context appContext, Context phoneContext, Intent smsIntent) {
         mAppContext = appContext;
         mPhoneContext = phoneContext;
         mPreferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
@@ -120,10 +118,13 @@ public class SmsCodeWorker {
         }
 
         String smsCode = SmsCodeUtils.parseSmsCodeIfExists(mAppContext, msgBody, true);
-        smsMsg.setSmsCode(smsCode);
         if (TextUtils.isEmpty(smsCode)) { // Not verification code msg.
             return null;
         }
+
+        smsMsg.setSmsCode(smsCode);
+        smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
+        smsMsg.setDate(System.currentTimeMillis());
 
         boolean verboseLog = XSPUtils.isVerboseLogMode(mPreferences);
         if (verboseLog) {
@@ -158,9 +159,6 @@ public class SmsCodeWorker {
 
         // 是否记录验证码短信
         if (XSPUtils.recordSmsCodeEnabled(mPreferences)) {
-            smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
-            smsMsg.setDate(System.currentTimeMillis());
-
             Message recordMsg = workerHandler.obtainMessage(MSG_RECORD_SMS_MSG, smsMsg);
             workerHandler.sendMessage(recordMsg);
         }
@@ -243,9 +241,6 @@ public class SmsCodeWorker {
                 case MSG_CANCEL_NOTIFICATION: {
                     cancelNotification((Integer) msg.obj);
                     handlePreQuitQueue();
-                    break;
-                }
-                case MSG_PRE_QUIT_QUEUE: {
                     break;
                 }
                 default:

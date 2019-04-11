@@ -4,7 +4,7 @@
 [English README](/README-EN.md)
 
 # 应用截图
-<img src="art/cn/01.png" width="180"/><img src="art/cn/02.png" width="180"/><img src="art/cn/03.png" width="180"/><img src="art/cn/04.png" width="180"/>
+<img src="art/cn/01.png" width="180"/><img src="art/cn/02.png" width="180"/><img src="art/cn/03.png" width="180"/>
 
 可以在 [Xposed仓库](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode) 或者 [酷安](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode) 下载此模块。
 
@@ -17,12 +17,14 @@
 
 # 注意
 - **此模块适用于偏原生的系统，其他第三方定制Rom可能不适用。**
-- **兼容性：兼容 Android 5.0 及以上（api等级≥21）设备。**
+- **兼容性：兼容 Android 6.0 及以上（api等级≥23）设备。**
+- **支持 Xposed, EdXposed 和 太极·magisk**
 - **遇到什么问题请先阅读模块中的"常见问题"**
 
 # 功能
 - 收到验证码短信后将验证码复制到系统剪贴板
-- 当验证码被复制后显示Toast
+- 收到验证码时显示Toast
+- 收到验证码时显示通知
 - 将验证码短信标记为已读（实验性）
 - 删除验证码短信（实验性）
 - 拦截验证码短信（实验性）

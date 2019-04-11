@@ -4,7 +4,7 @@ An Xposed module which can recognize ,parse SMS code and copy it to clipboard wh
 [中文版说明](/README-CN.md)
 
 # Screenshots
-<img src="art/en/01.png" width="180"/><img src="art/en/02.png" width="180"/><img src="art/en/03.png" width="180"/><img src="art/en/04.png" width="180"/>
+<img src="art/en/01.png" width="180"/><img src="art/en/02.png" width="180"/><img src="art/en/03.png" width="180"/>
 
 You can download this module on [Xposed Repository](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode) or [Coolapk](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode). 
 
@@ -17,12 +17,14 @@ Welcome any feedbacks.
 
 # Attention
 - **This module is suitable for AOSP ROM, it may not work well on other 3rd-party Rom.**
-- **Compatibility: Requires Android 5.0+ (api level ≥ 21).**
+- **Compatibility: Requires Android 6.0+ (api level ≥ 23).**
+- **Support Xposed, EdXposed and TaiChi·Magisk**
 - **Read the FAQ in app first if you encountered any problems.**
 
 # Features
 - Copy verification code to clipboard when a new message arrives.
 - Show toast when a SMS verification code is copied.
+- Show notification when code SMS parsed.
 - Mark verification code message as read(experimental).
 - Delete verification SMS when it's extracted successfully(experimental).
 - Block verification SMS if it's extracted successfully(experimental).
