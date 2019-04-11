@@ -179,7 +179,7 @@ public class SmsHandlerHook extends BaseHook {
             String channelName = mAppContext.getString(R.string.channel_name_smscode_notification);
             NotificationUtils.createNotificationChannel(mPhoneContext,
                     channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-            XLog.d("init notification channel succeed");
+            XLog.d("Init notification channel succeed");
         }
     }
 
@@ -214,7 +214,7 @@ public class SmsHandlerHook extends BaseHook {
         ParseResult parseResult = new SmsCodeWorker(mAppContext, mPhoneContext, intent).parse();
         if (parseResult != null) {// parse succeed
             if (parseResult.isBlockSms()) {
-                XLog.d("blocking code SMS...");
+                XLog.d("Blocking code SMS...");
                 deleteRawTableAndSendMessage(param.thisObject, param.args[receiverIndex]);
                 param.setResult(null);
             }
@@ -228,7 +228,7 @@ public class SmsHandlerHook extends BaseHook {
         try {
             deleteFromRawTable(inboundSmsHandler, smsReceiver);
         } catch (Throwable e) {
-            XLog.e("error occurs when delete SMS data from raw table", e);
+            XLog.e("Error occurs when delete SMS data from raw table", e);
         } finally {
             Binder.restoreCallingIdentity(token);
         }
@@ -237,7 +237,7 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void sendEventBroadcastComplete(Object inboundSmsHandler) {
-        XLog.d("send event(EVENT_BROADCAST_COMPLETE)");
+        XLog.d("Send event(EVENT_BROADCAST_COMPLETE)");
         XposedHelpers.callMethod(inboundSmsHandler, "sendMessage", EVENT_BROADCAST_COMPLETE);
     }
 
@@ -250,7 +250,7 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void deleteFromRawTable19(Object inboundSmsHandler, Object smsReceiver) throws ReflectiveOperationException {
-        XLog.d("delete raw SMS data from database on Android 19+");
+        XLog.d("Delete raw SMS data from database on Android 19+");
         Object deleteWhere = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhere");
         Object deleteWhereArgs = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhereArgs");
 
@@ -260,7 +260,7 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void deleteFromRawTable24(Object inboundSmsHandler, Object smsReceiver) throws ReflectiveOperationException {
-        XLog.d("delete raw SMS data from database on Android 24+");
+        XLog.d("Delete raw SMS data from database on Android 24+");
         Object deleteWhere = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhere");
         Object deleteWhereArgs = XposedHelpers.getObjectField(smsReceiver, "mDeleteWhereArgs");
         final int MARK_DELETED = 2;

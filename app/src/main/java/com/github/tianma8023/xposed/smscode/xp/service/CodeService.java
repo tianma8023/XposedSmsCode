@@ -34,7 +34,7 @@ public class CodeService extends ISmsCodeService.Stub {
 
     public static void register(Context context, ClassLoader classLoader) {
         if (context == null) {
-            XLog.e("context is null");
+            XLog.e("Context is null");
         }
         Class<?> svcManager = XposedHelpers.findClass(SERVICE_MANAGER_CLS, classLoader);
 
@@ -45,7 +45,7 @@ public class CodeService extends ISmsCodeService.Stub {
                 /* service    */ codeService,
                 /* allowIsolated */ true);
 
-        XLog.d("register code service succeed");
+        XLog.d("Register code service succeed");
     }
 
     private static String getServiceName() {
@@ -62,7 +62,7 @@ public class CodeService extends ISmsCodeService.Stub {
                 IBinder binder = (IBinder) getServiceMethod.invoke(null, getServiceName());
                 mClient = ISmsCodeService.Stub.asInterface(binder);
             } catch (Exception e) {
-                XLog.e("error occurs when get CodeService.", e);
+                XLog.e("Error occurs when get CodeService.", e);
             }
         }
         return mClient;
@@ -83,7 +83,7 @@ public class CodeService extends ISmsCodeService.Stub {
             XLog.i("CodeService packageName: %s", packageName);
             XLog.i("Current ProcessName: %s", getCurrentProcessName());
         } catch (Exception e) {
-            XLog.e("error occurs when print process name.", e);
+            XLog.e("Error occurs when print process name.", e);
         }
     }
 
@@ -160,7 +160,7 @@ public class CodeService extends ISmsCodeService.Stub {
             XposedHelpers.callMethod(inputManager, "injectInputEvent", paramTypes, args);
         } catch (Exception e) {
             e.printStackTrace();
-            XLog.e("error occurs when injectKeyEvent", e);
+            XLog.e("Error occurs when injectKeyEvent", e);
         }
     }
 }

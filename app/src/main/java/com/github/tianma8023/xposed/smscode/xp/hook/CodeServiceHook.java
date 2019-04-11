@@ -34,7 +34,7 @@ public class CodeServiceHook extends BaseHook {
                 hookBeforeLollipop();
             }
         } catch (Throwable e) {
-            XLog.e("error occurs when hook AMS", e);
+            XLog.e("Error occurs when hook AMS", e);
         }
     }
 
@@ -42,12 +42,12 @@ public class CodeServiceHook extends BaseHook {
 
     private void hookSinceLollipop() throws Throwable {
         // android 5.0+
-        XLog.i("hooking ActivityThread...");
+        XLog.i("Hooking ActivityThread...");
         Class<?> activityThread = Class.forName("android.app.ActivityThread");
         XposedBridge.hookAllMethods(activityThread, "systemMain", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                XLog.i("hooking ActivityThread#systemMain()...");
+                XLog.i("Hooking ActivityThread#systemMain()...");
                 final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
                 Class<?> ams = XposedHelpers.findClass(AMS_CLS, classLoader);
 
@@ -60,7 +60,7 @@ public class CodeServiceHook extends BaseHook {
                                     XLog.i("Hooking ActivityManagerService$access()...");
                                     CodeService.register((Context) param.args[0], classLoader);
                                 } catch (Throwable e) {
-                                    XLog.e("error occurs when register system service", e);
+                                    XLog.e("Error occurs when register system service", e);
                                 }
                             }
                         });

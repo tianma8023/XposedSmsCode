@@ -99,7 +99,7 @@ public class PermissionGranterHook extends BaseHook {
         Set<String> packageSet = PACKAGE_PERMISSIONS.keySet();
         for (String packageName : packageSet) {
             if (packageName.equals(_packageName)) {
-                XLog.d("packageName = %s", packageName);
+                XLog.d("PackageName = %s", packageName);
                 // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
                 final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
                 // com.android.server.pm.PermissionsState 对象
@@ -145,7 +145,7 @@ public class PermissionGranterHook extends BaseHook {
         Set<String> packageSet = PACKAGE_PERMISSIONS.keySet();
         for (String packageName : packageSet) {
             if (packageName.equals(_packageName)) {
-                XLog.d("packageName = %s", packageName);
+                XLog.d("PackageName = %s", packageName);
                 // com.android.server.pm.PackageSetting mExtra object
                 final Object extra = XposedHelpers.getObjectField(pkg, "mExtras");
                 // PackageSetting extends PackageSettingBase
@@ -225,7 +225,7 @@ public class PermissionGranterHook extends BaseHook {
         Set<String> packageSet = PACKAGE_PERMISSIONS.keySet();
         for (String packageName : packageSet) {
             if (packageName.equals(_packageName)) {
-                XLog.d("packageName = %s", packageName);
+                XLog.d("PackageName = %s", packageName);
                 // PackageParser$Package.mExtras 实际上是 com.android.server.pm.PackageSetting mExtras 对象
                 final Object extras = XposedHelpers.getObjectField(pkg, "mExtras");
                 // com.android.server.pm.permission.PermissionsState 对象

@@ -107,7 +107,7 @@ public class AccessibilityUtils {
         if (!TextUtils.isEmpty(enabledAccessibilityServices)) {
             serviceList.addAll(Arrays.asList(enabledAccessibilityServices.split(":")));
         }
-        XLog.d("enabled services = %s", serviceList.toString());
+        XLog.d("Enabled services = %s", serviceList.toString());
         return serviceList;
     }
 
@@ -154,10 +154,10 @@ public class AccessibilityUtils {
                 if (enabled) {
                     // need to let accessibility_enabled = 1
                     boolean accessibilityEnabled = isAccessibilityEnabled(context);
-                    XLog.d("accessibility_enabled: " + accessibilityEnabled);
+                    XLog.d("Accessibility_enabled: " + accessibilityEnabled);
                     if (!accessibilityEnabled) {
                         accessibilityEnabled = setAccessibilityEnabled(context, true);
-                        XLog.d("put accessibility_enabled: " + accessibilityEnabled);
+                        XLog.d("Put accessibility_enabled: " + accessibilityEnabled);
                         if (!accessibilityEnabled) {
                             return false;
                         }
@@ -166,7 +166,7 @@ public class AccessibilityUtils {
             }
             return enabled;
         } catch (Exception e) {
-            XLog.e("error occurs enableAccessibilityService by Settings", e);
+            XLog.e("Error occurs enableAccessibilityService by Settings", e);
             return false;
         }
     }
@@ -190,7 +190,7 @@ public class AccessibilityUtils {
             enabledServices.remove(accessibilityServiceName);
             return setEnabledAccessibilityServices(context, enabledServices);
         } catch (Exception e) {
-            XLog.e("error occurs disableAccessibilityService by Settings", e);
+            XLog.e("Error occurs disableAccessibilityService by Settings", e);
             return false;
         }
     }

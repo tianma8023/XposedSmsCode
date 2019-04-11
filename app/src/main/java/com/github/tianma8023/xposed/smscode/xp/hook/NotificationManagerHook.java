@@ -41,7 +41,7 @@ public class NotificationManagerHook extends BaseHook {
             hookConstructor();
             hookNotify();
         } catch (Exception e) {
-            XLog.e("failed to hook NotificationManager");
+            XLog.e("Failed to hook NotificationManager");
         }
     }
 
@@ -108,10 +108,10 @@ public class NotificationManagerHook extends BaseHook {
         CharSequence title = notification.extras.getCharSequence(Notification.EXTRA_TITLE);
 //        XLog.d("notification: %s", notification.toString());
 //        XLog.d("notification extras: %s", notification.extras);
-        XLog.d("notification title: %s", title);
-        XLog.d("notification text: %s", text);
-        XLog.d("notification ----------------------------");
-        XLog.d("notification ----------------------------");
+        XLog.d("Notification title: %s", title);
+        XLog.d("Notification text: %s", text);
+        XLog.d("Notification ----------------------------");
+        XLog.d("Notification ----------------------------");
         if (TextUtils.isEmpty(text)) {
             return;
         }

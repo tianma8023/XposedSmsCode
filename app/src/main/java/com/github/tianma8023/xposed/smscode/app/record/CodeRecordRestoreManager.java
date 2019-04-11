@@ -44,7 +44,7 @@ public class CodeRecordRestoreManager {
             StorageUtils.setFileWorldWritable(recordFile, 0);
             return true;
         } catch (Exception e) {
-            XLog.e("export code record to file failed", e);
+            XLog.e("Export code record to file failed", e);
             return false;
         } finally {
             if (osw != null) {
@@ -76,7 +76,7 @@ public class CodeRecordRestoreManager {
             if (!smsMsgList.isEmpty()) {
                 DBManager dbManager = DBManager.get(context);
                 dbManager.addSmsMsgList(smsMsgList);
-                XLog.d("import code records to database succeed");
+                XLog.d("Import code records to database succeed");
 
                 List<SmsMsg> allMsgList = dbManager.queryAllSmsMsg();
                 if(allMsgList.size() > PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT) {
@@ -85,12 +85,12 @@ public class CodeRecordRestoreManager {
                         outdatedMsgList.add(allMsgList.get(i));
                     }
                     dbManager.removeSmsMsgList(outdatedMsgList);
-                    XLog.d("remove outdated code records succeed");
+                    XLog.d("Remove outdated code records succeed");
                 }
             }
             return true;
         } catch (Throwable t) {
-            XLog.e("import code records to database failed.", t);
+            XLog.e("Import code records to database failed.", t);
         }
         return false;
     }

@@ -102,6 +102,13 @@ public class SmsCodeWorker {
             return null;
         }
 
+        boolean verboseLog = XSPUtils.isVerboseLogMode(mPreferences);
+        if (verboseLog) {
+            XLog.setLogLevel(Log.VERBOSE);
+        } else {
+            XLog.setLogLevel(BuildConfig.LOG_LEVEL);
+        }
+
         SmsMsg smsMsg = SmsMsg.fromIntent(mSmsIntent);
 
         String sender = smsMsg.getSender();
@@ -125,13 +132,6 @@ public class SmsCodeWorker {
         smsMsg.setSmsCode(smsCode);
         smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
         smsMsg.setDate(System.currentTimeMillis());
-
-        boolean verboseLog = XSPUtils.isVerboseLogMode(mPreferences);
-        if (verboseLog) {
-            XLog.setLogLevel(Log.VERBOSE);
-        } else {
-            XLog.setLogLevel(BuildConfig.LOG_LEVEL);
-        }
 
         // 是否复制到剪切板
         if (XSPUtils.copyToClipboardEnabled(mPreferences)) {
@@ -259,7 +259,7 @@ public class SmsCodeWorker {
     }
 
     private void markSmsAsRead(String sender, String body) {
-        XLog.d("Marking SMS...");
+        XLog.d("Marking SMS as read...");
         boolean result = operateSms(sender, body, OP_MARK_AS_READ);
         if (result) {
             XLog.i("Mark SMS as read succeed");
@@ -302,7 +302,7 @@ public class SmsCodeWorker {
             ContentResolver resolver = mAppContext.getContentResolver();
             cursor = resolver.query(uri, projection, null, null, sortOrder);
             if (cursor == null) {
-                XLog.i("Cursor is null");
+                XLog.d("Cursor is null");
                 return false;
             }
             while (cursor.moveToNext()) {
@@ -351,7 +351,7 @@ public class SmsCodeWorker {
 
             ContentResolver resolver = mAppContext.getContentResolver();
             resolver.insert(smsMsgUri, values);
-            XLog.d("add code record succeed by cp");
+            XLog.d("Add code record succeed by cp");
 
             String[] projections = {SmsMsgDao.Properties.Id.columnName};
             String order = SmsMsgDao.Properties.Date.columnName + " ASC";
@@ -376,7 +376,7 @@ public class SmsCodeWorker {
                 }
 
                 resolver.applyBatch(DBProvider.AUTHORITY, operations);
-                XLog.d("remove outdated code records succeed by cp");
+                XLog.d("Remove outdated code records succeed by cp");
             }
 
             cursor.close();
@@ -384,7 +384,7 @@ public class SmsCodeWorker {
             // ContentProvider dead.
             // Write file to do data transition
             if (CodeRecordRestoreManager.exportToFile(smsMsg)) {
-                XLog.d("export code record to file succeed");
+                XLog.d("Export code record to file succeed");
             }
         }
     }
@@ -399,17 +399,17 @@ public class SmsCodeWorker {
 
             if (activityManager != null) {
                 activityManager.killBackgroundProcesses(packageName);
-                XLog.d("kill %s background process succeed", packageName);
+                XLog.d("Kill %s background process succeed", packageName);
             }
         } catch (Throwable e) {
-            XLog.e("error occurs when kill background process %s", packageName, e);
+            XLog.e("Error occurs when kill background process %s", packageName, e);
         }
     }
 
     private void quit() {
         if (workerHandler != null) {
             workerHandler.getLooper().quitSafely();
-            XLog.d("worker thread quit");
+            XLog.d("Worker thread quit");
         }
     }
 
@@ -417,9 +417,9 @@ public class SmsCodeWorker {
     private void autoInputCode(String code) {
         try {
             sendText(code);
-            XLog.d("auto input code succeed");
+            XLog.d("Auto input code succeed");
         } catch (Throwable throwable) {
-            XLog.e("error occurs when auto input code", throwable);
+            XLog.e("Error occurs when auto input code", throwable);
         }
     }
 
@@ -501,6 +501,7 @@ public class SmsCodeWorker {
                 .build();
 
         manager.notify(notificationId, notification);
+        XLog.d("Show notification succeed");
 
         if (XSPUtils.autoCancelCodeNotification(mPreferences)) {
             Message cancelNotifyMsg = workerHandler
@@ -517,6 +518,7 @@ public class SmsCodeWorker {
             return;
         }
         manager.cancel(notificationId);
+        XLog.d("Notification auto cancelled");
     }
 
     private void handlePreQuitQueue() {
