@@ -32,12 +32,12 @@ import android.widget.Toast;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsgDao;
 import com.github.tianma8023.xposed.smscode.app.record.CodeRecordRestoreManager;
 import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.db.DBProvider;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsgDao;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.SmsCodeUtils;
 import com.github.tianma8023.xposed.smscode.utils.StringUtils;

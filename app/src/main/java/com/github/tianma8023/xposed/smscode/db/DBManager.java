@@ -3,12 +3,12 @@ package com.github.tianma8023.xposed.smscode.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.github.tianma8023.xposed.smscode.aidl.DaoMaster;
-import com.github.tianma8023.xposed.smscode.aidl.DaoSession;
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsgDao;
+import com.github.tianma8023.xposed.smscode.entity.DaoMaster;
+import com.github.tianma8023.xposed.smscode.entity.DaoSession;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRule;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRuleDao;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsgDao;
 
 import org.greenrobot.greendao.AbstractDao;
 

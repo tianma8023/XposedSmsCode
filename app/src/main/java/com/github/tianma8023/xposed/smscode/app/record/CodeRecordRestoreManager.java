@@ -3,7 +3,7 @@ package com.github.tianma8023.xposed.smscode.app.record;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 import com.github.tianma8023.xposed.smscode.db.DBManager;
 import com.github.tianma8023.xposed.smscode.utils.StorageUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;

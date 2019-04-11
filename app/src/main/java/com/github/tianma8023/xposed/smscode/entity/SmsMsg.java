@@ -1,4 +1,4 @@
-package com.github.tianma8023.xposed.smscode.aidl;
+package com.github.tianma8023.xposed.smscode.entity;
 
 import android.content.Intent;
 import android.os.Parcel;

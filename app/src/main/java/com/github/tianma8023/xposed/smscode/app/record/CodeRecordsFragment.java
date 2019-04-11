@@ -23,7 +23,7 @@ import com.github.tianma8023.xposed.smscode.adapter.BaseItemCallback;
 import com.github.tianma8023.xposed.smscode.adapter.ItemChildCallback;
 import com.github.tianma8023.xposed.smscode.app.base.BackPressFragment;
 import com.github.tianma8023.xposed.smscode.db.DBManager;
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 import com.github.tianma8023.xposed.smscode.utils.ClipboardUtils;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 

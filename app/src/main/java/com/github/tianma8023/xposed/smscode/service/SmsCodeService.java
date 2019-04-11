@@ -31,7 +31,7 @@
 //import com.github.tianma8023.xposed.smscode.R;
 //import com.github.tianma8023.xposed.smscode.aidl.ISmsMsgListener;
 //import com.github.tianma8023.xposed.smscode.aidl.ISmsMsgManager;
-//import com.github.tianma8023.xposed.smscode.aidl.SmsMsg;
+//import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 //import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 //import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 //import com.github.tianma8023.xposed.smscode.db.DBManager;

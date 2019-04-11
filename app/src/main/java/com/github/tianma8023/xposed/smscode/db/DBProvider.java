@@ -11,8 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.github.tianma8023.xposed.smscode.aidl.SmsMsgDao;
 import com.github.tianma8023.xposed.smscode.entity.SmsCodeRuleDao;
+import com.github.tianma8023.xposed.smscode.entity.SmsMsgDao;
 
 public class DBProvider extends ContentProvider {
 
