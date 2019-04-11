@@ -83,3 +83,6 @@ app/signature.properties
 .settings/
 *.project
 */.classpath
+
+# vscode
+.vscode/*
