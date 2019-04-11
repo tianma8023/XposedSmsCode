@@ -3,6 +3,7 @@ package com.github.tianma8023.xposed.smscode.app.record;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.entity.SmsMsg;
 import com.github.tianma8023.xposed.smscode.db.DBManager;
 import com.github.tianma8023.xposed.smscode.utils.StorageUtils;
@@ -73,7 +74,19 @@ public class CodeRecordRestoreManager {
             }
 
             if (!smsMsgList.isEmpty()) {
-                DBManager.get(context).addSmsMsgList(smsMsgList);
+                DBManager dbManager = DBManager.get(context);
+                dbManager.addSmsMsgList(smsMsgList);
+                XLog.d("import code records to database succeed");
+
+                List<SmsMsg> allMsgList = dbManager.queryAllSmsMsg();
+                if(allMsgList.size() > PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT) {
+                    List<SmsMsg> outdatedMsgList = new ArrayList<>();
+                    for (int i = PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT; i < allMsgList.size(); i++) {
+                        outdatedMsgList.add(allMsgList.get(i));
+                    }
+                    dbManager.removeSmsMsgList(outdatedMsgList);
+                    XLog.d("remove outdated code records succeed");
+                }
             }
             return true;
         } catch (Throwable t) {

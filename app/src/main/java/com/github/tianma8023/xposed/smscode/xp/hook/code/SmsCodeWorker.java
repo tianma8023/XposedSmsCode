@@ -351,6 +351,7 @@ public class SmsCodeWorker {
 
             ContentResolver resolver = mAppContext.getContentResolver();
             resolver.insert(smsMsgUri, values);
+            XLog.d("add code record succeed by cp");
 
             String[] projections = {SmsMsgDao.Properties.Id.columnName};
             String order = SmsMsgDao.Properties.Date.columnName + " ASC";
@@ -375,10 +376,10 @@ public class SmsCodeWorker {
                 }
 
                 resolver.applyBatch(DBProvider.AUTHORITY, operations);
+                XLog.d("remove outdated code records succeed by cp");
             }
 
             cursor.close();
-            XLog.d("add SMS record succeed");
         } catch (Exception e1) {
             // ContentProvider dead.
             // Write file to do data transition
