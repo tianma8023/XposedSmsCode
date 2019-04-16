@@ -327,7 +327,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         PackageManager pm = mActivity.getPackageManager();
         ComponentName launcherCN = new ComponentName(mActivity, Const.HOME_ACTIVITY_ALIAS);
         int state = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-        pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
+        if (pm.getComponentEnabledSetting(launcherCN) != state) {
+            pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
+        }
     }
 
     private void onVerboseLogModeSwitched(boolean on) {

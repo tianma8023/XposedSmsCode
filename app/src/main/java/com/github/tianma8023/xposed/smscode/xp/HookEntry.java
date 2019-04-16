@@ -24,7 +24,6 @@ public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit 
         mHookList.add(new DonateWechatHook()); // Wechat donate Hook
         mHookList.add(new PermissionGranterHook()); // PackageManagerService Hook
 //        mHookList.add(new NotificationManagerHook()); // NotificationManager Hook
-//        mHookList.add(new CodeServiceHook()); // CodeService Hook
     }
 
     @Override
