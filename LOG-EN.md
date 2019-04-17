@@ -1,4 +1,7 @@
 # Update Logs
+- 19.04.17 v2.0.3 Reboot required
+  1. Change: notice for TaiChi users.
+  2. Fix: fix the issue of log level.
 - 19.04.11 v2.0.2 Reboot required
   1. New option: show SMS code notification
   2. Improvment: notice for TaiChi users.
