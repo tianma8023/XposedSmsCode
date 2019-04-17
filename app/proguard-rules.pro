@@ -2,6 +2,10 @@
     public void handleLoadPackage(...);
 }
 
+-keepclasseswithmembers class * implements de.robv.android.xposed.IXposedHookZygoteInit {
+    public void initZygote(...);
+}
+
 -keep class com.github.tianma8023.xposed.smscode.utils.ModuleUtils {
     int getModuleVersion();
 }
