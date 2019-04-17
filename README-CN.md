@@ -37,12 +37,15 @@
 [更新日志](/LOG-CN.md)
 
 # 感谢
+- [Xposed](https://github.com/rovo89/Xposed)
 - [NekoSMS](https://github.com/apsun/NekoSMS)
-- [SmsCodeHelper](https://github.com/drakeet/SmsCodeHelper)
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
-- [Remote Preferences](https://github.com/apsun/RemotePreferences)
 - [Material Dialogs](https://github.com/afollestad/material-dialogs)
 - [Android Shell](https://github.com/jaredrummler/AndroidShell)
+- [EventBus](https://github.com/greenrobot/EventBus)
+- [GreenDao](https://github.com/greenrobot/greenDAO)
+- [GreenDaoUpgradeHelper](https://github.com/yuweiguocn/GreenDaoUpgradeHelper)
+- [Gson](https://github.com/google/gson)
 
 # 协议
 所有的源码均遵循 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.txt) 协议

@@ -17,12 +17,12 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 32
-        versionName "2.0.2"
+        versionCode 33
+        versionName "2.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "30")
+        buildConfigField("int", "MODULE_VERSION", "33")
 
         vectorDrawables.generatedDensities = ['hdpi']
 
@@ -75,20 +75,9 @@ android {
     }
 
     applicationVariants.all { variant ->
-//        variant.outputs.all { output ->
-//            def outputFile = output.outputFile
-//            if (outputFile != null && outputFile.name.endsWith(".apk")) {
-//                def fileName = ""
-//                if (variant.buildType.name == 'release') {
-//                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_r.apk"
-//                } else if (variant.buildType.name == 'debug') {
-//                    fileName = "XposedSmsCode_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_d.apk"
-//                }
-//                outputFileName = fileName
-//            }
-//        }
         variant.outputs.all { output ->
-            output.outputFileName = "XposedSmsCode_v${variant.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_${variant.buildType.name.charAt(0)}.apk"
+//            output.outputFileName = "XposedSmsCode_v${variant.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_${variant.buildType.name.charAt(0)}.apk"
+            output.outputFileName = "XposedSmsCode_v${variant.versionName.replaceAll('\\s+', '_')}_${releaseTime()}_${variant.buildType.name.charAt(0)}.apk"
         }
     }
 
@@ -98,12 +87,12 @@ android {
         coolapk {
             dimension "type"
         }
-        xposed {
-            dimension "type"
-        }
-        github {
-            dimension "type"
-        }
+//        xposed {
+//            dimension "type"
+//        }
+//        github {
+//            dimension "type"
+//        }
     }
 
     productFlavors.all { flavor ->
@@ -137,9 +126,6 @@ dependencies {
     // Xposed
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
-
-    // Remote Preferences
-    implementation "com.crossbowffs.remotepreferences:remotepreferences:0.5"
 
     // Material Dialogs
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
