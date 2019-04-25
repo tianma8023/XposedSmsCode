@@ -85,7 +85,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         findPreference(PrefConst.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
 
-//        findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
+        // findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
 
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
@@ -93,12 +93,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         // general group end
 
         // experimental group
-//        findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
-//        findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
+        // findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
+        // findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
 
         // hide block notification
-//        PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
-//        experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_SMS));
+        // PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
+        // experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_SMS));
         // experimental group end
 
         // code message group
@@ -124,9 +124,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_GET_ALIPAY_PACKET).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
-
-        Preference wechatDonatePref = findPreference(PrefConst.KEY_DONATE_BY_WECHAT);
-        wechatDonatePref.setOnPreferenceClickListener(this);
         // about group end
     }
 
@@ -236,8 +233,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             aboutProject();
         } else if (PrefConst.KEY_DONATE_BY_ALIPAY.equals(key)) {
             donateByAlipay();
-        } else if (PrefConst.KEY_DONATE_BY_WECHAT.equals(key)) {
-            donateByWechat();
         } else if (PrefConst.KEY_ENTRY_CODE_RECORDS.equals(key)) {
             CodeRecordsActivity.startToMe(mActivity);
         } else if (PrefConst.KEY_GET_ALIPAY_PACKET.equals(key)) {
@@ -300,10 +295,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                     }
                 })
                 .show();
-    }
-
-    private void donateByWechat() {
-        PackageUtils.startWechatActivity(mActivity);
     }
 
     @Override
@@ -401,27 +392,27 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Toast.makeText(mActivity, text, Toast.LENGTH_LONG).show();
     }
 
-//    private boolean checkAppOpsPermission(boolean on) {
-//        if (!on) {
-//            return true;
-//        }
-//
-//        String packageName = BuildConfig.APPLICATION_ID;
-//        int uid = Process.myUid();
-//        int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
-//        if (!AppOpsUtils.checkOp(mActivity, opWriteSms, uid, packageName)) {
-//            // Don't have write sms AppOps permission
-//            try {
-//                AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
-//                return true;
-//            } catch (Exception e) {
-//                Toast.makeText(mActivity, R.string.no_permission_prompt, Toast.LENGTH_LONG).show();
-//                return false;
-//            }
-//        } else {
-//            return true;
-//        }
-//    }
+    //    private boolean checkAppOpsPermission(boolean on) {
+    //        if (!on) {
+    //            return true;
+    //        }
+    //
+    //        String packageName = BuildConfig.APPLICATION_ID;
+    //        int uid = Process.myUid();
+    //        int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
+    //        if (!AppOpsUtils.checkOp(mActivity, opWriteSms, uid, packageName)) {
+    //            // Don't have write sms AppOps permission
+    //            try {
+    //                AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
+    //                return true;
+    //            } catch (Exception e) {
+    //                Toast.makeText(mActivity, R.string.no_permission_prompt, Toast.LENGTH_LONG).show();
+    //                return false;
+    //            }
+    //        } else {
+    //            return true;
+    //        }
+    //    }
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {

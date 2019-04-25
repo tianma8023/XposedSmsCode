@@ -6,7 +6,6 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.utils.XLog;
 import com.github.tianma8023.xposed.smscode.utils.XSPUtils;
 import com.github.tianma8023.xposed.smscode.xp.hook.BaseHook;
-import com.github.tianma8023.xposed.smscode.xp.hook.DonateWechatHook;
 import com.github.tianma8023.xposed.smscode.xp.hook.ModuleUtilsHook;
 import com.github.tianma8023.xposed.smscode.xp.hook.PermissionGranterHook;
 import com.github.tianma8023.xposed.smscode.xp.hook.code.SmsHandlerHook;
@@ -27,9 +26,7 @@ public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit 
         mHookList = new ArrayList<>();
         mHookList.add(new SmsHandlerHook()); // InBoundsSmsHandler Hook
         mHookList.add(new ModuleUtilsHook()); // ModuleUtils Hook
-        mHookList.add(new DonateWechatHook()); // Wechat donate Hook
         mHookList.add(new PermissionGranterHook()); // PackageManagerService Hook
-//        mHookList.add(new NotificationManagerHook()); // NotificationManager Hook
     }
 
     @Override

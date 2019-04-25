@@ -37,7 +37,6 @@
     <string name="pref_source_code">pref_source_code</string>
     <string name="pref_get_alipay_packet">pref_get_alipay_packet</string>
     <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
-    <string name="pref_donate_by_wechat">pref_donate_by_wechat</string>
 
     <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
     <string name="pref_auto_input_mode">pref_auto_input_mode</string>

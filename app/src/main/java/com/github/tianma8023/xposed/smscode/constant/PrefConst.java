@@ -55,7 +55,6 @@ public interface PrefConst {
     String KEY_SOURCE_CODE = "pref_source_code";
     String KEY_GET_ALIPAY_PACKET = "pref_get_alipay_packet";
     String KEY_DONATE_BY_ALIPAY = "pref_donate_by_alipay";
-    String KEY_DONATE_BY_WECHAT = "pref_donate_by_wechat";
 
     String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
     boolean ENABLE_AUTO_INPUT_CODE_DEFAULT = true;

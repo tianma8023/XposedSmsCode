@@ -106,7 +106,6 @@
     <string name="pref_donate_by_alipay_title">Donate by Alipay</string>
     <string name="alipay_install_prompt">Please install Alipay</string>
     <string name="alipay_enable_prompt">Please enable Alipay</string>
-    <string name="pref_donate_by_wechat_title">Donate by Wechat</string>
     <string name="wechat_install_prompt">Please install Wechat</string>
     <string name="wechat_enable_prompt">Please enable Wechat</string>
     <!-- preference about end -->

@@ -207,13 +207,6 @@
             android:icon="@drawable/ic_alipay"
             android:key="@string/pref_donate_by_alipay"
             android:title="@string/pref_donate_by_alipay_title"/>
-
-        <Preference
-            android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_wechat_pay"
-            android:key="@string/pref_donate_by_wechat"
-            android:title="@string/pref_donate_by_wechat_title"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>
