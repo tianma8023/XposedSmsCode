@@ -23,44 +23,9 @@ public class PermConst {
 
         List<String> smsCodePermissions = new ArrayList<>();
 
-        // umeng sdk integration
-        // <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-        // <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-        // <uses-permission android:name="android.permission.INTERNET"/>
-        // <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-        // tencent bugly integration
-        // <uses-permission android:name="android.permission.READ_LOGS" />
-        smsCodePermissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
-        smsCodePermissions.add(Manifest.permission.ACCESS_WIFI_STATE);
-        smsCodePermissions.add(Manifest.permission.INTERNET);
-        smsCodePermissions.add(Manifest.permission.READ_PHONE_STATE);
-        smsCodePermissions.add(Manifest.permission.READ_LOGS);
-
-        // JobIntentService
-        // <uses-permission android:name="android.permission.WAKE_LOCK"/>
-        // smsCodePermissions.add(Manifest.permission.WAKE_LOCK);
-
-        // Enable/Disable AccessibilityService programmatically
-//        smsCodePermissions.add(Manifest.permission.WRITE_SETTINGS);
-//        smsCodePermissions.add(Manifest.permission.WRITE_SECURE_SETTINGS);
-
         // Backup import or export
         smsCodePermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         smsCodePermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-//        // READ_SMS for Mark SMS as read & Delete extracted verification SMS
-//        smsCodePermissions.add(Manifest.permission.READ_SMS);
-//        // api version < android M
-//        smsCodePermissions.add("android.permission.WRITE_SMS");
-//
-//        // Permission for grant AppOps permissions
-//        if (Build.VERSION.SDK_INT >= 28) {
-//            // Android P
-//            smsCodePermissions.add("android.permission.MANAGE_APP_OPS_MODES");
-//        } else {
-//            // android 4.4 ~ 8.1
-//            smsCodePermissions.add("android.permission.UPDATE_APP_OPS_STATS");
-//        }
 
         String smsCodePackage = BuildConfig.APPLICATION_ID;
         PACKAGE_PERMISSIONS.put(smsCodePackage, smsCodePermissions);

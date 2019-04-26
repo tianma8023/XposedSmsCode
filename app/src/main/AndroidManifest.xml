@@ -3,10 +3,6 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.github.tianma8023.xposed.smscode">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
     <application
         android:name=".app.SmsCodeApplication"
         android:allowBackup="true"
@@ -91,37 +87,6 @@
         <activity
             android:name=".app.record.CodeRecordsActivity"
             android:label="@string/smscode_records"/>
-
-        <!--<service-->
-            <!--android:name=".service.accessibility.SmsCodeAutoInputService"-->
-            <!--android:label="@string/smscode_auto_input_service_label"-->
-            <!--android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.accessibilityservice.AccessibilityService"/>-->
-            <!--</intent-filter>-->
-
-            <!--<meta-data-->
-                <!--android:name="android.accessibilityservice"-->
-                <!--android:resource="@xml/accessibility_service_config"/>-->
-        <!--</service>-->
-
-        <!--<service-->
-            <!--android:name=".service.SmsCodeService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true"-->
-            <!--android:process=":remote">-->
-        <!--</service>-->
-
-        <!--<receiver-->
-            <!--android:name=".receiver.SmsCodeReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true">-->
-        <!--</receiver>-->
-
-        <!--<provider-->
-            <!--android:name=".provider.SharedPreferencesProvider"-->
-            <!--android:authorities="${applicationId}.preferences"-->
-            <!--android:exported="true"/>-->
 
         <provider
             android:name=".db.DBProvider"
