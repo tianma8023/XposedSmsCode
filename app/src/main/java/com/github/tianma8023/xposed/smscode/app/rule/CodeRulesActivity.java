@@ -26,9 +26,6 @@ import butterknife.ButterKnife;
  */
 public class CodeRulesActivity extends BaseActivity {
 
-    public static final String EXTRA_SECTION_RULE_LIST = "rule_list";
-    public static final String EXTRA_SECTION_RULE_EDIT = "rule_edit";
-
     private static final String TAG_RULE_EDIT = "tag_rule_edit";
     private static final String TAG_RULE_LIST = "tag_rule_list";
 

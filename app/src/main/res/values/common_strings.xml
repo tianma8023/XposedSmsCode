@@ -9,7 +9,6 @@
     <string name="pref_hide_launcher_icon">pref_hide_launcher_icon</string>
     <string name="pref_show_toast">pref_show_toast</string>
     <string name="pref_copy_to_clipboard">pref_copy_to_clipboard</string>
-    <string name="pref_entry_auto_input_code">pref_entry_auto_input_code</string>
     <string name="pref_choose_theme">pref_choose_theme</string>
 
     <string name="pref_experimental">pref_experimental</string>
@@ -39,41 +38,7 @@
     <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
 
     <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
-    <string name="pref_auto_input_mode">pref_auto_input_mode</string>
-    <string name="pref_focus_mode">pref_focus_mode</string>
-    <string name="pref_manual_focus_if_failed">pref_manual_focus_if_failed</string>
-    <string name="pref_clear_clipboard">pref_clear_clipboard</string>
     <!-- shared preference key end -->
-
-    <!-- Focus mode -->
-    <string name="focus_mode_auto">focus_mode_auto</string>
-    <string name="focus_mode_manual">focus_mode_manual</string>
-
-    <string-array name="pref_focus_mode_entryValues">
-        <item>@string/focus_mode_manual</item>
-        <item>@string/focus_mode_auto</item>
-    </string-array>
-
-    <string-array name="pref_focus_mode_entries">
-        <item>@string/focus_mode_entry_manual</item>
-        <item>@string/focus_mode_entry_auto</item>
-    </string-array>
-    <!-- Focus mode end -->
-
-    <!-- Auto-input mode -->
-    <string name="auto_input_mode_accessibility">auto_input_mode_accessibility</string>
-    <string name="auto_input_mode_root">auto_input_mode_root</string>
-
-    <string-array name="pref_auto_input_mode_entryValues">
-        <item>@string/auto_input_mode_accessibility</item>
-        <item>@string/auto_input_mode_root</item>
-    </string-array>
-
-    <string-array name="pref_auto_input_mode_entries">
-        <item>@string/pref_auto_input_mode_accessibility</item>
-        <item>@string/pref_auto_input_mode_root</item>
-    </string-array>
-    <!-- Auto-input mode end -->
 
     <!-- sms code types -->
     <string-array name="sms_code_type_entry_list">

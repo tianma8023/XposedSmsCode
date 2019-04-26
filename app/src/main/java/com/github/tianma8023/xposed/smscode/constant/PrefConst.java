@@ -8,7 +8,6 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 public interface PrefConst {
 
     String REMOTE_PREF_NAME = BuildConfig.APPLICATION_ID + "_preferences";
-    String REMOTE_PREF_AUTHORITY = BuildConfig.APPLICATION_ID + ".preferences";
 
     String KEY_ENABLE = "pref_enable";
     boolean ENABLE_DEFAULT = true;
@@ -58,20 +57,6 @@ public interface PrefConst {
 
     String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
     boolean ENABLE_AUTO_INPUT_CODE_DEFAULT = true;
-    String KEY_AUTO_INPUT_MODE = "pref_auto_input_mode";
-    String AUTO_INPUT_MODE_DEFAULT = "";
-    String AUTO_INPUT_MODE_ROOT = "auto_input_mode_root";
-    String AUTO_INPUT_MODE_ACCESSIBILITY = "auto_input_mode_accessibility";
-
-    String KEY_FOCUS_MODE = "pref_focus_mode";
-    String FOCUS_MODE_AUTO = "focus_mode_auto";
-    String FOCUS_MODE_MANUAL = "focus_mode_manual";
-
-    String KEY_MANUAL_FOCUS_IF_FAILED = "pref_manual_focus_if_failed";
-    boolean MANUAL_FOCUS_IF_FAILED_DEFAULT = false;
-
-    String KEY_CLEAR_CLIPBOARD = "pref_clear_clipboard";
-    boolean CLEAR_CLIPBOARD_DEFAULT = false;
 
     String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
     boolean VERBOSE_LOG_MODE_DEFAULT = false;

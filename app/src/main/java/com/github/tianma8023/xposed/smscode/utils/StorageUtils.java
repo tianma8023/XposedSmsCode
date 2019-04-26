@@ -79,8 +79,6 @@ public class StorageUtils {
 
     /**
      * Get internal files dir. /data/data/<package_name>/files/
-     *
-     * @return
      */
     public static File getInternalFilesDir() {
         return new File(getInternalDataDir(), "files");

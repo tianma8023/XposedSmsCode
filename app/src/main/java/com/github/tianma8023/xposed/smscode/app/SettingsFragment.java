@@ -304,11 +304,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             hideOrShowLauncherIcon((Boolean) newValue);
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
-        } /* else if (PrefConst.KEY_MARK_AS_READ.equals(key)) {
-            return checkAppOpsPermission((Boolean) newValue);
-        } else if (PrefConst.KEY_DELETE_SMS.equals(key)) {
-            return checkAppOpsPermission((Boolean) newValue);
-        } */ else {
+        } else {
             return false;
         }
         return true;
@@ -391,28 +387,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         Toast.makeText(mActivity, text, Toast.LENGTH_LONG).show();
     }
-
-    //    private boolean checkAppOpsPermission(boolean on) {
-    //        if (!on) {
-    //            return true;
-    //        }
-    //
-    //        String packageName = BuildConfig.APPLICATION_ID;
-    //        int uid = Process.myUid();
-    //        int opWriteSms = AppOpsUtils.OP_WRITE_SMS;
-    //        if (!AppOpsUtils.checkOp(mActivity, opWriteSms, uid, packageName)) {
-    //            // Don't have write sms AppOps permission
-    //            try {
-    //                AppOpsUtils.allowOp(mActivity, opWriteSms, uid, packageName);
-    //                return true;
-    //            } catch (Exception e) {
-    //                Toast.makeText(mActivity, R.string.no_permission_prompt, Toast.LENGTH_LONG).show();
-    //                return false;
-    //            }
-    //        } else {
-    //            return true;
-    //        }
-    //    }
 
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {

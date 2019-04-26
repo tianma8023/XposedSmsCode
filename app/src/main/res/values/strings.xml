@@ -111,36 +111,10 @@
     <!-- preference about end -->
 
     <!-- auto-input SMS Code -->
-    <string name="pref_entry_auto_input_code_title">Auto-input Settings</string>
-    <string name="pref_entry_auto_input_code_summary">Auto-input SMS code settings</string>
     <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
     <string name="pref_enable_auto_input_code_summary">Try to input SMS code automatically</string>
-    <string name="auto_input_accessibility_service_description">Accessibility for auto input SMS Code.\n\nIf you don\'t need auto-input codes service, this accessibility service is advised to be closed.</string>
-    <string name="open_auto_input_accessibility">Open auto-input accessibility</string>
-    <string name="open_auto_input_accessibility_prompt">Accessibility Service for auto-input codes need be open.\n\nNote that: accessibility service will be auto-closed frequently by system on some 3rd party ROM.</string>
-    <string name="go_to_open">Open it</string>
-    <string name="smscode_auto_input_service_label">Auto-input SMS codes(Xposed)</string>
-    <string name="acquire_root_permission">ROOT permission required</string>
-    <string name="acquire_root_permission_prompt">Root permission for auto-input code is required</string>
-    <string name="pref_manual_focus_if_failed_title">Auto focus to manual focus</string>
-    <string name="pref_manual_focus_if_failed_summary">Manual focus if auto focus failed</string>
-    <string name="auto_focus_failed_prompt">Auto focus failed, please manual focus in %ds</string>
-    <string name="pref_clear_clipboard_title">Clear clipboard</string>
-    <string name="pref_clear_clipboard_summary">Clear clipboard if auto input succeed</string>
     <!-- auto-input SMS Code end -->
 
-    <!-- auto-input mode -->
-    <string name="pref_auto_input_mode_title">Auto Input Mode</string>
-    <string name="pref_auto_input_mode_summary_default">Please choose an auto-input mode.</string>
-    <string name="pref_auto_input_mode_accessibility">Accessibility Service Mode</string>
-    <string name="pref_auto_input_mode_root">Root Mode</string>
-    <!-- auto-input mode end -->
-
-    <!-- focus mode -->
-    <string name="pref_focus_mode_title">Focus Mode</string>
-    <string name="focus_mode_entry_auto">Auto Focus(auto focus SMS code input box)</string>
-    <string name="focus_mode_entry_manual">Manual Focus(manual focus SMS code input box)</string>
-    <!-- focus mode end -->
 
     <!-- sms code rule -->
     <string name="rule_company_hint">Institution or Company</string>
@@ -208,8 +182,6 @@
     <!-- theme color end -->
 
     <!-- SMS parsing notification -->
-    <string name="channel_name_foreground_service">Notifications for parsing SMS message</string>
-    <string name="sms_code_notification_title">Parsing SMS message……</string>
     <string name="channel_name_smscode_notification">SMS code notification</string>
     <string name="code_notification_content">SMS code: %s</string>
     <!-- SMS parsing notification end -->
@@ -232,19 +204,9 @@
     <string name="donate_directly">Donate directly</string>
     <!-- alipay packet end -->
 
-    <!-- ignore battery optimization -->
-    <string name="ignore_battery_optimization">Ignore Battery Optimization</string>
-    <string name="ignore_battery_optimization_statement">Ignore Battery Optimization Statement</string>
-    <string name="ignore_battery_optimization_content">There is no need to ignore battery optimization if this App works well. Are you sure to ignore it?</string>
-    <string name="battery_optimization_ignored">Battery optimization has been ignored</string>
-    <string name="ignore_battery_optimization_manually">Please ignore battery optimization manually</string>
-    <string name="ignore_battery_optimization_settings_failed">Go to battery optimization settings failed, please setting it manually</string>
-    <!-- ignore battery optimization end -->
-
     <!-- taichi users notice -->
     <string name="taichi_users_notice">Taichi Users Notice</string>
     <string name="taichi_users_notice_content">1. This module should run under the TaiChi Magisk.\n\n2. These Apps should be added to TaiChi before you use this module:\n- Phone Services(com.android.phone)\n- Android System(android)\n- WeChat(Optional, only used for WeChat donation)\n\n3. If this module is inactive after updating, please re-check this module in TaiChi module manage list and reboot.\n\n4. If it cannot auto-input code, please upgrade TaiChi to version 5.1.8+.</string>
-    <string name="open_taichi">Open TaiChi</string>
     <string name="taichi_install_prompt">Please install TaiChi</string>
     <string name="taichi_enable_prompt">Please enable TaiChi</string>
     <string name="xposed_not_installed">Please install or enable Xposed installer</string>

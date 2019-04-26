@@ -95,7 +95,7 @@ public class AccessibilityUtils {
 
 
     /**
-     * 获取已启用的 Accessibility Service 列表(需ROOT)
+     * 获取已启用的 Accessibility Service 列表(无需ROOT)
      *
      * @param context context
      * @return null if error occurs in commands.
