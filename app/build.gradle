@@ -133,10 +133,6 @@ dependencies {
     // Android Shell
     implementation 'com.jaredrummler:android-shell:1.0.0'
 
-    // umeng analyze
-    implementation 'com.umeng.sdk:common:latest.integration'
-    implementation 'com.umeng.sdk:analytics:latest.integration'
-
     // EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
 

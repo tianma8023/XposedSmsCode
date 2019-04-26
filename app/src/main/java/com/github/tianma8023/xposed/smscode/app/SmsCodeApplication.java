@@ -10,8 +10,6 @@ import com.github.tianma8023.xposed.smscode.constant.NotificationConst;
 import com.github.tianma8023.xposed.smscode.migrate.TransitionTask;
 import com.github.tianma8023.xposed.smscode.utils.NotificationUtils;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -21,8 +19,6 @@ public class SmsCodeApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-
-        initWithUmengAnalyze();
 
         initBugly();
 
@@ -37,15 +33,6 @@ public class SmsCodeApplication extends Application{
             NotificationUtils.createNotificationChannel(this,
                     channelId, channelName, NotificationManager.IMPORTANCE_MIN);
         }
-    }
-
-    // umeng analyze initialization
-    private void initWithUmengAnalyze() {
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
-
-        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
-        MobclickAgent.setCatchUncaughtExceptions(false);
     }
 
     // tencent bugly initialization

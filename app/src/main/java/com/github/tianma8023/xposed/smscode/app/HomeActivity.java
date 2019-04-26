@@ -26,7 +26,6 @@ import com.github.tianma8023.xposed.smscode.app.theme.ThemeItemContainer;
 import com.github.tianma8023.xposed.smscode.constant.PrefConst;
 import com.github.tianma8023.xposed.smscode.utils.PackageUtils;
 import com.github.tianma8023.xposed.smscode.utils.SPUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,16 +52,10 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        initUmengAnalyze();
-
         handleIntent(getIntent());
 
         // setup toolbar
         setupToolbar();
-    }
-
-    private void initUmengAnalyze() {
-        MobclickAgent.openActivityDurationTrack(false);
     }
 
     private void setupToolbar() {
