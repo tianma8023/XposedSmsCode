@@ -93,10 +93,6 @@ android {
 //            dimension "type"
 //        }
     }
-
-    productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_NAME: name]
-    }
 }
 
 greendao {

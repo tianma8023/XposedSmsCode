@@ -25,14 +25,6 @@
             android:name="xposedminversion"
             android:value="30"/>
 
-        <!-- umeng analyze configuration -->
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL_NAME}" />
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="@string/umeng_analyze_app_key"/>
-
         <activity
             android:name=".app.HomeActivity"
             android:exported="true"
