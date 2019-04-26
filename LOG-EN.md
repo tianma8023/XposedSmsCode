@@ -1,13 +1,16 @@
 # Update Logs
-- 19.04.17 v2.0.3 Reboot required
+- 19.04.26 v2.0.4 Reboot required
+  1. Change: remove Wechat donation entry
+  2. Change: remove Bugly crash analyze tools
+- 19.04.17 v2.0.3
   1. Change: notice for TaiChi users.
   2. Fix: fix the issue of log level.
-- 19.04.11 v2.0.2 Reboot required
+- 19.04.11 v2.0.2
   1. New option: show SMS code notification
   2. Improvment: notice for TaiChi users.
   3. Optimization: optimize some features.
   4. Change: no longer support Android 5.x.
-- 19.03.29 v2.0.1 Reboot required
+- 19.03.29 v2.0.1
   1. Fix: Module invalid issue before Android P.
   2. Change: change the default value for some options.
 - 19.03.28 v2.0.0
