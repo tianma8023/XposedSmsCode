@@ -76,7 +76,6 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-//            output.outputFileName = "XposedSmsCode_v${variant.versionName}_${releaseTime()}_${variant.productFlavors[0].name}_${variant.buildType.name.charAt(0)}.apk"
             output.outputFileName = "XposedSmsCode_v${variant.versionName.replaceAll('\\s+', '_')}_${releaseTime()}_${variant.buildType.name.charAt(0)}.apk"
         }
     }
@@ -143,7 +142,4 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
-
-    // tencent bugly
-    implementation 'com.tencent.bugly:crashreport:latest.release'
 }
