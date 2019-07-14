@@ -6,7 +6,7 @@
     public void initZygote(...);
 }
 
--keep class com.github.tianma8023.xposed.smscode.utils.ModuleUtils {
+-keep class com.tianma.xsmscode.utils.ModuleUtils {
     int getModuleVersion();
 }
 

@@ -4,7 +4,7 @@
           package="com.github.tianma8023.xposed.smscode">
 
     <application
-        android:name=".app.SmsCodeApplication"
+        android:name="com.tianma.xsmscode.app.SmsCodeApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +26,7 @@
             android:value="30"/>
 
         <activity
-            android:name=".app.HomeActivity"
+            android:name="com.tianma.xsmscode.app.HomeActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
@@ -39,7 +39,7 @@
         <activity-alias
             android:name=".HomeActivityAlias"
             android:enabled="true"
-            android:targetActivity=".app.HomeActivity">
+            android:targetActivity="com.tianma.xsmscode.app.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -53,7 +53,7 @@
         <activity
             android:exported="true"
             android:label="@string/import_rules"
-            android:name=".app.rule.CodeRulesActivity">
+            android:name="com.tianma.xsmscode.app.rule.CodeRulesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -77,11 +77,11 @@
         </activity>
 
         <activity
-            android:name=".app.record.CodeRecordsActivity"
+            android:name="com.tianma.xsmscode.app.record.CodeRecordsActivity"
             android:label="@string/smscode_records"/>
 
         <provider
-            android:name=".db.DBProvider"
+            android:name="com.tianma.xsmscode.db.DBProvider"
             android:authorities="${applicationId}.db.provider"
             android:exported="true"/>
 

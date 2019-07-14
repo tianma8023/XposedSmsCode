@@ -6,5 +6,5 @@
     android:name="com.github.tianma8023.xposed.smscode.app.ItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.faq.FaqFragment"
+    tools:context="com.tianma.xsmscode.app.faq.FaqFragment"
     tools:listitem="@layout/faq_item"/>
