@@ -167,7 +167,6 @@
     <!-- sms code rule end -->
 
     <!-- theme color -->
-    <string name="color_default">默認藍</string>
     <string name="red">姨媽紅</string>
     <string name="pink">櫻花粉</string>
     <string name="yellow">鹹蛋黃</string>

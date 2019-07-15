@@ -33,13 +33,6 @@
             android:summary="@string/pref_copy_to_clipboard_summary"
             android:title="@string/pref_copy_to_clipboard_title"/>
 
-        <!--<Preference-->
-        <!--android:icon="@drawable/ic_automatic"-->
-        <!--android:key="@string/pref_entry_auto_input_code"-->
-        <!--android:dependency="@string/pref_enable"-->
-        <!--android:title="@string/pref_entry_auto_input_code_title"-->
-        <!--android:summary="@string/pref_entry_auto_input_code_summary" />-->
-
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="@string/pref_enable"
