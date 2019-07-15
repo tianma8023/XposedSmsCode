@@ -1,4 +1,4 @@
-package com.tianma.xsmscode.ui.rule;
+package com.tianma.xsmscode.ui.rule.list;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,7 +15,7 @@ import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 
 import java.util.List;
 
-public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.VH> {
+class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.VH> {
 
     private Context mContext;
     private List<SmsCodeRule> mDataList;

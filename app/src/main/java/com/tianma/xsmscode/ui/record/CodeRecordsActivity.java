@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.common.base.BaseActivity;
+import com.tianma.xsmscode.ui.app.base.BaseActivity;
 import com.tianma.xsmscode.common.fragment.backpress.BackPressEventDispatchHelper;
 
 import butterknife.BindView;

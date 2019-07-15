@@ -1,21 +1,16 @@
-package com.tianma.xsmscode.ui.rule;
+package com.tianma.xsmscode.ui.rule.list;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,50 +30,40 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.internal.MDButton;
 import com.github.tianma8023.xposed.smscode.R;
+import com.tianma.xsmscode.common.TextWatcherAdapter;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
-import com.tianma.xsmscode.feature.backup.BackupManager;
-import com.tianma.xsmscode.feature.backup.ExportResult;
-import com.tianma.xsmscode.feature.backup.ImportResult;
-import com.tianma.xsmscode.data.db.DBManager;
+import com.tianma.xsmscode.common.utils.Utils;
+import com.tianma.xsmscode.common.widget.FabScrollBehavior;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 import com.tianma.xsmscode.data.eventbus.Event;
 import com.tianma.xsmscode.data.eventbus.XEventBus;
-import com.tianma.xsmscode.common.utils.Utils;
-import com.tianma.xsmscode.common.utils.XLog;
-import com.tianma.xsmscode.common.widget.DialogAsyncTask;
-import com.tianma.xsmscode.common.widget.FabScrollBehavior;
-import com.tianma.xsmscode.common.TextWatcherAdapter;
+import com.tianma.xsmscode.feature.backup.BackupManager;
+import com.tianma.xsmscode.feature.backup.ImportResult;
+import com.tianma.xsmscode.ui.rule.edit.RuleEditFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
 
 
 /**
  * SMS code codeRule list fragment
  */
-public class RuleListFragment extends Fragment {
-
-    private static final int TYPE_EXPORT = 1;
-    private static final int TYPE_IMPORT = 2;
-    private static final int TYPE_IMPORT_DIRECT = 3;
+public class RuleListFragment extends DaggerFragment implements RuleListContract.View {
 
     public static final String EXTRA_IMPORT_URI = "extra_import_uri";
 
-    @IntDef({TYPE_EXPORT, TYPE_IMPORT, TYPE_IMPORT_DIRECT})
-    @interface BackupType {
-    }
-
     @BindView(R.id.rule_list_recycler_view)
     RecyclerView mRecyclerView;
-
-    private RuleAdapter mRuleAdapter;
 
     @BindView(R.id.rule_list_fab)
     FloatingActionButton mFabButton;
@@ -86,9 +71,14 @@ public class RuleListFragment extends Fragment {
     @BindView(R.id.empty_view)
     View mEmptyView;
 
+    private Activity mActivity;
+    private MaterialDialog mProgressDialog;
+    private RuleAdapter mRuleAdapter;
+
     private int mSelectedPosition = -1;
 
-    private Activity mActivity;
+    @Inject
+    RuleListContract.Presenter mPresenter;
 
     public static RuleListFragment newInstance(Uri importUri) {
         Bundle args = new Bundle();
@@ -123,9 +113,8 @@ public class RuleListFragment extends Fragment {
 
         mActivity = requireActivity();
 
-        List<SmsCodeRule> rules = DBManager.get(mActivity).queryAllSmsCodeRules();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRuleAdapter = new RuleAdapter(mActivity, rules);
+        mRuleAdapter = new RuleAdapter(mActivity, new ArrayList<>());
         mRecyclerView.setAdapter(mRuleAdapter);
 
         // swipe to remove
@@ -156,45 +145,17 @@ public class RuleListFragment extends Fragment {
         params.setBehavior(new FabScrollBehavior());
         mFabButton.setLayoutParams(params);
 
-        mFabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SmsCodeRule emptyRule = new SmsCodeRule();
-                XEventBus.post(new Event.StartRuleEditEvent(
-                        RuleEditFragment.EDIT_TYPE_CREATE, emptyRule));
-            }
+        mFabButton.setOnClickListener(v -> {
+            SmsCodeRule emptyRule = new SmsCodeRule();
+            XEventBus.post(new Event.StartRuleEditEvent(RuleEditFragment.EDIT_TYPE_CREATE, emptyRule));
         });
 
-        refreshEmptyView();
-
-        onHandleArguments(getArguments());
-    }
-
-    /**
-     * Handle arguments
-     */
-    private void onHandleArguments(Bundle args) {
-        if (args == null) {
-            return;
-        }
-
-        final Uri importUri = args.getParcelable(EXTRA_IMPORT_URI);
-        if (importUri != null) {
-            args.remove(EXTRA_IMPORT_URI);
-
-            if (ContentResolver.SCHEME_FILE.equals(importUri.getScheme())) {
-                // file:// URI need storage permission
-                attemptImportRuleListDirectly(importUri);
-            } else {
-                // content:// URI don't need storage permission
-                showImportDialogConfirm(importUri);
-            }
-        }
+        refreshData();
+        mPresenter.handleArguments(getArguments());
     }
 
     private void refreshData() {
-        List<SmsCodeRule> rules = DBManager.get(mActivity).queryAllSmsCodeRules();
-        mRuleAdapter.setRules(rules);
+        mPresenter.loadAllRules();
     }
 
     @Override
@@ -212,8 +173,10 @@ public class RuleListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         mRuleAdapter.unregisterAdapterDataObserver(mDataObserver);
+        mPresenter.onDetach();
+        cancelProgress();
+        mProgressDialog = null;
     }
 
     @Override
@@ -278,26 +241,16 @@ public class RuleListFragment extends Fragment {
         final SmsCodeRule itemToRemove = mRuleAdapter.getItemAt(position);
         mRuleAdapter.removeItemAt(position);
 
-        Snackbar snackbar = Snackbar.make(mRecyclerView, R.string.removed, Snackbar.LENGTH_LONG);
-        snackbar.addCallback(new Snackbar.Callback() {
-            @Override
-            public void onDismissed(Snackbar transientBottomBar, int event) {
-                if (event != DISMISS_EVENT_ACTION) {
-                    try {
-                        DBManager.get(mActivity).removeSmsCodeRule(itemToRemove);
-                    } catch (Exception e) {
-                        XLog.e("Remove " + itemToRemove.toString() + " failed", e);
+        Snackbar.make(mRecyclerView, R.string.removed, Snackbar.LENGTH_LONG)
+                .addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        if (event != DISMISS_EVENT_ACTION) {
+                            mPresenter.removeRule(itemToRemove);
+                        }
                     }
-                }
-            }
-        });
-        snackbar.setAction(R.string.revoke, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRuleAdapter.addRule(position, itemToRemove);
-            }
-        });
-        snackbar.show();
+                }).setAction(R.string.revoke, v -> mRuleAdapter.addRule(position, itemToRemove))
+                .show();
     }
 
     private RecyclerView.AdapterDataObserver mDataObserver = new RecyclerView.AdapterDataObserver() {
@@ -332,8 +285,7 @@ public class RuleListFragment extends Fragment {
         }
 
         if (mRuleAdapter.getItemCount() == 0) {
-            Snackbar.make(mRecyclerView, R.string.rule_list_empty_snack_prompt, Snackbar.LENGTH_LONG)
-                    .show();
+            Snackbar.make(mRecyclerView, R.string.rule_list_empty_snack_prompt, Snackbar.LENGTH_LONG).show();
             return;
         }
 
@@ -343,13 +295,9 @@ public class RuleListFragment extends Fragment {
         final MaterialDialog exportFilenameDialog = new MaterialDialog.Builder(mActivity)
                 .title(R.string.backup_file_name)
                 .content(content)
-                .input(hint, defaultFilename, new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        File file = new File(BackupManager.getBackupDir(), input.toString());
-                        new ExportAsyncTask(mActivity, mRuleAdapter,
-                                file, getString(R.string.exporting)).execute();
-                    }
+                .input(hint, defaultFilename, (dialog, input) -> {
+                    File file = new File(BackupManager.getBackupDir(), input.toString());
+                    mPresenter.exportRules(mRuleAdapter.getRuleList(), file, getString(R.string.exporting));
                 })
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
                 .negativeText(R.string.cancel)
@@ -357,14 +305,13 @@ public class RuleListFragment extends Fragment {
 
         final EditText editText = exportFilenameDialog.getInputEditText();
         if (editText != null) {
-            exportFilenameDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    editText.setSelection(0, defaultFilename.length() - BackupManager.getBackupFileExtension().length());
-                }
+            exportFilenameDialog.setOnShowListener(dialog -> {
+                int stop = defaultFilename.length() - BackupManager.getBackupFileExtension().length();
+                editText.setSelection(0, stop);
             });
-            final MDButton positiveBtn =
-                    exportFilenameDialog.getActionButton(DialogAction.POSITIVE);
+
+            final MDButton positiveBtn = exportFilenameDialog.getActionButton(DialogAction.POSITIVE);
+
             editText.addTextChangedListener(new TextWatcherAdapter() {
                 @Override
                 public void afterTextChanged(Editable s) {
@@ -394,22 +341,28 @@ public class RuleListFragment extends Fragment {
             filenames[i] = files[i].getName();
         }
 
-        final MaterialDialog importDialog = new MaterialDialog.Builder(mActivity)
+        new MaterialDialog.Builder(mActivity)
                 .title(R.string.choose_backup_file)
                 .items(filenames)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        File file = files[position];
-                        Uri uri = Uri.fromFile(file);
-                        showImportDialogConfirm(uri);
-                    }
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    File file = files[position];
+                    Uri uri = Uri.fromFile(file);
+                    showImportDialogConfirm(uri);
                 })
-                .build();
-        importDialog.show();
+                .show();
     }
 
-    private void attemptImportRuleListDirectly(Uri uri) {
+    private void showNoPermissionInfo() {
+        Snackbar.make(mRecyclerView, R.string.no_permission_prompt, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayRules(List<SmsCodeRule> rules) {
+        mRuleAdapter.setRules(rules);
+    }
+
+    @Override
+    public void attemptImportRuleListDirectly(Uri uri) {
         String perm = Manifest.permission.READ_EXTERNAL_STORAGE;
         if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
             showNoPermissionInfo();
@@ -419,120 +372,33 @@ public class RuleListFragment extends Fragment {
         showImportDialogConfirm(uri);
     }
 
-    private void showNoPermissionInfo() {
-        Snackbar.make(mRecyclerView,
-                R.string.no_permission_prompt, Snackbar.LENGTH_SHORT).show();
-    }
-
-    private void showImportDialogConfirm(final Uri uri) {
+    @Override
+    public void showImportDialogConfirm(final Uri uri) {
         new MaterialDialog.Builder(mActivity)
                 .title(R.string.import_confirmation_title)
                 .content(R.string.import_confirmation_message)
                 .positiveText(R.string.yes)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                        new ImportAsyncTask(mActivity, uri,
-                                getString(R.string.importing), true).execute();
-                    }
-                })
+                .onPositive((dialog, which) -> mPresenter.importRules(uri, true, getString(R.string.importing)))
                 .negativeText(R.string.no)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        new ImportAsyncTask(mActivity, uri,
-                                getString(R.string.importing), false).execute();
-                    }
-                })
+                .onNegative((dialog, which) -> mPresenter.importRules(uri, false, getString(R.string.importing)))
                 .show();
     }
 
-    private static class ExportAsyncTask extends DialogAsyncTask<Void, Void, ExportResult> {
-
-        private File mFile;
-        private RuleAdapter mRuleAdapter;
-
-        ExportAsyncTask(Context context, RuleAdapter ruleAdapter, File file, String progressMsg) {
-            this(context, progressMsg, false);
-            mRuleAdapter = ruleAdapter;
-            mFile = file;
-        }
-
-        private ExportAsyncTask(Context context, String progressMsg, boolean cancelable) {
-            super(context, progressMsg, cancelable);
-        }
-
-        @Override
-        protected ExportResult doInBackground(Void... voids) {
-            return BackupManager.exportRuleList(mFile, mRuleAdapter.getRuleList());
-        }
-
-        @Override
-        protected void onPostExecute(ExportResult exportResult) {
-            super.onPostExecute(exportResult);
-            XEventBus.post(new Event.ExportEvent(exportResult, mFile));
-        }
-    }
-
-    private static class ImportAsyncTask extends DialogAsyncTask<Void, Void, ImportResult> {
-
-        private WeakReference<Context> mContextRef;
-        private Uri mUri;
-        private boolean mRetain;
-
-        ImportAsyncTask(Context context, Uri uri, String progressMsg, boolean retain) {
-            this(context, progressMsg, false);
-            mContextRef = new WeakReference<>(context);
-            mUri = uri;
-            mRetain = retain;
-        }
-
-        ImportAsyncTask(Context context, String progressMsg, boolean cancelable) {
-            super(context, progressMsg, cancelable);
-        }
-
-        @Override
-        protected ImportResult doInBackground(Void... voids) {
-            Context context;
-            if ((context = mContextRef.get()) != null) {
-                return BackupManager.importRuleList(context, mUri, mRetain);
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ImportResult importResult) {
-            super.onPostExecute(importResult);
-            XEventBus.post(importResult);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onExportCompleted(final Event.ExportEvent event) {
-        int msgId;
-        if (event.result == ExportResult.SUCCESS) {
-            msgId = R.string.export_succeed;
-        } else {
-            // ExportResult.FAILED
-            msgId = R.string.export_failed;
-        }
+    @Override
+    public void onExportCompleted(boolean success, File file) {
+        int msgId = success ? R.string.export_succeed : R.string.export_failed;
         Snackbar snackbar = Snackbar.make(mRecyclerView, msgId, Snackbar.LENGTH_LONG);
-        if (event.result == ExportResult.SUCCESS) {
-            snackbar.setAction(R.string.share, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mActivity != null) {
-                        BackupManager.shareBackupFile(mActivity, event.file);
-                    }
+        if (success) {
+            snackbar.setAction(R.string.share, v -> {
+                if (mActivity != null) {
+                    BackupManager.shareBackupFile(mActivity, file);
                 }
             });
         }
         snackbar.show();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Override
     public void onImportComplete(ImportResult importResult) {
         @StringRes int msg;
         switch (importResult) {
@@ -555,5 +421,26 @@ public class RuleListFragment extends Fragment {
                 break;
         }
         Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgress(String progressMsg) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new MaterialDialog.Builder(mActivity)
+                    .content(progressMsg)
+                    .progress(true, 100)
+                    .cancelable(true)
+                    .build();
+        }
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.show();
+        }
+    }
+
+    @Override
+    public void cancelProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 }

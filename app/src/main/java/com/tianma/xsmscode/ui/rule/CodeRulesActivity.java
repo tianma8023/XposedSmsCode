@@ -11,9 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.common.base.BaseActivity;
 import com.tianma.xsmscode.data.eventbus.Event;
 import com.tianma.xsmscode.data.eventbus.XEventBus;
+import com.tianma.xsmscode.ui.app.base.BaseDaggerActivity;
+import com.tianma.xsmscode.ui.rule.edit.RuleEditFragment;
+import com.tianma.xsmscode.ui.rule.list.RuleListFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * User custom smscode codeRule list
  */
-public class CodeRulesActivity extends BaseActivity {
+public class CodeRulesActivity extends BaseDaggerActivity {
 
     private static final String TAG_RULE_EDIT = "tag_rule_edit";
     private static final String TAG_RULE_LIST = "tag_rule_list";

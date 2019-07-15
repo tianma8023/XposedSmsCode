@@ -1,18 +1,25 @@
 package com.tianma.xsmscode.ui.app;
 
-import android.app.Application;
 import android.app.NotificationManager;
 import android.os.Build;
 
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.NotificationConst;
-import com.tianma.xsmscode.feature.migrate.TransitionTask;
 import com.tianma.xsmscode.common.utils.NotificationUtils;
+import com.tianma.xsmscode.feature.migrate.TransitionTask;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SmsCodeApplication extends Application {
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+
+public class SmsCodeApplication extends DaggerApplication {
+
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerApplicationComponent.factory().create(this);
+    }
 
     @Override
     public void onCreate() {

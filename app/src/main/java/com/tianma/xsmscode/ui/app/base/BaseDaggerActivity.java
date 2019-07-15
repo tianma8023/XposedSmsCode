@@ -1,13 +1,14 @@
-package com.tianma.xsmscode.common.base;
+package com.tianma.xsmscode.ui.app.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
-import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
 import com.tianma.xsmscode.common.utils.SPUtils;
+import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
 
-public abstract class BaseActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public abstract class BaseDaggerActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,14 +22,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         setTheme(ThemeItemContainer.get().getItemAt(index).getThemeRes());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 }

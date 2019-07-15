@@ -1,6 +1,6 @@
 package com.tianma.xsmscode.data.eventbus;
 
-import com.tianma.xsmscode.ui.rule.RuleEditFragment;
+import com.tianma.xsmscode.ui.rule.edit.RuleEditFragment;
 import com.tianma.xsmscode.feature.backup.ExportResult;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 

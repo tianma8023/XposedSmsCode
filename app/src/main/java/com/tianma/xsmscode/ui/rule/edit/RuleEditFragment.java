@@ -1,4 +1,4 @@
-package com.tianma.xsmscode.ui.rule;
+package com.tianma.xsmscode.ui.rule.edit;
 
 import android.app.Activity;
 import android.content.Context;

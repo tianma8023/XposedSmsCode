@@ -19,7 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
 import com.tianma.xsmscode.common.adapter.ItemCallback;
-import com.tianma.xsmscode.common.base.BaseActivity;
+import com.tianma.xsmscode.ui.app.base.BaseActivity;
 import com.tianma.xsmscode.ui.faq.FaqFragment;
 import com.tianma.xsmscode.ui.theme.ThemeItem;
 import com.tianma.xsmscode.ui.theme.ThemeItemAdapter;
@@ -92,17 +92,10 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
 
     @Override
     public void onPreferenceClicked(String key, String title, boolean nestedPreference) {
-        //        if (nestedPreference) {
-        //            onNestedPreferenceClicked(key, title);
-        //            return;
-        //        }
         if (PrefConst.KEY_CHOOSE_THEME.equals(key)) {
             onChooseThemePreferenceClicked();
         }
     }
-
-    //    private void onNestedPreferenceClicked(String key, String title) {
-    //    }
 
     private ItemCallback<ThemeItem> mThemeItemCallback = new BaseItemCallback<ThemeItem>() {
         @Override
@@ -173,9 +166,6 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
             case R.id.action_home_faq:
                 onFAQSelected();
                 return true;
-            //            case R.id.action_ignore_battery_optimization:
-            //                onIgnoreBatteryOptimizationSelected();
-            //                return true;
             case R.id.action_taichi_users_notice:
                 onTaichiUsersNoticeSelected();
                 return true;
