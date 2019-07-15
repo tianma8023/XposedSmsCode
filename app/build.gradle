@@ -84,6 +84,13 @@ greendao {
     schemaVersion 6
 }
 
+ext {
+    dagger2Version = "2.23.2" // dagger 2
+
+    rxJavaVersion = "2.2.10" // RxJava 2
+    rxAndroidVersion = "2.1.1" // RxAndroid 2
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -118,4 +125,17 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    // dagger2
+    implementation "com.google.dagger:dagger:$dagger2Version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger2Version"
+    // dagger2-android
+    implementation "com.google.dagger:dagger-android:$dagger2Version"
+    implementation "com.google.dagger:dagger-android-support:$dagger2Version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger2Version"
+
+    // RxJava 2
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    // RxAndroid 2
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 }

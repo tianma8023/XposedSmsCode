@@ -1,15 +1,15 @@
 package com.tianma.xsmscode.xp.hook;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.tianma.xsmscode.utils.ModuleUtils;
-import com.tianma.xsmscode.utils.XLog;
+import com.tianma.xsmscode.common.utils.ModuleUtils;
+import com.tianma.xsmscode.common.utils.XLog;
 
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
- * Hook class com.tianma.xsmscode.utils.ModuleUtils
+ * Hook class ModuleUtils
  */
 public class ModuleUtilsHook extends BaseHook {
 

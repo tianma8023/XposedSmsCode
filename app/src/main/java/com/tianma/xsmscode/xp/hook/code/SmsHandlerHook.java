@@ -12,9 +12,9 @@ import android.provider.Telephony;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.constant.NotificationConst;
-import com.tianma.xsmscode.utils.NotificationUtils;
-import com.tianma.xsmscode.utils.XLog;
+import com.tianma.xsmscode.common.constant.NotificationConst;
+import com.tianma.xsmscode.common.utils.NotificationUtils;
+import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.xp.hook.BaseHook;
 
 import java.lang.reflect.InvocationTargetException;

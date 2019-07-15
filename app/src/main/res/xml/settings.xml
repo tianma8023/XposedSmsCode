@@ -122,7 +122,7 @@
 
     <PreferenceCategory android:title="@string/pref_smscode_title">
 
-        <com.tianma.xsmscode.preference.ResetEditPreference
+        <com.tianma.xsmscode.common.preference.ResetEditPreference
             android:defaultValue="@string/default_smscode_keywords"
             android:hint="@string/code_keywords_hint"
             android:icon="@drawable/ic_key_words"

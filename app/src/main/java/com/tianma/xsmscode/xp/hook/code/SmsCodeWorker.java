@@ -32,17 +32,17 @@ import android.widget.Toast;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.app.record.CodeRecordRestoreManager;
-import com.tianma.xsmscode.constant.NotificationConst;
-import com.tianma.xsmscode.constant.PrefConst;
-import com.tianma.xsmscode.db.DBProvider;
-import com.tianma.xsmscode.entity.SmsMsg;
-import com.tianma.xsmscode.entity.SmsMsgDao;
-import com.tianma.xsmscode.utils.ClipboardUtils;
-import com.tianma.xsmscode.utils.SmsCodeUtils;
-import com.tianma.xsmscode.utils.StringUtils;
-import com.tianma.xsmscode.utils.XLog;
-import com.tianma.xsmscode.utils.XSPUtils;
+import com.tianma.xsmscode.common.constant.NotificationConst;
+import com.tianma.xsmscode.common.constant.PrefConst;
+import com.tianma.xsmscode.data.db.DBProvider;
+import com.tianma.xsmscode.data.db.entity.SmsMsg;
+import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
+import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
+import com.tianma.xsmscode.common.utils.ClipboardUtils;
+import com.tianma.xsmscode.common.utils.SmsCodeUtils;
+import com.tianma.xsmscode.common.utils.StringUtils;
+import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.common.utils.XSPUtils;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;

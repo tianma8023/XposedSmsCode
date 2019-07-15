@@ -2,8 +2,8 @@ package com.tianma.xsmscode.xp.hook;
 
 import android.os.Build;
 
-import com.tianma.xsmscode.constant.PermConst;
-import com.tianma.xsmscode.utils.XLog;
+import com.tianma.xsmscode.common.constant.PermConst;
+import com.tianma.xsmscode.common.utils.XLog;
 
 import java.util.List;
 import java.util.Map;
