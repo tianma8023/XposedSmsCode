@@ -40,9 +40,6 @@ class RuleListPresenter implements RuleListContract.Presenter {
     public void onAttach(Context context, RuleListContract.View view) {
         mView = view;
         mContext = context;
-
-        XLog.d("View: %s", mView == null ? "null" : mView.toString());
-        XLog.d("Context: %s", context == null ? "null" : mContext.toString());
     }
 
     @Override

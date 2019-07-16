@@ -8,10 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,32 +21,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.Const;
-import com.tianma.xsmscode.data.db.DBManager;
-import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
-import com.tianma.xsmscode.data.eventbus.Event;
-import com.tianma.xsmscode.data.eventbus.XEventBus;
 import com.tianma.xsmscode.common.utils.Utils;
+import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
 
 /**
  * Rule edit fragment
  */
-public class RuleEditFragment extends Fragment {
+public class RuleEditFragment extends DaggerFragment implements RuleEditContract.View {
 
     public static final int EDIT_TYPE_CREATE = 1;
     public static final int EDIT_TYPE_UPDATE = 2;
@@ -57,8 +47,8 @@ public class RuleEditFragment extends Fragment {
     public @interface RuleEditType {
     }
 
-    private static final String KEY_RULE_EDIT_TYPE = "rule_edit_type";
-    private static final String KEY_CODE_RULE = "code_rule";
+    static final String KEY_RULE_EDIT_TYPE = "rule_edit_type";
+    static final String KEY_CODE_RULE = "code_rule";
 
     @BindView(R.id.rule_company_edit_text)
     TextInputEditText mCompanyEditText;
@@ -76,8 +66,8 @@ public class RuleEditFragment extends Fragment {
 
     private int mCodeTypeIndex = 0;
 
-    private int mRuleEditType;
-    private SmsCodeRule mCodeRule;
+    @Inject
+    RuleEditContract.Presenter mPresenter;
 
     public static RuleEditFragment newInstance(int ruleEditType, SmsCodeRule codeRule) {
         Bundle args = new Bundle();
@@ -106,52 +96,23 @@ public class RuleEditFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = getActivity();
-        mQuickChooseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showQuickChooseDialog();
+        mQuickChooseBtn.setOnClickListener(v -> showQuickChooseDialog());
+
+        mCodeRegexEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                mPresenter.saveIfValid(getCurrentCodeRule());
+                return true;
             }
+            return false;
         });
 
-        mCodeRegexEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    saveIfValid();
-                    return true;
-                }
-                return false;
-            }
-        });
-        initWithArgs();
+        mPresenter.handleArguments(getArguments());
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        XEventBus.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        XEventBus.unregister(this);
-    }
-
-    private void initWithArgs() {
-        Bundle args = getArguments();
-        if (args == null) {
-            return;
-        }
-        mRuleEditType = args.getInt(KEY_RULE_EDIT_TYPE);
-        mCodeRule = args.getParcelable(KEY_CODE_RULE);
-        if (mRuleEditType == EDIT_TYPE_UPDATE && mCodeRule != null) {
-            setText(mCompanyEditText, mCodeRule.getCompany());
-            setText(mKeywordEditText, mCodeRule.getCodeKeyword());
-            setText(mCodeRegexEditText, mCodeRule.getCodeRegex());
-        } else {
-            loadTemplate();
-        }
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDetach();
     }
 
     private void showQuickChooseDialog() {
@@ -172,37 +133,28 @@ public class RuleEditFragment extends Fragment {
 
         final TextInputEditText codeLenEditText = dialogView.findViewById(R.id.code_rule_length_edit_text);
 
-        MaterialDialog quickChooseDialog = new MaterialDialog.Builder(mActivity)
+        new MaterialDialog.Builder(mActivity)
                 .title(R.string.quick_choose)
                 .customView(dialogView, false)
                 .negativeText(R.string.cancel)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
+                .onNegative((dialog, which) -> dialog.dismiss())
                 .positiveText(R.string.confirm)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        String codeType = codeTypes[mCodeTypeIndex];
-                        String codeLenText = codeLenEditText.getText().toString();
+                .onPositive((dialog, which) -> {
+                    String codeType = codeTypes[mCodeTypeIndex];
+                    String codeLenText = codeLenEditText.getText().toString();
 
-                        if (TextUtils.isEmpty(codeLenText)) {
-                            codeLenEditText.setError(getString(R.string.code_length_empty_prompt));
-                            return;
-                        }
-                        // (?<![0-9])[0-9]{4}(?![0-9])
-                        String format = "(?<!%s)%s{%s}(?!%s)";
-                        String codeRegex = String.format(format, codeType, codeType, codeLenText, codeType);
-                        setText(mCodeRegexEditText, codeRegex);
-                        dialog.dismiss();
+                    if (TextUtils.isEmpty(codeLenText)) {
+                        codeLenEditText.setError(getString(R.string.code_length_empty_prompt));
+                        return;
                     }
+                    // (?<![0-9])[0-9]{4}(?![0-9])
+                    String format = "(?<!%s)%s{%s}(?!%s)";
+                    String codeRegex = String.format(format, codeType, codeType, codeLenText, codeType);
+                    setText(mCodeRegexEditText, codeRegex);
+                    dialog.dismiss();
                 })
                 .autoDismiss(false)
-                .build();
-        quickChooseDialog.show();
+                .show();
     }
 
     private void setText(EditText editText, CharSequence text) {
@@ -212,7 +164,7 @@ public class RuleEditFragment extends Fragment {
         }
     }
 
-    private void setError(EditText editText,@StringRes int textId) {
+    private void setError(EditText editText, @StringRes int textId) {
         setError(editText, getString(textId));
     }
 
@@ -229,10 +181,10 @@ public class RuleEditFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_rules_tick:
-                saveIfValid();
+                mPresenter.saveIfValid(getCurrentCodeRule());
                 break;
             case R.id.action_save_as_template:
-                saveAsTemplate();
+                mPresenter.saveAsTemplate(getCurrentCodeRule());
                 break;
             case R.id.action_rule_help:
                 showCodeRuleHelp();
@@ -243,128 +195,68 @@ public class RuleEditFragment extends Fragment {
         return true;
     }
 
-    private void saveIfValid() {
-        if (!checkValid()) {
-            return;
-        }
-
-        InputMethodManager imeManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imeManager != null && imeManager.isActive()) {
-            imeManager.hideSoftInputFromWindow(
-                    mCodeRegexEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-
+    private SmsCodeRule getCurrentCodeRule() {
         String company = mCompanyEditText.getText().toString();
         String keyword = mKeywordEditText.getText().toString();
         String codeRegex = mCodeRegexEditText.getText().toString();
-
-        mCodeRule.setCompany(company);
-        mCodeRule.setCodeKeyword(keyword);
-        mCodeRule.setCodeRegex(codeRegex);
-
-        DBManager dbManager = DBManager.get(mActivity);
-        if (mRuleEditType == EDIT_TYPE_CREATE) {
-            boolean duplicate = dbManager.isExist(mCodeRule);
-            if (duplicate) {
-                Toast.makeText(mActivity, R.string.rule_duplicated_prompt, Toast.LENGTH_LONG).show();
-            } else {
-                long id = dbManager.addSmsCodeRule(mCodeRule);
-                mCodeRule.setId(id);
-                XEventBus.post(new Event.OnRuleCreateOrUpdate(mRuleEditType, mCodeRule));
-                mActivity.onBackPressed();
-            }
-        } else if (mRuleEditType == EDIT_TYPE_UPDATE) {
-            dbManager.updateSmsCodeRule(mCodeRule);
-            XEventBus.post(new Event.OnRuleCreateOrUpdate(mRuleEditType, mCodeRule));
-            mActivity.onBackPressed();
-        }
-    }
-
-    private boolean checkValid() {
-        boolean companyValid = true;
-        if (isEmpty(mCompanyEditText)) {
-            setError(mCompanyEditText, R.string.rule_company_empty_hint);
-            companyValid = false;
-        }
-
-        boolean keywordValid = true;
-        if (isEmpty(mKeywordEditText)) {
-            setError(mKeywordEditText, R.string.rule_keyword_empty_hint);
-            keywordValid = false;
-        }
-
-        boolean codeRegexValid = true;
-        if (isEmpty(mCodeRegexEditText)) {
-            setError(mCodeRegexEditText, R.string.rule_code_regex_empty_hint);
-            codeRegexValid = false;
-        }
-
-        return companyValid && keywordValid && codeRegexValid;
-    }
-
-    private boolean isEmpty(EditText editText) {
-        return TextUtils.isEmpty(editText.getText());
-    }
-
-    private void loadTemplate() {
-        ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
-        singleThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                SmsCodeRule template = TemplateRuleManager.loadTemplate(mActivity);
-                XEventBus.post(new Event.TemplateLoadEvent(template));
-            }
-        });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTemplateLoaded(Event.TemplateLoadEvent event) {
-        mCodeRule = event.template;
-
-        setText(mCompanyEditText, mCodeRule.getCompany());
-        setText(mKeywordEditText, mCodeRule.getCodeKeyword());
-        setText(mCodeRegexEditText, mCodeRule.getCodeRegex());
-    }
-
-    private void saveAsTemplate() {
-        // clear error info
-        setError(mCompanyEditText, null);
-        setError(mKeywordEditText, null);
-        setError(mCodeRegexEditText, null);
-
-        ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
-        singleThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                String company = mCompanyEditText.getText().toString();
-                String keyword = mKeywordEditText.getText().toString();
-                String codeRegex = mCodeRegexEditText.getText().toString();
-
-                SmsCodeRule template = new SmsCodeRule();
-
-                template.setCompany(company);
-                template.setCodeKeyword(keyword);
-                template.setCodeRegex(codeRegex);
-                boolean result = TemplateRuleManager.saveTemplate(mActivity, template);
-                XEventBus.post(new Event.TemplateSaveEvent(result));
-            }
-        });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTemplateSaved(Event.TemplateSaveEvent event) {
-        @StringRes int msg;
-        if (event.success) {
-            msg = R.string.save_template_succeed;
-        } else {
-            msg = R.string.save_template_failed;
-        }
-        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+        return new SmsCodeRule(company, keyword, codeRegex);
     }
 
     private void showCodeRuleHelp() {
         String ruleHelpUrl = Utils.getProjectDocUrl(Const.PROJECT_DOC_BASE_URL, Const.DOC_SMS_CODE_RULE_HELP);
         Utils.showWebPage(mActivity, ruleHelpUrl);
+    }
+
+    @Override
+    public void displayCodeRule(SmsCodeRule codeRule) {
+        if (codeRule != null) {
+            setText(mCompanyEditText, codeRule.getCompany());
+            setText(mKeywordEditText, codeRule.getCodeKeyword());
+            setText(mCodeRegexEditText, codeRule.getCodeRegex());
+        }
+    }
+
+    @Override
+    public void clearAllErrorInfo() {
+        setError(mCompanyEditText, null);
+        setError(mKeywordEditText, null);
+        setError(mCodeRegexEditText, null);
+    }
+
+    @Override
+    public void onTemplateSaved(boolean success) {
+        int msg = success ? R.string.save_template_succeed : R.string.save_template_failed;
+        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showErrorInfo(boolean companyValid, boolean keywordValid, boolean codeRegexValid) {
+        if (!companyValid) {
+            setError(mCompanyEditText, R.string.rule_company_empty_hint);
+        }
+        if (!keywordValid) {
+            setError(mKeywordEditText, R.string.rule_keyword_empty_hint);
+        }
+        if (!codeRegexValid) {
+            setError(mCodeRegexEditText, R.string.rule_code_regex_empty_hint);
+        }
+    }
+
+    @Override
+    public void hideSoftInput() {
+        InputMethodManager imeManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imeManager != null && imeManager.isActive()) {
+            imeManager.hideSoftInputFromWindow(mCodeRegexEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onCodeRuleSaved(boolean success) {
+        if (success) {
+            mActivity.onBackPressed();
+        } else {
+            Toast.makeText(mActivity, R.string.rule_duplicated_prompt, Toast.LENGTH_LONG).show();
+        }
     }
 
 }

@@ -199,8 +199,12 @@ public class DBManager {
         });
     }
 
-    public boolean isExist(SmsCodeRule codeRule) {
+    public boolean isExists(SmsCodeRule codeRule) {
         return !querySmsCodeRules(codeRule).isEmpty();
+    }
+
+    public Observable<Boolean> isExistsRx(SmsCodeRule codeRule) {
+        return querySmsCodeRulesRx(codeRule).isEmpty().toObservable();
     }
 
     public void removeSmsCodeRule(SmsCodeRule smsCodeRule) {

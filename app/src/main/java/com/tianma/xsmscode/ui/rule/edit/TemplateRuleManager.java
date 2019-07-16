@@ -79,7 +79,8 @@ public class TemplateRuleManager {
                     .create();
             smsCodeRule = gson.fromJson(isr, SmsCodeRule.class);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            // ignore
         } finally {
             if (isr != null) {
                 try {
