@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 
 import java.util.List;
 
+/**
+ * Helper for dispatching back-press event.
+ */
 public class BackPressEventDispatchHelper {
 
     public static boolean dispatchBackPressedEvent(FragmentManager fragmentManager) {
@@ -43,7 +46,7 @@ public class BackPressEventDispatchHelper {
                 fragment.isVisible() &&
                 fragment.getUserVisibleHint() &&
                 fragment instanceof BackPressedListener &&
-                ((BackPressedListener) fragment).onInterceptBackPressed();
+                ((BackPressedListener) fragment).interceptBackPress();
     }
 
 }

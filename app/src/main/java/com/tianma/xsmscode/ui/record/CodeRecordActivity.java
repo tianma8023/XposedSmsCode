@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.ui.app.base.BaseActivity;
 import com.tianma.xsmscode.common.fragment.backpress.BackPressEventDispatchHelper;
+import com.tianma.xsmscode.ui.app.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,13 +17,13 @@ import butterknife.ButterKnife;
 /**
  * Sms Code Records
  */
-public class CodeRecordsActivity extends BaseActivity {
+public class CodeRecordActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     public static void startToMe(Context context) {
-        Intent intent = new Intent(context, CodeRecordsActivity.class);
+        Intent intent = new Intent(context, CodeRecordActivity.class);
         context.startActivity(intent);
     }
 
@@ -37,7 +37,7 @@ public class CodeRecordsActivity extends BaseActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.code_records_main_content, CodeRecordsFragment.newInstance())
+                .replace(R.id.code_records_main_content, CodeRecordFragment.newInstance())
                 .commit();
     }
 

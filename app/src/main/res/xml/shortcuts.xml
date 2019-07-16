@@ -7,7 +7,7 @@
         android:shortcutShortLabel="@string/smscode_records">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.tianma.xsmscode.ui.record.CodeRecordsActivity"
+            android:targetClass="com.tianma.xsmscode.ui.record.CodeRecordActivity"
             android:targetPackage="com.github.tianma8023.xposed.smscode"/>
         <categories
             android:name="android.shortcut.conversation"/>

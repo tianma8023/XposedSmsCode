@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 public class BackPressFragment extends Fragment implements BackPressedListener {
 
     @Override
-    public boolean onInterceptBackPressed() {
+    public boolean interceptBackPress() {
         return false;
     }
 

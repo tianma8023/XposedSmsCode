@@ -17,7 +17,6 @@ import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -108,27 +107,14 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
 
         void bindListener(final RecordItem data, final int position) {
             if (mItemCallback != null) {
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mItemCallback.onItemClicked(itemView, data, position);
-                    }
-                });
+                itemView.setOnClickListener(v -> mItemCallback.onItemClicked(itemView, data, position));
 
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        return mItemCallback.onItemLongClicked(itemView, data, position);
-                    }
-                });
+                itemView.setOnLongClickListener(v -> mItemCallback.onItemLongClicked(itemView, data, position));
             }
 
-            mDetailsView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mItemChildCallback != null) {
-                        mItemChildCallback.onItemChildClicked(mDetailsView, data, position);
-                    }
+            mDetailsView.setOnClickListener(v -> {
+                if (mItemChildCallback != null) {
+                    mItemChildCallback.onItemChildClicked(mDetailsView, data, position);
                 }
             });
         }
@@ -204,13 +190,10 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
 
         if (!itemsToAdd.isEmpty()) {
             mRecords.addAll(itemsToAdd);
-            Collections.sort(mRecords, new Comparator<RecordItem>() {
-                @Override
-                public int compare(RecordItem o1, RecordItem o2) {
-                    long date1 = o1.getSmsMsg().getDate();
-                    long date2 = o2.getSmsMsg().getDate();
-                    return Long.compare(date2, date1);
-                }
+            Collections.sort(mRecords, (o1, o2) -> {
+                long date1 = o1.getSmsMsg().getDate();
+                long date2 = o2.getSmsMsg().getDate();
+                return Long.compare(date2, date1);
             });
             notifyDataSetChanged();
         }

@@ -22,7 +22,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.ui.record.CodeRecordsActivity;
+import com.tianma.xsmscode.ui.record.CodeRecordActivity;
 import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
 import com.tianma.xsmscode.ui.theme.ThemeItem;
 import com.tianma.xsmscode.common.constant.Const;
@@ -85,20 +85,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         findPreference(PrefConst.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
 
-        // findPreference(PrefConst.KEY_ENTRY_AUTO_INPUT_CODE).setOnPreferenceClickListener(this);
-
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
         // general group end
 
         // experimental group
-        // findPreference(PrefConst.KEY_MARK_AS_READ).setOnPreferenceChangeListener(this);
-        // findPreference(PrefConst.KEY_DELETE_SMS).setOnPreferenceChangeListener(this);
-
-        // hide block notification
-        // PreferenceGroup experimentalGroup = (PreferenceGroup) findPreference(PrefConst.KEY_EXPERIMENTAL);
-        // experimentalGroup.removePreference(findPreference(PrefConst.KEY_BLOCK_SMS));
         // experimental group end
 
         // code message group
@@ -234,7 +226,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         } else if (PrefConst.KEY_DONATE_BY_ALIPAY.equals(key)) {
             donateByAlipay();
         } else if (PrefConst.KEY_ENTRY_CODE_RECORDS.equals(key)) {
-            CodeRecordsActivity.startToMe(mActivity);
+            CodeRecordActivity.startToMe(mActivity);
         } else if (PrefConst.KEY_GET_ALIPAY_PACKET.equals(key)) {
             getAlipayPacket();
         } else {

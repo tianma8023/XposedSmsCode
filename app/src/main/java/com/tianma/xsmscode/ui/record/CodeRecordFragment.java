@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,19 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
-import com.tianma.xsmscode.common.adapter.ItemChildCallback;
-import com.tianma.xsmscode.common.fragment.backpress.BackPressFragment;
-import com.tianma.xsmscode.data.db.DBManager;
-import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import com.tianma.xsmscode.common.utils.ClipboardUtils;
-import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.data.db.entity.SmsMsg;
+import com.tianma.xsmscode.ui.app.base.DaggerBackPressFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * SMS code records fragment
  */
-public class CodeRecordsFragment extends BackPressFragment {
+public class CodeRecordFragment extends DaggerBackPressFragment implements CodeRecordContract.View {
 
     // normal mode
     private static final int RECORD_MODE_NORMAL = 0;
@@ -60,11 +59,14 @@ public class CodeRecordsFragment extends BackPressFragment {
 
     private CodeRecordAdapter mCodeRecordAdapter;
 
-    private @RecordMode
-    int mCurrentMode = RECORD_MODE_NORMAL;
+    @RecordMode
+    private int mCurrentMode = RECORD_MODE_NORMAL;
 
-    public static CodeRecordsFragment newInstance() {
-        return new CodeRecordsFragment();
+    @Inject
+    CodeRecordContract.Presenter mPresenter;
+
+    public static CodeRecordFragment newInstance() {
+        return new CodeRecordFragment();
     }
 
     @Override
@@ -78,12 +80,7 @@ public class CodeRecordsFragment extends BackPressFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_code_records, container, false);
         ButterKnife.bind(this, rootView);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadData());
         return rootView;
     }
 
@@ -107,13 +104,10 @@ public class CodeRecordsFragment extends BackPressFragment {
                 return itemLongClicked(item, position);
             }
         });
-        mCodeRecordAdapter.setItemChildCallback(new ItemChildCallback<RecordItem>() {
-            @Override
-            public void onItemChildClicked(View childView, RecordItem item, int position) {
-                int viewId = childView.getId();
-                if (viewId == R.id.record_details_view) {
-                    showSmsDetails(item);
-                }
+        mCodeRecordAdapter.setItemChildCallback((childView, item, position) -> {
+            int viewId = childView.getId();
+            if (viewId == R.id.record_details_view) {
+                showSmsDetails(item);
             }
         });
         mCodeRecordAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -125,6 +119,7 @@ public class CodeRecordsFragment extends BackPressFragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setAdapter(mCodeRecordAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
     }
 
     @Override
@@ -134,14 +129,7 @@ public class CodeRecordsFragment extends BackPressFragment {
     }
 
     private void refreshData() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(true);
-        }
-        List<SmsMsg> smsMsgList = DBManager.get(mActivity).queryAllSmsMsg();
-        mCodeRecordAdapter.addItems(smsMsgList);
-        if (mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
+        mPresenter.loadData();
     }
 
     private void refreshEmptyView() {
@@ -160,18 +148,18 @@ public class CodeRecordsFragment extends BackPressFragment {
         }
     }
 
+    private boolean itemLongClicked(RecordItem item, int position) {
+        selectRecordItem(position);
+        return true;
+    }
+
     private void showSmsDetails(final RecordItem recordItem) {
         SmsMsg smsMsg = recordItem.getSmsMsg();
         new MaterialDialog.Builder(mActivity)
                 .title(R.string.message_details)
                 .content(smsMsg.getBody())
                 .positiveText(R.string.copy_smscode)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        copySmsCode(recordItem);
-                    }
-                })
+                .onPositive((dialog, which) -> copySmsCode(recordItem))
                 .negativeText(R.string.cancel)
                 .show();
     }
@@ -181,11 +169,6 @@ public class CodeRecordsFragment extends BackPressFragment {
         ClipboardUtils.copyToClipboard(mActivity, smsCode);
         String prompt = getString(R.string.prompt_sms_code_copied, smsCode);
         Snackbar.make(mRecyclerView, prompt, Snackbar.LENGTH_SHORT).show();
-    }
-
-    private boolean itemLongClicked(RecordItem item, int position) {
-        selectRecordItem(position);
-        return true;
     }
 
     private void selectRecordItem(int position) {
@@ -228,7 +211,7 @@ public class CodeRecordsFragment extends BackPressFragment {
     }
 
     @Override
-    public boolean onInterceptBackPressed() {
+    public boolean interceptBackPress() {
         return mCurrentMode == RECORD_MODE_EDIT;
     }
 
@@ -247,27 +230,18 @@ public class CodeRecordsFragment extends BackPressFragment {
         final List<SmsMsg> itemsToRemove = mCodeRecordAdapter.removeSelectedItems();
         mSwipeRefreshLayout.setEnabled(false);
         String text = getString(R.string.some_items_removed, itemsToRemove.size());
-        Snackbar snackbar = Snackbar.make(mRecyclerView, text, Snackbar.LENGTH_LONG);
-        snackbar.addCallback(new Snackbar.Callback() {
-            @Override
-            public void onDismissed(Snackbar transientBottomBar, int event) {
-                if (event != DISMISS_EVENT_ACTION) {
-                    try {
-                        DBManager.get(mActivity).removeSmsMsgList(itemsToRemove);
-                        mSwipeRefreshLayout.setEnabled(true);
-                    } catch (Exception e) {
-                        XLog.e("Error occurs when remove SMS records", e);
+        Snackbar.make(mRecyclerView, text, Snackbar.LENGTH_LONG)
+                .addCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        if (event != DISMISS_EVENT_ACTION) {
+                            mPresenter.removeSmsMsg(itemsToRemove);
+                            mSwipeRefreshLayout.setEnabled(true);
+                        }
                     }
-                }
-            }
-        });
-        snackbar.setAction(R.string.revoke, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCodeRecordAdapter.addItems(itemsToRemove);
-            }
-        });
-        snackbar.show();
+                })
+                .setAction(R.string.revoke, v -> mCodeRecordAdapter.addItems(itemsToRemove))
+                .show();
 
         mCurrentMode = RECORD_MODE_NORMAL;
         refreshActionBarByMode();
@@ -282,4 +256,24 @@ public class CodeRecordsFragment extends BackPressFragment {
             mActivity.invalidateOptionsMenu();
         }
     }
+
+    @Override
+    public void showRefreshing() {
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
+    @Override
+    public void stopRefresh() {
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void displayData(List<SmsMsg> smsMsgList) {
+        mCodeRecordAdapter.addItems(smsMsgList);
+    }
+
 }

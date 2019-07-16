@@ -11,6 +11,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidSupportInjectionModule.class,
         ApplicationModule.class,
         ActivityBindingModule.class,
+        FragmentBindingModule.class,
 })
 public interface ApplicationComponent extends AndroidInjector<SmsCodeApplication> {
 
