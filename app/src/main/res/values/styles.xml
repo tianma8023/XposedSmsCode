@@ -62,7 +62,6 @@
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary_black</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_black</item>
-        <item name="android:listDivider">@android:color/white</item>
         <item name="faq_textColor">@color/faq_textColor_white</item>
         <item name="faq_textColorSecondary">@color/faq_textColorSecondary_white</item>
         <item name="toolbarPopupStyle">@style/ThemeOverlay.AppCompat.Dark</item>

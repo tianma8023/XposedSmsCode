@@ -12,6 +12,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -114,6 +115,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
         mActivity = requireActivity();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         mRuleAdapter = new RuleAdapter(mActivity, new ArrayList<>());
         mRecyclerView.setAdapter(mRuleAdapter);
 
@@ -137,7 +139,6 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
                 onCreateContextMenu(menu, v, menuInfo);
             }
         });
-
         mRuleAdapter.registerAdapterDataObserver(mDataObserver);
 
         // fab settings
