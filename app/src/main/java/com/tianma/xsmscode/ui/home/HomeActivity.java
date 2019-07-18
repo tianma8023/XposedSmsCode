@@ -19,14 +19,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
 import com.tianma.xsmscode.common.adapter.ItemCallback;
+import com.tianma.xsmscode.common.constant.PrefConst;
+import com.tianma.xsmscode.common.utils.PackageUtils;
+import com.tianma.xsmscode.common.utils.SPUtils;
 import com.tianma.xsmscode.ui.app.base.BaseActivity;
 import com.tianma.xsmscode.ui.faq.FaqFragment;
 import com.tianma.xsmscode.ui.theme.ThemeItem;
 import com.tianma.xsmscode.ui.theme.ThemeItemAdapter;
 import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
-import com.tianma.xsmscode.common.constant.PrefConst;
-import com.tianma.xsmscode.common.utils.PackageUtils;
-import com.tianma.xsmscode.common.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -6,5 +6,6 @@
         <attr name="preferenceIconColor" format="color|reference"/>
         <attr name="toolbarPopupStyle" format="reference"/>
         <attr name="itemBackgroundColor" format="color|reference"/>
+        <attr name="itemSelectedBackgroundColor" format="color|reference"/>
     </declare-styleable>
 </resources>

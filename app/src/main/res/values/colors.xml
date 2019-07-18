@@ -42,6 +42,9 @@
     <color name="faq_textColorSecondary_black">#818181</color>
 
     <color name="item_background_color_light">#FFFFFF</color>
-    <color name="item_background_color_dark">#424242</color>
+    <color name="item_background_color_dark">#353535</color>
+
+    <color name="item_selected_background_color_light">#DDDDDD</color>
+    <color name="item_selected_background_color_dark">#454545</color>
 
 </resources>

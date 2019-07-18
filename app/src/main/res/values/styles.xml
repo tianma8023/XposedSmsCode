@@ -11,8 +11,9 @@
         <item name="toolbarPopupStyle">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="itemBackgroundColor">@color/item_background_color_light</item>
+        <item name="itemSelectedBackgroundColor">@color/item_selected_background_color_light</item>
     </style>
-    
+
     <style name="AppTheme.Light" parent="AppTheme">
     </style>
 
@@ -41,7 +42,6 @@
     </style>
 
     <style name="AppTheme.Green" parent="AppTheme.Light">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary_green</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark_green</item>
         <item name="colorAccent">@color/colorAccent_green</item>
@@ -68,6 +68,7 @@
         <item name="toolbarPopupStyle">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="itemBackgroundColor">@color/item_background_color_dark</item>
+        <item name="itemSelectedBackgroundColor">@color/item_selected_background_color_dark</item>
     </style>
 
     <style name="AppTheme.Black" parent="AppTheme.Dark">
