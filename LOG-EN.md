@@ -1,5 +1,9 @@
 # Update Logs
-- 19.04.26 v2.0.4 Reboot required
+- 19.07.18 v2.0.5 Reboot required
+  1. Change: refactor the whole project.
+  2. Change: migrate to AndroidX.
+  3. Change: beautify some UI.
+- 19.04.26 v2.0.4
   1. Change: remove Wechat donation entry
   2. Change: remove Bugly crash analyze tools
 - 19.04.17 v2.0.3

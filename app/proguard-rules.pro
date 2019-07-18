@@ -6,7 +6,7 @@
     public void initZygote(...);
 }
 
--keep class com.tianma.xsmscode.xp.hook.ModuleUtils {
+-keep class com.tianma.xsmscode.common.utils.ModuleUtils {
     int getModuleVersion();
 }
 

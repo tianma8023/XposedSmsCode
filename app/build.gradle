@@ -5,7 +5,7 @@ apply from: 'and-res-guard.gradle'
 def key = file('F:\\Keystore\\tianma.jks')
 
 def keyProps = new Properties()
-keyProps.load(new FileInputStream("app\\signature.properties"))
+keyProps.load(new FileInputStream("F:\\Keystore\\signature.properties"))
 
 def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
@@ -17,11 +17,11 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 34
-        versionName "2.0.4"
+        versionCode 35
+        versionName "2.1.0"
 
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "34")
+        buildConfigField("int", "MODULE_VERSION", "35")
 
         vectorDrawables.generatedDensities = ['hdpi']
 
@@ -99,7 +99,7 @@ ext {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0' // material design support
     implementation 'androidx.recyclerview:recyclerview:1.0.0' // recycler view
     implementation 'androidx.cardview:cardview:1.0.0' // card view
