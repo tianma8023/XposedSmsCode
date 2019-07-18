@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -9,7 +9,7 @@
         <item name="faq_textColorSecondary">@color/faq_textColorSecondary_black</item>
         <item name="preferenceIconColor">?android:attr/colorAccent</item>
         <item name="toolbarPopupStyle">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="preferenceTheme">@style/MyPreferenceStyle</item>
         <item name="itemBackgroundColor">@color/item_background_color_light</item>
         <item name="itemSelectedBackgroundColor">@color/item_selected_background_color_light</item>
     </style>
@@ -71,6 +71,14 @@
     </style>
 
     <style name="AppTheme.Black" parent="AppTheme.Dark">
+    </style>
+
+    <style name="MyPreferenceStyle" parent="@style/PreferenceThemeOverlay.v14.Material">
+        <item name="preferenceCategoryStyle">@style/MyPreferenceCategoryStyle</item>
+    </style>
+
+    <style name="MyPreferenceCategoryStyle" parent="@style/Preference.Category.Material">
+        <item name="android:layout" tools:ignore="PrivateResource">@layout/preference_category</item>
     </style>
 
 </resources>

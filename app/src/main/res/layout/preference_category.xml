@@ -1,0 +1,12 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:id="@android:id/title"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:fontFamily="sans-serif-medium"
+          android:paddingStart="16dp"
+          android:paddingTop="12dp"
+          android:singleLine="true"
+          android:textColor="?android:attr/colorAccent"
+          android:textSize="15sp"
+          tools:ignore="RtlSymmetry"/>
