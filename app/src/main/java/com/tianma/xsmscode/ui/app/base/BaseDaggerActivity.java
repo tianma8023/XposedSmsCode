@@ -1,11 +1,11 @@
 package com.tianma.xsmscode.ui.app.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.tianma.xsmscode.common.utils.SPUtils;
 import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
 
+import androidx.annotation.Nullable;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public abstract class BaseDaggerActivity extends DaggerAppCompatActivity {

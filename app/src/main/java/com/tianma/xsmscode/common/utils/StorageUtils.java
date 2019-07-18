@@ -3,11 +3,12 @@ package com.tianma.xsmscode.common.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 
 import java.io.File;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Utils for storage.

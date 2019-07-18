@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.annotation.IntDef;
 import android.widget.Toast;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
@@ -14,6 +13,8 @@ import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.Const;
 import com.tianma.xsmscode.xp.hook.PermissionGranterHook;
 import com.tianma.xsmscode.xp.hook.code.SmsHandlerHook;
+
+import androidx.annotation.IntDef;
 
 /**
  * 包相关工具类

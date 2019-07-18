@@ -1,8 +1,6 @@
 package com.tianma.xsmscode.ui.rule.list;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,9 @@ import com.tianma.xsmscode.common.adapter.ItemCallback;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.VH> {
 

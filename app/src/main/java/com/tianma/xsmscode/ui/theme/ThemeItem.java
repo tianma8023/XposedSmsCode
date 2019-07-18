@@ -2,9 +2,9 @@ package com.tianma.xsmscode.ui.theme;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
 
 public class ThemeItem implements Parcelable{
 

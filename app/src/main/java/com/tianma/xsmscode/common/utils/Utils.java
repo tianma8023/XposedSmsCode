@@ -2,12 +2,13 @@ package com.tianma.xsmscode.common.utils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
 import android.widget.Toast;
 
 import com.github.tianma8023.xposed.smscode.R;
 
 import java.util.Locale;
+
+import androidx.browser.customtabs.CustomTabsIntent;
 
 /**
  * Other Utils

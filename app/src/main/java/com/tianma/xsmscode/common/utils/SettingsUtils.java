@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * Utility for android.provider.Settings

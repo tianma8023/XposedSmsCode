@@ -12,7 +12,7 @@ def static releaseTime() {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
@@ -98,17 +98,17 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:design:27.1.1' // material design support
-    implementation 'com.android.support:recyclerview-v7:27.1.1' // recycler view
-    implementation 'com.android.support:cardview-v7:27.1.1' // card view
-    implementation 'com.android.support:customtabs:27.1.1' // custom tabs
-    implementation 'com.android.support:preference-v7:27.1.1' // preference support
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0' // material design support
+    implementation 'androidx.recyclerview:recyclerview:1.0.0' // recycler view
+    implementation 'androidx.cardview:cardview:1.0.0' // card view
+    implementation 'androidx.browser:browser:1.0.0' // custom tabs
+    implementation 'androidx.preference:preference:1.0.0' // preference support
 
     // ButterKnife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     // Xposed
     compileOnly 'de.robv.android.xposed:api:82'

@@ -1,6 +1,6 @@
 package com.tianma.xsmscode.common.fragment.backpress;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Fragment that handled back pressed event.

@@ -13,42 +13,37 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
-import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Telephony;
-import android.support.annotation.IntDef;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.InputDevice;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.NotificationConst;
 import com.tianma.xsmscode.common.constant.PrefConst;
-import com.tianma.xsmscode.data.db.DBProvider;
-import com.tianma.xsmscode.data.db.entity.SmsMsg;
-import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
-import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
 import com.tianma.xsmscode.common.utils.ClipboardUtils;
 import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StringUtils;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
+import com.tianma.xsmscode.data.db.DBProvider;
+import com.tianma.xsmscode.data.db.entity.SmsMsg;
+import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
+import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.annotation.IntDef;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.XposedHelpers;
 
 public class SmsCodeWorker {
 
@@ -416,63 +411,11 @@ public class SmsCodeWorker {
     // auto-input
     private void autoInputCode(String code) {
         try {
-            sendText(code);
+            InputHelper.sendText(code);
             XLog.d("Auto input code succeed");
         } catch (Throwable throwable) {
             XLog.e("Error occurs when auto input code", throwable);
         }
-    }
-
-    /**
-     * refer: com.android.commands.input.Input#sendText()
-     *
-     * @throws Throwable throwable throws if the caller has no android.permission.INJECT_EVENTS permission
-     */
-    private void sendText(String text) throws Throwable {
-        int source = InputDevice.SOURCE_KEYBOARD;
-
-        StringBuilder sb = new StringBuilder(text);
-
-        boolean escapeFlag = false;
-        for (int i = 0; i < sb.length(); i++) {
-            if (escapeFlag) {
-                escapeFlag = false;
-                if (sb.charAt(i) == 's') {
-                    sb.setCharAt(i, ' ');
-                    sb.deleteCharAt(--i);
-                }
-            }
-            if (sb.charAt(i) == '%') {
-                escapeFlag = true;
-            }
-        }
-
-        char[] chars = sb.toString().toCharArray();
-
-        KeyCharacterMap kcm = KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD);
-        KeyEvent[] events = kcm.getEvents(chars);
-        for (KeyEvent keyEvent : events) {
-            if (source != keyEvent.getSource()) {
-                keyEvent.setSource(source);
-            }
-            injectKeyEvent(keyEvent);
-        }
-    }
-
-    /**
-     * refer com.android.commands.input.Input#injectKeyEvent()
-     */
-    @SuppressLint("PrivateApi")
-    private void injectKeyEvent(KeyEvent keyEvent) throws Throwable {
-        InputManager inputManager = (InputManager) XposedHelpers.callStaticMethod(InputManager.class, "getInstance");
-
-        int INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH =
-                XposedHelpers.getStaticIntField(InputManager.class, "INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH");
-
-        Class<?>[] paramTypes = {KeyEvent.class, int.class,};
-        Object[] args = {keyEvent, INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH,};
-
-        XposedHelpers.callMethod(inputManager, "injectInputEvent", paramTypes, args);
     }
 
     private void showCodeNotification(SmsMsg smsMsg) {

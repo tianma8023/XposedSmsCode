@@ -7,12 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,9 +16,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.ui.record.CodeRecordActivity;
-import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
-import com.tianma.xsmscode.ui.theme.ThemeItem;
 import com.tianma.xsmscode.common.constant.Const;
 import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.preference.ResetEditPreference;
@@ -36,8 +27,18 @@ import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.Utils;
 import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.ui.record.CodeRecordActivity;
+import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
+import com.tianma.xsmscode.ui.theme.ThemeItem;
 
 import java.io.File;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 /**
  * 首选项Fragment

@@ -3,15 +3,14 @@ package com.tianma.xsmscode.feature.backup;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.tianma.xsmscode.common.utils.StorageUtils;
+import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 import com.tianma.xsmscode.feature.backup.exception.BackupInvalidException;
 import com.tianma.xsmscode.feature.backup.exception.VersionInvalidException;
 import com.tianma.xsmscode.feature.backup.exception.VersionMissedException;
-import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
-import com.tianma.xsmscode.common.utils.StorageUtils;
-import com.tianma.xsmscode.common.utils.XLog;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -22,6 +21,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.core.content.FileProvider;
 
 public class BackupManager {
 
