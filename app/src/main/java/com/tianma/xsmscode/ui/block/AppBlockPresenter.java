@@ -3,7 +3,6 @@ package com.tianma.xsmscode.ui.block;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.SystemClock;
 
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.DBManager;
@@ -65,8 +64,6 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
             return;
         }
 
-        final long[] times = new long[2];
-
         PackageManager pm = mContext.getPackageManager();
         Disposable disposable = Observable
                 .fromIterable(() -> {
@@ -85,16 +82,11 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable1 -> mView.showProgress())
-                .doOnSubscribe(disposable1 -> {
-                    times[0] = SystemClock.elapsedRealtime();
-                })
                 .subscribe(appInfoList -> {
                     mApps = appInfoList;
                     mView.cancelProgress();
                     mView.showData(new ArrayList<>(appInfoList));
                     mLoadSucceed = true;
-                    times[1] = SystemClock.elapsedRealtime();
-                    XLog.d("Load cost: %dms", times[1] - times[0]);
                 }, throwable -> {
                     XLog.e("", throwable);
                     mView.cancelProgress();

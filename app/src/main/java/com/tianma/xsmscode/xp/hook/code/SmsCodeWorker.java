@@ -453,17 +453,15 @@ public class SmsCodeWorker {
                     }
                     cursor.close();
                 }
-                XLog.d("Get blocked apps by content provider succeed");
+                XLog.d("Get blocked apps by content provider");
             } catch (Exception e) {
                 List<AppInfo> appInfoList = EntityStoreManager.loadEntitiesFromFile(
                         EntityStoreManager.EntityType.BLOCKED_APP, AppInfo.class);
                 for (AppInfo appInfo : appInfoList) {
                     blockedAppList.add(appInfo.getPackageName());
                 }
-                XLog.d("Get blocked apps from file succeed");
+                XLog.d("Get blocked apps from file");
             }
-
-            XLog.d("blockedAppList: %s", blockedAppList.toString());
 
             if (topPkgPrimary != null && blockedAppList.contains(topPkgPrimary)) {
                 return true;
