@@ -1,5 +1,8 @@
 # Update Logs
-- 19.07.18 v2.0.5 Reboot required
+- 19.07.20 v2.1.1 Reboot required
+  1. New: Add blacklist to block auto-input in certain Apps.
+  2. Optimization: optimize some features.
+- 19.07.18 v2.1.0
   1. Change: refactor the whole project.
   2. Change: migrate to AndroidX.
   3. Change: beautify some UI.
