@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.yuweiguocn.library.greendao.MigrationHelper;
+import com.tianma.xsmscode.data.db.entity.AppInfoDao;
 import com.tianma.xsmscode.data.db.entity.DaoMaster;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRuleDao;
 import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
@@ -35,6 +36,6 @@ public class TSQLiteOpenHelper extends DaoMaster.OpenHelper{
             public void onDropAllTables(Database db, boolean ifExists) {
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        }, SmsCodeRuleDao.class, SmsMsgDao.class);
+        }, SmsCodeRuleDao.class, SmsMsgDao.class, AppInfoDao.class);
     }
 }

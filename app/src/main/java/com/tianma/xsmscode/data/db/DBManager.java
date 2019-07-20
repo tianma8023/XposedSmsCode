@@ -3,6 +3,7 @@ package com.tianma.xsmscode.data.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.tianma.xsmscode.data.db.entity.AppInfo;
 import com.tianma.xsmscode.data.db.entity.DaoMaster;
 import com.tianma.xsmscode.data.db.entity.DaoSession;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
@@ -47,12 +48,16 @@ public class DBManager {
         return sInstance;
     }
 
+    SQLiteDatabase getSQLiteDatabase() {
+        return mSQLiteDatabase;
+    }
+
     @SuppressWarnings("unchecked")
     private <T> AbstractDao<T, ?> getAbstractDao(Class<T> entityClass) {
         return (AbstractDao<T, ?>) mDaoSession.getDao(entityClass);
     }
 
-    private <T> long insertOrReplace(Class<T> entityClass, T entity) {
+    public  <T> long insertOrReplace(Class<T> entityClass, T entity) {
         AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
         return abstractDao.insertOrReplace(entity);
     }
@@ -65,12 +70,12 @@ public class DBManager {
         });
     }
 
-    private <T> void insertOrReplaceInTx(Class<T> entityClass, List<T> entities) {
+    public <T> void insertOrReplaceInTx(Class<T> entityClass, List<T> entities) {
         AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
         abstractDao.insertOrReplaceInTx(entities);
     }
 
-    public <T> Observable<Iterable<T>> insertOrReplaceInTxRx(Class<T> entityClass, List<T> entities) {
+    public <T> Observable<List<T>> insertOrReplaceInTxRx(Class<T> entityClass, List<T> entities) {
         return Observable.fromCallable(() -> {
             AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
             abstractDao.insertOrReplaceInTx(entities);
@@ -117,7 +122,7 @@ public class DBManager {
         });
     }
 
-    private <T> void deleteAll(Class<T> entityClass) {
+    public  <T> void deleteAll(Class<T> entityClass) {
         AbstractDao abstractDao = getAbstractDao(entityClass);
         abstractDao.deleteAll();
     }
@@ -157,7 +162,7 @@ public class DBManager {
         insertOrReplaceInTx(SmsCodeRule.class, smsCodeRules);
     }
 
-    public Observable<Iterable<SmsCodeRule>> addSmsCodeRulesRx(List<SmsCodeRule> smsCodeRules) {
+    public Observable<List<SmsCodeRule>> addSmsCodeRulesRx(List<SmsCodeRule> smsCodeRules) {
         return insertOrReplaceInTxRx(SmsCodeRule.class, smsCodeRules);
     }
 
@@ -174,7 +179,7 @@ public class DBManager {
     }
 
     public Observable<List<SmsCodeRule>> queryAllSmsCodeRulesRx() {
-        return Observable.fromCallable(() -> mDaoSession.queryBuilder(SmsCodeRule.class).list());
+        return Observable.fromCallable(() -> queryAll(SmsCodeRule.class));
     }
 
     public List<SmsCodeRule> querySmsCodeRules(SmsCodeRule criteria) {
@@ -235,7 +240,7 @@ public class DBManager {
         insertOrReplaceInTx(SmsMsg.class, smsMsgList);
     }
 
-    public Observable<Iterable<SmsMsg>> addSmsMsgListRx(List<SmsMsg> smsMsgList) {
+    public Observable<List<SmsMsg>> addSmsMsgListRx(List<SmsMsg> smsMsgList) {
         return insertOrReplaceInTxRx(SmsMsg.class, smsMsgList);
     }
 
@@ -261,8 +266,19 @@ public class DBManager {
         return deleteInTxRx(SmsMsg.class, smsMsgList);
     }
 
+    public List<AppInfo> queryAllBlockedApps() {
+        return queryAll(AppInfo.class);
+    }
 
-    SQLiteDatabase getSQLiteDatabase() {
-        return mSQLiteDatabase;
+    public Observable<List<AppInfo>> queryAllBlockedAppsRx() {
+        return Observable.fromCallable(() -> mDaoSession.queryBuilder(AppInfo.class).list());
+    }
+
+    public Observable<Void> removeBlockedApps(List<AppInfo> appList) {
+        return deleteInTxRx(AppInfo.class, appList);
+    }
+
+    public Observable<List<AppInfo>> addBlockedApps(List<AppInfo> appList) {
+        return insertOrReplaceInTxRx(AppInfo.class, appList);
     }
 }

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.tianma.xsmscode.data.db.entity.AppInfoDao;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRuleDao;
 import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
 
@@ -21,19 +22,26 @@ public class DBProvider extends ContentProvider {
 
     private static final String PATH_SMS_MSG = "sms_msg";
     private static final String PATH_SMS_CODE_RULE = "sms_code_rule";
+    private static final String PATH_APP_INFO = "app_info";
 
     public static final Uri SMS_MSG_CONTENT_URI =
             Uri.parse("content://" + AUTHORITY + "/" + PATH_SMS_MSG);
     public static final Uri SMS_CODE_RULE_URI =
             Uri.parse("content://" + AUTHORITY + "/" + PATH_SMS_CODE_RULE);
+    public static final Uri APP_INFO_URI =
+            Uri.parse("content://" + AUTHORITY + "/" + PATH_APP_INFO);
 
     private static final int SMS_MSG_DIR = 0;
     private static final int SMS_MSG_ID = 1;
     private static final int SMS_CODE_RULE_DIR = 2;
     private static final int SMS_CODE_RULE_ID = 3;
+    private static final int APP_INFO_DIR = 4;
+    private static final int APP_INFO_ID = 5;
+
 
     private static final String TABLE_SMS_MSG = SmsMsgDao.TABLENAME;
     private static final String TABLE_SMS_CODE_RULE = SmsCodeRuleDao.TABLENAME;
+    private static final String TABLE_APP_INFO = AppInfoDao.TABLENAME;
 
     private static final UriMatcher sUriMatcher;
 
@@ -44,6 +52,9 @@ public class DBProvider extends ContentProvider {
 
         sUriMatcher.addURI(AUTHORITY, PATH_SMS_CODE_RULE, SMS_CODE_RULE_DIR);
         sUriMatcher.addURI(AUTHORITY, PATH_SMS_CODE_RULE + "/#", SMS_CODE_RULE_ID);
+
+        sUriMatcher.addURI(AUTHORITY, PATH_APP_INFO, APP_INFO_DIR);
+        sUriMatcher.addURI(AUTHORITY, PATH_APP_INFO + "/#", APP_INFO_ID);
     }
 
     private SQLiteDatabase mDatabase;
@@ -93,6 +104,9 @@ public class DBProvider extends ContentProvider {
                 break;
             case SMS_MSG_DIR:
                 tableName = TABLE_SMS_MSG;
+                break;
+            case APP_INFO_DIR:
+                tableName = TABLE_APP_INFO;
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);

@@ -42,6 +42,13 @@
             android:title="@string/pref_enable_auto_input_code_title"/>
 
         <Preference
+            android:dependency="@string/pref_enable_auto_input_code"
+            android:icon="@drawable/ic_block"
+            android:key="@string/pref_app_block_entry"
+            android:summary="@string/app_block_summary"
+            android:title="@string/app_block_settings"/>
+
+        <Preference
             android:icon="@drawable/ic_palette"
             android:key="@string/pref_choose_theme"
             android:title="@string/pref_choose_theme_title"/>

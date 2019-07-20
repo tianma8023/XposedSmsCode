@@ -80,6 +80,9 @@
             android:name="com.tianma.xsmscode.ui.record.CodeRecordActivity"
             android:label="@string/smscode_records"/>
 
+        <activity android:name="com.tianma.xsmscode.ui.block.AppBlockActivity"
+            android:label="@string/app_block_settings"/>
+
         <provider
             android:name="com.tianma.xsmscode.data.db.DBProvider"
             android:authorities="${applicationId}.db.provider"

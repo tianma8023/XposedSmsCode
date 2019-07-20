@@ -306,17 +306,21 @@ public class SmsCodeUtils {
                 regexColumn,
         };
 
-        Cursor cursor = resolver.query(smsCodeRuleUri, projection, null, null, null);
         List<SmsCodeRule> rules = new ArrayList<>();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                SmsCodeRule rule = new SmsCodeRule();
-                rule.setCompany(cursor.getString(cursor.getColumnIndex(companyColumn)));
-                rule.setCodeKeyword(cursor.getString(cursor.getColumnIndex(keywordColumn)));
-                rule.setCodeRegex(cursor.getString(cursor.getColumnIndex(regexColumn)));
-                rules.add(rule);
+        try {
+            Cursor cursor = resolver.query(smsCodeRuleUri, projection, null, null, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    SmsCodeRule rule = new SmsCodeRule();
+                    rule.setCompany(cursor.getString(cursor.getColumnIndex(companyColumn)));
+                    rule.setCodeKeyword(cursor.getString(cursor.getColumnIndex(keywordColumn)));
+                    rule.setCodeRegex(cursor.getString(cursor.getColumnIndex(regexColumn)));
+                    rules.add(rule);
+                }
+                cursor.close();
             }
-            cursor.close();
+        } catch (Throwable e) {
+
         }
         return rules;
     }

@@ -111,6 +111,17 @@
     <!-- auto-input SMS Code -->
     <string name="pref_enable_auto_input_code_title">啟用自動輸入</string>
     <string name="pref_enable_auto_input_code_summary">嘗試自動輸入驗證碼</string>
+    <string name="app_block_settings">自動輸入屏蔽設定</string>
+    <string name="app_block_summary">選取屏蔽自動輸入的程式</string>
+    <string name="action_sort">排序</string>
+    <string name="action_sort_by_label_asc">程式名</string>
+    <string name="action_sort_by_label_desc">程式名(降序)</string>
+    <string name="action_sort_by_pkg_asc">包名</string>
+    <string name="action_sort_by_pkg_desc">包名(降序)</string>
+    <string name="action_search">搜索</string>
+    <string name="action_accomplish">保存</string>
+    <string name="save_failed">保存失敗，請重試</string>
+    <string name="load_failed">加載失敗，請重試</string>
     <!-- auto-input SMS Code end -->
 
     <!-- sms code rule -->
@@ -215,7 +226,7 @@
         <item>產品的初衷是什麼？</item>
         <item>這個模組適用於什麼樣的Rom呢？</item>
         <item>模組失效該怎麼辦？</item>
-        <item>標記簡訊為已讀或者刪除簡訊，為什麼不生效</item>
+        <item>標記簡訊為已讀或者刪除簡訊，為什麼不生效？</item>
     </string-array>
     <string-array name="answer_list">
         <item>不做毒瘤，綠色Android，不忘初心。</item>

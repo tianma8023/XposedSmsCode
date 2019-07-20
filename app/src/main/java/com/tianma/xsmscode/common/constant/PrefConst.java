@@ -21,6 +21,11 @@ public interface PrefConst {
     String KEY_CURRENT_THEME_INDEX = "pref_current_theme_index";
     int CURRENT_THEME_INDEX_DEFAULT = 0;
 
+
+    String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
+    boolean ENABLE_AUTO_INPUT_CODE_DEFAULT = true;
+    String KEY_APP_BLOCK_ENTRY = "pref_app_block_entry";
+
     String KEY_EXPERIMENTAL = "pref_experimental";
 
     String KEY_MARK_AS_READ = "pref_mark_as_read";
@@ -54,9 +59,6 @@ public interface PrefConst {
     String KEY_SOURCE_CODE = "pref_source_code";
     String KEY_GET_ALIPAY_PACKET = "pref_get_alipay_packet";
     String KEY_DONATE_BY_ALIPAY = "pref_donate_by_alipay";
-
-    String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
-    boolean ENABLE_AUTO_INPUT_CODE_DEFAULT = true;
 
     String KEY_VERBOSE_LOG_MODE = "pref_verbose_log_mode";
     boolean VERBOSE_LOG_MODE_DEFAULT = false;

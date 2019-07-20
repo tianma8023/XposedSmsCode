@@ -33,11 +33,17 @@ import com.tianma.xsmscode.common.utils.StringUtils;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.data.db.DBProvider;
+import com.tianma.xsmscode.data.db.entity.AppInfo;
+import com.tianma.xsmscode.data.db.entity.AppInfoDao;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
+import com.tianma.xsmscode.ui.block.BlockedAppStoreManager;
 import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.annotation.IntDef;
@@ -120,7 +126,7 @@ public class SmsCodeWorker {
         }
 
         String smsCode = SmsCodeUtils.parseSmsCodeIfExists(mAppContext, msgBody, true);
-        if (TextUtils.isEmpty(smsCode)) { // Not verification code msg.
+        if (TextUtils.isEmpty(smsCode)) { // isn't code message
             return null;
         }
 
@@ -218,7 +224,7 @@ public class SmsCodeWorker {
                 }
                 case MSG_AUTO_INPUT_CODE: {
                     SmsMsg smsMsg = (SmsMsg) msg.obj;
-                    autoInputCode(smsMsg.getSmsCode());
+                    prepareAutoInputCode(smsMsg.getSmsCode());
                     break;
                 }
                 case MSG_QUIT_QUEUE:
@@ -346,7 +352,7 @@ public class SmsCodeWorker {
 
             ContentResolver resolver = mAppContext.getContentResolver();
             resolver.insert(smsMsgUri, values);
-            XLog.d("Add code record succeed by cp");
+            XLog.d("Add code record succeed by content provider");
 
             String[] projections = {SmsMsgDao.Properties.Id.columnName};
             String order = SmsMsgDao.Properties.Date.columnName + " ASC";
@@ -371,7 +377,7 @@ public class SmsCodeWorker {
                 }
 
                 resolver.applyBatch(DBProvider.AUTHORITY, operations);
-                XLog.d("Remove outdated code records succeed by cp");
+                XLog.d("Remove outdated code records succeed by content provider");
             }
 
             cursor.close();
@@ -408,6 +414,87 @@ public class SmsCodeWorker {
         }
     }
 
+    private void prepareAutoInputCode(String code) {
+        if (!autoInputBlockedHere()) {
+            autoInputCode(code);
+        }
+    }
+
+    private boolean autoInputBlockedHere() {
+        boolean result = false;
+        try {
+            List<ActivityManager.RunningTaskInfo> runningTasks = getRunningTasks(mPhoneContext);
+            String topPkgPrimary = null;
+            if (runningTasks != null && runningTasks.size() > 0) {
+                topPkgPrimary = runningTasks.get(0).topActivity.getPackageName();
+                XLog.d("topPackagePrimary: %s", topPkgPrimary);
+            }
+
+            List<String> blockedAppList = new ArrayList<>();
+            try {
+                Random rand = new Random();
+                int next = rand.nextInt(5);
+                if (next > 0) {
+                    throw new Exception("Hello");
+                }
+                Uri appInfoUri = DBProvider.APP_INFO_URI;
+                ContentResolver resolver = mAppContext.getContentResolver();
+
+                final String packageColumn = AppInfoDao.Properties.PackageName.columnName;
+                final String blockedColumn = AppInfoDao.Properties.Blocked.columnName;
+
+                String[] projection = {packageColumn,};
+                String selection = blockedColumn + " = ?";
+                String[] selectionArgs = {String.valueOf(1)};
+                Cursor cursor = resolver.query(appInfoUri, projection, selection, selectionArgs, null);
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        blockedAppList.add(cursor.getString(cursor.getColumnIndex(packageColumn)));
+                    }
+                    cursor.close();
+                }
+                XLog.d("Get blocked apps by content provider succeed");
+            } catch (Exception e) {
+                List<AppInfo> appInfoList = BlockedAppStoreManager
+                        .loadEntitiesFromFile(BlockedAppStoreManager.EntityType.BLOCKED_APP, AppInfo.class);
+                for (AppInfo appInfo : appInfoList) {
+                    blockedAppList.add(appInfo.getPackageName());
+                }
+                XLog.d("Get blocked apps from file succeed");
+            }
+
+            XLog.d("blockedAppList: %s", blockedAppList.toString());
+
+            if (topPkgPrimary != null && blockedAppList.contains(topPkgPrimary)) {
+                return true;
+            }
+
+            // RunningAppProcess 判断当前的进程不是很准确，所以用作次要参考
+            List<ActivityManager.RunningAppProcessInfo> appProcesses = getRunningAppProcesses(mPhoneContext);
+            if (appProcesses == null) {
+                return false;
+            }
+
+            String[] topPkgSecondary = appProcesses.get(0).pkgList;
+            String topProcessSecondary = appProcesses.get(0).processName;
+            XLog.d("topProcessSecondary: %s, topPackages: %s", topProcessSecondary, Arrays.toString(topPkgSecondary));
+
+            if (blockedAppList.contains(topProcessSecondary)) {
+                result = true;
+            } else {
+                for (String topPackage : topPkgSecondary) {
+                    if (blockedAppList.contains(topPackage)) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        } catch (Throwable t) {
+            XLog.e("", t);
+        }
+        return result;
+    }
+
     // auto-input
     private void autoInputCode(String code) {
         try {
@@ -437,7 +524,7 @@ public class SmsCodeWorker {
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(title)
                 .setContentText(content)
-//                .setContentIntent(pi)
+                //                .setContentIntent(pi)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(mAppContext, R.color.ic_launcher_background))
                 .setGroup(NotificationConst.GROUP_KEY_SMSCODE_NOTIFICATION)
@@ -470,6 +557,17 @@ public class SmsCodeWorker {
             // 结束Looper
             workerHandler.sendEmptyMessageDelayed(MSG_QUIT_QUEUE, 1000);
         }
+    }
+
+    private List<ActivityManager.RunningAppProcessInfo> getRunningAppProcesses(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        return am == null ? null : am.getRunningAppProcesses();
+    }
+
+    @SuppressWarnings("deprecation")
+    private List<ActivityManager.RunningTaskInfo> getRunningTasks(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        return am == null ? null : am.getRunningTasks(10);
     }
 
 }

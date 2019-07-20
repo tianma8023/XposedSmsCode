@@ -8,6 +8,8 @@
     <string name="pref_hide_launcher_icon">pref_hide_launcher_icon</string>
     <string name="pref_show_toast">pref_show_toast</string>
     <string name="pref_copy_to_clipboard">pref_copy_to_clipboard</string>
+    <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
+    <string name="pref_app_block_entry">pref_app_block_entry</string>
     <string name="pref_choose_theme">pref_choose_theme</string>
 
     <string name="pref_experimental">pref_experimental</string>
@@ -36,7 +38,6 @@
     <string name="pref_get_alipay_packet">pref_get_alipay_packet</string>
     <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
 
-    <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
     <!-- shared preference key end -->
 
     <!-- sms code types -->

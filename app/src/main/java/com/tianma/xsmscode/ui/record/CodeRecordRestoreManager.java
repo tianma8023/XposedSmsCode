@@ -3,18 +3,17 @@ package com.tianma.xsmscode.ui.record;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.tianma.xsmscode.common.constant.PrefConst;
-import com.tianma.xsmscode.data.db.entity.SmsMsg;
-import com.tianma.xsmscode.data.db.DBManager;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.XLog;
-import com.google.gson.Gson;
+import com.tianma.xsmscode.data.db.DBManager;
+import com.tianma.xsmscode.data.db.entity.SmsMsg;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -79,7 +78,7 @@ public class CodeRecordRestoreManager {
                 XLog.d("Import code records to database succeed");
 
                 List<SmsMsg> allMsgList = dbManager.queryAllSmsMsg();
-                if(allMsgList.size() > PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT) {
+                if (allMsgList.size() > PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT) {
                     List<SmsMsg> outdatedMsgList = new ArrayList<>();
                     for (int i = PrefConst.MAX_SMS_RECORDS_COUNT_DEFAULT; i < allMsgList.size(); i++) {
                         outdatedMsgList.add(allMsgList.get(i));
@@ -100,12 +99,7 @@ public class CodeRecordRestoreManager {
      */
     public static File[] getRecordFiles() {
         File filesDir = StorageUtils.getFilesDir();
-        return filesDir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.startsWith(RECORD_FILE_PREFIX);
-            }
-        });
+        return filesDir.listFiles((dir, name) -> name.startsWith(RECORD_FILE_PREFIX));
     }
 
     private static SmsMsg loadFromFile(File recordFile) {

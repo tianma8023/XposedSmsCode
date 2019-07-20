@@ -27,6 +27,7 @@ import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.Utils;
 import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.ui.block.AppBlockActivity;
 import com.tianma.xsmscode.ui.record.CodeRecordActivity;
 import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
 import com.tianma.xsmscode.ui.theme.ThemeItem;
@@ -89,6 +90,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
         initChooseThemePreference(chooseThemePref);
+
+        findPreference(PrefConst.KEY_APP_BLOCK_ENTRY).setOnPreferenceClickListener(this);
         // general group end
 
         // experimental group
@@ -230,6 +233,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             CodeRecordActivity.startToMe(mActivity);
         } else if (PrefConst.KEY_GET_ALIPAY_PACKET.equals(key)) {
             getAlipayPacket();
+        } else if (PrefConst.KEY_APP_BLOCK_ENTRY.equals(key)) {
+            AppBlockActivity.startMe(mActivity);
         } else {
             return false;
         }
