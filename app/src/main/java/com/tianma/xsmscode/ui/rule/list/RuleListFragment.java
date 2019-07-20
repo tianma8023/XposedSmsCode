@@ -169,13 +169,14 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
     public void onStop() {
         super.onStop();
         XEventBus.unregister(this);
+        mPresenter.saveRulesToFile(mRuleAdapter.getRuleList());
     }
 
     @Override
     public void onDestroy() {
+        mPresenter.onDetach();
         super.onDestroy();
         mRuleAdapter.unregisterAdapterDataObserver(mDataObserver);
-        mPresenter.onDetach();
         cancelProgress();
         mProgressDialog = null;
     }

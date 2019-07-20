@@ -41,6 +41,8 @@ interface RuleListContract {
         void exportRules(List<SmsCodeRule> rules, File file, String progressMsg);
 
         void importRules(Uri uri, boolean retain, String progressMsg);
+
+        void saveRulesToFile(List<SmsCodeRule> rules);
     }
 
 }

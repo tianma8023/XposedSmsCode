@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 
 import com.tianma.xsmscode.data.db.entity.AppInfo;
 
-public class AppInfoUtils {
+public class AppInfoHelper {
 
-    private AppInfoUtils() {
+    private AppInfoHelper() {
     }
 
     public static AppInfo getAppInfo(PackageManager pm, PackageInfo packageInfo) {

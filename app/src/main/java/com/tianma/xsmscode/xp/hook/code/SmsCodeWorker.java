@@ -37,7 +37,7 @@ import com.tianma.xsmscode.data.db.entity.AppInfo;
 import com.tianma.xsmscode.data.db.entity.AppInfoDao;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
-import com.tianma.xsmscode.ui.block.BlockedAppStoreManager;
+import com.tianma.xsmscode.feature.store.EntityStoreManager;
 import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
 
 import java.util.ArrayList;
@@ -455,8 +455,8 @@ public class SmsCodeWorker {
                 }
                 XLog.d("Get blocked apps by content provider succeed");
             } catch (Exception e) {
-                List<AppInfo> appInfoList = BlockedAppStoreManager
-                        .loadEntitiesFromFile(BlockedAppStoreManager.EntityType.BLOCKED_APP, AppInfo.class);
+                List<AppInfo> appInfoList = EntityStoreManager.loadEntitiesFromFile(
+                        EntityStoreManager.EntityType.BLOCKED_APP, AppInfo.class);
                 for (AppInfo appInfo : appInfoList) {
                     blockedAppList.add(appInfo.getPackageName());
                 }

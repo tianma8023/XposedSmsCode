@@ -3,10 +3,12 @@ package com.tianma.xsmscode.ui.block;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.DBManager;
 import com.tianma.xsmscode.data.db.entity.AppInfo;
+import com.tianma.xsmscode.feature.store.EntityStoreManager;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -63,6 +65,8 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
             return;
         }
 
+        final long[] times = new long[2];
+
         PackageManager pm = mContext.getPackageManager();
         Disposable disposable = Observable
                 .fromIterable(() -> {
@@ -70,7 +74,7 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
                     return pm.getInstalledApplications(0).iterator();
                 })
                 .map(applicationInfo -> {
-                    AppInfo appInfo = AppInfoUtils.getAppInfo(pm, applicationInfo);
+                    AppInfo appInfo = AppInfoHelper.getAppInfo(pm, applicationInfo);
                     if (mOriginalBlockedApps.contains(appInfo)) {
                         appInfo.setBlocked(true);
                     }
@@ -81,11 +85,16 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable1 -> mView.showProgress())
+                .doOnSubscribe(disposable1 -> {
+                    times[0] = SystemClock.elapsedRealtime();
+                })
                 .subscribe(appInfoList -> {
                     mApps = appInfoList;
                     mView.cancelProgress();
                     mView.showData(new ArrayList<>(appInfoList));
                     mLoadSucceed = true;
+                    times[1] = SystemClock.elapsedRealtime();
+                    XLog.d("Load cost: %dms", times[1] - times[0]);
                 }, throwable -> {
                     XLog.e("", throwable);
                     mView.cancelProgress();
@@ -172,8 +181,8 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
                     dbManager.deleteAll(AppInfo.class);
                     dbManager.insertOrReplaceInTx(AppInfo.class, blockedApps);
                     // save to file
-                    BlockedAppStoreManager.storeEntitiesToFile(
-                            BlockedAppStoreManager.EntityType.BLOCKED_APP, blockedApps);
+                    EntityStoreManager.storeEntitiesToFile(
+                            EntityStoreManager.EntityType.BLOCKED_APP, blockedApps);
                     return blockedApps;
                 })
                 .subscribeOn(Schedulers.io())

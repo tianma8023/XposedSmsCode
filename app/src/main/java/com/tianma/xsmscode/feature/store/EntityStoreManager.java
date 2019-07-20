@@ -1,4 +1,4 @@
-package com.tianma.xsmscode.ui.block;
+package com.tianma.xsmscode.feature.store;
 
 import com.tianma.xsmscode.common.utils.JsonUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Put and get blocked app info in files.
  */
-public class BlockedAppStoreManager {
+public class EntityStoreManager {
 
     private static final String CODE_RULE_TEMPLATE_FILE_NAME = "code_rule_template";
     private static final String CODE_RULES_FILE_NAME = "code_rules";
@@ -29,30 +29,7 @@ public class BlockedAppStoreManager {
         CODE_RULE_TEMPLATE,
     }
 
-    private BlockedAppStoreManager() {
-    }
-
-    public static <T> void storeEntitiesToFile(EntityType entityType, List<T> entities) {
-        OutputStreamWriter osw = null;
-        try {
-            File storeFile = getStoreFile(entityType);
-            osw = new OutputStreamWriter(new FileOutputStream(storeFile), StandardCharsets.UTF_8);
-
-            JsonUtils.listToJson(entities, osw, true);
-
-            // set file world writable
-            StorageUtils.setFileWorldWritable(storeFile, 0);
-        } catch (Exception e) {
-            XLog.e("store entities to file failed", e);
-        } finally {
-            if (osw != null) {
-                try {
-                    osw.close();
-                } catch (IOException ioException) {
-                    // ignore
-                }
-            }
-        }
+    private EntityStoreManager() {
     }
 
     private static <T> File getStoreFile(EntityType entityType) {
@@ -71,6 +48,37 @@ public class BlockedAppStoreManager {
                 throw new IllegalArgumentException("Unknown EntityType:" + entityType.toString());
         }
         return new File(StorageUtils.getFilesDir(), filename);
+    }
+
+    public static <T> boolean storeEntitiesToFile(EntityType entityType, List<T> entities) {
+        OutputStreamWriter osw = null;
+        try {
+            File storeFile = getStoreFile(entityType);
+            osw = new OutputStreamWriter(new FileOutputStream(storeFile), StandardCharsets.UTF_8);
+
+            JsonUtils.listToJson(entities, osw, true);
+
+            // set file world writable
+            StorageUtils.setFileWorldWritable(storeFile, 0);
+            return true;
+        } catch (Exception e) {
+            XLog.e("store entities to file failed", e);
+        } finally {
+            if (osw != null) {
+                try {
+                    osw.close();
+                } catch (IOException ioException) {
+                    // ignore
+                }
+            }
+        }
+        return false;
+    }
+
+    public static <T> boolean storeEntityToFile(EntityType entityType, T entity) {
+        List<T> entities = new ArrayList<>();
+        entities.add(entity);
+        return storeEntitiesToFile(entityType, entities);
     }
 
     public static <T> List<T> loadEntitiesFromFile(EntityType entityType, Class<T> entityClass) {
@@ -96,6 +104,14 @@ public class BlockedAppStoreManager {
             }
         }
         return new ArrayList<>();
+    }
+
+    public static <T> T loadEntityFromFile(EntityType entityType, Class<T> entityClass) {
+        List<T> entities = loadEntitiesFromFile(entityType, entityClass);
+        if (entities != null && !entities.isEmpty()) {
+            return entities.get(0);
+        }
+        return null;
     }
 
 }
