@@ -1,5 +1,9 @@
 # Update Logs
-- 19.07.20 v2.1.1 Reboot required
+- 19.07.24 v2.1.2 Reboot required
+  1. New: copy code to clipboard when notification clicked
+  2. Optimization: optimize the algorithm of parsing SMS code.
+  3. Change: Don't copy code to clipboard as default. Show code notification as default.
+- 19.07.20 v2.1.1
   1. New: Add blacklist to block auto-input in certain Apps.
   2. Optimization: optimize some features.
 - 19.07.18 v2.1.0
