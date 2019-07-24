@@ -26,7 +26,7 @@
             android:title="@string/pref_show_toast_title"/>
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_copy"
             android:key="@string/pref_copy_to_clipboard"
@@ -93,7 +93,7 @@
     <PreferenceCategory android:title="@string/pref_sms_code_notification_title">
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_notification"
             android:key="@string/pref_show_code_notification"
