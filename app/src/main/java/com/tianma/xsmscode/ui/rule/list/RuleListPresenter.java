@@ -87,8 +87,11 @@ class RuleListPresenter implements RuleListContract.Presenter {
                 .removeSmsCodeRuleRx(codeRule)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aVoid -> {
-                }, throwable -> XLog.e("Remove " + codeRule.toString() + " failed", throwable));
+                .subscribe(smsCodeRule -> {
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    XLog.e("Remove " + codeRule.toString() + " failed", throwable);
+                });
         mCompositeDisposable.add(disposable);
     }
 

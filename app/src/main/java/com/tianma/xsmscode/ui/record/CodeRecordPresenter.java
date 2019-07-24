@@ -64,7 +64,7 @@ public class CodeRecordPresenter implements CodeRecordContract.Presenter {
                 .removeSmsMsgListRx(smsMsgList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aVoid -> {
+                .subscribe(list -> {
                     // ignore
                 }, throwable -> {
                     XLog.e("Error occurs when remove SMS records", throwable);

@@ -57,7 +57,7 @@ public class DBManager {
         return (AbstractDao<T, ?>) mDaoSession.getDao(entityClass);
     }
 
-    public  <T> long insertOrReplace(Class<T> entityClass, T entity) {
+    public <T> long insertOrReplace(Class<T> entityClass, T entity) {
         AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
         return abstractDao.insertOrReplace(entity);
     }
@@ -101,11 +101,11 @@ public class DBManager {
         abstractDao.delete(entity);
     }
 
-    public <T> Observable<Void> deleteRx(Class<T> entityClass, T entity) {
+    public <T> Observable<T> deleteRx(Class<T> entityClass, T entity) {
         return Observable.fromCallable(() -> {
             AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
             abstractDao.delete(entity);
-            return null;
+            return entity;
         });
     }
 
@@ -114,24 +114,24 @@ public class DBManager {
         abstractDao.deleteInTx(entities);
     }
 
-    public <T> Observable<Void> deleteInTxRx(Class<T> entityClass, List<T> entities) {
+    public <T> Observable<List<T>> deleteInTxRx(Class<T> entityClass, List<T> entities) {
         return Observable.fromCallable(() -> {
             AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
             abstractDao.deleteInTx(entities);
-            return null;
+            return entities;
         });
     }
 
-    public  <T> void deleteAll(Class<T> entityClass) {
+    public <T> void deleteAll(Class<T> entityClass) {
         AbstractDao abstractDao = getAbstractDao(entityClass);
         abstractDao.deleteAll();
     }
 
-    public <T> Observable<Void> deleteAllRx(Class<T> entityClass) {
+    public <T> Observable<Boolean> deleteAllRx(Class<T> entityClass) {
         return Observable.fromCallable(() -> {
             AbstractDao<T, ?> abstractDao = getAbstractDao(entityClass);
             abstractDao.deleteAll();
-            return null;
+            return true;
         });
     }
 
@@ -216,7 +216,7 @@ public class DBManager {
         delete(SmsCodeRule.class, smsCodeRule);
     }
 
-    public Observable<Void> removeSmsCodeRuleRx(SmsCodeRule smsCodeRule) {
+    public Observable<SmsCodeRule> removeSmsCodeRuleRx(SmsCodeRule smsCodeRule) {
         return deleteRx(SmsCodeRule.class, smsCodeRule);
     }
 
@@ -224,7 +224,7 @@ public class DBManager {
         deleteAll(SmsCodeRule.class);
     }
 
-    public Observable<Void> removeAllSmsCodeRulesRx() {
+    public Observable<Boolean> removeAllSmsCodeRulesRx() {
         return deleteAllRx(SmsCodeRule.class);
     }
 
@@ -262,7 +262,7 @@ public class DBManager {
         deleteInTx(SmsMsg.class, smsMsgList);
     }
 
-    public Observable<Void> removeSmsMsgListRx(List<SmsMsg> smsMsgList) {
+    public Observable<List<SmsMsg>> removeSmsMsgListRx(List<SmsMsg> smsMsgList) {
         return deleteInTxRx(SmsMsg.class, smsMsgList);
     }
 
@@ -274,7 +274,7 @@ public class DBManager {
         return Observable.fromCallable(() -> mDaoSession.queryBuilder(AppInfo.class).list());
     }
 
-    public Observable<Void> removeBlockedApps(List<AppInfo> appList) {
+    public Observable<List<AppInfo>> removeBlockedApps(List<AppInfo> appList) {
         return deleteInTxRx(AppInfo.class, appList);
     }
 
