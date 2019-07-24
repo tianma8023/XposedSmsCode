@@ -15,12 +15,14 @@ import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.NotificationConst;
 import com.tianma.xsmscode.common.utils.NotificationUtils;
 import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.xp.hook.BaseHook;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -167,6 +169,7 @@ public class SmsHandlerHook extends BaseHook {
                 mAppContext = mPhoneContext.createPackageContext(SMSCODE_PACKAGE,
                         Context.CONTEXT_IGNORE_SECURITY);
                 initNotificationChannel();
+                registerCopyCodeReceiver();
             } catch (Exception e) {
                 XLog.e("Create app context failed: %s", e);
             }
@@ -180,6 +183,14 @@ public class SmsHandlerHook extends BaseHook {
             NotificationUtils.createNotificationChannel(mPhoneContext,
                     channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             XLog.d("Init notification channel succeed");
+        }
+    }
+
+    private void registerCopyCodeReceiver() {
+        XSharedPreferences xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+        if(XSPUtils.showCodeNotification(xsp)) {
+            CopyCodeReceiver.registerMe(mPhoneContext);
+            XLog.d("Register copy code receiver");
         }
     }
 

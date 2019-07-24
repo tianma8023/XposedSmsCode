@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -516,13 +517,17 @@ public class SmsCodeWorker {
 
         int notificationId = smsMsg.hashCode();
 
+        Intent copyCodeIntent = CopyCodeReceiver.createIntent(smsCode);
+        PendingIntent pi = PendingIntent.getBroadcast(mPhoneContext,
+                0, copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Notification notification = new NotificationCompat.Builder(mAppContext, NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_app_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(mAppContext.getResources(), R.drawable.ic_app_icon))
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(title)
                 .setContentText(content)
-                //                .setContentIntent(pi)
+                .setContentIntent(pi)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(mAppContext, R.color.ic_launcher_background))
                 .setGroup(NotificationConst.GROUP_KEY_SMSCODE_NOTIFICATION)
