@@ -46,6 +46,10 @@
 - [GreenDao](https://github.com/greenrobot/greenDAO)
 - [GreenDaoUpgradeHelper](https://github.com/yuweiguocn/GreenDaoUpgradeHelper)
 - [Gson](https://github.com/google/gson)
+- [dagger](https://github.com/google/dagger)
+- [rxjava](https://github.com/ReactiveX/RxJava)
+- [rxandroid](https://github.com/ReactiveX/RxAndroid)
+
 
 # 协议
 所有的源码均遵循 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.txt) 协议
