@@ -14,6 +14,7 @@ import com.github.tianma8023.xposed.smscode.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
 import com.tianma.xsmscode.common.utils.ClipboardUtils;
+import com.tianma.xsmscode.common.utils.SnackbarHelper;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import com.tianma.xsmscode.ui.app.base.DaggerBackPressFragment;
 
@@ -168,7 +169,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
         String smsCode = item.getSmsMsg().getSmsCode();
         ClipboardUtils.copyToClipboard(mActivity, smsCode);
         String prompt = getString(R.string.prompt_sms_code_copied, smsCode);
-        Snackbar.make(mRecyclerView, prompt, Snackbar.LENGTH_SHORT).show();
+        SnackbarHelper.makeShort(mRecyclerView, prompt).show();
     }
 
     private void selectRecordItem(int position) {
@@ -230,7 +231,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
         final List<SmsMsg> itemsToRemove = mCodeRecordAdapter.removeSelectedItems();
         mSwipeRefreshLayout.setEnabled(false);
         String text = getString(R.string.some_items_removed, itemsToRemove.size());
-        Snackbar.make(mRecyclerView, text, Snackbar.LENGTH_LONG)
+        SnackbarHelper.makeLong(mRecyclerView, text)
                 .addCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {

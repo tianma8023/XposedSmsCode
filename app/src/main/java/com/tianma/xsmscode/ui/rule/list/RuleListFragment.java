@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.tianma.xsmscode.common.TextWatcherAdapter;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
+import com.tianma.xsmscode.common.utils.SnackbarHelper;
 import com.tianma.xsmscode.common.utils.Utils;
 import com.tianma.xsmscode.common.widget.FabScrollBehavior;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
@@ -243,7 +244,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
         final SmsCodeRule itemToRemove = mRuleAdapter.getItemAt(position);
         mRuleAdapter.removeItemAt(position);
 
-        Snackbar.make(mRecyclerView, R.string.removed, Snackbar.LENGTH_LONG)
+        SnackbarHelper.makeLong(mRecyclerView, R.string.removed)
                 .addCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -287,7 +288,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
         }
 
         if (mRuleAdapter.getItemCount() == 0) {
-            Snackbar.make(mRecyclerView, R.string.rule_list_empty_snack_prompt, Snackbar.LENGTH_LONG).show();
+            SnackbarHelper.makeLong(mRecyclerView, R.string.rule_list_empty_snack_prompt).show();
             return;
         }
 
@@ -334,7 +335,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
         final File[] files = BackupManager.getBackupFiles();
 
         if (files == null || files.length == 0) {
-            Snackbar.make(mRecyclerView, R.string.no_backup_exists, Snackbar.LENGTH_LONG).show();
+            SnackbarHelper.makeLong(mRecyclerView, R.string.no_backup_exists).show();
             return;
         }
 
@@ -355,7 +356,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
     }
 
     private void showNoPermissionInfo() {
-        Snackbar.make(mRecyclerView, R.string.no_permission_prompt, Snackbar.LENGTH_SHORT).show();
+        SnackbarHelper.makeShort(mRecyclerView, R.string.no_permission_prompt).show();
     }
 
     @Override
@@ -389,7 +390,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
     @Override
     public void onExportCompleted(boolean success, File file) {
         int msgId = success ? R.string.export_succeed : R.string.export_failed;
-        Snackbar snackbar = Snackbar.make(mRecyclerView, msgId, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = SnackbarHelper.makeLong(mRecyclerView, msgId);
         if (success) {
             snackbar.setAction(R.string.share, v -> {
                 if (mActivity != null) {
@@ -422,7 +423,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
                 msg = R.string.import_failed_read_error;
                 break;
         }
-        Snackbar.make(mRecyclerView, msg, Snackbar.LENGTH_LONG).show();
+        SnackbarHelper.makeLong(mRecyclerView, msg).show();
     }
 
     @Override

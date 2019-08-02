@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
-import com.google.android.material.snackbar.Snackbar;
 import com.tianma.xsmscode.common.constant.Const;
 import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.preference.ResetEditPreference;
@@ -18,6 +17,7 @@ import com.tianma.xsmscode.common.preference.ResetEditPreferenceDialogFragCompat
 import com.tianma.xsmscode.common.utils.ClipboardUtils;
 import com.tianma.xsmscode.common.utils.ModuleUtils;
 import com.tianma.xsmscode.common.utils.PackageUtils;
+import com.tianma.xsmscode.common.utils.SnackbarHelper;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.entity.ApkVersion;
 import com.tianma.xsmscode.ui.block.AppBlockActivity;
@@ -184,7 +184,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
     @Override
     public void showAppAlreadyNewest() {
-        Snackbar.make(getListView(), R.string.app_already_newest, Snackbar.LENGTH_LONG).show();
+        SnackbarHelper.makeLong(getListView(), R.string.app_already_newest).show();
     }
 
     public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
@@ -324,12 +324,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     public void showSmsCodeTestResult(String code) {
         String text = TextUtils.isEmpty(code) ? getString(R.string.cannot_parse_smscode)
                 : getString(R.string.current_sms_code, code);
-        Snackbar.make(getListView(), text, Snackbar.LENGTH_LONG).show();
+        SnackbarHelper.makeLong(getListView(), text).show();
     }
 
     @Override
     public void showCheckError(Throwable t) {
-        Snackbar.make(getListView(), R.string.check_update_failed, Snackbar.LENGTH_SHORT).show();
+        SnackbarHelper.makeShort(getListView(), R.string.check_update_failed).show();
     }
 
     @Override

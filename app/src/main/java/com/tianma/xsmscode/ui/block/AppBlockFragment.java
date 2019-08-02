@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.tianma8023.xposed.smscode.R;
-import com.google.android.material.snackbar.Snackbar;
 import com.tianma.xsmscode.common.adapter.ItemCallback;
+import com.tianma.xsmscode.common.utils.SnackbarHelper;
 import com.tianma.xsmscode.data.db.entity.AppInfo;
 
 import java.util.ArrayList;
@@ -166,7 +166,7 @@ public class AppBlockFragment extends DaggerFragment implements AppBlockContract
     @Override
     public void showError(Throwable t) {
         mRefreshLayout.setEnabled(true);
-        Snackbar.make(mRecyclerView, R.string.load_failed, Snackbar.LENGTH_SHORT).show();
+        SnackbarHelper.makeShort(mRecyclerView, R.string.load_failed).show();
     }
 
     @Override
@@ -190,6 +190,6 @@ public class AppBlockFragment extends DaggerFragment implements AppBlockContract
 
     @Override
     public void onSaveFailed() {
-        Snackbar.make(mRecyclerView, R.string.save_failed, Snackbar.LENGTH_SHORT).show();
+        SnackbarHelper.makeShort(mRecyclerView, R.string.save_failed).show();
     }
 }
