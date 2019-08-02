@@ -1,5 +1,9 @@
 # Update Logs
-- 19.07.24 v2.1.2 Reboot required
+- 19.08.02 v2.1.3 Reboot required
+  1. New: check for updates when "version info" clicked.
+  2. Change: unify the SnackBar background.
+  3. Optimization: optimize the procedure of blocking auto input.
+- 19.07.24 v2.1.2
   1. New: copy code to clipboard when notification clicked
   2. Optimization: optimize the algorithm of parsing SMS code.
   3. Change: Don't copy code to clipboard as default. Show code notification as default.
@@ -18,7 +22,7 @@
   2. Fix: fix the issue of log level.
 - 19.04.11 v2.0.2
   1. New option: show SMS code notification
-  2. Improvment: notice for TaiChi users.
+  2. Improvement: notice for TaiChi users.
   3. Optimization: optimize some features.
   4. Change: no longer support Android 5.x.
 - 19.03.29 v2.0.1

@@ -10,6 +10,7 @@
     int getModuleVersion();
 }
 
+
 # ==========================
 # Umeng analyze proguard start
 
@@ -31,6 +32,7 @@
 # Umeng analyze proguard end
 # ==========================
 
+
 # ==========================
 # event bus proguard start
 
@@ -47,6 +49,7 @@
 
 # event bus proguard end
 # ==========================
+
 
 # ==========================
 # greenDAO 3 proguard start
@@ -67,6 +70,7 @@
 # greenDAO 3 proguard end
 # ==========================
 
+
 # ==========================
 # bugly proguard start
 
@@ -76,4 +80,23 @@
 #}
 
 # bugly proguard end
+# ==========================
+
+
+# ==========================
+# jsoup proguard start
+-keeppackagenames org.jsoup.nodes
+# jsoup proguard end
+# ==========================
+
+
+# ==========================
+# okhttp3 start
+# okhttp3 end
+# ==========================
+
+
+# ==========================
+# okio start
+# okio end
 # ==========================
