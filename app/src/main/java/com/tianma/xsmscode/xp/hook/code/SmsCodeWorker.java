@@ -424,13 +424,6 @@ public class SmsCodeWorker {
     private boolean autoInputBlockedHere() {
         boolean result = false;
         try {
-            List<ActivityManager.RunningTaskInfo> runningTasks = getRunningTasks(mPhoneContext);
-            String topPkgPrimary = null;
-            if (runningTasks != null && runningTasks.size() > 0) {
-                topPkgPrimary = runningTasks.get(0).topActivity.getPackageName();
-                XLog.d("topPackagePrimary: %s", topPkgPrimary);
-            }
-
             List<String> blockedAppList = new ArrayList<>();
             try {
                 Random rand = new Random();
@@ -462,6 +455,17 @@ public class SmsCodeWorker {
                     blockedAppList.add(appInfo.getPackageName());
                 }
                 XLog.d("Get blocked apps from file");
+            }
+
+            if (blockedAppList.isEmpty()) {
+                return false;
+            }
+
+            List<ActivityManager.RunningTaskInfo> runningTasks = getRunningTasks(mPhoneContext);
+            String topPkgPrimary = null;
+            if (runningTasks != null && runningTasks.size() > 0) {
+                topPkgPrimary = runningTasks.get(0).topActivity.getPackageName();
+                XLog.d("topPackagePrimary: %s", topPkgPrimary);
             }
 
             if (topPkgPrimary != null && blockedAppList.contains(topPkgPrimary)) {
