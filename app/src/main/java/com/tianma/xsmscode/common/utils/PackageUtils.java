@@ -237,4 +237,19 @@ public class PackageUtils {
         }
     }
 
+    public static void showAppDetailsInCoolApk(Context context) {
+        int packageState = checkPackageState(context, Const.ALIPAY_PACKAGE_NAME);
+        if (packageState == PACKAGE_ENABLED) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID));
+            intent.setPackage(Const.COOL_MARKET_PACKAGE_NAME);
+            context.startActivity(intent);
+        } else if (packageState == PACKAGE_DISABLED) {
+            Toast.makeText(context, R.string.coolapk_enable_prompt, Toast.LENGTH_SHORT).show();
+        } else if (packageState == PACKAGE_NOT_INSTALLED) {
+            Toast.makeText(context, R.string.coolapk_install_prompt, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

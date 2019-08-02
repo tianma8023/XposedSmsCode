@@ -256,7 +256,7 @@ public class SmsCodeWorker {
     }
 
     private void showToast(String toast) {
-        String text = mAppContext.getString(R.string.cur_verification_code, toast);
+        String text = mAppContext.getString(R.string.current_sms_code, toast);
         Toast.makeText(mAppContext, text, Toast.LENGTH_LONG).show();
     }
 

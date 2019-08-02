@@ -68,7 +68,7 @@
     <string name="pref_smscode_test_summary">Test whether SMS code can be recognized or not</string>
     <string name="sms_content_hint">SMS content</string>
     <string name="test">Test</string>
-    <string name="cur_verification_code">Current SMS code is %s</string>
+    <string name="current_sms_code">Current SMS code is %s</string>
     <string name="cannot_parse_smscode">Cannot parse SMS code.</string>
     <!-- preference Code SMS end -->
 
@@ -222,6 +222,16 @@
     <string name="add_apps_in_taichi">Add Apps</string>
     <string name="check_module_in_taichi">Enable Module</string>
     <!-- taichi users notice end -->
+
+    <!-- check update -->
+    <string name="new_version_found">New version found!</string>
+    <string name="check_update_failed">Check update failed.</string>
+    <string name="app_already_newest">Current version is the latest.</string>
+    <string name="update_from_github">Go to GitHub</string>
+    <string name="update_from_coolapk">Go to Coolapk</string>
+    <string name="coolapk_install_prompt">Please install CoolApk</string>
+    <string name="coolapk_enable_prompt">Please enable CoolApk</string>
+    <!-- check update end -->
 
     <!-- faq -->
     <string-array name="question_list">

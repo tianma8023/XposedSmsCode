@@ -31,6 +31,7 @@ public interface Const {
     String HOME_ACTIVITY_ALIAS = BuildConfig.APPLICATION_ID + ".HomeActivityAlias";
 
     String PROJECT_SOURCE_CODE_URL = "https://github.com/tianma8023/XposedSmsCode";
+    String PROJECT_GITHUB_LATEST_RELEASE_URL = PROJECT_SOURCE_CODE_URL + "/releases/latest";
     String PROJECT_DOC_BASE_URL = "https://tianma8023.github.io/SmsCodeExtractor";
     String DOC_SMS_CODE_RULE_HELP ="sms_code_rule_help";
     /* Xposed SmsCode end */
@@ -49,4 +50,8 @@ public interface Const {
     String XPOSED_ACTIVITY = XPOSED_PACKAGE + ".WelcomeActivity";
     String XPOSED_EXTRA_FRAGMENT = "fragment";
     /* Xposed Installer end */
+
+    /* CoolApk */
+    String COOL_MARKET_PACKAGE_NAME = "com.coolapk.market";
+    /* CoolApk end */
 }

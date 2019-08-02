@@ -2,6 +2,8 @@ package com.tianma.xsmscode.ui.app;
 
 import com.tianma.xsmscode.ui.block.AppBlockFragment;
 import com.tianma.xsmscode.ui.block.AppBlockModule;
+import com.tianma.xsmscode.ui.home.SettingsFragment;
+import com.tianma.xsmscode.ui.home.SettingsModule;
 import com.tianma.xsmscode.ui.record.CodeRecordFragment;
 import com.tianma.xsmscode.ui.record.CodeRecordFragmentModule;
 
@@ -25,4 +27,7 @@ public abstract class FragmentBindingModule {
     @ContributesAndroidInjector(modules = AppBlockModule.class)
     abstract AppBlockFragment contributeAppBlockFragment();
 
+    @FragmentScope
+    @ContributesAndroidInjector(modules = SettingsModule.class)
+    abstract SettingsFragment contributeSettingsFragment();
 }

@@ -66,7 +66,7 @@
     <string name="pref_smscode_test_summary">测试短信中的验证码是否能被识别</string>
     <string name="sms_content_hint">短信内容</string>
     <string name="test">测试</string>
-    <string name="cur_verification_code">当前验证码：%s</string>
+    <string name="current_sms_code">当前验证码：%s</string>
     <string name="cannot_parse_smscode">未能解析出验证码</string>
     <!-- preference Code SMS end -->
 
@@ -220,6 +220,16 @@
     <string name="add_apps_in_taichi">添加应用</string>
     <string name="check_module_in_taichi">勾选模块</string>
     <!-- taichi users notice end -->
+
+    <!-- check update -->
+    <string name="new_version_found">发现新版本！</string>
+    <string name="check_update_failed">检测更新失败，请重试。</string>
+    <string name="app_already_newest">已经是最新版本</string>
+    <string name="update_from_github">去GitHub更新</string>
+    <string name="update_from_coolapk">去酷安更新</string>
+    <string name="coolapk_install_prompt">请先安装酷安</string>
+    <string name="coolapk_enable_prompt">请先启用酷安</string>
+    <!-- check update end -->
 
     <!-- faq -->
     <string-array name="question_list">

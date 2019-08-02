@@ -23,7 +23,7 @@ android {
         buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
         buildConfigField("int", "MODULE_VERSION", "37")
 
-        vectorDrawables.generatedDensities = ['hdpi']
+        // vectorDrawables.generatedDensities = ['hdpi']
 
         resConfigs("en", "zh-rCN", "zh-rTW")
     }
@@ -54,6 +54,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            zipAlignEnabled true
 
             buildConfigField("int", "LOG_LEVEL", "4")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
@@ -90,10 +91,28 @@ greendao {
 }
 
 ext {
+    butterKnifeVersion = "10.1.0" // butter knife
+
+    materialDialogVersion = "0.9.6.0" // material dialog version
+
+    andriodShellVersion = "1.0.0" // Android Shell
+
+    eventBusVersion = "3.1.1" // event bus
+
+    greenDaoVersion = "3.2.2" // green dao
+    greenDaoHelperVersion = "v2.1.0" // green dao helper
+
+    gsonVersion = "2.8.5" // gson
+
     dagger2Version = "2.23.2" // dagger 2
 
     rxJavaVersion = "2.2.10" // RxJava 2
     rxAndroidVersion = "2.1.1" // RxAndroid 2
+
+    okHttpVersion = "4.0.1" // OkHttp
+    retrofitVersion = "2.6.1" // retrofit
+
+    jsoupVersion = "1.12.1" // jsoup
 }
 
 dependencies {
@@ -107,29 +126,29 @@ dependencies {
     implementation 'androidx.preference:preference:1.0.0' // preference support
 
     // ButterKnife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     // Xposed
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
 
     // Material Dialogs
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation "com.afollestad.material-dialogs:core:$materialDialogVersion"
 
     // Android Shell
-    implementation 'com.jaredrummler:android-shell:1.0.0'
+    implementation "com.jaredrummler:android-shell:$andriodShellVersion"
 
     // EventBus
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation "org.greenrobot:eventbus:$eventBusVersion"
 
     // GreenDao
-    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation "org.greenrobot:greendao:$greenDaoVersion"
     // GreenDao Upgrade Helper
-    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
+    implementation "com.github.yuweiguocn:GreenDaoUpgradeHelper:$greenDaoHelperVersion"
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.google.code.gson:gson:$gsonVersion"
 
     // dagger2
     implementation "com.google.dagger:dagger:$dagger2Version"
@@ -143,4 +162,21 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     // RxAndroid 2
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    // OkHttp logging interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    // Retrofit Gson converter
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    // Retrofit scalars converter
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    // Retrofit RxJava Adapter
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    implementation "org.jsoup:jsoup:$jsoupVersion"
+
 }

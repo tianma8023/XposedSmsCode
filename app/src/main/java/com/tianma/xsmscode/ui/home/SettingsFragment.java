@@ -1,21 +1,16 @@
 package com.tianma.xsmscode.ui.home;
 
-import android.annotation.SuppressLint;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.tianma.xsmscode.common.constant.Const;
 import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.preference.ResetEditPreference;
@@ -23,32 +18,37 @@ import com.tianma.xsmscode.common.preference.ResetEditPreferenceDialogFragCompat
 import com.tianma.xsmscode.common.utils.ClipboardUtils;
 import com.tianma.xsmscode.common.utils.ModuleUtils;
 import com.tianma.xsmscode.common.utils.PackageUtils;
-import com.tianma.xsmscode.common.utils.SmsCodeUtils;
-import com.tianma.xsmscode.common.utils.StorageUtils;
-import com.tianma.xsmscode.common.utils.Utils;
 import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.data.db.entity.ApkVersion;
 import com.tianma.xsmscode.ui.block.AppBlockActivity;
 import com.tianma.xsmscode.ui.record.CodeRecordActivity;
 import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
 import com.tianma.xsmscode.ui.theme.ThemeItem;
 
-import java.io.File;
+import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasAndroidInjector;
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * 首选项Fragment
  */
-public class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragmentCompat implements
+        Preference.OnPreferenceClickListener,
+        Preference.OnPreferenceChangeListener,
+        HasAndroidInjector,
+        SettingsContract.View {
 
-    public static final String EXTRA_CURRENT_THEME = "extra_current_theme";
-    public static final String EXTRA_ACTION = "extra_action";
-    public static final String ACTION_GET_RED_PACKET = "get_red_packet";
+    private static final String EXTRA_CURRENT_THEME = "extra_current_theme";
+    static final String EXTRA_ACTION = "extra_action";
+    static final String ACTION_GET_RED_PACKET = "get_red_packet";
 
     public interface OnPreferenceClickCallback {
         void onPreferenceClicked(String key, String title, boolean nestedPreference);
@@ -57,6 +57,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     private OnPreferenceClickCallback mPreferenceClickCallback;
 
     private HomeActivity mActivity;
+
+    @Inject
+    DispatchingAndroidInjector<Object> androidInjector;
+
+    @Inject
+    SettingsContract.Presenter mPresenter;
 
     public SettingsFragment() {
     }
@@ -72,6 +78,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         args.putString(EXTRA_ACTION, extraAction);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return androidInjector;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -115,6 +132,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         // about group
         // version info preference
         Preference versionPref = findPreference(PrefConst.KEY_VERSION);
+        versionPref.setOnPreferenceClickListener(this);
         showVersionInfo(versionPref);
         findPreference(PrefConst.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
@@ -140,68 +158,33 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         super.onActivityCreated(savedInstanceState);
         mActivity = (HomeActivity) requireActivity();
 
-        onHandleArguments(getArguments());
-    }
-
-    private void onHandleArguments(Bundle args) {
-        if (args == null) {
-            return;
-        }
-        String extraAction = args.getString(EXTRA_ACTION);
-        if (ACTION_GET_RED_PACKET.equals(extraAction)) {
-            args.remove(EXTRA_ACTION);
-            scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
-            getAlipayPacket();
-        } else {
-            if (!ModuleUtils.isModuleEnabled()) {
-                showEnableModuleDialog();
-            }
-        }
+        mPresenter.handleArguments(getArguments());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        setPreferenceWorldWritable();
-        setInternalFilesWritable();
-    }
-
-    @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
-    private void setPreferenceWorldWritable() {
-        // dataDir: /data/data/<package_name>/
-        // spDir: /data/data/<package_name>/shared_prefs/
-        // spFile: /data/data/<package_name>/shared_prefs/<preferences_name>.xml
         String preferencesName = getPreferenceManager().getSharedPreferencesName();
-        File prefsFile = StorageUtils.getSharedPreferencesFile(mActivity, preferencesName);
-        StorageUtils.setFileWorldWritable(prefsFile, 2);
+        mPresenter.setPreferenceWorldWritable(preferencesName);
+        mPresenter.setInternalFilesWritable();
     }
 
-    private void setInternalFilesWritable() {
-        // dataDir or external dataDir
-        // filesDir or external filesDir
-        StorageUtils.setFileWorldWritable(StorageUtils.getFilesDir(), 1);
-    }
-
-    private void showEnableModuleDialog() {
+    @Override
+    public void showEnableModuleDialog() {
         new MaterialDialog.Builder(mActivity)
                 .title(R.string.enable_module_title)
                 .content(R.string.enable_module_message)
                 .neutralText(R.string.ignore)
                 .negativeText(R.string.taichi_users_notice)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mActivity.onTaichiUsersNoticeSelected();
-                    }
-                })
+                .onNegative((dialog, which) -> mActivity.onTaichiUsersNoticeSelected())
                 .positiveText(R.string.open_xposed_installer)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        openXposedInstaller();
-                    }
-                })
+                .onPositive((dialog, which) -> openXposedInstaller())
                 .show();
+    }
+
+    @Override
+    public void showAppAlreadyNewest() {
+        Snackbar.make(getListView(), R.string.app_already_newest, Snackbar.LENGTH_LONG).show();
     }
 
     public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
@@ -224,9 +207,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         } else if (PrefConst.KEY_SMSCODE_TEST.equals(key)) {
             showSmsCodeTestDialog();
         } else if (PrefConst.KEY_JOIN_QQ_GROUP.equals(key)) {
-            joinQQGroup();
+            mPresenter.joinQQGroup();
         } else if (PrefConst.KEY_SOURCE_CODE.equals(key)) {
-            aboutProject();
+            mPresenter.showSourceProject();
         } else if (PrefConst.KEY_DONATE_BY_ALIPAY.equals(key)) {
             donateByAlipay();
         } else if (PrefConst.KEY_ENTRY_CODE_RECORDS.equals(key)) {
@@ -235,6 +218,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             getAlipayPacket();
         } else if (PrefConst.KEY_APP_BLOCK_ENTRY.equals(key)) {
             AppBlockActivity.startMe(mActivity);
+        } else if (PrefConst.KEY_VERSION.equals(key)) {
+            mPresenter.checkUpdate();
         } else {
             return false;
         }
@@ -242,17 +227,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     }
 
     private void showVersionInfo(Preference preference) {
-        String summary = getString(R.string.pref_version_summary,
-                BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
+        String summary = getString(R.string.pref_version_summary, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
         preference.setSummary(summary);
-    }
-
-    private void joinQQGroup() {
-        PackageUtils.joinQQGroup(mActivity);
-    }
-
-    private void aboutProject() {
-        Utils.showWebPage(mActivity, Const.PROJECT_SOURCE_CODE_URL);
     }
 
     private void getAlipayPacket() {
@@ -261,15 +237,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 .title(R.string.pref_get_alipay_packet_title)
                 .content(getString(R.string.pref_get_alipay_packet_content, packetCode))
                 .positiveText(R.string.copy_packet_code_open_alipay)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        ClipboardUtils.copyToClipboard(mActivity, packetCode);
-                        String text = getString(R.string.alipay_red_packet_code_copied, Const.ALIPAY_RED_PACKET_CODE);
-                        Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
-
-                        PackageUtils.startAlipayActivity(mActivity);
-                    }
+                .onPositive((dialog, which) -> {
+                    ClipboardUtils.copyToClipboard(mActivity, packetCode);
+                    String text = getString(R.string.alipay_red_packet_code_copied, Const.ALIPAY_RED_PACKET_CODE);
+                    Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
+                    PackageUtils.startAlipayActivity(mActivity);
                 })
                 .show();
     }
@@ -279,19 +251,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 .title(R.string.donation_tips_title)
                 .content(R.string.donation_tips_content)
                 .positiveText(R.string.donate_directly)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        PackageUtils.startAlipayDonatePage(mActivity);
-                    }
-                })
+                .onPositive((dialog, which) -> PackageUtils.startAlipayDonatePage(mActivity))
                 .negativeText(R.string.get_red_packet)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        getAlipayPacket();
-                    }
-                })
+                .onNegative((dialog, which) -> getAlipayPacket())
                 .show();
     }
 
@@ -299,7 +261,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         if (PrefConst.KEY_HIDE_LAUNCHER_ICON.equals(key)) {
-            hideOrShowLauncherIcon((Boolean) newValue);
+            mPresenter.hideOrShowLauncherIcon((Boolean) newValue);
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
         } else {
@@ -308,82 +270,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         return true;
     }
 
-    private void hideOrShowLauncherIcon(boolean hide) {
-        PackageManager pm = mActivity.getPackageManager();
-        ComponentName launcherCN = new ComponentName(mActivity, Const.HOME_ACTIVITY_ALIAS);
-        int state = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-        if (pm.getComponentEnabledSetting(launcherCN) != state) {
-            pm.setComponentEnabledSetting(launcherCN, state, PackageManager.DONT_KILL_APP);
-        }
-    }
-
     private void onVerboseLogModeSwitched(boolean on) {
-        if (on) {
-            XLog.setLogLevel(Log.VERBOSE);
-        } else {
-            XLog.setLogLevel(BuildConfig.LOG_LEVEL);
-        }
+        XLog.setLogLevel(on ? Log.VERBOSE : BuildConfig.LOG_LEVEL);
     }
 
     private void showSmsCodeTestDialog() {
         new MaterialDialog.Builder(mActivity)
                 .title(R.string.pref_smscode_test_title)
-                .input(R.string.sms_content_hint, 0, true, new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        new Thread(new SmsCodeTestTask(mActivity, input.toString())).start();
-                    }
-                })
+                .input(R.string.sms_content_hint, 0, true,
+                        (dialog, input) -> mPresenter.performSmsCodeTest(input.toString()))
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
                 .negativeText(R.string.cancel)
                 .show();
-    }
-
-    private class SmsCodeTestTask implements Runnable {
-
-        private String mMsgBody;
-        private Context mContext;
-
-        SmsCodeTestTask(Context context, String msgBody) {
-            mMsgBody = msgBody;
-            mContext = context;
-        }
-
-        @Override
-        public void run() {
-            Message msg = new Message();
-            msg.what = MSG_SMSCODE_TEST;
-            if (TextUtils.isEmpty(mMsgBody)) {
-                msg.obj = "";
-            } else {
-                msg.obj = SmsCodeUtils.parseSmsCodeIfExists(mContext, mMsgBody, false);
-            }
-            mHandler.sendMessage(msg);
-        }
-    }
-
-    private static final int MSG_SMSCODE_TEST = 0xff;
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_SMSCODE_TEST:
-                    handleSmsCode((String) msg.obj);
-                    return true;
-            }
-            return false;
-        }
-    });
-
-    private void handleSmsCode(String verificationCode) {
-        String text;
-        if (TextUtils.isEmpty(verificationCode)) {
-            text = getString(R.string.cannot_parse_smscode);
-        } else {
-            text = getString(R.string.cur_verification_code, verificationCode);
-        }
-        Toast.makeText(mActivity, text, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -414,5 +312,35 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         if (!PackageUtils.startXposedActivity(mActivity, PackageUtils.Section.MODULES)) {
             Toast.makeText(mActivity, R.string.xposed_not_installed, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void showGetAlipayPacketDialog() {
+        scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
+        getAlipayPacket();
+    }
+
+    @Override
+    public void showSmsCodeTestResult(String code) {
+        String text = TextUtils.isEmpty(code) ? getString(R.string.cannot_parse_smscode)
+                : getString(R.string.current_sms_code, code);
+        Snackbar.make(getListView(), text, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showCheckError(Throwable t) {
+        Snackbar.make(getListView(), R.string.check_update_failed, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showUpdateDialog(ApkVersion latestVersion) {
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.new_version_found)
+                .content(latestVersion.getVersionInfo())
+                .positiveText(R.string.update_from_coolapk)
+                .onPositive((dialog, which) -> mPresenter.updateFromCoolApk())
+                .negativeText(R.string.update_from_github)
+                .onNegative((dialog, which) -> mPresenter.updateFromGithub())
+                .show();
     }
 }
