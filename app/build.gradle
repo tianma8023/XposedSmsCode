@@ -26,6 +26,12 @@ android {
         // vectorDrawables.generatedDensities = ['hdpi']
 
         resConfigs("en", "zh-rCN", "zh-rTW")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ eventBusIndex : 'com.tianma.xsmscode.data.eventbus.MyEventBusIndex' ]
+            }
+        }
     }
 
     signingConfigs {
@@ -109,8 +115,8 @@ ext {
     rxJavaVersion = "2.2.10" // RxJava 2
     rxAndroidVersion = "2.1.1" // RxAndroid 2
 
-    okHttpVersion = "4.0.1" // OkHttp
-    retrofitVersion = "2.6.1" // retrofit
+    okHttpVersion = "3.14.2" // OkHttp
+    retrofitVersion = "2.5.0" // retrofit
 
     jsoupVersion = "1.12.1" // jsoup
 }
@@ -141,6 +147,8 @@ dependencies {
 
     // EventBus
     implementation "org.greenrobot:eventbus:$eventBusVersion"
+    // EventBus annotation processor
+    annotationProcessor "org.greenrobot:eventbus-annotation-processor:$eventBusVersion"
 
     // GreenDao
     implementation "org.greenrobot:greendao:$greenDaoVersion"
@@ -177,6 +185,7 @@ dependencies {
     // Retrofit RxJava Adapter
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
+    // jsoup
     implementation "org.jsoup:jsoup:$jsoupVersion"
 
 }

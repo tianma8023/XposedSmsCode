@@ -6,7 +6,10 @@ import android.os.Build;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.NotificationConst;
 import com.tianma.xsmscode.common.utils.NotificationUtils;
+import com.tianma.xsmscode.data.eventbus.MyEventBusIndex;
 import com.tianma.xsmscode.feature.migrate.TransitionTask;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -25,8 +28,13 @@ public class SmsCodeApplication extends DaggerApplication {
     public void onCreate() {
         super.onCreate();
 
+        installDefaultEventBus();
         initNotificationChannel();
         performTransitionTask();
+    }
+
+    private void installDefaultEventBus() {
+        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
     }
 
     private void initNotificationChannel() {
