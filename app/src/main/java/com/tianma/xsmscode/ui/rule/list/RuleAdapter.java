@@ -33,7 +33,7 @@ class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.rule_item, parent, false);
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_rule, parent, false);
         return new VH(itemView);
     }
 

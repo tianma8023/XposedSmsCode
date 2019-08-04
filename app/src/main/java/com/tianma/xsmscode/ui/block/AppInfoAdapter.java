@@ -40,7 +40,7 @@ class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(mContext).inflate(R.layout.app_info_item, parent, false);
+        View rootView = LayoutInflater.from(mContext).inflate(R.layout.item_app_info, parent, false);
         return new VH(rootView);
     }
 

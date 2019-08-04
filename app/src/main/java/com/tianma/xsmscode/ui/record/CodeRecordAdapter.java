@@ -52,7 +52,7 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(mContext).inflate(R.layout.code_record_item, parent, false);
+        View rootView = LayoutInflater.from(mContext).inflate(R.layout.item_code_record, parent, false);
         return new VH(rootView);
     }
 

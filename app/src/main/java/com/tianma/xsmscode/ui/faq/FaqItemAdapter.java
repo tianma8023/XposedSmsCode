@@ -30,7 +30,7 @@ public class FaqItemAdapter extends RecyclerView.Adapter<FaqItemAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.faq_item, parent, false);
+                .inflate(R.layout.item_faq, parent, false);
         return new ViewHolder(view);
     }
 
