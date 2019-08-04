@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_16">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rule_company_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/rule_keyword_input_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rule_company_edit_text"
@@ -23,30 +33,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/rule_keyword_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rule_company_input_layout"
-        android:layout_marginTop="@dimen/dp_8">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/rule_keyword_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/rule_keyword_hint"
-            android:imeOptions="actionNext"
-            android:maxLines="1"
-            android:singleLine="true"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rule_code_regex_input_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_keyword_input_layout"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_toStartOf="@+id/rule_code_regex_quick_choose">
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/rule_code_regex_quick_choose"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rule_code_regex_quick_choose"
+        app:layout_constraintStart_toStartOf="@+id/rule_keyword_input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/rule_keyword_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rule_code_regex_edit_text"
@@ -59,17 +56,42 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rule_keyword_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rule_company_input_layout"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rule_code_regex_input_layout"
+        app:layout_constraintEnd_toEndOf="@+id/rule_company_input_layout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/rule_company_input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/rule_company_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rule_keyword_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rule_keyword_hint"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:singleLine="true"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/rule_code_regex_quick_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_keyword_input_layout"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="8dp"
         android:background="@drawable/code_rule_quick_choose_bg"
         android:padding="@dimen/dp_6"
         android:text="@string/quick_choose"
         android:textColor="@color/faq_textColor_white"
+        app:layout_constraintEnd_toEndOf="@+id/rule_company_input_layout"
+        app:layout_constraintTop_toTopOf="@+id/rule_code_regex_input_layout"
         app:rippleColor="?attr/colorControlHighlight"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

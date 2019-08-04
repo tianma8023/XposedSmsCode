@@ -1,7 +1,6 @@
 package com.tianma.xsmscode.ui.rule.list;
 
 import android.content.Context;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,26 +70,14 @@ class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.VH> {
 
         void bindListener(final SmsCodeRule item, final int position) {
             if (mItemCallback != null) {
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mItemCallback.onItemClicked(itemView, item, position);
-                    }
-                });
+                itemView.setOnClickListener(v ->
+                        mItemCallback.onItemClicked(itemView, item, position));
 
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        return mItemCallback.onItemLongClicked(itemView, item, position);
-                    }
-                });
+                itemView.setOnLongClickListener(v ->
+                        mItemCallback.onItemLongClicked(itemView, item, position));
 
-                itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                    @Override
-                    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                        mItemCallback.onCreateItemContextMenu(menu, v, menuInfo, item, position);
-                    }
-                });
+                itemView.setOnCreateContextMenuListener((menu, v, menuInfo) ->
+                        mItemCallback.onCreateItemContextMenu(menu, v, menuInfo, item, position));
             }
         }
     }

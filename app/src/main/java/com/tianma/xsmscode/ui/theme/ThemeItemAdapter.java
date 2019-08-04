@@ -70,12 +70,8 @@ public class ThemeItemAdapter extends RecyclerView.Adapter<ThemeItemAdapter.VH> 
 
         void bindListener(final ThemeItem themeItem, final int position) {
             if (mItemCallback != null) {
-                mItemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mItemCallback.onItemClicked(itemView, themeItem, position);
-                    }
-                });
+                mItemView.setOnClickListener(v ->
+                        mItemCallback.onItemClicked(itemView, themeItem, position));
             }
         }
     }
