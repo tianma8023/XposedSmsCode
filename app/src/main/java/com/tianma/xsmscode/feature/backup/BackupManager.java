@@ -26,7 +26,7 @@ import androidx.core.content.FileProvider;
 
 public class BackupManager {
 
-    private static final String BACKUP_DIRECTORY = "SmsCodeExtractor";
+    private static final String BACKUP_DIRECTORY = "SmsCode";
     private static final String BACKUP_FILE_EXTENSION = ".scebak";
     private static final String BACKUP_FILE_NAME_PREFIX = "bak-";
 

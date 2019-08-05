@@ -32,7 +32,7 @@ public interface Const {
 
     String PROJECT_SOURCE_CODE_URL = "https://github.com/tianma8023/XposedSmsCode";
     String PROJECT_GITHUB_LATEST_RELEASE_URL = PROJECT_SOURCE_CODE_URL + "/releases/latest";
-    String PROJECT_DOC_BASE_URL = "https://tianma8023.github.io/SmsCodeExtractor";
+    String PROJECT_DOC_BASE_URL = "https://tianma8023.github.io/SmsCode";
     String DOC_SMS_CODE_RULE_HELP ="sms_code_rule_help";
     /* Xposed SmsCode end */
 
