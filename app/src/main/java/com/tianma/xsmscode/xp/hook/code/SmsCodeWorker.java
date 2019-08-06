@@ -168,21 +168,21 @@ public class SmsCodeWorker {
         // 是否删除验证码短信
         if (XSPUtils.deleteSmsEnabled(mPreferences)) {
             Message deleteMsg = workerHandler.obtainMessage(MSG_DELETE_SMS, smsMsg);
-            workerHandler.sendMessageDelayed(deleteMsg, 3000);
             mPreQuitQueueCount.getAndIncrement();
+            workerHandler.sendMessageDelayed(deleteMsg, 3000);
         } else {
             // 是否标记验证码短信为已读
             if (XSPUtils.markAsReadEnabled(mPreferences)) {
                 Message markMsg = workerHandler.obtainMessage(MSG_MARK_AS_READ, smsMsg);
-                workerHandler.sendMessageDelayed(markMsg, 3000);
                 mPreQuitQueueCount.getAndIncrement();
+                workerHandler.sendMessageDelayed(markMsg, 3000);
             }
         }
 
         // 是否自杀
         if (XSPUtils.killMeEnabled(mPreferences)) {
-            workerHandler.sendEmptyMessageDelayed(MSG_KILL_ME, 4000);
             mPreQuitQueueCount.getAndIncrement();
+            workerHandler.sendEmptyMessageDelayed(MSG_KILL_ME, 4000);
         }
 
         ParseResult parseResult = new ParseResult();
@@ -544,8 +544,8 @@ public class SmsCodeWorker {
             Message cancelNotifyMsg = workerHandler
                     .obtainMessage(MSG_CANCEL_NOTIFICATION, notificationId);
             int retentionTime = XSPUtils.getNotificationRetentionTime(mPreferences) * 1000;
-            workerHandler.sendMessageDelayed(cancelNotifyMsg, retentionTime);
             mPreQuitQueueCount.getAndIncrement();
+            workerHandler.sendMessageDelayed(cancelNotifyMsg, retentionTime);
         }
     }
 

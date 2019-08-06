@@ -12,6 +12,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.text.Normalizer;
+import java.util.Objects;
 
 @Entity
 public class SmsMsg implements Parcelable {
@@ -155,6 +156,21 @@ public class SmsMsg implements Parcelable {
             return new SmsMsg[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof SmsMsg))
+            return false;
+        SmsMsg smsMsg = (SmsMsg) o;
+        return id.equals(smsMsg.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, sender, body, date, company, smsCode);
+    }
 
     @Override
     public String toString() {
