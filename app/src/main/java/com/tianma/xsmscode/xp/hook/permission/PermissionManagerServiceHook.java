@@ -4,13 +4,16 @@ import android.os.Build;
 
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.xp.helper.MethodHookWrapper;
+import com.tianma.xsmscode.xp.helper.XposedWrapper;
 import com.tianma.xsmscode.xp.hook.BaseSubHook;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
 
 import androidx.annotation.RequiresApi;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 import static com.tianma.xsmscode.common.constant.PermConst.PACKAGE_PERMISSIONS;
@@ -25,6 +28,9 @@ public class PermissionManagerServiceHook extends BaseSubHook {
     private static final String CLASS_PERMISSION_MANAGER_SERVICE = "com.android.server.pm.permission.PermissionManagerService";
     private static final String CLASS_PERMISSION_CALLBACK = "com.android.server.pm.permission.PermissionManagerInternal.PermissionCallback";
     private static final String CLASS_PACKAGE_PARSER_PACKAGE = "android.content.pm.PackageParser.Package";
+
+    // for MIUI 10 Android Q
+    private static final String CLASS_PERMISSION_CALLBACK_Q = "com.android.server.pm.permission.PermissionManagerServiceInternal.PermissionCallback";
 
     public PermissionManagerServiceHook(ClassLoader classLoader) {
         super(classLoader);
@@ -42,17 +48,49 @@ public class PermissionManagerServiceHook extends BaseSubHook {
 
     private void hookGrantPermissions() {
         XLog.d("Hooking grantPermissions() for Android 28+");
-        XposedHelpers.findAndHookMethod(CLASS_PERMISSION_MANAGER_SERVICE, mClassLoader, "grantPermissions",
-                /* PackageParser.Package pkg   */ CLASS_PACKAGE_PARSER_PACKAGE,
+        Method method = findTargetMethod();
+        XposedBridge.hookMethod(method, new MethodHookWrapper() {
+            @Override
+            protected void after(MethodHookParam param) throws Throwable {
+                afterGrantPermissionsSinceP(param);
+            }
+        });
+    }
+
+    private Method findTargetMethod() {
+        Class<?> pmsClass = XposedHelpers.findClass(CLASS_PERMISSION_MANAGER_SERVICE, mClassLoader);
+        Class<?> packageClass = XposedHelpers.findClass(CLASS_PACKAGE_PARSER_PACKAGE, mClassLoader);
+        Class<?> callbackClass = XposedHelpers.findClassIfExists(CLASS_PERMISSION_CALLBACK, mClassLoader);
+        if (callbackClass == null) {
+            // MIUI 10 Android Q PermissionCallback 不一样
+            callbackClass = XposedWrapper.findClass(CLASS_PERMISSION_CALLBACK_Q, mClassLoader);
+        }
+
+        Method method = XposedHelpers.findMethodExactIfExists(pmsClass, "grantPermissions",
+                /* PackageParser.Package pkg   */ packageClass,
                 /* boolean replace             */ boolean.class,
                 /* String packageOfInterest    */ String.class,
-                /* PermissionCallback callback */ CLASS_PERMISSION_CALLBACK,
-                new MethodHookWrapper() {
-                    @Override
-                    protected void after(MethodHookParam param) {
-                        afterGrantPermissionsSinceP(param);
-                    }
-                });
+                /* PermissionCallback callback */ callbackClass);
+
+        if (method == null) { // method grantPermissions() not found
+            // 适配 MIUI Android Q
+            method = XposedHelpers.findMethodExactIfExists(pmsClass, "restorePermissionState",
+                    /* PackageParser.Package pkg   */ packageClass,
+                    /* boolean replace             */ boolean.class,
+                    /* String packageOfInterest    */ String.class,
+                    /* PermissionCallback callback */ callbackClass);
+            if (method == null) { // method restorePermissionState() not found
+                Method[] _methods = XposedHelpers.findMethodsByExactParameters(pmsClass, Void.TYPE,
+                        /* PackageParser.Package pkg   */ packageClass,
+                        /* boolean replace             */ boolean.class,
+                        /* String packageOfInterest    */ String.class,
+                        /* PermissionCallback callback */ callbackClass);
+                if (_methods != null && _methods.length > 1) {
+                    method = _methods[0];
+                }
+            }
+        }
+        return method;
     }
 
     @SuppressWarnings("unchecked")
