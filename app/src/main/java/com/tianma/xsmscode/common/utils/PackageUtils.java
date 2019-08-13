@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.Const;
-import com.tianma.xsmscode.xp.hook.PermissionGranterHook;
+import com.tianma.xsmscode.xp.hook.permission.PermissionGranterHook;
 import com.tianma.xsmscode.xp.hook.code.SmsHandlerHook;
 
 import androidx.annotation.IntDef;

@@ -6,8 +6,8 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.xp.hook.BaseHook;
-import com.tianma.xsmscode.xp.hook.ModuleUtilsHook;
-import com.tianma.xsmscode.xp.hook.PermissionGranterHook;
+import com.tianma.xsmscode.xp.hook.me.ModuleUtilsHook;
+import com.tianma.xsmscode.xp.hook.permission.PermissionGranterHook;
 import com.tianma.xsmscode.xp.hook.code.SmsHandlerHook;
 
 import java.util.ArrayList;

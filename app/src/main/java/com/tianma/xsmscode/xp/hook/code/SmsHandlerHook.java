@@ -42,15 +42,14 @@ public class SmsHandlerHook extends BaseHook {
     private Context mAppContext;
 
     @Override
-    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (ANDROID_PHONE_PACKAGE.equals(lpparam.packageName)) {
             XLog.i("SmsCode initializing");
             printDeviceInfo();
             try {
-                hookSmsHandler(lpparam);
+                hookSmsHandler(lpparam.classLoader);
             } catch (Throwable e) {
                 XLog.e("Failed to hook SmsHandler", e);
-                throw e;
             }
             XLog.i("SmsCode initialize completely");
         }
@@ -71,22 +70,22 @@ public class SmsHandlerHook extends BaseHook {
         XLog.i("SmsCode version: %s (%d)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
     }
 
-    private void hookSmsHandler(XC_LoadPackage.LoadPackageParam lpparam) {
-        hookConstructor(lpparam);
-        hookDispatchIntent(lpparam);
+    private void hookSmsHandler(ClassLoader classloader) {
+        hookConstructor(classloader);
+        hookDispatchIntent(classloader);
     }
 
-    private void hookConstructor(XC_LoadPackage.LoadPackageParam lpparam) {
+    private void hookConstructor(ClassLoader classloader) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            hookConstructor24(lpparam);
+            hookConstructor24(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            hookConstructor19(lpparam);
+            hookConstructor19(classloader);
         }
     }
 
-    private void hookConstructor24(XC_LoadPackage.LoadPackageParam lpparam) {
+    private void hookConstructor24(ClassLoader classloader) {
         XLog.i("Hooking InboundSmsHandler constructor for android v24+");
-        XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, lpparam.classLoader,
+        XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, classloader,
                 /* name                 */ String.class,
                 /* context              */ Context.class,
                 /* storageMonitor       */ TELEPHONY_PACKAGE + ".SmsStorageMonitor",
@@ -95,9 +94,9 @@ public class SmsHandlerHook extends BaseHook {
                 new ConstructorHook());
     }
 
-    private void hookConstructor19(XC_LoadPackage.LoadPackageParam lpparam) {
+    private void hookConstructor19(ClassLoader classloader) {
         XLog.i("Hooking InboundSmsHandler constructor for Android v19+");
-        XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, lpparam.classLoader,
+        XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, classloader,
                 /*                 name */ String.class,
                 /*              context */ Context.class,
                 /*       storageMonitor */ TELEPHONY_PACKAGE + ".SmsStorageMonitor",
@@ -106,19 +105,19 @@ public class SmsHandlerHook extends BaseHook {
                 new ConstructorHook());
     }
 
-    private void hookDispatchIntent(XC_LoadPackage.LoadPackageParam lpparam) {
+    private void hookDispatchIntent(ClassLoader classloader) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            hookDispatchIntent23(lpparam);
+            hookDispatchIntent23(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            hookDispatchIntent21(lpparam);
+            hookDispatchIntent21(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            hookDispatchIntent19(lpparam);
+            hookDispatchIntent19(classloader);
         }
     }
 
-    private void hookDispatchIntent19(XC_LoadPackage.LoadPackageParam lpparam) {
-        XLog.i("Hooking dispatchIntent() for Android v19+");
-        XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, lpparam.classLoader, "dispatchIntent",
+    private void hookDispatchIntent19(ClassLoader classloader) {
+        XLog.d("Hooking dispatchIntent() for Android v19+");
+        XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, classloader, "dispatchIntent",
                 /*         intent */ Intent.class,
                 /*     permission */ String.class,
                 /*          appOp */ int.class,
@@ -126,9 +125,9 @@ public class SmsHandlerHook extends BaseHook {
                 new DispatchIntentHook(3));
     }
 
-    private void hookDispatchIntent21(XC_LoadPackage.LoadPackageParam lpparam) {
-        XLog.i("Hooking dispatchIntent() for Android v21+");
-        XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, lpparam.classLoader, "dispatchIntent",
+    private void hookDispatchIntent21(ClassLoader classloader) {
+        XLog.d("Hooking dispatchIntent() for Android v21+");
+        XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, classloader, "dispatchIntent",
                 /*         intent */ Intent.class,
                 /*     permission */ String.class,
                 /*          appOp */ int.class,
@@ -137,9 +136,9 @@ public class SmsHandlerHook extends BaseHook {
                 new DispatchIntentHook(3));
     }
 
-    private void hookDispatchIntent23(XC_LoadPackage.LoadPackageParam lpparam) {
-        XLog.i("Hooking dispatchIntent() for Android v23+");
-        XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, lpparam.classLoader, "dispatchIntent",
+    private void hookDispatchIntent23(ClassLoader classloader) {
+        XLog.d("Hooking dispatchIntent() for Android v23+");
+        XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, classloader, "dispatchIntent",
                 /*         intent */ Intent.class,
                 /*     permission */ String.class,
                 /*          appOp */ int.class,
