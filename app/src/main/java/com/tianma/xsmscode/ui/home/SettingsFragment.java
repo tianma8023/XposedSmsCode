@@ -25,7 +25,6 @@ import com.tianma.xsmscode.data.db.entity.ApkVersion;
 import com.tianma.xsmscode.ui.block.AppBlockActivity;
 import com.tianma.xsmscode.ui.record.CodeRecordActivity;
 import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
-import com.tianma.xsmscode.ui.theme.ThemeItem;
 
 import javax.inject.Inject;
 
@@ -48,15 +47,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         HasAndroidInjector,
         SettingsContract.View {
 
-    private static final String EXTRA_CURRENT_THEME = "extra_current_theme";
     static final String EXTRA_ACTION = "extra_action";
     static final String ACTION_GET_RED_PACKET = "get_red_packet";
-
-    public interface OnPreferenceClickCallback {
-        void onPreferenceClicked(String key, String title, boolean nestedPreference);
-    }
-
-    private OnPreferenceClickCallback mPreferenceClickCallback;
 
     private HomeActivity mActivity;
 
@@ -69,14 +61,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     public SettingsFragment() {
     }
 
-    public static SettingsFragment newInstance(ThemeItem curThemeItem) {
-        return newInstance(curThemeItem, null);
+    public static SettingsFragment newInstance() {
+        return newInstance(null);
     }
 
-    public static SettingsFragment newInstance(ThemeItem curThemeItem, String extraAction) {
+    public static SettingsFragment newInstance(String extraAction) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
-        args.putParcelable(EXTRA_CURRENT_THEME, curThemeItem);
         args.putString(EXTRA_ACTION, extraAction);
         fragment.setArguments(args);
         return fragment;
@@ -106,9 +97,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
         findPreference(PrefConst.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
 
-        Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
-        chooseThemePref.setOnPreferenceClickListener(this);
-//        initChooseThemePreference(chooseThemePref);
+        findPreference(PrefConst.KEY_CHOOSE_THEME).setOnPreferenceClickListener(this);
 
         findPreference(PrefConst.KEY_APP_BLOCK_ENTRY).setOnPreferenceClickListener(this);
         // general group end
@@ -143,18 +132,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         // about group end
     }
 
-    private void initChooseThemePreference(Preference chooseThemePref) {
-        Bundle args = getArguments();
-        if (args == null) {
-            return;
-        }
-        ThemeItem themeItem = args.getParcelable(EXTRA_CURRENT_THEME);
-        if (themeItem != null) {
-            chooseThemePref.setSummary(themeItem.getColorNameRes());
-        }
-    }
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -187,10 +164,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     @Override
     public void showAppAlreadyNewest() {
         SnackbarHelper.makeLong(getListView(), R.string.app_already_newest).show();
-    }
-
-    public void setOnPreferenceClickCallback(OnPreferenceClickCallback preferenceClickCallback) {
-        mPreferenceClickCallback = preferenceClickCallback;
     }
 
     @Override

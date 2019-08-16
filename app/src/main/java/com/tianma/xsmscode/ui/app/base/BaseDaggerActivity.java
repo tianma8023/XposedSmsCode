@@ -3,8 +3,6 @@ package com.tianma.xsmscode.ui.app.base;
 import android.os.Bundle;
 
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
-import com.tianma.xsmscode.common.utils.SPUtils;
-import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
 
 import javax.inject.Inject;
 
@@ -23,13 +21,6 @@ public abstract class BaseDaggerActivity extends CyaneaAppCompatActivity impleme
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-
-        // initTheme();
-    }
-
-    private void initTheme() {
-        int index = SPUtils.getCurrentThemeIndex(this);
-        setTheme(ThemeItemContainer.get().getItemAt(index).getThemeRes());
     }
 
     @Override

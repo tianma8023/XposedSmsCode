@@ -39,21 +39,5 @@ public class SPUtils {
                 PrefConst.KEY_SMSCODE_KEYWORDS, PrefConst.SMSCODE_KEYWORDS_DEFAULT);
     }
 
-    /**
-     * Get current theme index
-     */
-    public static int getCurrentThemeIndex(Context context) {
-        return PreferencesUtils.getInt(context,
-                PrefConst.KEY_CURRENT_THEME_INDEX, PrefConst.CURRENT_THEME_INDEX_DEFAULT);
-    }
-
-    /**
-     * Set current theme index
-     */
-    public static void setCurrentThemeIndex(Context context, int curIndex) {
-        PreferencesUtils.putInt(context,
-                PrefConst.KEY_CURRENT_THEME_INDEX, curIndex);
-    }
-
 
 }
