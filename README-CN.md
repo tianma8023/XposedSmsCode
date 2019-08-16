@@ -49,6 +49,7 @@
 - [dagger](https://github.com/google/dagger)
 - [rxjava](https://github.com/ReactiveX/RxJava)
 - [rxandroid](https://github.com/ReactiveX/RxAndroid)
+- [Cyanea](https://github.com/jaredrummler/Cyanea)
 
 
 # 协议

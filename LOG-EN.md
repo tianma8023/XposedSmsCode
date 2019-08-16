@@ -1,5 +1,9 @@
 # Update Logs
-- 19.08.02 v2.1.3 Reboot required
+- 19.08.16 v2.2.0 Reboot required
+  1. New: custom your own theme.
+  2. Change: Adapt to Android Q (especially for MIUI Android Q).
+  3. Fix: fix the snackbar appearance.
+- 19.08.02 v2.1.3
   1. New: check for updates when "version info" clicked.
   2. Change: unify the SnackBar background.
   3. Optimization: optimize the procedure of blocking auto input.

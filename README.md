@@ -49,6 +49,7 @@ Welcome any feedbacks.
 - [dagger](https://github.com/google/dagger)
 - [rxjava](https://github.com/ReactiveX/RxJava)
 - [rxandroid](https://github.com/ReactiveX/RxAndroid)
+- [Cyanea](https://github.com/jaredrummler/Cyanea)
 
 # License
 All code is licensed under [GPLv3](https://www.gnu.org/licenses/gpl-3.0.txt) 
