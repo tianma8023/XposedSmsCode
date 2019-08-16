@@ -10,8 +10,6 @@ import com.tianma.xsmscode.data.http.service.ServiceGenerator;
 import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
 
 public class DataRepository {
 
@@ -52,14 +50,12 @@ public class DataRepository {
             // In China region
             // Firstly, request data from coolapk.
             // If error throws, then request data from github.
-            return dataFromCoolApk
-                    .onErrorResumeNext((Function<Throwable, ObservableSource<? extends ApkVersion>>) throwable -> dataFromGithub);
+            return dataFromCoolApk.onErrorResumeNext(throwable -> dataFromGithub);
         } else {
             // In other regions
             // Firstly, request data from GitHub.
             // If error throws, then request data from coolapk.
-            return dataFromGithub
-                    .onErrorResumeNext((Function<Throwable, ObservableSource<? extends ApkVersion>>) throwable -> dataFromCoolApk);
+            return dataFromGithub.onErrorResumeNext(throwable -> dataFromCoolApk);
         }
     }
 

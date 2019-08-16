@@ -80,7 +80,9 @@ public class GithubRelease {
 
     @SerializedName("tag_name")
     private String tagName;
+    @SerializedName("name")
     private String name;
+    @SerializedName("body")
     private String body;
 
     public GithubRelease() {
