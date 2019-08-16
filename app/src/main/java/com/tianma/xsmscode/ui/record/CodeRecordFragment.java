@@ -23,7 +23,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,19 +32,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.tianma.xsmscode.ui.record.CodeRecordAdapter.RECORD_MODE_EDIT;
+import static com.tianma.xsmscode.ui.record.CodeRecordAdapter.RECORD_MODE_NORMAL;
+
 /**
  * SMS code records fragment
  */
 public class CodeRecordFragment extends DaggerBackPressFragment implements CodeRecordContract.View {
-
-    // normal mode
-    private static final int RECORD_MODE_NORMAL = 0;
-    // edit mode
-    private static final int RECORD_MODE_EDIT = 1;
-
-    @IntDef({RECORD_MODE_NORMAL, RECORD_MODE_EDIT})
-    @interface RecordMode {
-    }
 
     private Activity mActivity;
 
@@ -58,10 +51,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
     @BindView(R.id.empty_view)
     View mEmptyView;
 
-    private CodeRecordAdapter mCodeRecordAdapter;
-
-    @RecordMode
-    private int mCurrentMode = RECORD_MODE_NORMAL;
+    private CodeRecordAdapter mAdapter;
 
     @Inject
     CodeRecordContract.Presenter mPresenter;
@@ -93,8 +83,8 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
 
         List<RecordItem> records = new ArrayList<>();
 
-        mCodeRecordAdapter = new CodeRecordAdapter(mActivity, records);
-        mCodeRecordAdapter.setItemCallback(new BaseItemCallback<RecordItem>() {
+        mAdapter = new CodeRecordAdapter(mActivity, records);
+        mAdapter.setItemCallback(new BaseItemCallback<RecordItem>() {
             @Override
             public void onItemClicked(View itemView, RecordItem item, int position) {
                 itemClicked(item, position);
@@ -105,13 +95,15 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
                 return itemLongClicked(item, position);
             }
         });
-        mCodeRecordAdapter.setItemChildCallback((childView, item, position) -> {
+        mAdapter.setItemChildCallback((childView, item, position) -> {
             int viewId = childView.getId();
             if (viewId == R.id.record_details_view) {
                 showSmsDetails(item);
+            } else if (viewId == R.id.checkbox) {
+                selectRecordItem(position);
             }
         });
-        mCodeRecordAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 refreshEmptyView();
@@ -119,7 +111,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
         });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(mCodeRecordAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
     }
 
@@ -134,7 +126,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
     }
 
     private void refreshEmptyView() {
-        if (mCodeRecordAdapter.getItemCount() > 0) {
+        if (mAdapter.getItemCount() > 0) {
             mEmptyView.setVisibility(View.GONE);
         } else {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -142,7 +134,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
     }
 
     private void itemClicked(RecordItem item, int position) {
-        if (mCurrentMode == RECORD_MODE_EDIT) {
+        if (mAdapter.getMode() == RECORD_MODE_EDIT) {
             itemLongClicked(item, position);
         } else {
             copySmsCode(item);
@@ -173,24 +165,17 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
     }
 
     private void selectRecordItem(int position) {
-        if (mCurrentMode == RECORD_MODE_NORMAL) {
-            mCurrentMode = RECORD_MODE_EDIT;
+        if (mAdapter.getMode() == RECORD_MODE_NORMAL) {
+            mAdapter.setMode(RECORD_MODE_EDIT);
             refreshActionBarByMode();
         }
-        boolean selected = mCodeRecordAdapter.isItemSelected(position);
-        mCodeRecordAdapter.setItemSelected(position, !selected);
-        if (selected) {
-            boolean isAllUnselected = mCodeRecordAdapter.isAllUnselected();
-            if (isAllUnselected) {
-                mCurrentMode = RECORD_MODE_NORMAL;
-                refreshActionBarByMode();
-            }
-        }
+        boolean selected = mAdapter.isItemSelected(position);
+        mAdapter.setItemSelected(position, !selected);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mCurrentMode == RECORD_MODE_EDIT) {
+        if (mAdapter.getMode() == RECORD_MODE_EDIT) {
             inflater.inflate(R.menu.menu_edit_code_record, menu);
         }
     }
@@ -202,8 +187,8 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
                 removeSelectedItems();
                 break;
             case R.id.action_select_all:
-                boolean isAllSelected = mCodeRecordAdapter.isAllSelected();
-                mCodeRecordAdapter.setAllSelected(!isAllSelected);
+                boolean allSelected = mAdapter.isAllSelected();
+                mAdapter.setAllSelected(!allSelected);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -213,14 +198,14 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
 
     @Override
     public boolean interceptBackPress() {
-        return mCurrentMode == RECORD_MODE_EDIT;
+        return mAdapter.getMode() == RECORD_MODE_EDIT;
     }
 
     @Override
     public void onBackPressed() {
-        if (mCurrentMode == RECORD_MODE_EDIT) {
-            mCurrentMode = RECORD_MODE_NORMAL;
-            mCodeRecordAdapter.setAllSelected(false);
+        if (mAdapter.getMode() == RECORD_MODE_EDIT) {
+            mAdapter.setMode(RECORD_MODE_NORMAL);
+            mAdapter.setAllSelected(false);
             refreshActionBarByMode();
         } else {
             super.onBackPressed();
@@ -228,7 +213,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
     }
 
     private void removeSelectedItems() {
-        final List<SmsMsg> itemsToRemove = mCodeRecordAdapter.removeSelectedItems();
+        final List<SmsMsg> itemsToRemove = mAdapter.removeSelectedItems();
         mSwipeRefreshLayout.setEnabled(false);
         String text = getString(R.string.some_items_removed, itemsToRemove.size());
         SnackbarHelper.makeLong(mRecyclerView, text)
@@ -241,15 +226,15 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
                         }
                     }
                 })
-                .setAction(R.string.revoke, v -> mCodeRecordAdapter.addItems(itemsToRemove))
+                .setAction(R.string.revoke, v -> mAdapter.addItems(itemsToRemove))
                 .show();
 
-        mCurrentMode = RECORD_MODE_NORMAL;
+        mAdapter.setMode(RECORD_MODE_NORMAL);
         refreshActionBarByMode();
     }
 
     private void refreshActionBarByMode() {
-        if (mCurrentMode == RECORD_MODE_NORMAL) {
+        if (mAdapter.getMode() == RECORD_MODE_NORMAL) {
             mActivity.setTitle(R.string.smscode_records);
             mActivity.invalidateOptionsMenu();
         } else {
@@ -274,7 +259,7 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
 
     @Override
     public void displayData(List<SmsMsg> smsMsgList) {
-        mCodeRecordAdapter.addItems(smsMsgList);
+        mAdapter.addItems(smsMsgList);
     }
 
 }

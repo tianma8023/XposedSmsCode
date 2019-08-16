@@ -16,6 +16,7 @@ import com.tianma.xsmscode.data.db.entity.AppInfo;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +72,9 @@ class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.VH> {
         @BindView(R.id.pkg_name_view)
         TextView mPkgNameView;
 
+        @BindView(R.id.blocked_checkbox)
+        AppCompatCheckBox mCheckBox;
+
         VH(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -91,13 +95,16 @@ class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.VH> {
                     });
             mAppLabelView.setText(data.getLabel());
             mPkgNameView.setText(data.getPackageName());
-            itemView.setSelected(data.isBlocked());
+//            itemView.setSelected(data.isBlocked());
+            mCheckBox.setChecked(data.isBlocked());
         }
 
         void bindListener(final AppInfo data, final int position) {
             if (mItemCallback != null) {
                 itemView.setOnClickListener(v -> mItemCallback.onItemClicked(itemView, data, position));
                 itemView.setOnLongClickListener(v -> mItemCallback.onItemLongClicked(itemView, data, position));
+
+                mCheckBox.setOnClickListener(v -> mItemCallback.onItemClicked(itemView, data, position));
             }
         }
     }

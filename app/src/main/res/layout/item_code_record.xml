@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selectable_item_background"
+    android:background="?android:attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="@dimen/dp_12"
-    android:paddingTop="@dimen/dp_20"
-    android:paddingEnd="@dimen/dp_12"
-    android:paddingBottom="@dimen/dp_20">
+    android:paddingEnd="@dimen/dp_12">
 
     <TextView
         android:id="@+id/company_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_24"
         android:layout_weight="1"
         android:textAlignment="center"
         android:textColor="?android:attr/textColorPrimary"
@@ -45,6 +45,12 @@
         android:layout_weight="1"
         android:text="@string/message_details"
         android:textAlignment="center"
-        android:textColor="?attr/preferenceIconColor"
+        android:textColor="?colorAccent"
         android:textSize="14sp"/>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_0"/>
 </LinearLayout>

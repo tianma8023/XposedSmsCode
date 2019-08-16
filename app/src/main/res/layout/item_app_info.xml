@@ -2,10 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selectable_item_background"
                 android:paddingStart="@dimen/dp_16"
                 android:paddingTop="@dimen/dp_12"
-                android:paddingEnd="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_12"
                 android:paddingBottom="@dimen/dp_12">
 
     <ImageView
@@ -22,6 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="@dimen/dp_6"
         android:layout_toEndOf="@+id/app_icon_view"
+        android:layout_toStartOf="@+id/blocked_checkbox"
         android:textSize="16sp"/>
 
     <TextView
@@ -30,8 +30,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/app_label_view"
         android:layout_alignStart="@id/app_label_view"
-        android:layout_alignParentEnd="true"
+        android:layout_toStartOf="@+id/blocked_checkbox"
         android:textSize="14sp"/>
 
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/blocked_checkbox"
+        android:layout_marginStart="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

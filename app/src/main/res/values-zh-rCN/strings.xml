@@ -231,6 +231,21 @@
     <string name="coolapk_enable_prompt">请先启用酷安</string>
     <!-- check update end -->
 
+    <!-- theme Cyanea -->
+    <string name="label_theme_picker">主题选择</string>
+    <string name="pref_theme_title">主题</string>
+    <string name="pref_theme_summary">选择预设主题</string>
+    <string name="pref_primary_color_title">主色调(Primary color)</string>
+    <string name="pref_primary_color_summary"> </string>
+    <string name="pref_accent_color_title">强调色(Accent color)</string>
+    <string name="pref_accent_color_summary"> </string>
+    <string name="pref_background_color_title">背景色</string>
+    <string name="pref_background_color_summary"> </string>
+    <string name="pref_category_appearance">外观</string>
+    <string name="pref_colored_navigation_bar_title">导航栏颜色</string>
+    <string name="pref_colored_navigation_bar_summary">导航栏颜色和主色调保持一致</string>
+    <!-- theme Cyanea -->
+
     <!-- faq -->
     <string-array name="question_list">
         <item>产品初衷是什么？</item>

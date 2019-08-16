@@ -8,7 +8,7 @@ import java.util.Objects;
 public class RecordItem {
 
     private SmsMsg smsMsg;
-    private boolean selected;
+    private boolean mSelected;
 
     RecordItem(SmsMsg smsMsg) {
         this.smsMsg = smsMsg;
@@ -19,18 +19,18 @@ public class RecordItem {
     }
 
     public boolean isSelected() {
-        return selected;
+        return mSelected;
     }
 
     public void setSelected(boolean selected) {
-        this.selected = selected;
+        this.mSelected = selected;
     }
 
     @Override
     public String toString() {
         return "RecordItem{" +
                 "smsMsg=" + smsMsg +
-                ", selected=" + selected +
+                ", selected=" + mSelected +
                 '}';
     }
 

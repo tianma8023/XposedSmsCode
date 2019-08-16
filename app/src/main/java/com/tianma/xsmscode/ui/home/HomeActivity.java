@@ -4,37 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.common.adapter.BaseItemCallback;
-import com.tianma.xsmscode.common.adapter.ItemCallback;
-import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.utils.PackageUtils;
-import com.tianma.xsmscode.common.utils.SPUtils;
 import com.tianma.xsmscode.ui.app.base.BaseActivity;
 import com.tianma.xsmscode.ui.faq.FaqFragment;
-import com.tianma.xsmscode.ui.theme.ThemeItem;
-import com.tianma.xsmscode.ui.theme.ThemeItemAdapter;
-import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * 主界面
  */
-public class HomeActivity extends BaseActivity implements SettingsFragment.OnPreferenceClickCallback {
+public class HomeActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -43,8 +30,6 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
 
     private Fragment mCurrentFragment;
     private FragmentManager mFragmentManager;
-
-    private MaterialDialog mThemeChooseDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,70 +51,24 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
     }
 
     private void handleIntent(Intent intent) {
-        int themeIdx = SPUtils.getCurrentThemeIndex(this);
-        ThemeItem themeItem = ThemeItemContainer.get().getItemAt(themeIdx);
-
         String action = intent.getAction();
         SettingsFragment settingsFragment = null;
         if (Intent.ACTION_VIEW.equals(action)) {
             String extraAction = intent.getStringExtra(SettingsFragment.EXTRA_ACTION);
             if (SettingsFragment.ACTION_GET_RED_PACKET.equals(extraAction)) {
-                settingsFragment = SettingsFragment.newInstance(themeItem, extraAction);
+                settingsFragment = SettingsFragment.newInstance(extraAction);
             }
         }
 
         if (settingsFragment == null) {
-            settingsFragment = SettingsFragment.newInstance(themeItem);
+            settingsFragment = SettingsFragment.newInstance();
         }
 
-        settingsFragment.setOnPreferenceClickCallback(this);
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction()
                 .replace(R.id.home_content, settingsFragment)
                 .commit();
         mCurrentFragment = settingsFragment;
-    }
-
-    @Override
-    public void onPreferenceClicked(String key, String title, boolean nestedPreference) {
-        if (PrefConst.KEY_CHOOSE_THEME.equals(key)) {
-            onChooseThemePreferenceClicked();
-        }
-    }
-
-    private ItemCallback<ThemeItem> mThemeItemCallback = new BaseItemCallback<ThemeItem>() {
-        @Override
-        public void onItemClicked(ThemeItem item, int position) {
-            if (mThemeChooseDialog != null && mThemeChooseDialog.isShowing()) {
-                mThemeChooseDialog.dismiss();
-            }
-
-            if (SPUtils.getCurrentThemeIndex(HomeActivity.this) == position) {
-                return;
-            }
-
-            SPUtils.setCurrentThemeIndex(HomeActivity.this, position);
-
-            recreate();
-        }
-    };
-
-    private void onChooseThemePreferenceClicked() {
-        ThemeItemAdapter adapter = new ThemeItemAdapter(this,
-                ThemeItemContainer.get().getThemeItemList());
-        adapter.setItemCallback(mThemeItemCallback);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-
-        mThemeChooseDialog = new MaterialDialog.Builder(this)
-                .title(R.string.pref_choose_theme_title)
-                .adapter(adapter, layoutManager)
-                .negativeText(R.string.cancel)
-                .build();
-
-        RecyclerView recyclerView = mThemeChooseDialog.getRecyclerView();
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
-
-        mThemeChooseDialog.show();
     }
 
     private void refreshActionBar(String title) {
@@ -202,19 +141,9 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
                 .title(R.string.taichi_users_notice)
                 .content(R.string.taichi_users_notice_content)
                 .negativeText(R.string.add_apps_in_taichi)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        PackageUtils.startAddAppsInTaiChi(HomeActivity.this);
-                    }
-                })
+                .onNegative((dialog, which) -> PackageUtils.startAddAppsInTaiChi(HomeActivity.this))
                 .positiveText(R.string.check_module_in_taichi)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        PackageUtils.startCheckModuleInTaiChi(HomeActivity.this);
-                    }
-                })
+                .onPositive((dialog, which) -> PackageUtils.startCheckModuleInTaiChi(HomeActivity.this))
                 .show();
     }
 }

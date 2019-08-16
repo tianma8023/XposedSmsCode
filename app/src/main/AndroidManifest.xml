@@ -14,7 +14,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppNoActionBarTheme"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <!-- xposed module configuration -->
@@ -90,6 +90,18 @@
         <activity
             android:name="com.tianma.xsmscode.ui.block.AppBlockActivity"
             android:label="@string/app_block_settings"/>
+
+        <activity
+            tools:replace="android:theme"
+            android:name="com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity"
+            android:label="@string/label_theme_picker"
+            android:theme="@style/AppActionBarTheme"/>
+
+        <activity
+            tools:replace="android:theme"
+            android:name="com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity"
+            android:label="@string/pref_theme_title"
+            android:theme="@style/AppActionBarTheme"/>
 
         <provider
             android:name="com.tianma.xsmscode.data.db.DBProvider"
