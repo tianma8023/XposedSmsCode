@@ -19,7 +19,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +35,20 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
 
     private ItemCallback<RecordItem> mItemCallback;
     private ItemChildCallback<RecordItem> mItemChildCallback;
+
+    // normal mode
+    static final int RECORD_MODE_NORMAL = 0;
+    // edit mode
+    static final int RECORD_MODE_EDIT = 1;
+
+    @IntDef({RECORD_MODE_NORMAL, RECORD_MODE_EDIT})
+    @interface RecordMode {
+    }
+
+
+    // current mode
+    @RecordMode
+    private int mMode = RECORD_MODE_NORMAL;
 
     CodeRecordAdapter(Context context, List<RecordItem> records) {
         mContext = context;
@@ -82,6 +98,9 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
         @BindView(R.id.record_details_view)
         TextView mDetailsView;
 
+        @BindView(R.id.checkbox)
+        AppCompatCheckBox mCheckBox;
+
         VH(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -98,7 +117,13 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
             }
             mSmsCodeTv.setText(smsMsg.getSmsCode());
             mDateTv.setText(mFormat.format(new Date(smsMsg.getDate())));
-            itemView.setSelected(data.isSelected());
+
+            if (mMode == RECORD_MODE_NORMAL) {
+                mCheckBox.setVisibility(View.GONE);
+            } else {
+                mCheckBox.setVisibility(View.VISIBLE);
+                mCheckBox.setChecked(data.isSelected());
+            }
 
             if (TextUtils.isEmpty(smsMsg.getBody())) {
                 mDetailsView.setVisibility(View.GONE);
@@ -112,11 +137,15 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
                 itemView.setOnLongClickListener(v -> mItemCallback.onItemLongClicked(itemView, data, position));
             }
 
-            mDetailsView.setOnClickListener(v -> {
-                if (mItemChildCallback != null) {
+            if (mItemChildCallback != null) {
+                mDetailsView.setOnClickListener(v -> {
                     mItemChildCallback.onItemChildClicked(mDetailsView, data, position);
-                }
-            });
+                });
+
+                mCheckBox.setOnClickListener(v -> {
+                    mItemChildCallback.onItemChildClicked(mCheckBox, data, position);
+                });
+            }
         }
     }
 
@@ -153,17 +182,6 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
         return allSelected;
     }
 
-    public boolean isAllUnselected() {
-        boolean allUnselected = true;
-        for (int i = 0; i < getItemCount(); i++) {
-            if (isItemSelected(i)) {
-                allUnselected = false;
-                break;
-            }
-        }
-        return allUnselected;
-    }
-
     public List<SmsMsg> removeSelectedItems() {
         List<RecordItem> recordsToRemove = new ArrayList<>();
         List<SmsMsg> messagesToRemove = new ArrayList<>();
@@ -197,6 +215,18 @@ public class CodeRecordAdapter extends RecyclerView.Adapter<CodeRecordAdapter.VH
             });
             notifyDataSetChanged();
         }
+    }
+
+    void setMode(@RecordMode int mode) {
+        if (mMode != mode) {
+            mMode = mode;
+            notifyDataSetChanged();
+        }
+    }
+
+    @RecordMode
+    int getMode() {
+        return mMode;
     }
 
 }

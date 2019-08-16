@@ -47,4 +47,7 @@
     <color name="item_selected_background_color_light">#DDDDDD</color>
     <color name="item_selected_background_color_dark">#454545</color>
 
+    <color name="cyanea_primary_reference">#008577</color>
+    <color name="cyanea_accent_reference">#D81B60</color>
+
 </resources>

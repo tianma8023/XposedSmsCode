@@ -44,8 +44,6 @@ public interface PrefConst {
     String KEY_NOTIFICATION_RETENTION_TIME = "pref_notification_retention_time";
     String NOTIFICATION_RETENTION_TIME_DEFAULT = "5";
 
-    String KEY_ENTRY_AUTO_INPUT_CODE = "pref_entry_auto_input_code";
-
     String KEY_HIDE_LAUNCHER_ICON = "pref_hide_launcher_icon";
 
     String KEY_SMSCODE_KEYWORDS = "pref_smscode_keywords";

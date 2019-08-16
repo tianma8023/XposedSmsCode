@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.adapter.BaseItemCallback;
@@ -20,7 +19,6 @@ import com.tianma.xsmscode.ui.theme.ThemeItem;
 import com.tianma.xsmscode.ui.theme.ThemeItemAdapter;
 import com.tianma.xsmscode.ui.theme.ThemeItemContainer;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -202,19 +200,9 @@ public class HomeActivity extends BaseActivity implements SettingsFragment.OnPre
                 .title(R.string.taichi_users_notice)
                 .content(R.string.taichi_users_notice_content)
                 .negativeText(R.string.add_apps_in_taichi)
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        PackageUtils.startAddAppsInTaiChi(HomeActivity.this);
-                    }
-                })
+                .onNegative((dialog, which) -> PackageUtils.startAddAppsInTaiChi(HomeActivity.this))
                 .positiveText(R.string.check_module_in_taichi)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        PackageUtils.startCheckModuleInTaiChi(HomeActivity.this);
-                    }
-                })
+                .onPositive((dialog, which) -> PackageUtils.startCheckModuleInTaiChi(HomeActivity.this))
                 .show();
     }
 }

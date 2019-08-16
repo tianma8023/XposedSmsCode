@@ -1,6 +1,7 @@
 package com.tianma.xsmscode.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
+import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.tianma.xsmscode.common.constant.Const;
 import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.preference.ResetEditPreference;
@@ -106,7 +108,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
         Preference chooseThemePref = findPreference(PrefConst.KEY_CHOOSE_THEME);
         chooseThemePref.setOnPreferenceClickListener(this);
-        initChooseThemePreference(chooseThemePref);
+//        initChooseThemePreference(chooseThemePref);
 
         findPreference(PrefConst.KEY_APP_BLOCK_ENTRY).setOnPreferenceClickListener(this);
         // general group end
@@ -194,14 +196,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (PrefConst.KEY_ENTRY_AUTO_INPUT_CODE.equals(key)) {
-            if (mPreferenceClickCallback != null) {
-                mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), true);
-            }
-        } else if (PrefConst.KEY_CHOOSE_THEME.equals(key)) {
-            if (mPreferenceClickCallback != null) {
-                mPreferenceClickCallback.onPreferenceClicked(key, preference.getTitle().toString(), false);
-            }
+        if (PrefConst.KEY_CHOOSE_THEME.equals(key)) {
+            Intent intent = new Intent(mActivity, CyaneaSettingsActivity.class);
+            startActivity(intent);
         } else if (PrefConst.KEY_CODE_RULES.equals(key)) {
             CodeRulesActivity.startToMe(mActivity);
         } else if (PrefConst.KEY_SMSCODE_TEST.equals(key)) {

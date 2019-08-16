@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="AppNoActionBarTheme" parent="Theme.Cyanea.Light.NoActionBar">
+        <item name="preferenceIconColor">?android:attr/textColorPrimary</item>
+        <item name="myMenuIconColor">?attr/menuIconColor</item>
+    </style>
+
+    <style name="AppActionBarTheme" parent="Theme.Cyanea.Light">
+        <item name="preferenceIconColor">?android:attr/textColorPrimary</item>
+        <item name="myMenuIconColor">?attr/menuIconColor</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
