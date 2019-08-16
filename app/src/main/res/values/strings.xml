@@ -14,16 +14,16 @@
 
     <!-- preferences general -->
     <string name="pref_general_title">General</string>
-    <string name="pref_enable_title">Enable SMS code</string>
-    <string name="enable_module_title">Module Inactive</string>
+    <string name="pref_enable_title">Main switch</string>
+    <string name="enable_module_title">Module inactive</string>
     <string name="enable_module_message">Please activate this module, or this App won\'t work!</string>
     <string name="pref_enable_summary">Module active</string>
     <string name="pref_enable_summary_alt">Please activate this module first!</string>
     <string name="open_xposed_installer">Open Xposed Installer</string>
     <string name="pref_hide_launcher_icon_title">Hide launcher icon</string>
-    <string name="pref_hide_launcher_icon_summary">It can be open in Xposed Modules if launcher icon is hidden</string>
-    <string name="pref_show_toast_title">Show Toast</string>
-    <string name="pref_show_toast_summary">Show Toast when the SMS Code is copied</string>
+    <string name="pref_hide_launcher_icon_summary">You can reopen this App in Xposed modules</string>
+    <string name="pref_show_toast_title">Show toast</string>
+    <string name="pref_show_toast_summary">Show toast when the SMS code is copied</string>
     <string name="pref_copy_to_clipboard_title">Copy to clipboard</string>
     <string name="pref_copy_to_clipboard_summary">Copy code to clipboard if it\'s extracted</string>
     <string name="pref_choose_theme_title">Theme</string>
@@ -35,7 +35,7 @@
     <string name="pref_mark_as_read_summary">Mark code SMS as read if succeed</string>
     <string name="pref_delete_sms_title">Delete SMS</string>
     <string name="pref_delete_sms_summary">Warning! Code SMS will be deleted if extract succeed</string>
-    <string name="pref_block_sms_title">Block Code SMS</string>
+    <string name="pref_block_sms_title">Block code SMS</string>
     <string name="pref_block_sms_summary">Warning! Code SMS will be blocked if extract succeed</string>
     <string name="pref_kill_me_title">Kill me</string>
     <string name="pref_kill_me_summary">Kill this module app if extract succeed</string>
@@ -73,9 +73,9 @@
     <!-- preference Code SMS end -->
 
     <!-- preference code records -->
-    <string name="pref_entry_code_records_title">Records of SMS code</string>
+    <string name="pref_entry_code_records_title">SMS code records</string>
     <string name="pref_entry_code_records_summary">Reserve %d recent records at most</string>
-    <string name="pref_code_records_title">SMS code records</string>
+    <string name="pref_code_records_title">SMS Code Records</string>
     <string name="smscode_records">Code Records</string>
     <string name="edit_smscode_records">Edit Code Records</string>
     <string name="prompt_sms_code_copied">SMS Code copied: %s</string>
@@ -111,7 +111,7 @@
     <!-- preference about end -->
 
     <!-- auto-input SMS Code -->
-    <string name="pref_enable_auto_input_code_title">Enable auto-input SMS code</string>
+    <string name="pref_enable_auto_input_code_title">Auto-input SMS code</string>
     <string name="pref_enable_auto_input_code_summary">Try to input SMS code automatically</string>
     <string name="app_block_settings">App Block Settings</string>
     <string name="app_block_summary">Choose Apps that auto-input banned</string>
