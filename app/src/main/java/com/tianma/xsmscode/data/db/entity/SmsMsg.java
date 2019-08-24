@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.telephony.SmsMessage;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.tianma.xsmscode.common.utils.SmsMessageUtils;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -18,21 +20,32 @@ import java.util.Objects;
 public class SmsMsg implements Parcelable {
 
     @Id(autoincrement = true)
+    @SerializedName("id")
     private Long id;
 
     // Sender
+    @Expose
+    @SerializedName("sender")
     private String sender;
 
     // Message content
+    @Expose
+    @SerializedName("body")
     private String body;
 
     // Receive date
+    @Expose
+    @SerializedName("date")
     private long date;
 
     // Company
+    @Expose
+    @SerializedName("company")
     private String company;
 
     // SMS Code
+    @Expose
+    @SerializedName("code")
     private String smsCode;
 
     public static SmsMsg fromIntent(Intent intent) {

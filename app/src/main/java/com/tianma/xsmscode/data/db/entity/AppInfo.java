@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -15,10 +16,15 @@ import java.util.Objects;
 public class AppInfo implements Parcelable {
 
     @Id
+    @SerializedName("packageName")
     @Expose
     private String packageName;
+
+    @SerializedName("label")
     @Expose
     private String label;
+
+    @SerializedName("blocked")
     @Expose
     private boolean blocked;
 

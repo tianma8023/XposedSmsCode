@@ -3,8 +3,8 @@ package com.tianma.xsmscode.ui.record;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.tianma.xsmscode.common.constant.PrefConst;
+import com.tianma.xsmscode.common.utils.JsonUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.DBManager;
@@ -37,7 +37,7 @@ public class CodeRecordRestoreManager {
             osw = new OutputStreamWriter(
                     new FileOutputStream(recordFile), StandardCharsets.UTF_8);
 
-            new Gson().toJson(smsMsg, osw);
+            JsonUtils.toJson(smsMsg, osw, true);
 
             // set file world writable
             StorageUtils.setFileWorldWritable(recordFile, 0);
@@ -108,7 +108,7 @@ public class CodeRecordRestoreManager {
             isr = new InputStreamReader(
                     new FileInputStream(recordFile), StandardCharsets.UTF_8);
 
-            return new Gson().fromJson(isr, SmsMsg.class);
+            return JsonUtils.entityFromJson(isr, SmsMsg.class, true);
         } catch (FileNotFoundException e) {
             XLog.e("", e);
         } finally {

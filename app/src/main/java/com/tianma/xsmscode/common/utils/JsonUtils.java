@@ -3,6 +3,8 @@ package com.tianma.xsmscode.common.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Reader;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -16,9 +18,9 @@ public class JsonUtils {
     private JsonUtils() {
     }
 
-    private static Gson createGson(boolean excludeFieldsWithoutExposeAnnotation) {
+    private static Gson createGson(boolean excludeExposeAnnotation) {
         Gson gson;
-        if (excludeFieldsWithoutExposeAnnotation) {
+        if (excludeExposeAnnotation) {
             gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         } else {
             gson = new Gson();
@@ -26,40 +28,29 @@ public class JsonUtils {
         return gson;
     }
 
-    public static <T> String listToJson(List<T> entities) {
-        return listToJson(entities, false);
+    public static String toJson(Object object, boolean excludeExposeAnnotation) {
+        return createGson(excludeExposeAnnotation).toJson(object);
     }
 
-    public static <T> String listToJson(List<T> entities, boolean excludeFieldsWithoutExposeAnnotation) {
-        return createGson(excludeFieldsWithoutExposeAnnotation)
-                .toJson(entities);
+    public static void toJson(Object object, Appendable writer, boolean excludeExposeAnnotation) {
+        createGson(excludeExposeAnnotation).toJson(object, writer);
     }
 
-    public static <T> void listToJson(List<T> entities, Appendable writer) {
-        listToJson(entities, writer, false);
+    public static <T> T entityFromJson(String json, Class<T> typeClass, boolean excludeExposeAnnotation) {
+        return createGson(excludeExposeAnnotation).fromJson(json, typeClass);
     }
 
-    public static <T> void listToJson(List<T> entities, Appendable writer, boolean excludeFieldsWithoutExposeAnnotation) {
-        createGson(excludeFieldsWithoutExposeAnnotation)
-                .toJson(entities, writer);
+    public static <T> T entityFromJson(Reader json, Class<T> typeClass, boolean excludeExposeAnnotation) {
+        return createGson(excludeExposeAnnotation).fromJson(json, typeClass);
     }
 
-    public static <T> List<T> jsonToList(String json, Class<T> typeClass) {
-        return jsonToList(json, typeClass, false);
+    public static <T> List<T> listFromJson(String json, Class<T> typeClass, boolean excludeExposeAnnotation) {
+        return createGson(excludeExposeAnnotation).fromJson(json, new ListOfJson<T>(typeClass));
     }
 
-    public static <T> List<T> jsonToList(String json, Class<T> typeClass, boolean excludeFieldsWithoutExposeAnnotation) {
-        return createGson(excludeFieldsWithoutExposeAnnotation)
-                .fromJson(json, new ListOfJson<T>(typeClass));
-    }
-
-    public static <T> List<T> jsonToList(Reader json, Class<T> typeClass) {
-        return jsonToList(json, typeClass, false);
-    }
-
-    public static <T> List<T> jsonToList(Reader json, Class<T> typeClass, boolean excludeFieldsWithoutExposeAnnotation) {
+    public static <T> List<T> listFromJson(Reader json, Class<T> typeClass, boolean excludeExposeAnnotation) {
         Gson gson;
-        if (excludeFieldsWithoutExposeAnnotation) {
+        if (excludeExposeAnnotation) {
             gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         } else {
             gson = new Gson();
@@ -70,15 +61,17 @@ public class JsonUtils {
     public static class ListOfJson<T> implements ParameterizedType {
         private Class<?> wrapped;
 
-        public ListOfJson(Class<T> wrapper) {
+        private ListOfJson(Class<T> wrapper) {
             this.wrapped = wrapper;
         }
 
+        @NotNull
         @Override
         public Type[] getActualTypeArguments() {
             return new Type[]{wrapped};
         }
 
+        @NotNull
         @Override
         public Type getRawType() {
             return List.class;

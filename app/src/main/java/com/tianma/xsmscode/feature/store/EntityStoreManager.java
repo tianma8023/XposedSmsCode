@@ -56,7 +56,7 @@ public class EntityStoreManager {
             File storeFile = getStoreFile(entityType);
             osw = new OutputStreamWriter(new FileOutputStream(storeFile), StandardCharsets.UTF_8);
 
-            JsonUtils.listToJson(entities, osw, true);
+            JsonUtils.toJson(entities, osw, true);
 
             // set file world writable
             StorageUtils.setFileWorldWritable(storeFile, 0);
@@ -91,7 +91,7 @@ public class EntityStoreManager {
             isr = new InputStreamReader(
                     new FileInputStream(templateFile), StandardCharsets.UTF_8);
 
-            return JsonUtils.jsonToList(isr, entityClass, true);
+            return JsonUtils.listFromJson(isr, entityClass, true);
         } catch (Exception e) {
             XLog.e("load entities from file failed", e);
         } finally {
