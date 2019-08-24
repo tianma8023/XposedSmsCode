@@ -60,7 +60,7 @@
     public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
     public static void createTable(org.greenrobot.greendao.database.Database, boolean);
 }
--keep class **$Properties
+-keep class **$Properties {*;}
 
 # If you do not use SQLCipher:
 -dontwarn org.greenrobot.greendao.database.**

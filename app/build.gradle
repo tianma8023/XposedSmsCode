@@ -53,11 +53,25 @@ android {
             buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
 
             if (keyFile.exists()) {
-                println "using tianma's keystore"
                 signingConfig signingConfigs.release
-            } else {
-                println "using no keystore"
             }
+        }
+
+        alpha {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            debuggable  true
+
+            buildConfigField("int", "LOG_LEVEL", "2")
+            buildConfigField("boolean", "LOG_TO_XPOSED", "true")
+            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
+
+            if (keyFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         release {
@@ -69,10 +83,7 @@ android {
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
             buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
             if (keyFile.exists()) {
-                println "using tianma's keystore"
                 signingConfig signingConfigs.release
-            } else {
-                println "using no keystore"
             }
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
