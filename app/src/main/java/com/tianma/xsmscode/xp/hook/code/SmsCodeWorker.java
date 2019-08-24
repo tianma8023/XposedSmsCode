@@ -6,11 +6,13 @@ import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -44,7 +46,6 @@ import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.annotation.IntDef;
@@ -54,17 +55,7 @@ import de.robv.android.xposed.XSharedPreferences;
 
 public class SmsCodeWorker {
 
-    private static final int OP_DELETE = 0;
-    private static final int OP_MARK_AS_READ = 1;
-
-    @IntDef({OP_DELETE, OP_MARK_AS_READ})
-    @interface SmsOp {
-    }
-
-    private Context mPhoneContext;
-    private Context mAppContext;
-    private XSharedPreferences mPreferences;
-    private Intent mSmsIntent;
+    static final String ACTION_PRE_QUIT_QUEUE = BuildConfig.APPLICATION_ID + "action.PRE_QUIT_QUEUE";
 
     private static final int MSG_QUIT_QUEUE = 0xff;
     private static final int MSG_MARK_AS_READ = 0xfe;
@@ -77,8 +68,21 @@ public class SmsCodeWorker {
     private static final int MSG_SHOW_CODE_NOTIFICATION = 0xf7;
     private static final int MSG_CANCEL_NOTIFICATION = 0xf6;
 
-    private AtomicInteger mPreQuitQueueCount;
+    private static final int OP_DELETE = 0;
+    private static final int OP_MARK_AS_READ = 1;
+
+    @IntDef({OP_DELETE, OP_MARK_AS_READ})
+    @interface SmsOp {
+    }
+
     private static final int DEFAULT_QUIT_COUNT = 0;
+
+    private Context mPhoneContext;
+    private Context mAppContext;
+    private XSharedPreferences mPreferences;
+    private Intent mSmsIntent;
+
+    private AtomicInteger mPreQuitQueueCount;
 
     private Handler uiHandler;
     private Handler workerHandler;
@@ -141,7 +145,7 @@ public class SmsCodeWorker {
             uiHandler.sendMessage(copyMsg);
         }
 
-        // 是否显示toast
+        // 是否显示Toast
         if (XSPUtils.shouldShowToast(mPreferences)) {
             Message toastMsg = uiHandler.obtainMessage(MSG_SHOW_TOAST, smsCode);
             uiHandler.sendMessage(toastMsg);
@@ -408,13 +412,6 @@ public class SmsCodeWorker {
         }
     }
 
-    private void quit() {
-        if (workerHandler != null) {
-            workerHandler.getLooper().quitSafely();
-            XLog.d("Worker thread quit");
-        }
-    }
-
     private void prepareAutoInputCode(String code) {
         if (!autoInputBlockedHere()) {
             autoInputCode(code);
@@ -426,11 +423,6 @@ public class SmsCodeWorker {
         try {
             List<String> blockedAppList = new ArrayList<>();
             try {
-                Random rand = new Random();
-                int next = rand.nextInt(5);
-                if (next > 0) {
-                    throw new Exception("Hello");
-                }
                 Uri appInfoUri = DBProvider.APP_INFO_URI;
                 ContentResolver resolver = mAppContext.getContentResolver();
 
@@ -522,8 +514,12 @@ public class SmsCodeWorker {
         int notificationId = smsMsg.hashCode();
 
         Intent copyCodeIntent = CopyCodeReceiver.createIntent(smsCode);
-        PendingIntent pi = PendingIntent.getBroadcast(mPhoneContext,
+        PendingIntent contentIntent = PendingIntent.getBroadcast(mPhoneContext,
                 0, copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent preQuitQueueIntent = new Intent(ACTION_PRE_QUIT_QUEUE);
+        PendingIntent deleteIntent = PendingIntent.getBroadcast(mPhoneContext,
+                0, preQuitQueueIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(mAppContext, NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_app_icon)
@@ -531,7 +527,8 @@ public class SmsCodeWorker {
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(title)
                 .setContentText(content)
-                .setContentIntent(pi)
+                .setContentIntent(contentIntent)
+                .setDeleteIntent(deleteIntent)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(mAppContext, R.color.ic_launcher_background))
                 .setGroup(NotificationConst.GROUP_KEY_SMSCODE_NOTIFICATION)
@@ -541,6 +538,11 @@ public class SmsCodeWorker {
         XLog.d("Show notification succeed");
 
         if (XSPUtils.autoCancelCodeNotification(mPreferences)) {
+            if (mCommandReceiver == null) {
+                mCommandReceiver = new CommandReceiver();
+                mCommandReceiver.register(mPhoneContext);
+            }
+
             Message cancelNotifyMsg = workerHandler
                     .obtainMessage(MSG_CANCEL_NOTIFICATION, notificationId);
             int retentionTime = XSPUtils.getNotificationRetentionTime(mPreferences) * 1000;
@@ -566,6 +568,16 @@ public class SmsCodeWorker {
         }
     }
 
+    private void quit() {
+        if (workerHandler != null) {
+            workerHandler.getLooper().quitSafely();
+            XLog.d("Worker thread quit");
+        }
+        if (mCommandReceiver != null) {
+            mCommandReceiver.unregister(mPhoneContext);
+        }
+    }
+
     private List<ActivityManager.RunningAppProcessInfo> getRunningAppProcesses(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         return am == null ? null : am.getRunningAppProcesses();
@@ -575,6 +587,30 @@ public class SmsCodeWorker {
     private List<ActivityManager.RunningTaskInfo> getRunningTasks(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         return am == null ? null : am.getRunningTasks(10);
+    }
+
+    private CommandReceiver mCommandReceiver = null;
+
+    private class CommandReceiver extends BroadcastReceiver {
+
+        void register(Context context) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(ACTION_PRE_QUIT_QUEUE);
+            context.registerReceiver(this, filter);
+        }
+
+        void unregister(Context context) {
+            context.unregisterReceiver(this);
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            XLog.d("CommandReceiver received: %s", action);
+            if (ACTION_PRE_QUIT_QUEUE.equals(action)) {
+                handlePreQuitQueue();
+            }
+        }
     }
 
 }

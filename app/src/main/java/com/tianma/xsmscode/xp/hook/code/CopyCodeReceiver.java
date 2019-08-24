@@ -18,9 +18,9 @@ class CopyCodeReceiver extends BroadcastReceiver {
     private static final String ACTION_COPY_CODE = BuildConfig.APPLICATION_ID + ".ACTION_COPY_CODE";
     private static final String EXTRA_KEY_CODE = "extra_key_code";
 
-    public static Intent createIntent(String smscode) {
+    public static Intent createIntent(String smsCode) {
         Intent intent = new Intent(ACTION_COPY_CODE);
-        intent.putExtra(EXTRA_KEY_CODE, smscode);
+        intent.putExtra(EXTRA_KEY_CODE, smsCode);
         return intent;
     }
 
@@ -34,19 +34,19 @@ class CopyCodeReceiver extends BroadcastReceiver {
     private Context mAppContext;
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context phoneContext, Intent intent) {
         String action = intent.getAction();
         if (ACTION_COPY_CODE.equals(action)) {
-            String smscode = intent.getStringExtra(EXTRA_KEY_CODE);
+            String smsCode = intent.getStringExtra(EXTRA_KEY_CODE);
             // copy to clipboard
-            ClipboardUtils.copyToClipboard(context, smscode);
+            ClipboardUtils.copyToClipboard(phoneContext, smsCode);
 
             // show toast
-            mAppContext = createSmsCodeAppContext(context);
-            if (mAppContext != null) {
-                String text = mAppContext.getString(R.string.prompt_sms_code_copied, smscode);
-                Toast.makeText(mAppContext, text, Toast.LENGTH_LONG).show();
-            }
+            mAppContext = createSmsCodeAppContext(phoneContext);
+            showToast(smsCode);
+
+            // send pre quit queue broadcast
+            sendPreQuitQueueBroadcast(phoneContext);
         }
     }
 
@@ -60,5 +60,18 @@ class CopyCodeReceiver extends BroadcastReceiver {
             }
         }
         return mAppContext;
+    }
+
+    private void showToast(String smsCode) {
+        if (mAppContext != null) {
+            String text = mAppContext.getString(R.string.prompt_sms_code_copied, smsCode);
+            Toast.makeText(mAppContext, text, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void sendPreQuitQueueBroadcast(Context context) {
+        Intent intent = new Intent();
+        intent.setAction(SmsCodeWorker.ACTION_PRE_QUIT_QUEUE);
+        context.sendBroadcast(intent);
     }
 }
