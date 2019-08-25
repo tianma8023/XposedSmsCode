@@ -1,4 +1,4 @@
-package com.tianma.xsmscode.xp.hook.code;
+package com.tianma.xsmscode.xp.hook.code.helper;
 
 import android.annotation.SuppressLint;
 import android.hardware.input.InputManager;
@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 import de.robv.android.xposed.XposedHelpers;
 
 /**
- * Helper for InputMethod Input Things.<br/>
+ * Helper for InputMethod Input Characters.<br/>
  * Refer: com.android.commands.input.Input
  */
 public class InputHelper {

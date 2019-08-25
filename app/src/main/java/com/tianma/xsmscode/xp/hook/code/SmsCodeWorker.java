@@ -43,6 +43,7 @@ import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
 import com.tianma.xsmscode.feature.store.EntityType;
 import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
+import com.tianma.xsmscode.xp.hook.code.helper.InputHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +57,7 @@ import de.robv.android.xposed.XSharedPreferences;
 
 public class SmsCodeWorker {
 
-    static final String ACTION_PRE_QUIT_QUEUE = BuildConfig.APPLICATION_ID + "action.PRE_QUIT_QUEUE";
+    private static final String ACTION_PRE_QUIT_QUEUE = BuildConfig.APPLICATION_ID + "action.PRE_QUIT_QUEUE";
 
     private static final int MSG_QUIT_QUEUE = 0xff;
     private static final int MSG_MARK_AS_READ = 0xfe;

@@ -13,7 +13,7 @@ import com.tianma.xsmscode.common.utils.ClipboardUtils;
 /**
  * Receiver for copy code when notification clicked
  */
-class CopyCodeReceiver extends BroadcastReceiver {
+public class CopyCodeReceiver extends BroadcastReceiver {
 
     private static final String ACTION_COPY_CODE = BuildConfig.APPLICATION_ID + ".ACTION_COPY_CODE";
     private static final String EXTRA_KEY_CODE = "extra_key_code";
@@ -44,9 +44,6 @@ class CopyCodeReceiver extends BroadcastReceiver {
             // show toast
             mAppContext = createSmsCodeAppContext(phoneContext);
             showToast(smsCode);
-
-            // send pre quit queue broadcast
-            sendPreQuitQueueBroadcast(phoneContext);
         }
     }
 
@@ -67,11 +64,5 @@ class CopyCodeReceiver extends BroadcastReceiver {
             String text = mAppContext.getString(R.string.prompt_sms_code_copied, smsCode);
             Toast.makeText(mAppContext, text, Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void sendPreQuitQueueBroadcast(Context context) {
-        Intent intent = new Intent();
-        intent.setAction(SmsCodeWorker.ACTION_PRE_QUIT_QUEUE);
-        context.sendBroadcast(intent);
     }
 }
