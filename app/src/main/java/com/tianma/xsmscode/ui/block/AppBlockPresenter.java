@@ -8,6 +8,7 @@ import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.DBManager;
 import com.tianma.xsmscode.data.db.entity.AppInfo;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
+import com.tianma.xsmscode.feature.store.EntityType;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -174,7 +175,8 @@ class AppBlockPresenter implements AppBlockContract.Presenter {
                     dbManager.insertOrReplaceInTx(AppInfo.class, blockedApps);
                     // save to file
                     EntityStoreManager.storeEntitiesToFile(
-                            EntityStoreManager.EntityType.BLOCKED_APP, blockedApps);
+                            EntityType.BLOCKED_APP, blockedApps
+                    );
                     return blockedApps;
                 })
                 .subscribeOn(Schedulers.io())

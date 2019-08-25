@@ -41,6 +41,7 @@ import com.tianma.xsmscode.data.db.entity.AppInfoDao;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import com.tianma.xsmscode.data.db.entity.SmsMsgDao;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
+import com.tianma.xsmscode.feature.store.EntityType;
 import com.tianma.xsmscode.ui.record.CodeRecordRestoreManager;
 
 import java.util.ArrayList;
@@ -126,7 +127,7 @@ public class SmsCodeWorker {
             XLog.d("Sender: %s", StringUtils.escape(sender));
             XLog.d("Body: %s", StringUtils.escape(msgBody));
         }
-        if (TextUtils.isEmpty(msgBody)) {
+        if (TextUtils.isEmpty(sender) || TextUtils.isEmpty(msgBody)) {
             return null;
         }
 
@@ -137,7 +138,21 @@ public class SmsCodeWorker {
 
         smsMsg.setSmsCode(smsCode);
         smsMsg.setCompany(SmsCodeUtils.parseCompany(msgBody));
-        smsMsg.setDate(System.currentTimeMillis());
+        long timestamp = System.currentTimeMillis();
+        smsMsg.setDate(timestamp);
+
+        // 去除重复短信
+        SmsMsg prevSmsMsg = EntityStoreManager.loadEntityFromFile(EntityType.PREV_SMS_MSG, SmsMsg.class);
+        if (prevSmsMsg != null) {
+            if (Math.abs(timestamp - prevSmsMsg.getDate()) <= 5000) {
+                if ((sender.equals(prevSmsMsg.getSender()) && smsCode.equals(prevSmsMsg.getSmsCode()))
+                        || msgBody.equals(prevSmsMsg.getBody())) {
+                    return buildParseResult();
+                }
+            }
+        }
+        // 保存当前验证码记录
+        EntityStoreManager.storeEntityToFile(EntityType.PREV_SMS_MSG, smsMsg);
 
         // 是否复制到剪切板
         if (XSPUtils.copyToClipboardEnabled(mPreferences)) {
@@ -189,6 +204,10 @@ public class SmsCodeWorker {
             workerHandler.sendEmptyMessageDelayed(MSG_KILL_ME, 4000);
         }
 
+        return buildParseResult();
+    }
+
+    private ParseResult buildParseResult() {
         ParseResult parseResult = new ParseResult();
         parseResult.setBlockSms(XSPUtils.blockSmsEnabled(mPreferences));
         return parseResult;
@@ -441,8 +460,8 @@ public class SmsCodeWorker {
                 }
                 XLog.d("Get blocked apps by content provider");
             } catch (Exception e) {
-                List<AppInfo> appInfoList = EntityStoreManager.loadEntitiesFromFile(
-                        EntityStoreManager.EntityType.BLOCKED_APP, AppInfo.class);
+                List<AppInfo> appInfoList = EntityStoreManager
+                        .loadEntitiesFromFile(EntityType.BLOCKED_APP, AppInfo.class);
                 for (AppInfo appInfo : appInfoList) {
                     blockedAppList.add(appInfo.getPackageName());
                 }

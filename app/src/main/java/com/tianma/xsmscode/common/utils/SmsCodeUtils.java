@@ -12,6 +12,7 @@ import com.tianma.xsmscode.data.db.DBProvider;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRuleDao;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
+import com.tianma.xsmscode.feature.store.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -323,8 +324,7 @@ public class SmsCodeUtils {
             }
         } catch (Throwable e) {
             rules = EntityStoreManager.loadEntitiesFromFile(
-                    EntityStoreManager.EntityType.CODE_RULES,
-                    SmsCodeRule.class
+                    EntityType.CODE_RULES, SmsCodeRule.class
             );
         }
         return rules;

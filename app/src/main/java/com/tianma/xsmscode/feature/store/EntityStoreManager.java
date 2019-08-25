@@ -22,17 +22,12 @@ public class EntityStoreManager {
     private static final String CODE_RULE_TEMPLATE_FILE_NAME = "code_rule_template";
     private static final String CODE_RULES_FILE_NAME = "code_rules";
     private static final String BLOCKED_APPS_FILE_NAME = "blocked_apps";
-
-    public enum EntityType {
-        BLOCKED_APP,
-        CODE_RULES,
-        CODE_RULE_TEMPLATE,
-    }
+    private static final String PREV_CODE_RECORD = "prev_code_record";
 
     private EntityStoreManager() {
     }
 
-    private static <T> File getStoreFile(EntityType entityType) {
+    private static File getStoreFile(EntityType entityType) {
         String filename;
         switch (entityType) {
             case BLOCKED_APP:
@@ -43,6 +38,9 @@ public class EntityStoreManager {
                 break;
             case CODE_RULE_TEMPLATE:
                 filename = CODE_RULE_TEMPLATE_FILE_NAME;
+                break;
+            case PREV_SMS_MSG:
+                filename = PREV_CODE_RECORD;
                 break;
             default:
                 throw new IllegalArgumentException("Unknown EntityType:" + entityType.toString());
@@ -82,14 +80,14 @@ public class EntityStoreManager {
     }
 
     public static <T> List<T> loadEntitiesFromFile(EntityType entityType, Class<T> entityClass) {
-        File templateFile = getStoreFile(entityType);
-        if (!templateFile.exists()) {
+        File storeFile = getStoreFile(entityType);
+        if (!storeFile.exists()) {
             return new ArrayList<>();
         }
         InputStreamReader isr = null;
         try {
             isr = new InputStreamReader(
-                    new FileInputStream(templateFile), StandardCharsets.UTF_8);
+                    new FileInputStream(storeFile), StandardCharsets.UTF_8);
 
             return JsonUtils.listFromJson(isr, entityClass, true);
         } catch (Exception e) {

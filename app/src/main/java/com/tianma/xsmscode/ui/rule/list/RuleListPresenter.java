@@ -11,6 +11,7 @@ import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 import com.tianma.xsmscode.feature.backup.BackupManager;
 import com.tianma.xsmscode.feature.backup.ExportResult;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
+import com.tianma.xsmscode.feature.store.EntityType;
 
 import java.io.File;
 import java.util.List;
@@ -128,9 +129,8 @@ class RuleListPresenter implements RuleListContract.Presenter {
     @Override
     public void saveRulesToFile(List<SmsCodeRule> rules) {
         Disposable disposable = Observable.fromCallable(() ->
-                EntityStoreManager.storeEntitiesToFile(
-                        EntityStoreManager.EntityType.CODE_RULES,
-                        rules))
+                EntityStoreManager
+                        .storeEntitiesToFile(EntityType.CODE_RULES, rules))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {

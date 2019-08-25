@@ -9,6 +9,7 @@ import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 import com.tianma.xsmscode.data.eventbus.Event;
 import com.tianma.xsmscode.data.eventbus.XEventBus;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
+import com.tianma.xsmscode.feature.store.EntityType;
 
 import javax.inject.Inject;
 
@@ -72,8 +73,7 @@ public class RuleEditPresenter implements RuleEditContract.Presenter {
         Disposable disposable = Observable
                 .fromCallable(() -> {
                     SmsCodeRule template = EntityStoreManager.loadEntityFromFile(
-                            EntityStoreManager.EntityType.CODE_RULE_TEMPLATE,
-                            SmsCodeRule.class
+                            EntityType.CODE_RULE_TEMPLATE, SmsCodeRule.class
                     );
                     if (template == null) {
                         template = new SmsCodeRule();
@@ -97,8 +97,7 @@ public class RuleEditPresenter implements RuleEditContract.Presenter {
 
         Disposable disposable = Observable
                 .fromCallable(() -> EntityStoreManager.storeEntityToFile(
-                        EntityStoreManager.EntityType.CODE_RULE_TEMPLATE,
-                        template
+                        EntityType.CODE_RULE_TEMPLATE, template
                 ))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
