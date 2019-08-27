@@ -6,28 +6,30 @@
     <!-- shared preference key -->
     <string name="pref_enable">pref_enable</string>
     <string name="pref_hide_launcher_icon">pref_hide_launcher_icon</string>
+    <string name="pref_choose_theme">pref_choose_theme</string>
+
     <string name="pref_show_toast">pref_show_toast</string>
     <string name="pref_copy_to_clipboard">pref_copy_to_clipboard</string>
     <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
     <string name="pref_app_block_entry">pref_app_block_entry</string>
-    <string name="pref_choose_theme">pref_choose_theme</string>
-
-    <string name="pref_experimental">pref_experimental</string>
-    <string name="pref_mark_as_read">pref_mark_as_read</string>
-    <string name="pref_delete_sms">pref_delete_sms</string>
     <string name="pref_block_sms">pref_block_sms</string>
-    <string name="pref_kill_me">pref_kill_me</string>
+    <string name="pref_deduplicate_sms">pref_deduplicate_sms</string>
 
     <string name="pref_show_code_notification">pref_show_code_notification</string>
     <string name="pref_auto_cancel_notification">pref_auto_cancel_code_notification</string>
     <string name="pref_notification_retention_time">pref_notification_retention_time</string>
 
+    <string name="pref_enable_code_records">pref_enable_code_records</string>
+    <string name="pref_entry_code_records">pref_entry_code_records</string>
+
     <string name="pref_smscode_keywords">pref_smscode_keywords</string>
     <string name="pref_smscode_test">pref_smscode_test</string>
     <string name="pref_code_rules">pref_code_rules</string>
 
-    <string name="pref_enable_code_records">pref_enable_code_records</string>
-    <string name="pref_entry_code_records">pref_entry_code_records</string>
+    <string name="pref_experimental">pref_experimental</string>
+    <string name="pref_mark_as_read">pref_mark_as_read</string>
+    <string name="pref_delete_sms">pref_delete_sms</string>
+    <string name="pref_kill_me">pref_kill_me</string>
 
     <string name="pref_verbose_log_mode">pref_verbose_log_mode</string>
 
@@ -37,7 +39,6 @@
     <string name="pref_source_code">pref_source_code</string>
     <string name="pref_get_alipay_packet">pref_get_alipay_packet</string>
     <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
-
     <!-- shared preference key end -->
 
     <!-- sms code types -->

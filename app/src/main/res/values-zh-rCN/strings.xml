@@ -14,7 +14,7 @@
 
     <!-- preferences general -->
     <string name="pref_general_title">通用</string>
-    <string name="pref_enable_title">启用</string>
+    <string name="pref_enable_title">总开关</string>
     <string name="enable_module_title">模块未激活</string>
     <string name="enable_module_message">请先激活本模块，否则本应用将无法工作！</string>
     <string name="pref_enable_summary">模块已激活</string>
@@ -22,26 +22,25 @@
     <string name="open_xposed_installer">打开Xposed</string>
     <string name="pref_hide_launcher_icon_title">隐藏应用图标</string>
     <string name="pref_hide_launcher_icon_summary">隐藏后可从模块列表中打开本模块</string>
+    <string name="pref_choose_theme_title">主题</string>
+    <!-- preferences general end -->
+
+    <!-- preferences sms code -->
+    <string name="pref_sms_code_title">验证码</string>
     <string name="pref_show_toast_title">显示Toast</string>
     <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
     <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
-    <string name="pref_choose_theme_title">主题</string>
-    <!-- preferences general end -->
-
-    <!-- preference experimental -->
-    <string name="pref_experimental_title">试验性功能</string>
-    <string name="pref_mark_as_read_title">验证码短信标记为已读</string>
-    <string name="pref_mark_as_read_summary">将验证码短信标记为已读</string>
-    <string name="pref_delete_sms_title">验证码短信删除</string>
-    <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
-    <string name="pref_block_sms_title">验证码短信拦截</string>
+    <string name="pref_enable_auto_input_code_title">自动输入</string>
+    <string name="pref_enable_auto_input_code_summary">尝试自动输入验证码</string>
+    <string name="pref_block_sms_title">拦截验证码短信</string>
     <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
-    <string name="pref_kill_me_title">自杀</string>
-    <string name="pref_kill_me_summary">提取成功后杀掉本应用</string>
-    <!-- preference experimental end -->
+    <string name="pref_deduplicate_sms_title">过滤重复短信</string>
+    <string name="pref_deduplicate_sms_summary">过滤掉短时间内重复的验证码短信</string>
+    <!-- preferences sms code end -->
 
-    <!-- preference smscode notification -->
+    <!-- preference code notification -->
+    <string name="pref_notification_title">通知</string>
     <string name="pref_show_code_notification_title">显示通知</string>
     <string name="pref_show_code_notification_summary">收到验证码时显示通知</string>
     <string name="pref_auto_cancel_notification_title">自动清除通知</string>
@@ -53,11 +52,26 @@
     <string name="notification_retention_time_30_secs_entry">30 秒</string>
     <string name="notification_retention_time_1_min_entry">1 分钟</string>
     <string name="notification_retention_time_5_mins_entry">5 分钟</string>
-    <!-- notification retention time -->
-    <!-- preference smscode notification -->
+    <!-- notification retention time end -->
+    <!-- preference code notification -->
 
-    <!-- preference Code SMS -->
-    <string name="pref_smscode_title">验证码短信</string>
+    <!-- preference code records -->
+    <string name="pref_entry_code_records_title">验证码历史记录</string>
+    <string name="pref_entry_code_records_summary">最多保留%d条记录</string>
+    <string name="pref_code_records_title">验证码记录</string>
+    <string name="smscode_records">验证码记录</string>
+    <string name="edit_smscode_records">编辑验证码记录</string>
+    <string name="prompt_sms_code_copied">已复制验证码: %s</string>
+    <string name="action_delete">删除</string>
+    <string name="action_select_all">全选</string>
+    <string name="some_items_removed">已删除%d项记录</string>
+    <string name="message_details">短信详情</string>
+    <string name="copy_smscode">复制验证码</string>
+    <string name="pref_enable_code_records_title">保存验证码记录</string>
+    <!-- preference code records end -->
+
+    <!-- preference code rules -->
+    <string name="pref_match_rules">匹配规则</string>
     <string name="pref_smscode_keywords_title">验证码短信关键字</string>
     <string name="pref_smscode_keywords_summary">短信包含关键字(正则表达式)</string>
     <string name="reset">重置</string>
@@ -68,22 +82,17 @@
     <string name="test">测试</string>
     <string name="current_sms_code">当前验证码：%s</string>
     <string name="cannot_parse_smscode">未能解析出验证码</string>
-    <!-- preference Code SMS end -->
+    <!-- preference code rules end -->
 
-    <!-- preference code records -->
-    <string name="pref_entry_code_records_title">验证码历史记录</string>
-    <string name="pref_entry_code_records_summary">最多保留%d条记录</string>
-    <string name="pref_code_records_title">短信验证码记录</string>
-    <string name="smscode_records">验证码记录</string>
-    <string name="edit_smscode_records">编辑验证码记录</string>
-    <string name="prompt_sms_code_copied">已复制验证码: %s</string>
-    <string name="action_delete">删除</string>
-    <string name="action_select_all">全选</string>
-    <string name="some_items_removed">已删除%d项记录</string>
-    <string name="message_details">短信详情</string>
-    <string name="copy_smscode">复制验证码</string>
-    <string name="pref_enable_code_records_title">启用验证码记录</string>
-    <!-- preference code records end -->
+    <!-- preference experimental -->
+    <string name="pref_experimental_title">试验性功能</string>
+    <string name="pref_mark_as_read_title">验证码短信标记为已读</string>
+    <string name="pref_mark_as_read_summary">将验证码短信标记为已读</string>
+    <string name="pref_delete_sms_title">验证码短信删除</string>
+    <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
+    <string name="pref_kill_me_title">自杀</string>
+    <string name="pref_kill_me_summary">提取成功后杀掉本应用</string>
+    <!-- preference experimental end -->
 
     <!-- preference others -->
     <string name="pref_others_title">其他</string>
@@ -108,9 +117,7 @@
     <string name="wechat_enable_prompt">请先启用微信</string>
     <!-- preference about end -->
 
-    <!-- auto-input SMS Code -->
-    <string name="pref_enable_auto_input_code_title">启用自动输入</string>
-    <string name="pref_enable_auto_input_code_summary">尝试自动输入验证码</string>
+    <!-- auto-input block settings -->
     <string name="app_block_settings">自动输入屏蔽设置</string>
     <string name="app_block_summary">选择屏蔽自动输入的应用</string>
     <string name="action_sort">排序</string>
@@ -122,9 +129,9 @@
     <string name="action_accomplish">保存</string>
     <string name="save_failed">保存失败，请重试</string>
     <string name="load_failed">加载失败，请重试</string>
-    <!-- auto-input SMS Code end -->
+    <!-- auto-input block settings end -->
 
-    <!-- sms code rule -->
+    <!-- code rules -->
     <string name="rule_company_hint">公司或组织名</string>
     <string name="rule_keyword_hint">验证码关键字</string>
     <string name="rule_code_length">验证码长度</string>
@@ -175,7 +182,7 @@
     <string name="share">分享</string>
     <string name="import_rules">导入规则</string>
     <string name="no_permission_prompt">没有相关权限，请启用模块并重启后再试</string>
-    <!-- sms code rule end -->
+    <!-- code rules end -->
 
     <!-- theme color -->
     <string name="red">姨妈红</string>
@@ -188,10 +195,10 @@
     <string name="black">Dark♂黑</string>
     <!-- theme color end -->
 
-    <!-- SMS parsing notification -->
+    <!-- code parsing notification -->
     <string name="channel_name_smscode_notification">验证码通知</string>
     <string name="code_notification_content">验证码：%s</string>
-    <!-- SMS parsing notification end -->
+    <!-- code parsing notification end -->
 
     <!-- faq -->
     <string name="action_home_faq_title">常见问题</string>
@@ -262,4 +269,5 @@
         <item>如果您设备上默认的短信 App 使用的是它自己的短信数据库，而不是系统的短信数据库，那么标记为已读或者删除验证码短信都可能不会生效。如果发生这样的事情，就说明在您的设备上可能不会生效。</item>
     </string-array>
     <!-- faq end -->
+
 </resources>

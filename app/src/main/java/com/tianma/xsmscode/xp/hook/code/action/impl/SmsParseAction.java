@@ -9,6 +9,7 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StringUtils;
 import com.tianma.xsmscode.common.utils.XLog;
+import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
 import com.tianma.xsmscode.feature.store.EntityStoreManager;
 import com.tianma.xsmscode.feature.store.EntityType;
@@ -71,18 +72,20 @@ public class SmsParseAction extends CallableAction {
 
         // 去除重复短信
         boolean duplicated = false;
-        SmsMsg prevSmsMsg = EntityStoreManager.loadEntityFromFile(EntityType.PREV_SMS_MSG, SmsMsg.class);
-        if (prevSmsMsg != null) {
-            if (Math.abs(timestamp - prevSmsMsg.getDate()) <= 5000) {
-                if ((sender.equals(prevSmsMsg.getSender()) && smsCode.equals(prevSmsMsg.getSmsCode()))
-                        || msgBody.equals(prevSmsMsg.getBody())) {
-                    duplicated = true;
-                    XLog.d("Duplicated message, ignore");
+        if (XSPUtils.deduplicateSms(xsp)) {
+            SmsMsg prevSmsMsg = EntityStoreManager.loadEntityFromFile(EntityType.PREV_SMS_MSG, SmsMsg.class);
+            if (prevSmsMsg != null) {
+                if (Math.abs(timestamp - prevSmsMsg.getDate()) <= 15000) {
+                    if ((sender.equals(prevSmsMsg.getSender()) && smsCode.equals(prevSmsMsg.getSmsCode()))
+                            || msgBody.equals(prevSmsMsg.getBody())) {
+                        duplicated = true;
+                        XLog.d("Duplicated message, ignore");
+                    }
                 }
             }
+            // 保存当前验证码记录 Action
+            EntityStoreManager.storeEntityToFile(EntityType.PREV_SMS_MSG, mSmsMsg);
         }
-        // 保存当前验证码记录 Action
-        EntityStoreManager.storeEntityToFile(EntityType.PREV_SMS_MSG, mSmsMsg);
 
         bundle.putBoolean(SMS_DUPLICATED, duplicated);
         return bundle;

@@ -22,26 +22,25 @@
     <string name="open_xposed_installer">打開Xposed</string>
     <string name="pref_hide_launcher_icon_title">隱藏應用圖示</string>
     <string name="pref_hide_launcher_icon_summary">隱藏後可從模組列表中打開本模組</string>
+    <string name="pref_choose_theme_title">主題</string>
+    <!-- preferences general end -->
+
+    <!-- preferences sms code -->
+    <string name="pref_sms_code_title">驗證碼</string>
     <string name="pref_show_toast_title">顯示快顯訊息</string>
     <string name="pref_show_toast_summary">接收到驗證碼時顯示快顯訊息</string>
     <string name="pref_copy_to_clipboard_title">拷貝到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">擷取成功后拷貝驗證碼到系統剪切板</string>
-    <string name="pref_choose_theme_title">主題</string>
-    <!-- preferences general end -->
-
-    <!-- preference experimental -->
-    <string name="pref_experimental_title">實驗性功能</string>
-    <string name="pref_mark_as_read_title">標記為已讀</string>
-    <string name="pref_mark_as_read_summary">將驗證碼簡訊標記為已讀</string>
-    <string name="pref_delete_sms_title">簡訊刪除</string>
-    <string name="pref_delete_sms_summary">警告：擷取成功后驗證碼簡訊將被刪除</string>
-    <string name="pref_block_sms_title">驗證碼簡訊攔截</string>
+    <string name="pref_enable_auto_input_code_title">自動輸入</string>
+    <string name="pref_enable_auto_input_code_summary">嘗試自動輸入驗證碼</string>
+    <string name="pref_block_sms_title">攔截驗證碼簡訊</string>
     <string name="pref_block_sms_summary">警告：擷取成功後驗證碼簡訊將完全被攔截(屏蔽簡訊和通知)</string>
-    <string name="pref_kill_me_title">自殺</string>
-    <string name="pref_kill_me_summary">擷取成功後殺掉本應用</string>
-    <!-- preference experimental end -->
+    <string name="pref_deduplicate_sms_title">過濾重複簡訊</string>
+    <string name="pref_deduplicate_sms_summary">過濾掉短時間內重複的驗證碼簡訊</string>
+    <!-- preferences sms code end -->
 
-    <!-- preference smscode notification -->
+    <!-- preference code notification -->
+    <string name="pref_notification_title">通知</string>
     <string name="pref_show_code_notification_title">顯示通知</string>
     <string name="pref_show_code_notification_summary">收到驗證碼時顯示通知</string>
     <string name="pref_auto_cancel_notification_title">自動清除通知</string>
@@ -53,22 +52,8 @@
     <string name="notification_retention_time_30_secs_entry">30 秒</string>
     <string name="notification_retention_time_1_min_entry">1 分鐘</string>
     <string name="notification_retention_time_5_mins_entry">5 分鐘</string>
-    <!-- notification retention time -->
-    <!-- preference smscode notification -->
-
-    <!-- preference Code SMS -->
-    <string name="pref_smscode_title">驗證碼簡訊</string>
-    <string name="pref_smscode_keywords_title">驗證碼簡訊關鍵字</string>
-    <string name="pref_smscode_keywords_summary">簡訊關鍵字(正則表達式)</string>
-    <string name="reset">重置</string>
-    <string name="code_keywords_hint">關鍵字(正則表達式)</string>
-    <string name="pref_smscode_test_title">驗證碼簡訊測試</string>
-    <string name="pref_smscode_test_summary">測試是否能正確辨識簡訊中的驗證碼</string>
-    <string name="sms_content_hint">簡訊內容</string>
-    <string name="test">測試</string>
-    <string name="current_sms_code">當前驗證碼：%s</string>
-    <string name="cannot_parse_smscode">無法正確辨識驗證碼</string>
-    <!-- preference Code SMS end -->
+    <!-- notification retention time end -->
+    <!-- preference code notification -->
 
     <!-- preference code records -->
     <string name="pref_entry_code_records_title">驗證碼歷史記錄</string>
@@ -82,8 +67,32 @@
     <string name="some_items_removed">已刪除%d項記錄</string>
     <string name="message_details">簡訊詳情</string>
     <string name="copy_smscode">複製驗證碼</string>
-    <string name="pref_enable_code_records_title">啟用驗證碼記錄</string>
+    <string name="pref_enable_code_records_title">保存驗證碼記錄</string>
     <!-- preference code records end -->
+
+    <!-- preference code rules -->
+    <string name="pref_match_rules">匹配規則</string>
+    <string name="pref_smscode_keywords_title">驗證碼簡訊關鍵字</string>
+    <string name="pref_smscode_keywords_summary">簡訊關鍵字(正則表達式)</string>
+    <string name="reset">重置</string>
+    <string name="code_keywords_hint">關鍵字(正則表達式)</string>
+    <string name="pref_smscode_test_title">驗證碼簡訊測試</string>
+    <string name="pref_smscode_test_summary">測試是否能正確辨識簡訊中的驗證碼</string>
+    <string name="sms_content_hint">簡訊內容</string>
+    <string name="test">測試</string>
+    <string name="current_sms_code">當前驗證碼：%s</string>
+    <string name="cannot_parse_smscode">無法正確辨識驗證碼</string>
+    <!-- preference code rules end -->
+
+    <!-- preference experimental -->
+    <string name="pref_experimental_title">實驗性功能</string>
+    <string name="pref_mark_as_read_title">標記為已讀</string>
+    <string name="pref_mark_as_read_summary">將驗證碼簡訊標記為已讀</string>
+    <string name="pref_delete_sms_title">簡訊刪除</string>
+    <string name="pref_delete_sms_summary">警告：擷取成功后驗證碼簡訊將被刪除</string>
+    <string name="pref_kill_me_title">自殺</string>
+    <string name="pref_kill_me_summary">擷取成功後殺掉本應用</string>
+    <!-- preference experimental end -->
 
     <!-- preference others -->
     <string name="pref_others_title">其他</string>
@@ -108,9 +117,7 @@
     <string name="wechat_enable_prompt">請先啟用WeChat</string>
     <!-- preference about end -->
 
-    <!-- auto-input SMS Code -->
-    <string name="pref_enable_auto_input_code_title">啟用自動輸入</string>
-    <string name="pref_enable_auto_input_code_summary">嘗試自動輸入驗證碼</string>
+    <!-- auto-input block settings -->
     <string name="app_block_settings">自動輸入屏蔽設定</string>
     <string name="app_block_summary">選取屏蔽自動輸入的程式</string>
     <string name="action_sort">排序</string>
@@ -122,9 +129,9 @@
     <string name="action_accomplish">保存</string>
     <string name="save_failed">保存失敗，請重試</string>
     <string name="load_failed">加載失敗，請重試</string>
-    <!-- auto-input SMS Code end -->
+    <!-- auto-input block settings end -->
 
-    <!-- sms code rule -->
+    <!-- code rules -->
     <string name="rule_company_hint">公司或組織名</string>
     <string name="rule_keyword_hint">驗證碼關鍵字</string>
     <string name="rule_code_length">驗證碼長度</string>
@@ -175,7 +182,7 @@
     <string name="share">分享</string>
     <string name="import_rules">導入規則</string>
     <string name="no_permission_prompt">沒有相關權限，請啟用模組并重啟后再試</string>
-    <!-- sms code rule end -->
+    <!-- code rules end -->
 
     <!-- theme color -->
     <string name="red">姨媽紅</string>
@@ -188,10 +195,10 @@
     <string name="black">Dark♂黑</string>
     <!-- theme color end -->
 
-    <!-- SMS parsing notification -->
+    <!-- code parsing notification -->
     <string name="channel_name_smscode_notification">驗證碼通知</string>
     <string name="code_notification_content">驗證碼：%s</string>
-    <!-- SMS parsing notification end -->
+    <!-- code parsing notification end -->
 
     <!-- faq -->
     <string name="action_home_faq_title">常見問題</string>

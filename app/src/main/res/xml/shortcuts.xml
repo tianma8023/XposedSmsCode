@@ -17,7 +17,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_rules"
         android:shortcutId="smscode_rules"
-        android:shortcutShortLabel="@string/rule_list">
+        android:shortcutShortLabel="@string/pref_code_rules_title">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.tianma.xsmscode.ui.rule.CodeRulesActivity"

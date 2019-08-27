@@ -17,6 +17,15 @@
             android:summary="@string/pref_hide_launcher_icon_summary"
             android:title="@string/pref_hide_launcher_icon_title"/>
 
+        <Preference
+            android:icon="@drawable/ic_palette"
+            android:key="@string/pref_choose_theme"
+            android:title="@string/pref_choose_theme_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_sms_code_title">
+
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="@string/pref_enable"
@@ -48,49 +57,23 @@
             android:summary="@string/app_block_summary"
             android:title="@string/app_block_settings"/>
 
-        <Preference
-            android:icon="@drawable/ic_palette"
-            android:key="@string/pref_choose_theme"
-            android:title="@string/pref_choose_theme_title"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="@string/pref_experimental"
-        android:title="@string/pref_experimental_title">
-
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_mark_as_read"
-            android:key="@string/pref_mark_as_read"
-            android:summary="@string/pref_mark_as_read_summary"
-            android:title="@string/pref_mark_as_read_title"/>
-
-        <SwitchPreference
-            android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_delete"
-            android:key="@string/pref_delete_sms"
-            android:summary="@string/pref_delete_sms_summary"
-            android:title="@string/pref_delete_sms_title"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_block"
+            android:icon="@drawable/ic_intercept"
             android:key="@string/pref_block_sms"
             android:summary="@string/pref_block_sms_summary"
             android:title="@string/pref_block_sms_title"/>
 
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_kill"
-            android:key="@string/pref_kill_me"
-            android:summary="@string/pref_kill_me_summary"
-            android:title="@string/pref_kill_me_title"/>
+            android:icon="@drawable/ic_filter"
+            android:key="@string/pref_deduplicate_sms"
+            android:title="@string/pref_deduplicate_sms_title"
+            android:summary="@string/pref_deduplicate_sms_summary"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_sms_code_notification_title">
+    <PreferenceCategory android:title="@string/pref_notification_title">
 
         <SwitchPreference
             android:defaultValue="true"
@@ -120,7 +103,24 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_smscode_title">
+    <PreferenceCategory
+        android:title="@string/pref_code_records_title">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_lock_open"
+            android:key="@string/pref_enable_code_records"
+            android:title="@string/pref_enable_code_records_title"/>
+
+        <Preference
+            android:icon="@drawable/ic_records"
+            android:key="@string/pref_entry_code_records"
+            android:persistent="false"
+            android:summary="@string/pref_entry_code_records_summary"
+            android:title="@string/pref_entry_code_records_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_match_rules">
 
         <com.tianma.xsmscode.common.preference.ResetEditPreference
             android:defaultValue="@string/default_smscode_keywords"
@@ -149,20 +149,31 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_code_records_title">
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_lock_open"
-            android:key="@string/pref_enable_code_records"
-            android:title="@string/pref_enable_code_records_title"/>
+        android:key="@string/pref_experimental"
+        android:title="@string/pref_experimental_title">
 
-        <Preference
-            android:icon="@drawable/ic_records"
-            android:key="@string/pref_entry_code_records"
-            android:persistent="false"
-            android:summary="@string/pref_entry_code_records_summary"
-            android:title="@string/pref_entry_code_records_title"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_mark_as_read"
+            android:key="@string/pref_mark_as_read"
+            android:summary="@string/pref_mark_as_read_summary"
+            android:title="@string/pref_mark_as_read_title"/>
+
+        <SwitchPreference
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_delete"
+            android:key="@string/pref_delete_sms"
+            android:summary="@string/pref_delete_sms_summary"
+            android:title="@string/pref_delete_sms_title"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_kill"
+            android:key="@string/pref_kill_me"
+            android:summary="@string/pref_kill_me_summary"
+            android:title="@string/pref_kill_me_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_others_title">
