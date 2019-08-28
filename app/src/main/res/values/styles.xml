@@ -4,11 +4,13 @@
     <style name="AppNoActionBarTheme" parent="Theme.Cyanea.Light.NoActionBar">
         <item name="preferenceIconColor">?android:attr/textColorPrimary</item>
         <item name="myMenuIconColor">?attr/menuIconColor</item>
+        <item name="preferenceTheme">@style/MyPreferenceStyle</item>
     </style>
 
     <style name="AppActionBarTheme" parent="Theme.Cyanea.Light">
         <item name="preferenceIconColor">?android:attr/textColorPrimary</item>
         <item name="myMenuIconColor">?attr/menuIconColor</item>
+        <item name="preferenceTheme">@style/MyPreferenceStyle</item>
     </style>
 
     <style name="MyPreferenceStyle" parent="@style/PreferenceThemeOverlay.v14.Material">

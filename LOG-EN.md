@@ -1,5 +1,9 @@
 # Update Logs
-- 19.08.16 v2.2.0 Reboot required
+- 19.08.28 v2.2.1 Reboot required
+  1. New option: filter out duplicate code SMS within a short time.
+  2. Change: rearrange the preference items.
+  3. Refactor: refactor the core logic. 
+- 19.08.16 v2.2.0
   1. New: custom your own theme.
   2. Change: Adapt to Android Q (especially for MIUI Android Q).
   3. Fix: fix the snackbar appearance.

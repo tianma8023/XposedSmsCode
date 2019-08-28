@@ -67,6 +67,7 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_filter"
             android:key="@string/pref_deduplicate_sms"
             android:title="@string/pref_deduplicate_sms_title"

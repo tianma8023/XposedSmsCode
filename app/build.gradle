@@ -20,11 +20,11 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 40
-        versionName "2.2.0"
+        versionCode 41
+        versionName "2.2.1"
 
-        buildConfigField("String", "LOG_TAG", "\"T-SmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "38")
+        buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
+        buildConfigField("int", "MODULE_VERSION", "41")
 
         // vectorDrawables.generatedDensities = ['hdpi']
 
@@ -133,6 +133,8 @@ ext {
     retrofitVersion = "2.5.0" // retrofit
 
     jsoupVersion = "1.12.1" // jsoup
+
+    cyaneaVersion = "1.0.2" // cyanea
 }
 
 dependencies {
@@ -199,10 +201,9 @@ dependencies {
     // Retrofit RxJava Adapter
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
-    // jsoup
+    // JSoup
     implementation "org.jsoup:jsoup:$jsoupVersion"
 
-    implementation "com.afollestad:aesthetic:1.0.0-beta05"
-
-    implementation "com.jaredrummler:cyanea:1.0.2"
+    // Cyanea
+    implementation "com.jaredrummler:cyanea:$cyaneaVersion"
 }
