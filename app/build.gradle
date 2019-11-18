@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply greenDao plugin
 apply from: 'and-res-guard.gradle'
 
-def keyFile = file('F:\\Keystore\\tianma.jks')
-def propertyFile = file('F:\\Keystore\\signature.properties')
+def keyFile = file(findProperty("tianma.keystore.path") as String)
+def propertyFile = file(findProperty("tianma.signature.path") as String)
 
 def keyProps = new Properties()
 if (propertyFile.exists()) {
