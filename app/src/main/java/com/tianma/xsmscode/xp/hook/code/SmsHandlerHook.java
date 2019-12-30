@@ -16,6 +16,7 @@ import com.tianma.xsmscode.common.constant.NotificationConst;
 import com.tianma.xsmscode.common.utils.NotificationUtils;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
+import com.tianma.xsmscode.xp.helper.XposedWrapper;
 import com.tianma.xsmscode.xp.hook.BaseHook;
 
 import java.lang.reflect.InvocationTargetException;
@@ -106,7 +107,9 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void hookDispatchIntent(ClassLoader classloader) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= 29) {
+            hookDispatchIntent29(classloader);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             hookDispatchIntent23(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             hookDispatchIntent21(classloader);
@@ -115,6 +118,7 @@ public class SmsHandlerHook extends BaseHook {
         }
     }
 
+    // Android K
     private void hookDispatchIntent19(ClassLoader classloader) {
         XLog.d("Hooking dispatchIntent() for Android v19+");
         XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, classloader, "dispatchIntent",
@@ -125,6 +129,7 @@ public class SmsHandlerHook extends BaseHook {
                 new DispatchIntentHook(3));
     }
 
+    // Android L+
     private void hookDispatchIntent21(ClassLoader classloader) {
         XLog.d("Hooking dispatchIntent() for Android v21+");
         XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, classloader, "dispatchIntent",
@@ -136,6 +141,7 @@ public class SmsHandlerHook extends BaseHook {
                 new DispatchIntentHook(3));
     }
 
+    // Android M+
     private void hookDispatchIntent23(ClassLoader classloader) {
         XLog.d("Hooking dispatchIntent() for Android v23+");
         XposedHelpers.findAndHookMethod(SMS_HANDLER_CLASS, classloader, "dispatchIntent",
@@ -146,6 +152,47 @@ public class SmsHandlerHook extends BaseHook {
                 /* resultReceiver */ BroadcastReceiver.class,
                 /*           user */ UserHandle.class,
                 new DispatchIntentHook(4));
+    }
+
+    // Android 10+
+    private void hookDispatchIntent29(ClassLoader classLoader) {
+        XLog.d("Hooking dispatchIntent() for Android v29+");
+        // 实际上这是一个通用的方式，不再使用精确匹配来找到对应的 Method，而使用模糊搜索的方式
+        // 但是之前分 API 匹配的逻辑在以往 Android 版本的系统之中已经验证通过，故而保留原有逻辑
+
+        Class<?> inboundSmsHandlerClass = XposedWrapper.findClass(SMS_HANDLER_CLASS, classLoader);
+        if (inboundSmsHandlerClass == null) {
+            XLog.e("Class: %s cannot found", SMS_HANDLER_CLASS);
+            return;
+        }
+
+        Method[] methods = inboundSmsHandlerClass.getDeclaredMethods();
+        Method exactMethod = null;
+        final String DISPATCH_INTENT = "dispatchIntent";
+        int receiverIndex = 0;
+        for (Method method : methods) {
+            String methodName = method.getName();
+            if (DISPATCH_INTENT.equals(methodName)) {
+                exactMethod = method;
+
+                Class[] parameterTypes = method.getParameterTypes();
+                for (int i = 0; i < parameterTypes.length; i++) {
+                    Class<?> parameterType = parameterTypes[i];
+                    if (parameterType == BroadcastReceiver.class) {
+                        receiverIndex = i;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        if (exactMethod == null) {
+            XLog.e("Method %s for Class %s cannot found", DISPATCH_INTENT, SMS_HANDLER_CLASS);
+            return;
+        }
+
+        XposedWrapper.hookMethod(exactMethod, new DispatchIntentHook(receiverIndex));
     }
 
     private class ConstructorHook extends XC_MethodHook {
@@ -187,7 +234,7 @@ public class SmsHandlerHook extends BaseHook {
 
     private void registerCopyCodeReceiver() {
         XSharedPreferences xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
-        if(XSPUtils.showCodeNotification(xsp)) {
+        if (XSPUtils.showCodeNotification(xsp)) {
             CopyCodeReceiver.registerMe(mPhoneContext);
             XLog.d("Register copy code receiver");
         }
