@@ -91,7 +91,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         // general group
         if (!ModuleUtils.isModuleEnabled()) {
             Preference enablePref = findPreference(PrefConst.KEY_ENABLE);
-            enablePref.setEnabled(false);
+            // enablePref.setEnabled(false);
             enablePref.setSummary(R.string.pref_enable_summary_alt);
         }
 
