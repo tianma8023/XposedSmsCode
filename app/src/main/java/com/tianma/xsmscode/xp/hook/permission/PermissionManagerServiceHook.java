@@ -62,7 +62,7 @@ public class PermissionManagerServiceHook extends BaseSubHook {
         Class<?> packageClass = XposedHelpers.findClass(CLASS_PACKAGE_PARSER_PACKAGE, mClassLoader);
         Class<?> callbackClass = XposedHelpers.findClassIfExists(CLASS_PERMISSION_CALLBACK, mClassLoader);
         if (callbackClass == null) {
-            // MIUI 10 Android Q PermissionCallback 不一样
+            // Android Q PermissionCallback 不一样
             callbackClass = XposedWrapper.findClass(CLASS_PERMISSION_CALLBACK_Q, mClassLoader);
         }
 
@@ -73,7 +73,7 @@ public class PermissionManagerServiceHook extends BaseSubHook {
                 /* PermissionCallback callback */ callbackClass);
 
         if (method == null) { // method grantPermissions() not found
-            // 适配 MIUI Android Q
+            // Android Q
             method = XposedHelpers.findMethodExactIfExists(pmsClass, "restorePermissionState",
                     /* PackageParser.Package pkg   */ packageClass,
                     /* boolean replace             */ boolean.class,
@@ -85,7 +85,7 @@ public class PermissionManagerServiceHook extends BaseSubHook {
                         /* boolean replace             */ boolean.class,
                         /* String packageOfInterest    */ String.class,
                         /* PermissionCallback callback */ callbackClass);
-                if (_methods != null && _methods.length > 1) {
+                if (_methods != null && _methods.length > 0) {
                     method = _methods[0];
                 }
             }
