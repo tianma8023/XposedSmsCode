@@ -97,14 +97,28 @@ class RuleListPresenter implements RuleListContract.Presenter {
     }
 
     @Override
-    public void exportRules(List<SmsCodeRule> rules, File file, String progressMsg) {
+    public void exportRulesBelowQ(List<SmsCodeRule> rules, File file, String progressMsg) {
         Disposable disposable = Observable
                 .fromCallable(() -> BackupManager.exportRuleList(file, rules))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable1 -> mView.showProgress(progressMsg))
                 .subscribe(exportResult -> {
-                    mView.onExportCompleted(exportResult == ExportResult.SUCCESS, file);
+                    mView.onExportCompletedBelowQ(exportResult == ExportResult.SUCCESS, file);
+                    mView.cancelProgress();
+                });
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void exportRulesAboveQ(List<SmsCodeRule> rules, Context context, Uri uri, String progressMsg) {
+        Disposable disposable = Observable
+                .fromCallable(() -> BackupManager.exportRuleList(context, uri, rules))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable1 -> mView.showProgress(progressMsg))
+                .subscribe(exportResult -> {
+                    mView.onExportCompletedAboveQ(exportResult == ExportResult.SUCCESS);
                     mView.cancelProgress();
                 });
         mCompositeDisposable.add(disposable);

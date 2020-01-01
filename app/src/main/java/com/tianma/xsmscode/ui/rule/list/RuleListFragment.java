@@ -2,8 +2,10 @@ package com.tianma.xsmscode.ui.rule.list;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -15,6 +17,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -36,6 +48,7 @@ import com.tianma.xsmscode.ui.rule.edit.RuleEditFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,15 +56,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
@@ -62,7 +66,10 @@ import dagger.android.support.DaggerFragment;
  */
 public class RuleListFragment extends DaggerFragment implements RuleListContract.View {
 
-    public static final String EXTRA_IMPORT_URI = "extra_import_uri";
+    private static final int REQUEST_CODE_EXPORT_RULES = 0xfff;
+    private static final int REQUEST_CODE_IMPORT_RULES = 0xffe;
+
+    static final String EXTRA_IMPORT_URI = "extra_import_uri";
 
     @BindView(R.id.rule_list_recycler_view)
     RecyclerView mRecyclerView;
@@ -226,10 +233,10 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
         return true;
     }
 
-    ItemTouchHelper.Callback mSwipeToRemoveCallback =
+    private ItemTouchHelper.Callback mSwipeToRemoveCallback =
             new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.END | ItemTouchHelper.START) {
                 @Override
-                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                public boolean onMove(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
                     return false;
                 }
 
@@ -281,79 +288,106 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
     }
 
     private void attemptExportRuleList() {
-        String perm = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
-            showNoPermissionInfo();
-            return;
-        }
-
         if (mRuleAdapter.getItemCount() == 0) {
             SnackbarHelper.makeLong(mRecyclerView, R.string.rule_list_empty_snack_prompt).show();
             return;
         }
 
-        final String defaultFilename = BackupManager.getDefaultBackupFilename();
-        String hint = getString(R.string.backup_file_name);
-        String content = getString(R.string.backup_file_dir, BackupManager.getBackupDir().getAbsolutePath());
-        final MaterialDialog exportFilenameDialog = new MaterialDialog.Builder(mActivity)
-                .title(R.string.backup_file_name)
-                .content(content)
-                .input(hint, defaultFilename, (dialog, input) -> {
-                    File file = new File(BackupManager.getBackupDir(), input.toString());
-                    mPresenter.exportRules(mRuleAdapter.getRuleList(), file, getString(R.string.exporting));
-                })
-                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
-                .negativeText(R.string.cancel)
-                .build();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android Q 及以后，使用 SAF (Storage Access Framework) 来导入导出文档文件
+            Intent exportIntent = BackupManager.getExportRuleListSAFIntent();
+            try {
+                startActivityForResult(exportIntent, REQUEST_CODE_EXPORT_RULES);
+            } catch (Exception e) {
+                // 防止某些 Rom 将 DocumentUI 阉割掉
+                SnackbarHelper.makeLong(mRecyclerView, R.string.documents_ui_not_found).show();
+            }
+        } else {
+            // 考虑到在低版本的 Android 系统中，不少 Rom 将 DocumentUI 阉割掉了，无法使用 SAF
+            // Android P 及以前，使用原有方式进行文件导入导出
+            String perm = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+            if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
+                showNoPermissionInfo();
+                return;
+            }
 
-        final EditText editText = exportFilenameDialog.getInputEditText();
-        if (editText != null) {
-            exportFilenameDialog.setOnShowListener(dialog -> {
-                int stop = defaultFilename.length() - BackupManager.getBackupFileExtension().length();
-                editText.setSelection(0, stop);
-            });
+            final String defaultFilename = BackupManager.getDefaultBackupFilename();
+            String hint = getString(R.string.backup_file_name);
+            String content = getString(R.string.backup_file_dir, BackupManager.getBackupDir().getAbsolutePath());
+            final MaterialDialog exportFilenameDialog = new MaterialDialog.Builder(mActivity)
+                    .title(R.string.backup_file_name)
+                    .content(content)
+                    .input(hint, defaultFilename, (dialog, input) -> {
+                        File file = new File(BackupManager.getBackupDir(), input.toString());
+                        mPresenter.exportRulesBelowQ(mRuleAdapter.getRuleList(), file, getString(R.string.exporting));
+                    })
+                    .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+                    .negativeText(R.string.cancel)
+                    .build();
 
-            final MDButton positiveBtn = exportFilenameDialog.getActionButton(DialogAction.POSITIVE);
+            final EditText editText = exportFilenameDialog.getInputEditText();
+            if (editText != null) {
+                exportFilenameDialog.setOnShowListener(dialog -> {
+                    int stop = defaultFilename.length() - BackupManager.getBackupFileExtension().length();
+                    editText.setSelection(0, stop);
+                });
 
-            editText.addTextChangedListener(new TextWatcherAdapter() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    positiveBtn.setEnabled(Utils.isValidFilename(s.toString()));
-                }
-            });
+                final MDButton positiveBtn = exportFilenameDialog.getActionButton(DialogAction.POSITIVE);
+
+                editText.addTextChangedListener(new TextWatcherAdapter() {
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        positiveBtn.setEnabled(Utils.isValidFilename(s.toString()));
+                    }
+                });
+            }
+            exportFilenameDialog.show();
         }
-        exportFilenameDialog.show();
     }
 
     private void attemptImportRuleList() {
-        String perm = Manifest.permission.READ_EXTERNAL_STORAGE;
-        if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
-            showNoPermissionInfo();
-            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android Q 及以后，使用 SAF (Storage Access Framework) 来导入导出文档文件
+            Intent importIntent = BackupManager.getImportRuleListSAFIntent();
+            try {
+                startActivityForResult(importIntent, REQUEST_CODE_IMPORT_RULES);
+            } catch (Exception e) {
+                // 防止某些 Rom 将 DocumentUI 阉割掉
+                SnackbarHelper.makeLong(mRecyclerView, R.string.documents_ui_not_found).show();
+            }
+        } else {
+            // 考虑到在低版本的 Android 系统中，不少 Rom 将 DocumentUI 阉割掉了，无法使用 SAF
+            // Android P 及以前，使用原有方式进行文件导入导出
+            String perm = Manifest.permission.READ_EXTERNAL_STORAGE;
+            if (ContextCompat.checkSelfPermission(mActivity, perm) != PackageManager.PERMISSION_GRANTED) {
+                showNoPermissionInfo();
+                return;
+            }
+
+            final File[] files = BackupManager.getBackupFiles();
+
+            if (files == null || files.length == 0) {
+                SnackbarHelper.makeLong(mRecyclerView, R.string.no_backup_exists).show();
+                return;
+            }
+
+            String[] filenames = new String[files.length];
+            for (int i = 0; i < filenames.length; i++) {
+                filenames[i] = files[i].getName();
+            }
+
+            new MaterialDialog.Builder(mActivity)
+                    .title(R.string.choose_backup_file)
+                    .items(filenames)
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        File file = files[position];
+                        Uri uri = Uri.fromFile(file);
+                        showImportDialogConfirm(uri);
+                    })
+                    .show();
         }
-
-        final File[] files = BackupManager.getBackupFiles();
-
-        if (files == null || files.length == 0) {
-            SnackbarHelper.makeLong(mRecyclerView, R.string.no_backup_exists).show();
-            return;
-        }
-
-        String[] filenames = new String[files.length];
-        for (int i = 0; i < filenames.length; i++) {
-            filenames[i] = files[i].getName();
-        }
-
-        new MaterialDialog.Builder(mActivity)
-                .title(R.string.choose_backup_file)
-                .items(filenames)
-                .itemsCallback((dialog, itemView, position, text) -> {
-                    File file = files[position];
-                    Uri uri = Uri.fromFile(file);
-                    showImportDialogConfirm(uri);
-                })
-                .show();
     }
+
 
     private void showNoPermissionInfo() {
         SnackbarHelper.makeShort(mRecyclerView, R.string.no_permission_prompt).show();
@@ -388,7 +422,7 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
     }
 
     @Override
-    public void onExportCompleted(boolean success, File file) {
+    public void onExportCompletedBelowQ(boolean success, File file) {
         int msgId = success ? R.string.export_succeed : R.string.export_failed;
         Snackbar snackbar = SnackbarHelper.makeLong(mRecyclerView, msgId);
         if (success) {
@@ -399,6 +433,12 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
             });
         }
         snackbar.show();
+    }
+
+    @Override
+    public void onExportCompletedAboveQ(boolean success) {
+        int msgId = success ? R.string.export_succeed : R.string.export_failed;
+        SnackbarHelper.makeLong(mRecyclerView, msgId).show();
     }
 
     @Override
@@ -444,6 +484,18 @@ public class RuleListFragment extends DaggerFragment implements RuleListContract
     public void cancelProgress() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CODE_EXPORT_RULES) {
+                mPresenter.exportRulesAboveQ(mRuleAdapter.getRuleList(), mActivity, data.getData(), getString(R.string.exporting));
+            } else if (requestCode == REQUEST_CODE_IMPORT_RULES) {
+                showImportDialogConfirm(data.getData());
+            }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.tianma.xsmscode.ui.rule.list;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -25,7 +26,9 @@ interface RuleListContract {
 
         void cancelProgress();
 
-        void onExportCompleted(boolean success, File file);
+        void onExportCompletedBelowQ(boolean success, File file);
+
+        void onExportCompletedAboveQ(boolean success);
 
         void onImportComplete(ImportResult importResult);
     }
@@ -38,7 +41,9 @@ interface RuleListContract {
 
         void removeRule(SmsCodeRule codeRule);
 
-        void exportRules(List<SmsCodeRule> rules, File file, String progressMsg);
+        void exportRulesBelowQ(List<SmsCodeRule> rules, File file, String progressMsg);
+
+        void exportRulesAboveQ(List<SmsCodeRule> rules, Context context, Uri uri, String progressMsg);
 
         void importRules(Uri uri, boolean retain, String progressMsg);
 

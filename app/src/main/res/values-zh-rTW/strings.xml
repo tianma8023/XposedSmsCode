@@ -182,6 +182,7 @@
     <string name="share">分享</string>
     <string name="import_rules">導入規則</string>
     <string name="no_permission_prompt">沒有相關權限，請啟用模組并重啟后再試</string>
+    <string name="documents_ui_not_found">未發現 DocumentsUI 應用程式</string>
     <!-- code rules end -->
 
     <!-- theme color -->

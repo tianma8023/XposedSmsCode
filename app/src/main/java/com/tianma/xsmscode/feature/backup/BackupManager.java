@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.core.content.FileProvider;
+
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.XLog;
@@ -13,24 +15,20 @@ import com.tianma.xsmscode.feature.backup.exception.VersionInvalidException;
 import com.tianma.xsmscode.feature.backup.exception.VersionMissedException;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.core.content.FileProvider;
 
 public class BackupManager {
 
     private static final String BACKUP_DIRECTORY = "SmsCode";
     private static final String BACKUP_FILE_EXTENSION = ".scebak";
-    private static final String BACKUP_FILE_NAME_PREFIX = "bak-";
+    private static final String BACKUP_FILE_NAME_PREFIX = "SmsCode-";
 
-    private static final String BACKUP_MIME_TYPE = "application/jason";
+    private static final String BACKUP_MIME_TYPE = "application/json";
     private static final String BACKUP_FILE_AUTHORITY = BuildConfig.APPLICATION_ID + ".files";
 
     private BackupManager() {
@@ -46,7 +44,7 @@ public class BackupManager {
     }
 
     public static String getDefaultBackupFilename() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmm", Locale.getDefault());
         String dateStr = sdf.format(new Date());
         File backupDir = getBackupDir();
         String basename = BACKUP_FILE_NAME_PREFIX + dateStr;
@@ -59,24 +57,16 @@ public class BackupManager {
 
     public static File[] getBackupFiles() {
         File backupDir = getBackupDir();
-        File[] files = backupDir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(BACKUP_FILE_EXTENSION);
-            }
-        });
+        File[] files = backupDir.listFiles((dir, name) -> name.endsWith(BACKUP_FILE_EXTENSION));
 
         if (files != null) {
-            Arrays.sort(files, new Comparator<File>() {
-                @Override
-                public int compare(File f1, File f2) {
-                    String s1 = f1.getName();
-                    String s2 = f2.getName();
-                    int extLength = BACKUP_FILE_EXTENSION.length();
-                    s1 = s1.substring(0, s1.length() - extLength);
-                    s2 = s2.substring(0, s2.length() - extLength);
-                    return s1.compareTo(s2);
-                }
+            Arrays.sort(files, (f1, f2) -> {
+                String s1 = f1.getName();
+                String s2 = f2.getName();
+                int extLength = BACKUP_FILE_EXTENSION.length();
+                s1 = s1.substring(0, s1.length() - extLength);
+                s2 = s2.substring(0, s2.length() - extLength);
+                return s1.compareTo(s2);
             });
         }
         return files;
@@ -92,8 +82,31 @@ public class BackupManager {
             exporter.doExport(ruleList);
             return ExportResult.SUCCESS;
         } catch (IOException e) {
+            XLog.e("Export SmsCode rules failed", e);
             return ExportResult.FAILED;
         }
+    }
+
+    public static ExportResult exportRuleList(Context context, Uri uri, List<SmsCodeRule> ruleList) {
+        try (RuleExporter exporter = new RuleExporter(context.getContentResolver().openOutputStream(uri))) {
+            exporter.doExport(ruleList);
+            return ExportResult.SUCCESS;
+        } catch (IOException e) {
+            XLog.e("Export SmsCode rules failed", e);
+            return ExportResult.FAILED;
+        }
+    }
+
+    /**
+     * 获取导出规则列表的 SAF (Storage Access Framework) 的 Intent
+     */
+    public static Intent getExportRuleListSAFIntent() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType(BACKUP_MIME_TYPE);
+        intent.putExtra(Intent.EXTRA_TITLE, getDefaultBackupFilename());
+
+        return intent;
     }
 
     public static ImportResult importRuleList(Context context, Uri uri, boolean retain) {
@@ -119,6 +132,18 @@ public class BackupManager {
                 ruleImporter.close();
             }
         }
+    }
+
+    /**
+     * 获取导入规则列表的 SAF (Storage Access Framework) 的 Intent
+     */
+    public static Intent getImportRuleListSAFIntent() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType(BACKUP_MIME_TYPE);
+        intent.putExtra(Intent.EXTRA_TITLE, getDefaultBackupFilename());
+
+        return intent;
     }
 
     public static void shareBackupFile(Context context, File file) {

@@ -183,6 +183,7 @@
     <string name="share">Share</string>
     <string name="import_rules">Import Rules</string>
     <string name="no_permission_prompt">No relative permissions, reboot and try again</string>
+    <string name="documents_ui_not_found">DocumentsUI app not found</string>
     <!-- code rules end -->
 
     <!-- theme color -->

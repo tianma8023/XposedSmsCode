@@ -321,11 +321,15 @@ public class SmsCodeUtils {
                     rules.add(rule);
                 }
                 cursor.close();
+                XLog.d("Load SmsCode rules succeed by content provider");
+            } else {
+                throw new Exception("Cursor is null");
             }
         } catch (Throwable e) {
             rules = EntityStoreManager.loadEntitiesFromFile(
                     EntityType.CODE_RULES, SmsCodeRule.class
             );
+            XLog.d("Load SmsCode rules by file");
         }
         return rules;
     }

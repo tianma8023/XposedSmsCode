@@ -6,6 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.data.eventbus.Event;
 import com.tianma.xsmscode.data.eventbus.XEventBus;
@@ -16,10 +21,6 @@ import com.tianma.xsmscode.ui.rule.list.RuleListFragment;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
