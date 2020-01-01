@@ -1,4 +1,6 @@
 # Update Logs
+- 20.01.01 v2.2.2 Reboot required
+  1. Change: Adapt to Android Q
 - 19.08.28 v2.2.1 Reboot required
   1. New option: filter out duplicate code SMS within a short time.
   2. Change: rearrange the preference items.
