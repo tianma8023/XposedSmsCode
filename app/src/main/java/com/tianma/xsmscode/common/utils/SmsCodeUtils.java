@@ -296,21 +296,21 @@ public class SmsCodeUtils {
     }
 
     private static List<SmsCodeRule> queryAllSmsCodeRules(Context context) {
-        Uri smsCodeRuleUri = DBProvider.SMS_CODE_RULE_URI;
-        ContentResolver resolver = context.getContentResolver();
-
-        final String companyColumn = SmsCodeRuleDao.Properties.Company.columnName;
-        final String keywordColumn = SmsCodeRuleDao.Properties.CodeKeyword.columnName;
-        final String regexColumn = SmsCodeRuleDao.Properties.CodeRegex.columnName;
-
-        String[] projection = {
-                companyColumn,
-                keywordColumn,
-                regexColumn,
-        };
-
         List<SmsCodeRule> rules = new ArrayList<>();
         try {
+            Uri smsCodeRuleUri = DBProvider.SMS_CODE_RULE_URI;
+            ContentResolver resolver = context.getContentResolver();
+
+            final String companyColumn = SmsCodeRuleDao.Properties.Company.columnName;
+            final String keywordColumn = SmsCodeRuleDao.Properties.CodeKeyword.columnName;
+            final String regexColumn = SmsCodeRuleDao.Properties.CodeRegex.columnName;
+
+            String[] projection = {
+                    companyColumn,
+                    keywordColumn,
+                    regexColumn,
+            };
+
             Cursor cursor = resolver.query(smsCodeRuleUri, projection, null, null, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
