@@ -20,8 +20,8 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 42
-        versionName "2.2.2"
+        versionCode 43
+        versionName "2.2.3"
 
         buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
         buildConfigField("int", "MODULE_VERSION", "42")

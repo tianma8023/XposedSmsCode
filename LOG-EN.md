@@ -1,4 +1,6 @@
 # Update Logs
+- 20.05.13 v2.2.3 Reboot required
+  1. Fix: fix the issue of ContentResolver cannot acquire on some Roms.
 - 20.01.01 v2.2.2 Reboot required
   1. Change: Adapt to Android Q
 - 19.08.28 v2.2.1 Reboot required
