@@ -1,9 +1,11 @@
 # Update Logs
+- 20.11.09 v2.2.4 Reboot required
+  1. Change: Adapt to Android 11
 - 20.05.13 v2.2.3 Reboot required
   1. Fix: fix the issue of ContentResolver cannot acquire on some Roms.
-- 20.01.01 v2.2.2 Reboot required
+- 20.01.01 v2.2.2
   1. Change: Adapt to Android Q
-- 19.08.28 v2.2.1 Reboot required
+- 19.08.28 v2.2.1
   1. New option: filter out duplicate code SMS within a short time.
   2. Change: rearrange the preference items.
   3. Refactor: refactor the core logic. 
