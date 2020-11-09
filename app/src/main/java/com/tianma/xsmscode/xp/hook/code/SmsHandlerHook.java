@@ -77,13 +77,30 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void hookConstructor(ClassLoader classloader) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= 30) {
+            // Android 11+
+            hookConstructor30(classloader);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // Android 7.0 ~ 10 (api 24 - 29)
             hookConstructor24(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // Android 4.4 ~ 6.1 (api 19 - 23)
             hookConstructor19(classloader);
         }
     }
 
+    // Android 11+
+    private void hookConstructor30(ClassLoader classloader) {
+        XLog.i("Hooking InboundSmsHandler constructor for android v30+");
+        XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, classloader,
+                /* name                 */ String.class,
+                /* context              */ Context.class,
+                /* storageMonitor       */ TELEPHONY_PACKAGE + ".SmsStorageMonitor",
+                /* phone                */ TELEPHONY_PACKAGE + ".Phone",
+                new ConstructorHook());
+    }
+
+    // Android N+
     private void hookConstructor24(ClassLoader classloader) {
         XLog.i("Hooking InboundSmsHandler constructor for android v24+");
         XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, classloader,
@@ -95,6 +112,7 @@ public class SmsHandlerHook extends BaseHook {
                 new ConstructorHook());
     }
 
+    // Android KitKat+
     private void hookConstructor19(ClassLoader classloader) {
         XLog.i("Hooking InboundSmsHandler constructor for Android v19+");
         XposedHelpers.findAndHookConstructor(SMS_HANDLER_CLASS, classloader,
