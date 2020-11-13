@@ -19,7 +19,7 @@ Welcome any feedbacks.
 - **This module is suitable for AOSP ROM, it may not work well on other 3rd-party Rom.**
 - **Compatibility: Requires Android 6.0+ (api level ≥ 23).**
 - **Support Xposed, EdXposed and TaiChi·Magisk**
-- **Read the FAQ in app first if you encountered any problems.**
+- **Read the FAQ in app first if you encounter any problems.**
 
 # Features
 - Copy verification code to clipboard when a new message arrives.
@@ -33,8 +33,8 @@ Welcome any feedbacks.
 - Auto-input SMS code.
 - Various theme color to choose.
 
-# Update Logs
-[Update Logs](/LOG-EN.md)
+# Release Log
+[Release Logs](/LOG-EN.md)
 
 # Thanks To
 - [Xposed](https://github.com/rovo89/Xposed)
