@@ -230,6 +230,11 @@
     <string name="check_module_in_taichi">Enable Module</string>
     <!-- taichi users notice end -->
 
+    <!-- edxposed users notice -->
+    <string name="edxposed_users_notice">EdXposed Users Notice</string>
+    <string name="edxposed_users_notice_content">1. This module should hook these apps：\n\t· Phone Services(com.android.phone)\n\t· Android System(android) \n\n2. If this module is inactive after updating, please re-check this module in module manager list and reboot. \n\n3. If it cannot work in global mode, then try to change to whitelist(Xposed Hide White) mode or scope mode and add the apps above.</string>
+    <!-- edxposed users notice end -->
+
     <!-- check update -->
     <string name="new_version_found">New version found!</string>
     <string name="check_update_failed">Check update failed.</string>
@@ -257,18 +262,24 @@
 
     <!-- faq -->
     <string-array name="question_list">
-        <item>What\'s the original intention of this App?</item>
-        <item>Which Rom is this module suitable for?</item>
         <item>Module inactive after being updated.</item>
         <item>empty</item>
+        <item>empty</item>
+        <item>empty</item>
+        <item>empty</item>
+        <item>Which Rom is this module suitable for?</item>
         <item>Why can\'t it mark SMS as read or delete SMS?</item>
+        <item>What\'s the original intention of this App?</item>
     </string-array>
     <string-array name="answer_list">
-        <item>Don\'t be evil. Green Android.</item>
-        <item>It\'s suitable for AOSP Rom, may not be suitable for other third-party heavily customized Rom.</item>
         <item>Re-check this module in module list, and re-launch this app, and reboot system if it\'s necessary</item>
         <item>empty</item>
+        <item>empty</item>
+        <item>empty</item>
+        <item>empty</item>
+        <item>It\'s suitable for AOSP Rom, may not be suitable for other third-party heavily customized Rom.</item>
         <item>If the system default SMS app uses its own SMS database instead of the system\'s, it will not take effect for marking SMS as read or deleting SMS. If this happens, it may not work well on your device.</item>
+        <item>Don\'t be evil. Green Android.</item>
     </string-array>
     <!-- faq end -->
 </resources>

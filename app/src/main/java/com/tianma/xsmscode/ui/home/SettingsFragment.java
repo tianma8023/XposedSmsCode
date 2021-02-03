@@ -155,8 +155,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 .neutralText(R.string.ignore)
                 .negativeText(R.string.taichi_users_notice)
                 .onNegative((dialog, which) -> mActivity.onTaichiUsersNoticeSelected())
-                .positiveText(R.string.open_xposed_installer)
-                .onPositive((dialog, which) -> openXposedInstaller())
+                .positiveText(R.string.edxposed_users_notice)
+                .onPositive((dialog, which) -> mActivity.onEdxposedUsersNoticeSelected())
                 .show();
     }
 

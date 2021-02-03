@@ -110,6 +110,9 @@ public class HomeActivity extends BaseActivity {
             case R.id.action_taichi_users_notice:
                 onTaichiUsersNoticeSelected();
                 return true;
+            case R.id.action_edxposed_users_notice:
+                onEdxposedUsersNoticeSelected();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -146,6 +149,14 @@ public class HomeActivity extends BaseActivity {
                 .onNegative((dialog, which) -> PackageUtils.startAddAppsInTaiChi(HomeActivity.this))
                 .positiveText(R.string.check_module_in_taichi)
                 .onPositive((dialog, which) -> PackageUtils.startCheckModuleInTaiChi(HomeActivity.this))
+                .show();
+    }
+
+    void onEdxposedUsersNoticeSelected() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.edxposed_users_notice)
+                .content(R.string.edxposed_users_notice_content)
+                .positiveText(R.string.i_know)
                 .show();
     }
 }
