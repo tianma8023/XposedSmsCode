@@ -20,11 +20,11 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 44
-        versionName "2.2.4"
+        versionCode 45
+        versionName "2.2.5"
 
         buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "44")
+        buildConfigField("int", "MODULE_VERSION", "45")
 
         // vectorDrawables.generatedDensities = ['hdpi']
 

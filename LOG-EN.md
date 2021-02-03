@@ -1,7 +1,11 @@
 # Update Logs
-- 20.11.09 v2.2.4 Reboot required
+- 21.02.04 v2.2.5 Reboot required
+  1. Fix: fix the crash issue of PhoneService on OnePlus Android 11/
+  2. Change: Add the notice for EdXposed users/
+  3. Change: Update FAQ.
+- 20.11.09 v2.2.4
   1. Change: Adapt to Android 11
-- 20.05.13 v2.2.3 Reboot required
+- 20.05.13 v2.2.3
   1. Fix: fix the issue of ContentResolver cannot acquire on some Roms.
 - 20.01.01 v2.2.2
   1. Change: Adapt to Android Q
