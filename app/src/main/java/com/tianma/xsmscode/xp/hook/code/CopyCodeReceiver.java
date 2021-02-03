@@ -42,8 +42,8 @@ public class CopyCodeReceiver extends BroadcastReceiver {
             ClipboardUtils.copyToClipboard(phoneContext, smsCode);
 
             // show toast
-            mAppContext = createSmsCodeAppContext(phoneContext);
-            showToast(smsCode);
+            Context appContext = createSmsCodeAppContext(phoneContext);
+            showToast(appContext, phoneContext, smsCode);
         }
     }
 
@@ -59,10 +59,12 @@ public class CopyCodeReceiver extends BroadcastReceiver {
         return mAppContext;
     }
 
-    private void showToast(String smsCode) {
-        if (mAppContext != null) {
-            String text = mAppContext.getString(R.string.prompt_sms_code_copied, smsCode);
-            Toast.makeText(mAppContext, text, Toast.LENGTH_LONG).show();
+    private void showToast(Context appContext, Context phoneContext, String smsCode) {
+        if (appContext != null) {
+            String text = appContext.getString(R.string.prompt_sms_code_copied, smsCode);
+            if (phoneContext != null) {
+                Toast.makeText(phoneContext, text, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

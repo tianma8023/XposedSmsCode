@@ -30,6 +30,8 @@ public class ToastAction extends RunnableAction {
 
     private void showCodeToast() {
         String text = mAppContext.getString(R.string.current_sms_code, mSmsMsg.getSmsCode());
-        Toast.makeText(mAppContext, text, Toast.LENGTH_LONG).show();
+        if (mPhoneContext != null) {
+            Toast.makeText(mPhoneContext, text, Toast.LENGTH_LONG).show();
+        }
     }
 }
