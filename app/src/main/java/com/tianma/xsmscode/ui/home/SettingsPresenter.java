@@ -1,9 +1,12 @@
 package com.tianma.xsmscode.ui.home;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
@@ -13,6 +16,7 @@ import com.tianma.xsmscode.common.utils.PackageUtils;
 import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.Utils;
+import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.entity.ApkVersion;
 import com.tianma.xsmscode.data.repository.DataRepository;
 
@@ -67,9 +71,10 @@ public class SettingsPresenter implements SettingsContract.Presenter {
             args.remove(EXTRA_ACTION);
             mView.showGetAlipayPacketDialog();
         } else {
-            if (!ModuleUtils.isModuleEnabled()) {
-                mView.showEnableModuleDialog();
-            }
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(() -> {
+                mView.updateUIByModuleStatus(ModuleUtils.isModuleEnabled());
+            }, 50L);
         }
     }
 

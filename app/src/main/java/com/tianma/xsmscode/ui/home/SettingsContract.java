@@ -18,9 +18,9 @@ public interface SettingsContract {
 
         void showUpdateDialog(ApkVersion latestVersion);
 
-        void showEnableModuleDialog();
-
         void showAppAlreadyNewest();
+
+        void updateUIByModuleStatus(boolean moduleEnabled);
     }
 
     interface Presenter extends BasePresenter<View> {
