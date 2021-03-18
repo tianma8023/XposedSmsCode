@@ -18,7 +18,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // greenDao plugin
 
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.17' // AndResGuard
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.20' // AndResGuard
     }
 }
 
