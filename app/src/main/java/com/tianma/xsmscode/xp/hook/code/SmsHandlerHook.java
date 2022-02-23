@@ -193,10 +193,11 @@ public class SmsHandlerHook extends BaseHook {
             if (DISPATCH_INTENT.equals(methodName)) {
                 exactMethod = method;
 
-                Class[] parameterTypes = method.getParameterTypes();
+                Class<?>[] parameterTypes = method.getParameterTypes();
                 for (int i = 0; i < parameterTypes.length; i++) {
                     Class<?> parameterType = parameterTypes[i];
-                    if (parameterType == BroadcastReceiver.class) {
+                    if (BroadcastReceiver.class.isAssignableFrom(parameterType)) {
+                        // 是否是 BroadcastReceiver 或者其 子类
                         receiverIndex = i;
                     }
                 }
