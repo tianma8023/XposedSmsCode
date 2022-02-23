@@ -1,7 +1,9 @@
 # Update Logs
-- 21.02.04 v2.2.5 Reboot required
-  1. Fix: fix the crash issue of PhoneService on OnePlus Android 11/
-  2. Change: Add the notice for EdXposed users/
+- 22.02.23 v2.2.6 Reboot required
+  1. Change：Adapt to Android 12
+- 21.02.04 v2.2.5
+  1. Fix: fix the crash issue of PhoneService on OnePlus Android 11.
+  2. Change: Add the notice for EdXposed users.
   3. Change: Update FAQ.
 - 20.11.09 v2.2.4
   1. Change: Adapt to Android 11
