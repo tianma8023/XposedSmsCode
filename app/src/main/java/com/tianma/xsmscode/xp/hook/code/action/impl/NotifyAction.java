@@ -70,7 +70,7 @@ public class NotifyAction extends CallableAction {
 
             // https://stackoverflow.com/a/69745644
             contentIntent = PendingIntent.getBroadcast(mPhoneContext, 0,
-                    copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT | (1<<25));
+                    copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
         } else {
             contentIntent = PendingIntent.getBroadcast(mPhoneContext,
                     0, copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
