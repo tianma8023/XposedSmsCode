@@ -29,7 +29,7 @@
             android:value="30"/>
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/scope"/>
+            android:resource="@array/xposed_scope"/>
 
         <activity
             android:name="com.tianma.xsmscode.ui.home.HomeActivity"
@@ -45,6 +45,7 @@
         <activity-alias
             android:name=".HomeActivityAlias"
             android:enabled="true"
+            android:exported="true"
             android:targetActivity="com.tianma.xsmscode.ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

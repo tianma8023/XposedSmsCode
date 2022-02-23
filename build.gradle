@@ -3,8 +3,11 @@
 buildscript {
     
     repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/public/"
+        }
         google()
-        jcenter()
+        mavenCentral()
         mavenCentral() // add repository
     }
     dependencies {
@@ -15,14 +18,17 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // greenDao plugin
 
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.21' // AndResGuard
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.20' // AndResGuard
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/public/"
+        }
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url "https://jitpack.io"
         }

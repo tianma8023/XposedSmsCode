@@ -15,8 +15,8 @@ import de.robv.android.xposed.XSharedPreferences;
  */
 public class CopyToClipboardAction extends RunnableAction {
 
-    public CopyToClipboardAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public CopyToClipboardAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class CopyToClipboardAction extends RunnableAction {
     }
 
     private void copyToClipboard() {
-        ClipboardUtils.copyToClipboard(mAppContext, mSmsMsg.getSmsCode());
+        ClipboardUtils.copyToClipboard(mPluginContext, mSmsMsg.getSmsCode());
     }
 }

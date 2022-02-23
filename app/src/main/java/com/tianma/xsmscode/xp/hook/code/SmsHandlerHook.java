@@ -40,7 +40,7 @@ public class SmsHandlerHook extends BaseHook {
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
     private Context mPhoneContext;
-    private Context mAppContext;
+    private Context mPluginContext;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -193,10 +193,11 @@ public class SmsHandlerHook extends BaseHook {
             if (DISPATCH_INTENT.equals(methodName)) {
                 exactMethod = method;
 
-                Class[] parameterTypes = method.getParameterTypes();
+                Class<?>[] parameterTypes = method.getParameterTypes();
                 for (int i = 0; i < parameterTypes.length; i++) {
                     Class<?> parameterType = parameterTypes[i];
-                    if (parameterType == BroadcastReceiver.class) {
+                    if (BroadcastReceiver.class.isAssignableFrom(parameterType)) {
+                        // 是否是 BroadcastReceiver 或者其 子类
                         receiverIndex = i;
                     }
                 }
@@ -227,15 +228,15 @@ public class SmsHandlerHook extends BaseHook {
 
     private void afterConstructorHandler(XC_MethodHook.MethodHookParam param) {
         Context context = (Context) param.args[1];
-        if (mPhoneContext == null /*|| mAppContext == null*/) {
+        if (mPhoneContext == null) {
             mPhoneContext = context;
             try {
-                mAppContext = mPhoneContext.createPackageContext(SMSCODE_PACKAGE,
+                mPluginContext = mPhoneContext.createPackageContext(SMSCODE_PACKAGE,
                         Context.CONTEXT_IGNORE_SECURITY);
                 initNotificationChannel();
                 registerCopyCodeReceiver();
             } catch (Exception e) {
-                XLog.e("Create app context failed: %s", e);
+                XLog.e("Create plugin context failed: %s", e);
             }
         }
     }
@@ -243,7 +244,7 @@ public class SmsHandlerHook extends BaseHook {
     private void initNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION;
-            String channelName = mAppContext.getString(R.string.channel_name_smscode_notification);
+            String channelName = getPluginContext().getString(R.string.channel_name_smscode_notification);
             NotificationUtils.createNotificationChannel(mPhoneContext,
                     channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             XLog.d("Init notification channel succeed");
@@ -286,7 +287,7 @@ public class SmsHandlerHook extends BaseHook {
             return;
         }
 
-        ParseResult parseResult = new CodeWorker(mAppContext, mPhoneContext, intent).parse();
+        ParseResult parseResult = new CodeWorker(getPluginContext(), mPhoneContext, intent).parse();
         if (parseResult != null) {// parse succeed
             if (parseResult.isBlockSms()) {
                 XLog.d("Blocking code SMS...");
@@ -352,6 +353,18 @@ public class SmsHandlerHook extends BaseHook {
         Class<?> clz = XposedHelpers.findClass(className, obj.getClass().getClassLoader());
         Method method = XposedHelpers.findMethodBestMatch(clz, methodName, args);
         return method.invoke(obj, args);
+    }
+
+    private Context getPluginContext() {
+        if (mPluginContext == null) {
+            try {
+                mPluginContext = mPhoneContext.createPackageContext(SMSCODE_PACKAGE,
+                        Context.CONTEXT_IGNORE_SECURITY);
+            } catch (Exception e) {
+                XLog.e("Create plugin context failed: %s", e);
+            }
+        }
+        return mPluginContext;
     }
 
 }

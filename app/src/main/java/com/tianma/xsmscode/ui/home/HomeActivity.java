@@ -57,7 +57,7 @@ public class HomeActivity extends BaseActivity {
         SettingsFragment settingsFragment = null;
         if (Intent.ACTION_VIEW.equals(action)) {
             String extraAction = intent.getStringExtra(SettingsFragment.EXTRA_ACTION);
-            if (SettingsFragment.ACTION_GET_RED_PACKET.equals(extraAction)) {
+            if (SettingsFragment.ACTION_DONATE_BY_ALIPAY.equals(extraAction)) {
                 settingsFragment = SettingsFragment.newInstance(extraAction);
             }
         }

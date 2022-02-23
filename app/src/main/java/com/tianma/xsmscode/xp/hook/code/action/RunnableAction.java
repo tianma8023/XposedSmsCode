@@ -11,8 +11,8 @@ import de.robv.android.xposed.XSharedPreferences;
  */
 public abstract class RunnableAction extends CallableAction implements Runnable {
 
-    public RunnableAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public RunnableAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override

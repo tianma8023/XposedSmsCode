@@ -84,21 +84,6 @@ public class PackageUtils {
         return false;
     }
 
-    public static void startWechatActivity(Context context) {
-        int wechatPkgState = checkPackageState(context, Const.WECHAT_PACKAGE_NAME);
-        if (wechatPkgState == PACKAGE_ENABLED) {
-            // installed & enabled
-            Intent intent = new Intent();
-            intent.setClassName(Const.WECHAT_PACKAGE_NAME, Const.WECHAT_LAUNCHER_UI);
-            intent.putExtra(Const.WECHAT_KEY_EXTRA_DONATE, true);
-            context.startActivity(intent);
-        } else if (wechatPkgState == PACKAGE_NOT_INSTALLED){
-            Toast.makeText(context, R.string.wechat_install_prompt, Toast.LENGTH_SHORT).show();
-        } else if (wechatPkgState == PACKAGE_DISABLED) {
-            Toast.makeText(context, R.string.wechat_enable_prompt, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private static boolean checkAlipayExists(Context context) {
         int packageState = checkPackageState(context, Const.ALIPAY_PACKAGE_NAME);
         if (packageState == PACKAGE_ENABLED) {

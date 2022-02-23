@@ -1,23 +1,19 @@
 package com.tianma.xsmscode.ui.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
-import com.tianma.xsmscode.common.constant.Const;
 import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.preference.ResetEditPreference;
 import com.tianma.xsmscode.common.preference.ResetEditPreferenceDialogFragCompat;
-import com.tianma.xsmscode.common.utils.ClipboardUtils;
 import com.tianma.xsmscode.common.utils.ModuleUtils;
 import com.tianma.xsmscode.common.utils.PackageUtils;
 import com.tianma.xsmscode.common.utils.SnackbarHelper;
@@ -49,7 +45,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         SettingsContract.View {
 
     static final String EXTRA_ACTION = "extra_action";
-    static final String ACTION_GET_RED_PACKET = "get_red_packet";
+    static final String ACTION_DONATE_BY_ALIPAY = "donate_by_alipay";
 
     private HomeActivity mActivity;
 
@@ -127,7 +123,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         showVersionInfo(versionPref);
         findPreference(PrefConst.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
-        findPreference(PrefConst.KEY_GET_ALIPAY_PACKET).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
         // about group end
     }
@@ -183,8 +178,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             donateByAlipay();
         } else if (PrefConst.KEY_ENTRY_CODE_RECORDS.equals(key)) {
             CodeRecordActivity.startToMe(mActivity);
-        } else if (PrefConst.KEY_GET_ALIPAY_PACKET.equals(key)) {
-            getAlipayPacket();
         } else if (PrefConst.KEY_APP_BLOCK_ENTRY.equals(key)) {
             AppBlockActivity.startMe(mActivity);
         } else if (PrefConst.KEY_VERSION.equals(key)) {
@@ -200,29 +193,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         preference.setSummary(summary);
     }
 
-    private void getAlipayPacket() {
-        final String packetCode = Const.ALIPAY_RED_PACKET_CODE;
-        new MaterialDialog.Builder(mActivity)
-                .title(R.string.pref_get_alipay_packet_title)
-                .content(getString(R.string.pref_get_alipay_packet_content, packetCode))
-                .positiveText(R.string.copy_packet_code_open_alipay)
-                .onPositive((dialog, which) -> {
-                    ClipboardUtils.copyToClipboard(mActivity, packetCode);
-                    String text = getString(R.string.alipay_red_packet_code_copied, Const.ALIPAY_RED_PACKET_CODE);
-                    Toast.makeText(mActivity, text, Toast.LENGTH_SHORT).show();
-                    PackageUtils.startAlipayActivity(mActivity);
-                })
-                .show();
-    }
-
     private void donateByAlipay() {
         new MaterialDialog.Builder(mActivity)
-                .title(R.string.donation_tips_title)
-                .content(R.string.donation_tips_content)
-                .positiveText(R.string.donate_directly)
+                .title(R.string.dialog_donate_by_alipay_title)
+                .content(R.string.dialog_donate_by_alipay_content)
+                .positiveText(R.string.dialog_donate_confirm)
                 .onPositive((dialog, which) -> PackageUtils.startAlipayDonatePage(mActivity))
-                .negativeText(R.string.get_red_packet)
-                .onNegative((dialog, which) -> getAlipayPacket())
+                .negativeText(R.string.dialog_donate_cancel)
                 .show();
     }
 
@@ -277,16 +254,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         preference.setSummary(summary);
     }
 
-    private void openXposedInstaller() {
-        if (!PackageUtils.startXposedActivity(mActivity, PackageUtils.Section.MODULES)) {
-            Toast.makeText(mActivity, R.string.xposed_not_installed, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void showGetAlipayPacketDialog() {
-        scrollToPreference(PrefConst.KEY_GET_ALIPAY_PACKET);
-        getAlipayPacket();
+        scrollToPreference(PrefConst.KEY_DONATE_BY_ALIPAY);
+        donateByAlipay();
     }
 
     @Override

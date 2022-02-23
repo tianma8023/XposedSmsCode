@@ -30,17 +30,17 @@ import de.robv.android.xposed.XSharedPreferences;
 
 public class CodeWorker {
 
-    private Context mPhoneContext;
-    private Context mAppContext;
-    private XSharedPreferences xsp;
-    private Intent mSmsIntent;
+    private final Context mPhoneContext;
+    private final Context mPluginContext;
+    private final XSharedPreferences xsp;
+    private final Intent mSmsIntent;
 
-    private Handler mUIHandler;
+    private final Handler mUIHandler;
 
-    private ScheduledExecutorService mScheduledExecutor;
+    private final ScheduledExecutorService mScheduledExecutor;
 
-    CodeWorker(Context appContext, Context phoneContext, Intent smsIntent) {
-        mAppContext = appContext;
+    CodeWorker(Context pluginContext, Context phoneContext, Intent smsIntent) {
+        mPluginContext = pluginContext;
         mPhoneContext = phoneContext;
         xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         mSmsIntent = smsIntent;
@@ -63,7 +63,7 @@ public class CodeWorker {
             XLog.setLogLevel(BuildConfig.LOG_LEVEL);
         }
 
-        SmsParseAction smsParseAction = new SmsParseAction(mAppContext, mPhoneContext, null, xsp);
+        SmsParseAction smsParseAction = new SmsParseAction(mPluginContext, mPhoneContext, null, xsp);
         smsParseAction.setSmsIntent(mSmsIntent);
         ScheduledFuture<Bundle> smsParseFuture = mScheduledExecutor.schedule(smsParseAction, 0, TimeUnit.MILLISECONDS);
 
@@ -87,29 +87,29 @@ public class CodeWorker {
 
 
         // 复制到剪切板 Action
-        mUIHandler.post(new CopyToClipboardAction(mAppContext, mPhoneContext, smsMsg, xsp));
+        mUIHandler.post(new CopyToClipboardAction(mPluginContext, mPhoneContext, smsMsg, xsp));
 
         // 显示Toast Action
-        mUIHandler.post(new ToastAction(mAppContext, mPhoneContext, smsMsg, xsp));
+        mUIHandler.post(new ToastAction(mPluginContext, mPhoneContext, smsMsg, xsp));
 
         // 自动输入 Action
-        AutoInputAction autoInputAction = new AutoInputAction(mAppContext, mPhoneContext, smsMsg, xsp);
+        AutoInputAction autoInputAction = new AutoInputAction(mPluginContext, mPhoneContext, smsMsg, xsp);
         mScheduledExecutor.schedule(autoInputAction, 0, TimeUnit.MILLISECONDS);
 
         // 显示通知 Action
-        NotifyAction notifyAction = new NotifyAction(mAppContext, mPhoneContext, smsMsg, xsp);
+        NotifyAction notifyAction = new NotifyAction(mPluginContext, mPhoneContext, smsMsg, xsp);
         ScheduledFuture<Bundle> notificationFuture = mScheduledExecutor.schedule(notifyAction, 0, TimeUnit.MILLISECONDS);
 
         // 记录验证码短信 Action
-        RecordSmsAction recordSmsAction = new RecordSmsAction(mAppContext, mPhoneContext, smsMsg, xsp);
+        RecordSmsAction recordSmsAction = new RecordSmsAction(mPluginContext, mPhoneContext, smsMsg, xsp);
         mScheduledExecutor.schedule(recordSmsAction, 0, TimeUnit.MILLISECONDS);
 
         // 操作验证码短信（标记为已读 或者 删除） Action
-        OperateSmsAction operateSmsAction = new OperateSmsAction(mAppContext, mPhoneContext, smsMsg, xsp);
+        OperateSmsAction operateSmsAction = new OperateSmsAction(mPluginContext, mPhoneContext, smsMsg, xsp);
         mScheduledExecutor.schedule(operateSmsAction, 3000, TimeUnit.MILLISECONDS);
 
         // 自杀 Action
-        KillMeAction action = new KillMeAction(mAppContext, mPhoneContext, smsMsg, xsp);
+        KillMeAction action = new KillMeAction(mPluginContext, mPhoneContext, smsMsg, xsp);
         mScheduledExecutor.schedule(action, 4000, TimeUnit.MILLISECONDS);
 
         try {
@@ -118,7 +118,7 @@ public class CodeWorker {
             if (bundle != null && bundle.containsKey(NotifyAction.NOTIFY_RETENTION_TIME)) {
                 long delay = bundle.getLong(NotifyAction.NOTIFY_RETENTION_TIME, 0L);
                 int notificationId = bundle.getInt(NotifyAction.NOTIFY_ID, 0);
-                CancelNotifyAction cancelNotifyAction = new CancelNotifyAction(mAppContext, mPhoneContext, smsMsg, xsp);
+                CancelNotifyAction cancelNotifyAction = new CancelNotifyAction(mPluginContext, mPhoneContext, smsMsg, xsp);
                 cancelNotifyAction.setNotificationId(notificationId);
 
                 mScheduledExecutor.schedule(cancelNotifyAction, delay, TimeUnit.MILLISECONDS);

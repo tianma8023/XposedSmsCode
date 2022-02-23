@@ -11,21 +11,11 @@ public interface Const {
     String ALIPAY_PACKAGE_NAME = "com.eg.android.AlipayGphone";
     String ALIPAY_QRCODE_URI_PREFIX = "alipayqr://platformapi/startapp?saId=10000007&qrcode=";
     String ALIPAY_QRCODE_URL = "HTTPS://QR.ALIPAY.COM/FKX074142EKXD0OIMV8B60";
-    String ALIPAY_RED_PACKET_CODE = "638310579";
     /* Alipay end */
 
     /* QQ begin */
     String QQ_GROUP_KEY = "jWGrWgSGLGQ0NyyRsKqRlrApRCzecuNA";
     /* QQ end */
-
-    /* Wechat begin */
-    String WECHAT_PACKAGE_NAME = "com.tencent.mm";
-    String WECHAT_LAUNCHER_UI = WECHAT_PACKAGE_NAME + ".ui.LauncherUI";
-    String WECHAT_QR_REWARD_SELECT_MONEY_UI = WECHAT_PACKAGE_NAME +
-            ".plugin.collect.reward.ui.QrRewardSelectMoneyUI";
-    String WECHAT_KEY_EXTRA_DONATE = "TianmaDonate";
-    String WECHAT_QRCODE_URL = "m01pPa@:hEyGJ5P*a1@$xPI";
-    /* Wechat end */
 
     /* Xposed SmsCode begin */
     String HOME_ACTIVITY_ALIAS = BuildConfig.APPLICATION_ID + ".HomeActivityAlias";

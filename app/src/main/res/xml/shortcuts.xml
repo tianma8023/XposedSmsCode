@@ -29,13 +29,13 @@
     <shortcut
         android:enabled="true"
         android:icon="@drawable/ic_alipay_red_packet"
-        android:shortcutId="get_red_packet"
-        android:shortcutShortLabel="@string/get_red_packet">
+        android:shortcutId="donate_by_alipay"
+        android:shortcutShortLabel="@string/pref_donate_by_alipay_title">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.tianma.xsmscode.ui.home.HomeActivity"
             android:targetPackage="com.github.tianma8023.xposed.smscode">
-            <extra android:name="extra_action" android:value="get_red_packet"/>
+            <extra android:name="extra_action" android:value="donate_by_alipay"/>
         </intent>
         <categories
             android:name="android.shortcut.conversation"/>

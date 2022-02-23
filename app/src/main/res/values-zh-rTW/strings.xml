@@ -214,9 +214,10 @@
     <string name="copy_packet_code_open_alipay">複製紅包碼并打開支付寶</string>
     <string name="alipay_red_packet_code_copied">已複製紅包碼：%s</string>
     <string name="get_red_packet">領取紅包</string>
-    <string name="donation_tips_title">捐贈提示</string>
-    <string name="donation_tips_content">捐贈前您可以先領取支付寶紅包哦~</string>
-    <string name="donate_directly">直接捐贈</string>
+    <string name="dialog_donate_by_alipay_title">捐贈</string>
+    <string name="dialog_donate_by_alipay_content">請開發者喝飲料吧 ✿✿ヽ(°▽°)ノ✿</string>
+    <string name="dialog_donate_confirm">好呀好呀</string>
+    <string name="dialog_donate_cancel">下次一定</string>
     <!-- alipay packet end -->
 
     <!-- taichi users notice -->
