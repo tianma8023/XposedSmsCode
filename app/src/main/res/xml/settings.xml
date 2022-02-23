@@ -211,12 +211,6 @@
 
         <Preference
             android:icon="@drawable/ic_alipay_red_packet"
-            android:key="@string/pref_get_alipay_packet"
-            android:summary="@string/pref_get_alipay_packet_summary"
-            android:title="@string/pref_get_alipay_packet_title"/>
-
-        <Preference
-            android:icon="@drawable/ic_alipay"
             android:key="@string/pref_donate_by_alipay"
             android:title="@string/pref_donate_by_alipay_title"/>
     </PreferenceCategory>

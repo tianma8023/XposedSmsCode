@@ -1,6 +1,5 @@
 package com.tianma.xsmscode.ui.home;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -16,7 +15,6 @@ import com.tianma.xsmscode.common.utils.PackageUtils;
 import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.Utils;
-import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.entity.ApkVersion;
 import com.tianma.xsmscode.data.repository.DataRepository;
 
@@ -31,7 +29,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.tianma.xsmscode.ui.home.SettingsFragment.ACTION_GET_RED_PACKET;
+import static com.tianma.xsmscode.ui.home.SettingsFragment.ACTION_DONATE_BY_ALIPAY;
 import static com.tianma.xsmscode.ui.home.SettingsFragment.EXTRA_ACTION;
 
 public class SettingsPresenter implements SettingsContract.Presenter {
@@ -67,7 +65,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
             return;
         }
         String extraAction = args.getString(EXTRA_ACTION);
-        if (ACTION_GET_RED_PACKET.equals(extraAction)) {
+        if (ACTION_DONATE_BY_ALIPAY.equals(extraAction)) {
             args.remove(EXTRA_ACTION);
             mView.showGetAlipayPacketDialog();
         } else {

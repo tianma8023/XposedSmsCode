@@ -37,7 +37,6 @@
     <string name="pref_version">pref_version</string>
     <string name="pref_join_qq_group">pref_join_qq_group</string>
     <string name="pref_source_code">pref_source_code</string>
-    <string name="pref_get_alipay_packet">pref_get_alipay_packet</string>
     <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
     <!-- shared preference key end -->
 
