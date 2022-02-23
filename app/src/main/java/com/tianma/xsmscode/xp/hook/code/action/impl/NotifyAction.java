@@ -32,8 +32,8 @@ public class NotifyAction extends CallableAction {
     public static final String NOTIFY_RETENTION_TIME = "notify_retention_time";
     public static final String NOTIFY_ID = "notify_id";
 
-    public NotifyAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public NotifyAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class NotifyAction extends CallableAction {
         String company = smsMsg.getCompany();
         String smsCode = smsMsg.getSmsCode();
         String title = TextUtils.isEmpty(company) ? smsMsg.getSender() : company;
-        String content = mAppContext.getString(R.string.code_notification_content, smsCode);
+        String content = mPluginContext.getString(R.string.code_notification_content, smsCode);
 
         int notificationId = smsMsg.hashCode();
 
@@ -76,15 +76,15 @@ public class NotifyAction extends CallableAction {
                     0, copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
-        Notification notification = new NotificationCompat.Builder(mAppContext, NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION)
+        Notification notification = new NotificationCompat.Builder(mPluginContext, NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION)
                 .setSmallIcon(R.drawable.ic_app_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(mAppContext.getResources(), R.drawable.ic_app_icon))
+                .setLargeIcon(BitmapFactory.decodeResource(mPluginContext.getResources(), R.drawable.ic_app_icon))
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(title)
                 .setContentText(content)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
-                .setColor(ContextCompat.getColor(mAppContext, R.color.ic_launcher_background))
+                .setColor(ContextCompat.getColor(mPluginContext, R.color.ic_launcher_background))
                 .setGroup(NotificationConst.GROUP_KEY_SMSCODE_NOTIFICATION)
                 .build();
 

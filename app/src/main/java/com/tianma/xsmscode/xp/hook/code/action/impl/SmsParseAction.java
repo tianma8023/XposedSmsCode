@@ -27,8 +27,8 @@ public class SmsParseAction extends CallableAction {
 
     private Intent mSmsIntent;
 
-    public SmsParseAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public SmsParseAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     public void setSmsIntent(Intent smsIntent) {
@@ -57,7 +57,7 @@ public class SmsParseAction extends CallableAction {
             return null;
         }
 
-        String smsCode = SmsCodeUtils.parseSmsCodeIfExists(mAppContext, msgBody, true);
+        String smsCode = SmsCodeUtils.parseSmsCodeIfExists(mPluginContext, msgBody, true);
         if (TextUtils.isEmpty(smsCode)) { // isn't code message
             return null;
         }

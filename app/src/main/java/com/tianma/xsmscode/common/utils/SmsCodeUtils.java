@@ -315,9 +315,9 @@ public class SmsCodeUtils {
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     SmsCodeRule rule = new SmsCodeRule();
-                    rule.setCompany(cursor.getString(cursor.getColumnIndex(companyColumn)));
-                    rule.setCodeKeyword(cursor.getString(cursor.getColumnIndex(keywordColumn)));
-                    rule.setCodeRegex(cursor.getString(cursor.getColumnIndex(regexColumn)));
+                    rule.setCompany(cursor.getString(cursor.getColumnIndexOrThrow(companyColumn)));
+                    rule.setCodeKeyword(cursor.getString(cursor.getColumnIndexOrThrow(keywordColumn)));
+                    rule.setCodeRegex(cursor.getString(cursor.getColumnIndexOrThrow(regexColumn)));
                     rules.add(rule);
                 }
                 cursor.close();

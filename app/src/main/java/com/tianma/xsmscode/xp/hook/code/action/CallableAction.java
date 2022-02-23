@@ -15,13 +15,13 @@ import de.robv.android.xposed.XSharedPreferences;
  */
 public abstract class CallableAction implements Action<Bundle>, Callable<Bundle> {
 
-    protected Context mAppContext;
+    protected Context mPluginContext;
     protected Context mPhoneContext;
     protected SmsMsg mSmsMsg;
     protected XSharedPreferences xsp;
 
-    public CallableAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        mAppContext = appContext;
+    public CallableAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        mPluginContext = pluginContext;
         mPhoneContext = phoneContext;
         mSmsMsg = smsMsg;
         this.xsp = xsp;

@@ -26,8 +26,8 @@ import de.robv.android.xposed.XSharedPreferences;
  */
 public class RecordSmsAction extends CallableAction {
 
-    public RecordSmsAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public RecordSmsAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RecordSmsAction extends CallableAction {
             values.put(SmsMsgDao.Properties.Sender.columnName, smsMsg.getSender());
             values.put(SmsMsgDao.Properties.SmsCode.columnName, smsMsg.getSmsCode());
 
-            ContentResolver resolver = mAppContext.getContentResolver();
+            ContentResolver resolver = mPluginContext.getContentResolver();
             resolver.insert(smsMsgUri, values);
             XLog.d("Add code record succeed by content provider");
 
@@ -67,7 +67,7 @@ public class RecordSmsAction extends CallableAction {
                 String selection = SmsMsgDao.Properties.Id.columnName + " = ?";
                 for (int i = 0; i < count - maxRecordCount; i++) {
                     cursor.moveToNext();
-                    long id = cursor.getLong(cursor.getColumnIndex(SmsMsgDao.Properties.Id.columnName));
+                    long id = cursor.getLong(cursor.getColumnIndexOrThrow(SmsMsgDao.Properties.Id.columnName));
                     ContentProviderOperation operation = ContentProviderOperation.newDelete(smsMsgUri)
                             .withSelection(selection, new String[]{String.valueOf(id)})
                             .build();

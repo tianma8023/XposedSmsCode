@@ -15,8 +15,8 @@ import de.robv.android.xposed.XSharedPreferences;
 
 public class KillMeAction extends CallableAction {
 
-    public KillMeAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public KillMeAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class KillMeAction extends CallableAction {
     @SuppressLint("MissingPermission")
     private void killBackgroundProcess(String packageName) {
         try {
-            ActivityManager activityManager = (ActivityManager) mAppContext.getSystemService(Context.ACTIVITY_SERVICE);
+            ActivityManager activityManager = (ActivityManager) mPluginContext.getSystemService(Context.ACTIVITY_SERVICE);
 
             if (activityManager != null) {
                 activityManager.killBackgroundProcesses(packageName);

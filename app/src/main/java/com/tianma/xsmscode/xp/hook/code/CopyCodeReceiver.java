@@ -31,7 +31,7 @@ public class CopyCodeReceiver extends BroadcastReceiver {
         context.registerReceiver(receiver, filter);
     }
 
-    private Context mAppContext;
+    private Context mPluginContext;
 
     @Override
     public void onReceive(Context phoneContext, Intent intent) {
@@ -42,26 +42,26 @@ public class CopyCodeReceiver extends BroadcastReceiver {
             ClipboardUtils.copyToClipboard(phoneContext, smsCode);
 
             // show toast
-            Context appContext = createSmsCodeAppContext(phoneContext);
-            showToast(appContext, phoneContext, smsCode);
+            Context pluginContext = createSmsCodeAppContext(phoneContext);
+            showToast(pluginContext, phoneContext, smsCode);
         }
     }
 
     private Context createSmsCodeAppContext(Context phoneContext) {
-        if (mAppContext == null) {
+        if (mPluginContext == null) {
             try {
-                mAppContext = phoneContext.createPackageContext(BuildConfig.APPLICATION_ID,
+                mPluginContext = phoneContext.createPackageContext(BuildConfig.APPLICATION_ID,
                         Context.CONTEXT_IGNORE_SECURITY);
             } catch (Exception e) {
                 // ignore
             }
         }
-        return mAppContext;
+        return mPluginContext;
     }
 
-    private void showToast(Context appContext, Context phoneContext, String smsCode) {
-        if (appContext != null) {
-            String text = appContext.getString(R.string.prompt_sms_code_copied, smsCode);
+    private void showToast(Context pluginContext, Context phoneContext, String smsCode) {
+        if (pluginContext != null) {
+            String text = pluginContext.getString(R.string.prompt_sms_code_copied, smsCode);
             if (phoneContext != null) {
                 Toast.makeText(phoneContext, text, Toast.LENGTH_LONG).show();
             }

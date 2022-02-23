@@ -31,8 +31,8 @@ public class OperateSmsAction extends CallableAction {
     private @interface SmsOp {
     }
 
-    public OperateSmsAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public OperateSmsAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class OperateSmsAction extends CallableAction {
     private boolean operateSms(String sender, String body, @SmsOp int smsOp) {
         Cursor cursor = null;
         try {
-            if (ContextCompat.checkSelfPermission(mAppContext, Manifest.permission.READ_SMS)
+            if (ContextCompat.checkSelfPermission(mPluginContext, Manifest.permission.READ_SMS)
                     != PackageManager.PERMISSION_GRANTED) {
                 XLog.e("Don't have permission to read/write sms");
                 return false;
@@ -89,18 +89,18 @@ public class OperateSmsAction extends CallableAction {
             // 查看最近5条短信
             String sortOrder = Telephony.Sms.DATE + " desc limit 5";
             Uri uri = Telephony.Sms.CONTENT_URI;
-            ContentResolver resolver = mAppContext.getContentResolver();
+            ContentResolver resolver = mPluginContext.getContentResolver();
             cursor = resolver.query(uri, projection, null, null, sortOrder);
             if (cursor == null) {
                 XLog.d("Cursor is null");
                 return false;
             }
             while (cursor.moveToNext()) {
-                String curAddress = cursor.getString(cursor.getColumnIndex("address"));
-                int curRead = cursor.getInt(cursor.getColumnIndex("read"));
-                String curBody = cursor.getString(cursor.getColumnIndex("body"));
+                String curAddress = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+                int curRead = cursor.getInt(cursor.getColumnIndexOrThrow("read"));
+                String curBody = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 if (curAddress.equals(sender) && curRead == 0 && curBody.startsWith(body)) {
-                    String smsMessageId = cursor.getString(cursor.getColumnIndex("_id"));
+                    String smsMessageId = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
                     String where = Telephony.Sms._ID + " = ?";
                     String[] selectionArgs = new String[]{smsMessageId};
                     if (smsOp == OP_DELETE) {

@@ -16,8 +16,8 @@ public class CancelNotifyAction extends CallableAction {
 
     private int mNotificationId = NOTIFICATION_NONE;
 
-    public CancelNotifyAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public CancelNotifyAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     public void setNotificationId(int notificationId) {

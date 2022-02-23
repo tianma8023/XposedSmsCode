@@ -16,8 +16,8 @@ import de.robv.android.xposed.XSharedPreferences;
  */
 public class ToastAction extends RunnableAction {
 
-    public ToastAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public ToastAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ToastAction extends RunnableAction {
     }
 
     private void showCodeToast() {
-        String text = mAppContext.getString(R.string.current_sms_code, mSmsMsg.getSmsCode());
+        String text = mPluginContext.getString(R.string.current_sms_code, mSmsMsg.getSmsCode());
         if (mPhoneContext != null) {
             Toast.makeText(mPhoneContext, text, Toast.LENGTH_LONG).show();
         }

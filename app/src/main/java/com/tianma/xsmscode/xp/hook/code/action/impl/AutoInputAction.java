@@ -29,8 +29,8 @@ import de.robv.android.xposed.XSharedPreferences;
  */
 public class AutoInputAction extends CallableAction {
 
-    public AutoInputAction(Context appContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
-        super(appContext, phoneContext, smsMsg, xsp);
+    public AutoInputAction(Context pluginContext, Context phoneContext, SmsMsg smsMsg, XSharedPreferences xsp) {
+        super(pluginContext, phoneContext, smsMsg, xsp);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class AutoInputAction extends CallableAction {
             List<String> blockedAppList = new ArrayList<>();
             try {
                 Uri appInfoUri = DBProvider.APP_INFO_URI;
-                ContentResolver resolver = mAppContext.getContentResolver();
+                ContentResolver resolver = mPluginContext.getContentResolver();
 
                 final String packageColumn = AppInfoDao.Properties.PackageName.columnName;
                 final String blockedColumn = AppInfoDao.Properties.Blocked.columnName;
@@ -75,7 +75,7 @@ public class AutoInputAction extends CallableAction {
                 Cursor cursor = resolver.query(appInfoUri, projection, selection, selectionArgs, null);
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
-                        blockedAppList.add(cursor.getString(cursor.getColumnIndex(packageColumn)));
+                        blockedAppList.add(cursor.getString(cursor.getColumnIndexOrThrow(packageColumn)));
                     }
                     cursor.close();
                 }
