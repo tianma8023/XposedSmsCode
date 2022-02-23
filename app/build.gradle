@@ -90,6 +90,7 @@ android {
 
             lintOptions {
                 disable 'MissingTranslation'
+                checkReleaseBuilds false
             }
 
             packagingOptions {
