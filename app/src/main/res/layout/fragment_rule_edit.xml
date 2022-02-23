@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -13,6 +13,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        app:boxBackgroundColor="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/rule_keyword_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -28,7 +30,9 @@
             android:hint="@string/rule_company_hint"
             android:imeOptions="actionNext"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,6 +44,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_toStartOf="@+id/rule_code_regex_quick_choose"
+        android:background="@android:color/transparent"
+        app:boxBackgroundColor="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/rule_code_regex_quick_choose"
         app:layout_constraintStart_toStartOf="@+id/rule_keyword_input_layout"
@@ -52,7 +58,9 @@
             android:hint="@string/rule_code_regex_hint"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,6 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rule_company_input_layout"
         android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        app:boxBackgroundColor="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/rule_code_regex_input_layout"
         app:layout_constraintEnd_toEndOf="@+id/rule_company_input_layout"
         app:layout_constraintHorizontal_bias="0.5"
@@ -75,7 +85,9 @@
             android:hint="@string/rule_keyword_hint"
             android:imeOptions="actionNext"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,6 +104,6 @@
         android:textColor="@color/faq_textColor_white"
         app:layout_constraintEnd_toEndOf="@+id/rule_company_input_layout"
         app:layout_constraintTop_toTopOf="@+id/rule_code_regex_input_layout"
-        app:rippleColor="?attr/colorControlHighlight"/>
+        app:rippleColor="?attr/colorControlHighlight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
