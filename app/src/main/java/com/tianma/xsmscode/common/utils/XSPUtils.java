@@ -109,7 +109,7 @@ public class XSPUtils {
         String value = preferences.getString(PrefConst.KEY_NOTIFICATION_RETENTION_TIME,
                 PrefConst.NOTIFICATION_RETENTION_TIME_DEFAULT);
         try {
-            return Integer.valueOf(value);
+            return Integer.parseInt(value);
         } catch (Exception e) {
             return 0;
         }
