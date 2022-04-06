@@ -1,5 +1,5 @@
 # XposedSmsCode
-An Xposed module which can recognize ,parse SMS code and copy it to clipboard when a new message arrives.It can also auto-input SMS code.
+A Xposed module which can recognize, parse SMS code and copy it to clipboard when a new message arrives. It also can auto-input copied SMS code.
 
 [中文版说明](/README-CN.md)
 
@@ -10,15 +10,15 @@ You can download this module on [Xposed Repository](http://repo.xposed.info/modu
 
 # Usage
 1. Root your device and install Xposed Framework.
-2. Install and activite this xposed module and then reboot.
+2. Install and activate this xposed module and then reboot.
 3. Enjoy it!
 
 Welcome any feedbacks.
 
 # Attention
-- **This module is suitable for AOSP ROM, it may not work well on other 3rd-party Rom.**
+- **This module is suitable for AOSP ROM, it may not work well on other 3rd-party ROM.**
 - **Compatibility: Requires Android 6.0+ (api level ≥ 23).**
-- **Support Xposed, EdXposed and TaiChi·Magisk**
+- **Support Xposed, LSPosed, EdXposed and TaiChi·Magisk**
 - **Read the FAQ in app first if you encounter any problems.**
 
 # Features
