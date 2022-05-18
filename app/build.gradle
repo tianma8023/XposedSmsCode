@@ -50,7 +50,6 @@ android {
         debug {
             buildConfigField("int", "LOG_LEVEL", "2")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
-            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
 
             if (keyFile.exists()) {
                 signingConfig signingConfigs.release
@@ -65,7 +64,6 @@ android {
 
             buildConfigField("int", "LOG_LEVEL", "2")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
-            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
 
             if (keyFile.exists()) {
                 signingConfig signingConfigs.release
@@ -81,7 +79,6 @@ android {
 
             buildConfigField("int", "LOG_LEVEL", "4")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
-            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
             if (keyFile.exists()) {
                 signingConfig signingConfigs.release
             }
