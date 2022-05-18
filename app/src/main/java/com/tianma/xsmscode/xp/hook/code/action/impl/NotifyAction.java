@@ -60,7 +60,7 @@ public class NotifyAction extends CallableAction {
 
         Intent copyCodeIntent = CopyCodeReceiver.createIntent(smsCode);
         final PendingIntent contentIntent;
-        if (Build.VERSION.SDK_INT >= 31) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // java.lang.IllegalArgumentException: com.android.phone: Targeting S+ (version 31 and above)
             // requires that one of FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent.
             //

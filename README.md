@@ -1,5 +1,5 @@
 # XposedSmsCode
-An Xposed module which can recognize ,parse SMS code and copy it to clipboard when a new message arrives.It can also auto-input SMS code.
+An Xposed module which can recognize, parse SMS code and copy it to clipboard when a new message arrives. It can also input SMS code automatically.
 
 [中文版说明](/README-CN.md)
 

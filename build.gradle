@@ -7,7 +7,6 @@ buildscript {
             url "https://maven.aliyun.com/repository/public/"
         }
         google()
-        mavenCentral()
         mavenCentral() // add repository
     }
     dependencies {

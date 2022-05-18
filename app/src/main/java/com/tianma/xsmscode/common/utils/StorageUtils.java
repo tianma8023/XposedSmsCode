@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Environment;
 
-import com.github.tianma8023.xposed.smscode.BuildConfig;
-
 import java.io.File;
 
 import androidx.core.content.ContextCompat;
+
+import com.github.tianma8023.xposed.smscode.BuildConfig;
 
 /**
  * Utils for storage.

@@ -39,7 +39,9 @@ public class SmsHandlerHook extends BaseHook {
     private static final String SMS_HANDLER_CLASS = TELEPHONY_PACKAGE + ".InboundSmsHandler";
     private static final String SMSCODE_PACKAGE = BuildConfig.APPLICATION_ID;
 
+    // Host App Context
     private Context mPhoneContext;
+    // Plugin App Context
     private Context mPluginContext;
 
     @Override
@@ -77,7 +79,7 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void hookConstructor(ClassLoader classloader) {
-        if (Build.VERSION.SDK_INT >= 30) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11+
             hookConstructor30(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -125,7 +127,7 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void hookDispatchIntent(ClassLoader classloader) {
-        if (Build.VERSION.SDK_INT >= 29) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             hookDispatchIntent29(classloader);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             hookDispatchIntent23(classloader);
