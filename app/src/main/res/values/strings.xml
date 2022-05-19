@@ -23,6 +23,8 @@
     <string name="pref_hide_launcher_icon_title">Hide launcher icon</string>
     <string name="pref_hide_launcher_icon_summary">You can reopen this App in Xposed modules</string>
     <string name="pref_choose_theme_title">Theme</string>
+    <string name="module_status_active">Active</string>
+    <string name="module_status_inactive">Inactive</string>
     <!-- preferences general end -->
 
     <!-- preferences sms code -->
@@ -116,6 +118,7 @@
     <string name="alipay_enable_prompt">Please enable Alipay</string>
     <string name="wechat_install_prompt">Please install Wechat</string>
     <string name="wechat_enable_prompt">Please enable Wechat</string>
+    <string name="pref_privacy_policy_title">Privacy Policy</string>
     <!-- preference about end -->
 
     <!-- auto-input block settings -->
@@ -283,4 +286,11 @@
         <item>Don\'t be evil. Green Android.</item>
     </string-array>
     <!-- faq end -->
+
+    <!-- privacy policy start -->
+    <string name="privacy_dialog_title">Privacy Policy</string>
+    <string name="privacy_dialog_content">Release Date: May 19, 2022\nEffective Date: May 19, 2022\n\n<b>Basic Statement</b>\n\nThis app will not collect any of your private information, it will only query the following information when necessary:\n\n · Read the list of installed apps; only used when you choose to block automatic input, this information is checked completely locally, and its results will not be uploaded to anywhere. \n\n<b>Requested permissions</b>\n\nThis app does not request any permissions. \n\n<b>Updates to this policy</b>\n\nWe may update this privacy policy from time to time, you can check the latest version of this privacy policy at any time by opening this page.</string>
+    <string name="privacy_dialog_cancel">Refuse</string>
+    <string name="privacy_dialog_confirm">Accept</string>
+    <!-- privacy policy end -->
 </resources>

@@ -39,5 +39,18 @@ public class SPUtils {
                 PrefConst.KEY_SMSCODE_KEYWORDS, PrefConst.SMSCODE_KEYWORDS_DEFAULT);
     }
 
+    /**
+     * 是否同意隐私协议
+     */
+    public static boolean isPrivacyPolicyAccepted(Context context) {
+        return PreferencesUtils.getBoolean(context, PrefConst.KEY_PRIVACY_POLICY_ACCEPTED, false);
+    }
+
+    /**
+     * 设置是否同意隐私协议
+     */
+    public static void setPrivacyPolicyAccepted(Context context, boolean accepted) {
+        PreferencesUtils.putBoolean(context, PrefConst.KEY_PRIVACY_POLICY_ACCEPTED, accepted);
+    }
 
 }

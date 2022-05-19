@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">驗證碼擷取器(Xposed)</string>
+    <string name="app_name">XposedSmsCode</string>
     <string name="xposed_description">擷取新簡訊中的驗證碼複製到剪貼板，並自動輸入驗證碼</string>
 
     <!-- general -->
@@ -23,6 +23,8 @@
     <string name="pref_hide_launcher_icon_title">隱藏應用圖示</string>
     <string name="pref_hide_launcher_icon_summary">隱藏後可從模組列表中打開本模組</string>
     <string name="pref_choose_theme_title">主題</string>
+    <string name="module_status_active">已激活</string>
+    <string name="module_status_inactive">未激活</string>
     <!-- preferences general end -->
 
     <!-- preferences sms code -->
@@ -115,6 +117,7 @@
     <string name="alipay_enable_prompt">請先啟用支付寶</string>
     <string name="wechat_install_prompt">請先安裝WeChat</string>
     <string name="wechat_enable_prompt">請先啟用WeChat</string>
+    <string name="pref_privacy_policy_title">隱私政策</string>
     <!-- preference about end -->
 
     <!-- auto-input block settings -->
@@ -282,4 +285,11 @@
         <item>不做毒瘤，綠色Android，不忘初心。</item>
     </string-array>
     <!-- faq end -->
+
+    <!-- privacy policy start -->
+    <string name="privacy_dialog_title">隱私政策</string>
+    <string name="privacy_dialog_content">發布日期：2022年5月19日\n生效日期：2022年5月19日\n\n<b>基本聲明</b>\n\n本應用不會收集您任何隱私信息，它僅會在必要時查詢以下與您個人信息無關的內容：\n\n· 讀取安裝的應用列表；僅在您選擇需要屏蔽自動輸入時使用，這些信息完全是在本地檢查，它的結果不會上傳到任何地方。 \n\n<b>申請的權限</b>\n\n本應用不會申請任何權限。 \n\n<b>本政策的更新</b>\n\n我們可能會不定期更新該本隱私政策，您可以隨時打開此頁面查詢最新版本的隱私政策。</string>
+    <string name="privacy_dialog_cancel">拒絕</string>
+    <string name="privacy_dialog_confirm">同意</string>
+    <!-- privacy policy end -->
 </resources>

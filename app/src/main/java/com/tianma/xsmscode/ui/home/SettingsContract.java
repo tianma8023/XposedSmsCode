@@ -20,7 +20,7 @@ public interface SettingsContract {
 
         void showAppAlreadyNewest();
 
-        void updateUIByModuleStatus(boolean moduleEnabled);
+        void showPrivacyPolicy();
     }
 
     interface Presenter extends BasePresenter<View> {

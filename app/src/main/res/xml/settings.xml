@@ -213,6 +213,11 @@
             android:icon="@drawable/ic_alipay_red_packet"
             android:key="@string/pref_donate_by_alipay"
             android:title="@string/pref_donate_by_alipay_title"/>
+
+        <Preference
+            android:icon="@drawable/ic_privacy_tip"
+            android:key="@string/pref_privacy_policy"
+            android:title="@string/pref_privacy_policy_title"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

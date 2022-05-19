@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">验证码提取器(Xposed)</string>
+    <string name="app_name">XposedSmsCode</string>
     <string name="xposed_description">提取新短信中的验证码并复制到剪贴板，并能自动输入验证码</string>
 
     <!-- general -->
@@ -23,6 +23,8 @@
     <string name="pref_hide_launcher_icon_title">隐藏应用图标</string>
     <string name="pref_hide_launcher_icon_summary">隐藏后可从模块列表中打开本模块</string>
     <string name="pref_choose_theme_title">主题</string>
+    <string name="module_status_active">已激活</string>
+    <string name="module_status_inactive">未激活</string>
     <!-- preferences general end -->
 
     <!-- preferences sms code -->
@@ -115,6 +117,7 @@
     <string name="alipay_enable_prompt">请先启用支付宝</string>
     <string name="wechat_install_prompt">请先安装微信</string>
     <string name="wechat_enable_prompt">请先启用微信</string>
+    <string name="pref_privacy_policy_title">隐私政策</string>
     <!-- preference about end -->
 
     <!-- auto-input block settings -->
@@ -232,7 +235,7 @@
 
     <!-- edxposed users notice -->
     <string name="edxposed_users_notice">EdXposed用户须知</string>
-    <string name="edxposed_users_notice_content">1. 本模块作用在以下应用中(也就是需要Hook以下应用)：\n\t· 电话服务(com.android.phone)\n\t· Android系统(android)\n\n2. 若模块显示未激活，请在模块管理列表中重新勾选本模块，并重启手机。\n\n3. 若您使用全局模式不生效，则切换为白名单（Xposed Hide 白）模式或者在作用域模式，同时需要将第1点中的应用添加进去。</string>
+    <string name="edxposed_users_notice_content">1. 本模块作用在以下应用中(也就是需要Hook以下应用)：\n\t· 电话服务(com.android.phone)\n\t· Android系统(android)\n\n2. 若模块显示未激活，请在模块管理列表中重新勾选本模块，并重启手机。\n\n3. 若您使用全局模式不生效，则切换为白名单（Xposed Hide 白）模式或者在作用域模式，同时需要将第1点中的应用添加进去。1. 本模块作用在以下应用中(也就是需要Hook以下应用)：\n\t· 电话服务(com.android.phone)\n\t· Android系统(android)\n\n2. 若模块显示未激活，请在模块管理列表中重新勾选本模块，并重启手机。\n\n3. 若您使用全局模式不生效，则切换为白名单（Xposed Hide 白）模式或者在作用域模式，同时需要将第1点中的应用添加进去。</string>
     <!-- edxposed users notice end -->
 
     <!-- check update -->
@@ -283,4 +286,10 @@
     </string-array>
     <!-- faq end -->
 
+    <!-- privacy policy start -->
+    <string name="privacy_dialog_title">隐私政策</string>
+    <string name="privacy_dialog_content">发布日期：2022年5月19日\n生效日期：2022年5月19日\n\n<b>基本声明</b>\n\n本应用不会收集您任何隐私信息，它仅会在必要时查询以下与您个人信息无关的内容：\n\n· 读取安装的应用列表；仅在您选择需要屏蔽自动输入时使用，这些信息完全是在本地检查，它的结果不会上传到任何地方。\n\n<b>申请的权限</b>\n\n本应用不会申请任何权限。\n\n<b>本政策的更新</b>\n\n我们可能会不定期更新该本隐私政策，您可以随时打开此页面查询最新版本的隐私政策。</string>
+    <string name="privacy_dialog_cancel">拒绝</string>
+    <string name="privacy_dialog_confirm">同意和接受</string>
+    <!-- privacy policy end -->
 </resources>

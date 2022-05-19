@@ -1,17 +1,18 @@
 package com.tianma.xsmscode.ui.home;
 
+import static com.tianma.xsmscode.ui.home.SettingsFragment.ACTION_DONATE_BY_ALIPAY;
+import static com.tianma.xsmscode.ui.home.SettingsFragment.EXTRA_ACTION;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.tianma.xsmscode.common.constant.Const;
-import com.tianma.xsmscode.common.utils.ModuleUtils;
 import com.tianma.xsmscode.common.utils.PackageUtils;
+import com.tianma.xsmscode.common.utils.SPUtils;
 import com.tianma.xsmscode.common.utils.SmsCodeUtils;
 import com.tianma.xsmscode.common.utils.StorageUtils;
 import com.tianma.xsmscode.common.utils.Utils;
@@ -28,9 +29,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.tianma.xsmscode.ui.home.SettingsFragment.ACTION_DONATE_BY_ALIPAY;
-import static com.tianma.xsmscode.ui.home.SettingsFragment.EXTRA_ACTION;
 
 public class SettingsPresenter implements SettingsContract.Presenter {
 
@@ -64,15 +62,16 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         if (args == null) {
             return;
         }
+
+        if (!SPUtils.isPrivacyPolicyAccepted(mContext)) {
+            mView.showPrivacyPolicy();
+            return;
+        }
+
         String extraAction = args.getString(EXTRA_ACTION);
         if (ACTION_DONATE_BY_ALIPAY.equals(extraAction)) {
             args.remove(EXTRA_ACTION);
             mView.showGetAlipayPacketDialog();
-        } else {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(() -> {
-                mView.updateUIByModuleStatus(ModuleUtils.isModuleEnabled());
-            }, 50L);
         }
     }
 
