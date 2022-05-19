@@ -1,4 +1,6 @@
 # XposedSmsCode
+![Total Downloads](https://img.shields.io/github/downloads/tianma8023/XposedSmsCode/total) ![Total Stars](https://img.shields.io/github/stars/tianma8023/XposedSmsCode?style=social) [![Latest Release](https://img.shields.io/github/v/release/tianma8023/XposedSmsCode?label=Latest%20Release)](https://github.com/tianma8023/XposedSmsCode/releases)
+
 识别短信验证码的Xposed模块，并将验证码拷贝到剪切板，亦可以自动输入验证码。
 
 [English README](/README-EN.md)
