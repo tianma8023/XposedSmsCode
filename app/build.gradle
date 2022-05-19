@@ -20,11 +20,11 @@ android {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 46
-        versionName "2.2.6"
+        versionCode 47
+        versionName "2.2.7"
 
         buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "45")
+        buildConfigField("int", "MODULE_VERSION", "47")
 
         // vectorDrawables.generatedDensities = ['hdpi']
 
@@ -50,7 +50,6 @@ android {
         debug {
             buildConfigField("int", "LOG_LEVEL", "2")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
-            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
 
             if (keyFile.exists()) {
                 signingConfig signingConfigs.release
@@ -65,7 +64,6 @@ android {
 
             buildConfigField("int", "LOG_LEVEL", "2")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
-            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
 
             if (keyFile.exists()) {
                 signingConfig signingConfigs.release
@@ -81,7 +79,6 @@ android {
 
             buildConfigField("int", "LOG_LEVEL", "4")
             buildConfigField("boolean", "LOG_TO_XPOSED", "true")
-            buildConfigField("boolean", "LOG_TO_EDXPOSED", "true")
             if (keyFile.exists()) {
                 signingConfig signingConfigs.release
             }

@@ -4,7 +4,7 @@
 [English README](/README-EN.md)
 
 # 应用截图
-<img src="art/cn/01.png" width="180"/><img src="art/cn/02.png" width="180"/><img src="art/cn/03.png" width="180"/>
+<img src="/art/cn/01.png" width="180"/><img src="/art/cn/02.png" width="180"/><img src="/art/cn/03.png" width="180"/>
 
 可以在 [Xposed仓库](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode) 或者 [酷安](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode) 下载此模块。
 
@@ -18,7 +18,7 @@
 # 注意
 - **此模块适用于偏原生的系统，其他第三方定制Rom可能不适用。**
 - **兼容性：兼容 Android 6.0 及以上（api等级≥23）设备。**
-- **支持 Xposed, EdXposed 和 太极·magisk**
+- **支持 Xposed、EdXposed、LSPosed 以及 太极·magisk**
 - **遇到问题请先阅读模块中的"常见问题"**
 
 # 功能

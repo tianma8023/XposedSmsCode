@@ -55,4 +55,6 @@ public interface PrefConst {
     String KEY_JOIN_QQ_GROUP = "pref_join_qq_group";
     String KEY_SOURCE_CODE = "pref_source_code";
     String KEY_DONATE_BY_ALIPAY = "pref_donate_by_alipay";
+    String KEY_PRIVACY_POLICY = "pref_privacy_policy";
+    String KEY_PRIVACY_POLICY_ACCEPTED = "pref_privacy_policy_accepted";
 }

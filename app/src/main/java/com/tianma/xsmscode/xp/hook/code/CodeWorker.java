@@ -67,10 +67,11 @@ public class CodeWorker {
         smsParseAction.setSmsIntent(mSmsIntent);
         ScheduledFuture<Bundle> smsParseFuture = mScheduledExecutor.schedule(smsParseAction, 0, TimeUnit.MILLISECONDS);
 
-        SmsMsg smsMsg;
+        final SmsMsg smsMsg;
         try {
             Bundle parseBundle = smsParseFuture.get();
             if (parseBundle == null) {
+                // the SMS message doesn't contain verification code
                 return null;
             }
 

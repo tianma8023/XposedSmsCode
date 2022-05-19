@@ -38,6 +38,7 @@
     <string name="pref_join_qq_group">pref_join_qq_group</string>
     <string name="pref_source_code">pref_source_code</string>
     <string name="pref_donate_by_alipay">pref_donate_by_alipay</string>
+    <string name="pref_privacy_policy">pref_privacy_policy</string>
     <!-- shared preference key end -->
 
     <!-- sms code types -->

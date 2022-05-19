@@ -2,19 +2,23 @@ package com.tianma.xsmscode.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.github.tianma8023.xposed.smscode.R;
-import com.tianma.xsmscode.common.utils.PackageUtils;
-import com.tianma.xsmscode.ui.app.base.BaseActivity;
-import com.tianma.xsmscode.ui.faq.FaqFragment;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.tianma8023.xposed.smscode.R;
+import com.tianma.xsmscode.common.utils.ModuleUtils;
+import com.tianma.xsmscode.common.utils.PackageUtils;
+import com.tianma.xsmscode.ui.app.base.BaseActivity;
+import com.tianma.xsmscode.ui.faq.FaqFragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,6 +48,9 @@ public class HomeActivity extends BaseActivity {
 
         // setup toolbar
         setupToolbar();
+
+        // check module activation status
+        checkModuleActivationStatus();
     }
 
     private void setupToolbar() {
@@ -158,5 +165,24 @@ public class HomeActivity extends BaseActivity {
                 .content(R.string.edxposed_users_notice_content)
                 .positiveText(R.string.i_know)
                 .show();
+    }
+
+    private void checkModuleActivationStatus() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() -> {
+            if (isFinishing()) {
+                return;
+            }
+
+            String format = "%s(%s)";
+            String appName = getString(R.string.app_name);
+            final String appTitle;
+            if (ModuleUtils.isModuleEnabled()) {
+                appTitle = String.format(format, appName, getString(R.string.module_status_active));
+            } else {
+                appTitle = String.format(format, appName, getString(R.string.module_status_inactive));
+            }
+            mToolbar.setTitle(appTitle);
+        }, 1000L);
     }
 }

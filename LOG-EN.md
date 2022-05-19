@@ -1,5 +1,8 @@
 # Update Logs
-- 22.02.23 v2.2.6 Reboot required
+- 22.05.19 v2.2.7
+  1. New: Add privacy policy statement
+  2. Others: fix some little bugs
+- 22.02.23 v2.2.6
   1. Change：Adapt to Android 12
 - 21.02.04 v2.2.5
   1. Fix: fix the crash issue of PhoneService on OnePlus Android 11.

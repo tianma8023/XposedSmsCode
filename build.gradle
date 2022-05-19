@@ -7,7 +7,6 @@ buildscript {
             url "https://maven.aliyun.com/repository/public/"
         }
         google()
-        mavenCentral()
         mavenCentral() // add repository
     }
     dependencies {
@@ -18,7 +17,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // greenDao plugin
 
-        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.20' // AndResGuard
+        classpath 'io.github.leon406:AndResGuard-gradle-plugin:1.2.22.6' // AndResGuard
     }
 }
 
@@ -31,6 +30,9 @@ allprojects {
         mavenCentral()
         maven {
             url "https://jitpack.io"
+        }
+        maven {
+            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
         }
     }
 }

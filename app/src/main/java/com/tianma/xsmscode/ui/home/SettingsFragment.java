@@ -6,6 +6,14 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
@@ -16,6 +24,7 @@ import com.tianma.xsmscode.common.preference.ResetEditPreference;
 import com.tianma.xsmscode.common.preference.ResetEditPreferenceDialogFragCompat;
 import com.tianma.xsmscode.common.utils.ModuleUtils;
 import com.tianma.xsmscode.common.utils.PackageUtils;
+import com.tianma.xsmscode.common.utils.SPUtils;
 import com.tianma.xsmscode.common.utils.SnackbarHelper;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.entity.ApkVersion;
@@ -23,13 +32,10 @@ import com.tianma.xsmscode.ui.block.AppBlockActivity;
 import com.tianma.xsmscode.ui.record.CodeRecordActivity;
 import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasAndroidInjector;
@@ -81,6 +87,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         super.onAttach(context);
     }
 
+    @NonNull
+    @Override
+    public <T extends Preference> T findPreference(@NonNull CharSequence key) {
+        return Objects.requireNonNull(super.findPreference(key));
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
@@ -124,12 +136,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         findPreference(PrefConst.KEY_JOIN_QQ_GROUP).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_SOURCE_CODE).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_DONATE_BY_ALIPAY).setOnPreferenceClickListener(this);
+        findPreference(PrefConst.KEY_PRIVACY_POLICY).setOnPreferenceClickListener(this);
         // about group end
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mActivity = (HomeActivity) requireActivity();
 
         mPresenter.handleArguments(getArguments());
@@ -141,18 +154,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         String preferencesName = getPreferenceManager().getSharedPreferencesName();
         mPresenter.setPreferenceWorldWritable(preferencesName);
         mPresenter.setInternalFilesWritable();
-    }
-
-    private void showEnableModuleDialog() {
-        new MaterialDialog.Builder(mActivity)
-                .title(R.string.enable_module_title)
-                .content(R.string.enable_module_message)
-                .neutralText(R.string.ignore)
-                .negativeText(R.string.taichi_users_notice)
-                .onNegative((dialog, which) -> mActivity.onTaichiUsersNoticeSelected())
-                .positiveText(R.string.edxposed_users_notice)
-                .onPositive((dialog, which) -> mActivity.onEdxposedUsersNoticeSelected())
-                .show();
     }
 
     @Override
@@ -182,6 +183,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             AppBlockActivity.startMe(mActivity);
         } else if (PrefConst.KEY_VERSION.equals(key)) {
             mPresenter.checkUpdate();
+        } else if(PrefConst.KEY_PRIVACY_POLICY.equals(key)) {
+            showPrivacyPolicy();
         } else {
             return false;
         }
@@ -285,14 +288,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
 
     @Override
-    public void updateUIByModuleStatus(boolean moduleEnabled) {
-        Preference enablePref = findPreference(PrefConst.KEY_ENABLE);
-        if(moduleEnabled) {
-            enablePref.setSummary(R.string.pref_enable_summary);
-        } else {
-            enablePref.setSummary(R.string.pref_enable_summary_alt);
-
-            showEnableModuleDialog();
-        }
+    public void showPrivacyPolicy() {
+        // 隐私政策
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.privacy_dialog_title)
+                .content(R.string.privacy_dialog_content)
+                .positiveText(R.string.privacy_dialog_confirm)
+                .onPositive((dialog, which) -> {
+                    SPUtils.setPrivacyPolicyAccepted(mActivity, true);
+                })
+                .cancelable(false)
+                .canceledOnTouchOutside(false)
+                .negativeText(R.string.privacy_dialog_cancel)
+                .onNegative((dialog, which) -> {
+                    SPUtils.setPrivacyPolicyAccepted(mActivity, false);
+                    mActivity.finish();
+                })
+                .show();
     }
 }

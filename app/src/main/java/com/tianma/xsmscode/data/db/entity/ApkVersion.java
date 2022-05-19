@@ -3,20 +3,14 @@ package com.tianma.xsmscode.data.db.entity;
 /**
  * Apk version info
  */
-public class ApkVersion {
+public class ApkVersion implements Comparable<ApkVersion> {
 
-    private String mVersionName;
-    private int mVersionValue;
-    private String mVersionInfo;
+    private final String mVersionName;
+    private final String mVersionInfo;
 
     public ApkVersion(String versionName, String versionInfo) {
         mVersionName = versionName;
-        mVersionValue = Integer.parseInt(versionName.replaceAll("\\.", ""));
         mVersionInfo = versionInfo;
-    }
-
-    public int getVersionValue() {
-        return mVersionValue;
     }
 
     public String getVersionInfo() {
@@ -31,8 +25,29 @@ public class ApkVersion {
     public String toString() {
         return "ApkVersion{" +
                 "mVersionName='" + mVersionName + '\'' +
-                ", mVersionValue=" + mVersionValue +
                 ", mVersionInfo='" + mVersionInfo + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ApkVersion that) {
+        if (that == null) {
+            return 1;
+        }
+
+        String[] thisParts = this.getVersionName().split("\\.");
+        String[] thatParts = that.getVersionName().split("\\.");
+
+        int maxLength = Math.max(thisParts.length, thatParts.length);
+        for (int i = 0; i < maxLength; i++) {
+            int thisPart = i < thisParts.length ? Integer.parseInt(thisParts[i]) : 0;
+            int thatPart = i < thatParts.length ? Integer.parseInt(thatParts[i]) : 0;
+            if (thisPart < thatPart) {
+                return -1;
+            } else if (thisPart > thatPart) {
+                return 1;
+            }
+        }
+        return 0;
     }
 }

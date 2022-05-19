@@ -42,23 +42,6 @@ public class SmsCodeUtils {
     }
 
     /**
-     * 是否包含验证码短信关键字
-     *
-     * @param context context
-     * @param content content
-     */
-    public static boolean containsCodeKeywords(Context context, String content, boolean useXSP) {
-        String keywordsRegex;
-        if (useXSP) {
-            keywordsRegex = loadCodeKeywordsByXSP();
-        } else {
-            keywordsRegex = loadCodeKeywordsBySP(context);
-        }
-        String keyword = parseKeyword(keywordsRegex, content);
-        return !TextUtils.isEmpty(keyword);
-    }
-
-    /**
      * 解析文本内容中的验证码关键字，如果有则返回第一个匹配到的关键字，否则返回 空字符串
      */
     private static String parseKeyword(String keywordsRegex, String content) {
@@ -159,12 +142,12 @@ public class SmsCodeUtils {
         return content.replaceAll("\\s*", "");
     }
 
-    /*
+    /**
      * Parse SMS code
      *
      * @param codeRegex SMS code regular expression
-     * @param keyword     SMS code SMS keywords expression
-     * @param content           SMS content
+     * @param keyword   SMS code SMS keywords expression
+     * @param content   SMS content
      * @return the SMS code if it's found, otherwise return empty string ""
      */
     private static String getSmsCode(String codeRegex, String keyword, String content) {
@@ -190,7 +173,7 @@ public class SmsCodeUtils {
         }
 
         int maxMatchLevel = LEVEL_NONE;
-        // minimum distance for possible code to keyword
+        // minimum distance of possible code to keyword
         int minDistance = content.length();
         String smsCode = "";
         for (String filteredCode : filteredCodes) {
@@ -215,11 +198,11 @@ public class SmsCodeUtils {
     private static final int LEVEL_DIGITAL_6 = 4;
     /* 匹配度：4位纯数字，匹配度次之 */
     private static final int LEVEL_DIGITAL_4 = 3;
-    /* 匹配度：纯数字, 匹配度最高*/
+    /* 匹配度：纯数字, 匹配度次之 */
     private static final int LEVEL_DIGITAL_OTHERS = 2;
-    /* 匹配度：数字+字母 混合, 匹配度其次*/
+    /* 匹配度：数字+字母 混合, 匹配度次之 */
     private static final int LEVEL_TEXT = 1;
-    /* 匹配度：纯字母, 匹配度最低*/
+    /* 匹配度：纯字母, 匹配度最低 */
     private static final int LEVEL_CHARACTER = 0;
     private static final int LEVEL_NONE = -1;
 
@@ -236,20 +219,11 @@ public class SmsCodeUtils {
     }
 
     /**
-     * 可能的验证码是否靠近关键字
+     * 可能的验证码是否靠近关键字；
+     * @return 可能的验证码前后30个字符内是否包含验证码关键字，如果包含则返回true；否则返回false
      */
     private static boolean isNearToKeyword(String keyword, String possibleCode, String content) {
-        int beginIndex = 0, endIndex = content.length() - 1;
-        int curIndex = content.indexOf(possibleCode);
-        int strLength = possibleCode.length();
-        int magicNumber = 30;
-        if (curIndex - magicNumber > 0) {
-            beginIndex = curIndex - magicNumber;
-        }
-        if (curIndex + strLength + magicNumber < endIndex) {
-            endIndex = curIndex + strLength + magicNumber;
-        }
-        return content.substring(beginIndex, endIndex).contains(keyword);
+        return distanceToKeyword(keyword, possibleCode, content) <= 30;
     }
 
     /**
@@ -259,17 +233,6 @@ public class SmsCodeUtils {
         int keywordIdx = content.indexOf(keyword);
         int possibleCodeIdx = content.indexOf(possibleCode);
         return Math.abs(keywordIdx - possibleCodeIdx);
-    }
-
-
-    public static boolean isPossiblePhoneNumber(String text) {
-        return text.matches("\\d{8,}");
-    }
-
-    public static boolean containsPhoneNumberKeywords(String content) {
-        Pattern pattern = Pattern.compile(SmsCodeConst.PHONE_NUMBER_KEYWORDS);
-        Matcher matcher = pattern.matcher(content);
-        return matcher.find();
     }
 
     /**
@@ -349,12 +312,12 @@ public class SmsCodeUtils {
             possibleCompanies.add(matcher.group());
         }
         StringBuilder sb = new StringBuilder();
-        boolean needBlank = false; // 是否需要空格分隔
+        boolean needSpace = false; // 是否需要空格分隔
         for (String company : possibleCompanies) {
-            if (needBlank) {
+            if (needSpace) {
                 sb.append(' ');
             } else {
-                needBlank = true;
+                needSpace = true;
             }
             sb.append(company);
         }

@@ -34,7 +34,7 @@ public class PermConst {
         // permission for InputManager#injectInputEvent();
         phonePermissions.add("android.permission.INJECT_EVENTS");
 
-        // permission for kill background process - ActivityManagerService#
+        // permission for kill background process - ActivityManagerService#killBackgroundProcesses()
         phonePermissions.add(Manifest.permission.KILL_BACKGROUND_PROCESSES);
 
         // READ_SMS for Mark SMS as read & Delete extracted verification SMS
@@ -43,7 +43,7 @@ public class PermConst {
         phonePermissions.add("android.permission.WRITE_SMS");
 
         // Permission for grant AppOps permissions
-        if (Build.VERSION.SDK_INT >= 28) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             // Android P
             phonePermissions.add("android.permission.MANAGE_APP_OPS_MODES");
         } else {
