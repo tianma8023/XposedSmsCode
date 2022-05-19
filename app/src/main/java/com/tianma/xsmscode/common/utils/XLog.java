@@ -32,7 +32,8 @@ public class XLog {
 
         // Duplicate to the Xposed log if enabled
         if (LOG_TO_XPOSED) {
-            XposedBridge.log(LOG_TAG + ": " + message);
+            // only log to LSPosed
+            Log.println(priority, "LSPosed-Bridge", LOG_TAG + ": " + message);
         }
     }
 
