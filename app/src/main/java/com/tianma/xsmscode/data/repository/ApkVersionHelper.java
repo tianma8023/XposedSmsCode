@@ -21,6 +21,7 @@ class ApkVersionHelper {
         String versionName = "-1";
         String versionInfo = null;
         if (document != null) {
+            // version name
             Element element = document.selectFirst("title");
             if (element != null) {
                 String text = element.text();
@@ -31,6 +32,7 @@ class ApkVersionHelper {
                 }
             }
 
+            // version info
             Element rootInfoEle = document.selectFirst(".apk_left_title:contains(新版特性)");
             if (rootInfoEle != null) {
                 Element infoEle = rootInfoEle.selectFirst(".apk_left_title_info");

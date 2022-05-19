@@ -135,7 +135,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(latestVersion -> {
                             ApkVersion currentVersion = new ApkVersion(BuildConfig.VERSION_NAME, "");
-                            if (currentVersion.getVersionValue() < latestVersion.getVersionValue()) {
+                            if (currentVersion.compareTo(latestVersion) < 0) {
                                 mView.showUpdateDialog(latestVersion);
                             } else {
                                 mView.showAppAlreadyNewest();

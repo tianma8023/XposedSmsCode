@@ -14,7 +14,6 @@ import io.reactivex.Observable;
 public class DataRepository {
 
     private DataRepository() {
-
     }
 
     private static boolean isInChina() {
