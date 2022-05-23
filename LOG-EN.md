@@ -1,4 +1,8 @@
 # Update Logs
+- 22.05.23 v2.3.0 Reboot required
+  1. New: custom auto input SMS code delay
+  2. Fix: fix the issue of module configuration invalidation
+  3. Remove: remove "mark SMS as read" and "delete SMS code message"
 - 22.05.19 v2.2.7
   1. New: Add privacy policy statement
   2. Others: fix some little bugs
