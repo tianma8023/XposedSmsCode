@@ -3,6 +3,7 @@ package com.tianma.xsmscode.xp;
 import android.util.Log;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.xp.hook.BaseHook;
@@ -38,7 +39,7 @@ public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit 
         }
 
         try {
-            XSharedPreferences xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+            XSharedPreferences xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID, PrefConst.PREF_NAME);
             if (XSPUtils.isVerboseLogMode(xsp)) {
                 XLog.setLogLevel(Log.VERBOSE);
             } else {

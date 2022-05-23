@@ -14,17 +14,20 @@ def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
 }
 
+def VERSION_NAME = "2.3.0"
+def VERSION_CODE = 48
+
 android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 47
-        versionName "2.2.7"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
 
         buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
-        buildConfigField("int", "MODULE_VERSION", "47")
+        buildConfigField("int", "MODULE_VERSION", "" + VERSION_CODE)
 
         // vectorDrawables.generatedDensities = ['hdpi']
 

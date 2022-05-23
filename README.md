@@ -27,9 +27,7 @@ Welcome any feedbacks.
 - Copy verification code to clipboard when a new message arrives.
 - Show toast when a SMS verification code is copied.
 - Show notification when code SMS parsed.
-- Mark verification code message as read(experimental).
-- Delete verification SMS when it's extracted successfully(experimental).
-- Block verification SMS if it's extracted successfully(experimental).
+- Block verification SMS if it's extracted successfully.
 - Custom keywords about verification code message (regular expressions allowed).
 - Support the SMS code match rules customization, importation and exportation.
 - Auto-input SMS code.

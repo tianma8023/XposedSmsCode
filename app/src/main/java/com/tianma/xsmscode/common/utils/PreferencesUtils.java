@@ -16,8 +16,7 @@ public class PreferencesUtils {
     }
 
     private static SharedPreferences getPreferences(Context context) {
-        return context.getSharedPreferences(PrefConst.REMOTE_PREF_NAME,
-                Context.MODE_PRIVATE);
+        return context.getSharedPreferences(PrefConst.PREF_NAME, Context.MODE_PRIVATE);
     }
 
     public static boolean contains(Context context, String key) {

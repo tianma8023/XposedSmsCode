@@ -33,13 +33,19 @@
     <string name="pref_show_toast_summary">接收到驗證碼時顯示快顯訊息</string>
     <string name="pref_copy_to_clipboard_title">拷貝到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">擷取成功后拷貝驗證碼到系統剪切板</string>
-    <string name="pref_enable_auto_input_code_title">自動輸入</string>
-    <string name="pref_enable_auto_input_code_summary">嘗試自動輸入驗證碼</string>
     <string name="pref_block_sms_title">攔截驗證碼簡訊</string>
-    <string name="pref_block_sms_summary">警告：擷取成功後驗證碼簡訊將完全被攔截(屏蔽簡訊和通知)</string>
+    <string name="pref_block_sms_summary">警告：擷取成功後驗證碼簡訊將完全被攔截(即簡訊App不會收到驗證碼簡訊)</string>
     <string name="pref_deduplicate_sms_title">過濾重複簡訊</string>
     <string name="pref_deduplicate_sms_summary">過濾掉短時間內重複的驗證碼簡訊</string>
     <!-- preferences sms code end -->
+
+    <!-- preferences auto-input -->
+    <string name="pref_category_auto_input_title">自動輸入</string>
+    <string name="pref_enable_auto_input_code_title">自動輸入</string>
+    <string name="pref_enable_auto_input_code_summary">自動輸入驗證碼</string>
+    <string name="pref_auto_input_code_delay_title">自動輸入延時</string>
+    <string name="pref_auto_input_code_delay_summary">延時%ss後自動輸入</string>
+    <!-- preferences auto-input end -->
 
     <!-- preference code notification -->
     <string name="pref_notification_title">通知</string>
@@ -93,7 +99,7 @@
     <string name="pref_delete_sms_title">簡訊刪除</string>
     <string name="pref_delete_sms_summary">警告：擷取成功后驗證碼簡訊將被刪除</string>
     <string name="pref_kill_me_title">自殺</string>
-    <string name="pref_kill_me_summary">擷取成功後殺掉本應用</string>
+    <string name="pref_kill_me_summary">驗證碼擷取成功後殺掉本應用</string>
     <!-- preference experimental end -->
 
     <!-- preference others -->

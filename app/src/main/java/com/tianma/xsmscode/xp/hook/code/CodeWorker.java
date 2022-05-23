@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
@@ -16,7 +17,6 @@ import com.tianma.xsmscode.xp.hook.code.action.impl.CancelNotifyAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.CopyToClipboardAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.KillMeAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.NotifyAction;
-import com.tianma.xsmscode.xp.hook.code.action.impl.OperateSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.RecordSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.SmsParseAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.ToastAction;
@@ -42,7 +42,7 @@ public class CodeWorker {
     CodeWorker(Context pluginContext, Context phoneContext, Intent smsIntent) {
         mPluginContext = pluginContext;
         mPhoneContext = phoneContext;
-        xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+        xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID, PrefConst.PREF_NAME);
         mSmsIntent = smsIntent;
 
         mUIHandler = new Handler(Looper.getMainLooper());
@@ -94,8 +94,11 @@ public class CodeWorker {
         mUIHandler.post(new ToastAction(mPluginContext, mPhoneContext, smsMsg, xsp));
 
         // 自动输入 Action
-        AutoInputAction autoInputAction = new AutoInputAction(mPluginContext, mPhoneContext, smsMsg, xsp);
-        mScheduledExecutor.schedule(autoInputAction, 0, TimeUnit.MILLISECONDS);
+        if (XSPUtils.autoInputCodeEnabled(xsp)) {
+            AutoInputAction autoInputAction = new AutoInputAction(mPluginContext, mPhoneContext, smsMsg, xsp);
+            long autoInputDelay = XSPUtils.getAutoInputCodeDelay(xsp) * 1000L;
+            mScheduledExecutor.schedule(autoInputAction, autoInputDelay, TimeUnit.MILLISECONDS);
+        }
 
         // 显示通知 Action
         NotifyAction notifyAction = new NotifyAction(mPluginContext, mPhoneContext, smsMsg, xsp);
@@ -106,8 +109,8 @@ public class CodeWorker {
         mScheduledExecutor.schedule(recordSmsAction, 0, TimeUnit.MILLISECONDS);
 
         // 操作验证码短信（标记为已读 或者 删除） Action
-        OperateSmsAction operateSmsAction = new OperateSmsAction(mPluginContext, mPhoneContext, smsMsg, xsp);
-        mScheduledExecutor.schedule(operateSmsAction, 3000, TimeUnit.MILLISECONDS);
+        // OperateSmsAction operateSmsAction = new OperateSmsAction(mPluginContext, mPhoneContext, smsMsg, xsp);
+        // mScheduledExecutor.schedule(operateSmsAction, 3000, TimeUnit.MILLISECONDS);
 
         // 自杀 Action
         KillMeAction action = new KillMeAction(mPluginContext, mPhoneContext, smsMsg, xsp);

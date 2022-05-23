@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
-import com.tianma.xsmscode.common.constant.SmsCodeConst;
+import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.data.db.DBProvider;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRule;
 import com.tianma.xsmscode.data.db.entity.SmsCodeRuleDao;
@@ -58,7 +58,7 @@ public class SmsCodeUtils {
     }
 
     private static String loadCodeKeywordsByXSP() {
-        XSharedPreferences preferences = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+        XSharedPreferences preferences = new XSharedPreferences(BuildConfig.APPLICATION_ID, PrefConst.PREF_NAME);
         return XSPUtils.getSMSCodeKeywords(preferences);
     }
 

@@ -32,6 +32,22 @@ public class XSPUtils {
     }
 
     /**
+     * 自动输入延迟(单位s)
+     * @param preferences
+     * @return
+     */
+    public static long getAutoInputCodeDelay(XSharedPreferences preferences) {
+        String value = preferences.getString(PrefConst.KEY_AUTO_INPUT_CODE_DELAY, PrefConst.KEY_AUTO_INPUT_CODE_DELAY_DEFAULT);
+        long delay;
+        try {
+            delay = Long.parseLong(value);
+        } catch (Exception e) {
+            delay = Long.parseLong(PrefConst.KEY_AUTO_INPUT_CODE_DELAY_DEFAULT);
+        }
+        return delay;
+    }
+
+    /**
      * 是否应该在复制验证码到系统剪切板之后显示Toast
      */
     public static boolean shouldShowToast(XSharedPreferences preferences) {

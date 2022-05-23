@@ -13,6 +13,7 @@ import android.provider.Telephony;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
 import com.github.tianma8023.xposed.smscode.R;
 import com.tianma.xsmscode.common.constant.NotificationConst;
+import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.utils.NotificationUtils;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
@@ -254,7 +255,7 @@ public class SmsHandlerHook extends BaseHook {
     }
 
     private void registerCopyCodeReceiver() {
-        XSharedPreferences xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+        XSharedPreferences xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID, PrefConst.PREF_NAME);
         if (XSPUtils.showCodeNotification(xsp)) {
             CopyCodeReceiver.registerMe(mPhoneContext);
             XLog.d("Register copy code receiver");

@@ -7,7 +7,7 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
  */
 public interface PrefConst {
 
-    String REMOTE_PREF_NAME = BuildConfig.APPLICATION_ID + "_preferences";
+    String PREF_NAME = BuildConfig.APPLICATION_ID + "_preferences";
 
     // General
     String KEY_ENABLE = "pref_enable";
@@ -18,6 +18,8 @@ public interface PrefConst {
     String KEY_SHOW_TOAST = "pref_show_toast";
     String KEY_COPY_TO_CLIPBOARD = "pref_copy_to_clipboard";
     String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
+    String KEY_AUTO_INPUT_CODE_DELAY = "pref_auto_input_code_delay";
+    String KEY_AUTO_INPUT_CODE_DELAY_DEFAULT = "0";
     String KEY_APP_BLOCK_ENTRY = "pref_app_block_entry";
     String KEY_BLOCK_SMS = "pref_block_sms";
     String KEY_DEDUPLICATE_SMS = "pref_deduplicate_sms";
@@ -32,7 +34,7 @@ public interface PrefConst {
 
     // Code Record
     String KEY_ENABLE_CODE_RECORDS = "pref_enable_code_records";
-    int MAX_SMS_RECORDS_COUNT_DEFAULT = 10;
+    int MAX_SMS_RECORDS_COUNT_DEFAULT = 20;
     String KEY_ENTRY_CODE_RECORDS = "pref_entry_code_records";
 
     // Code Rules
