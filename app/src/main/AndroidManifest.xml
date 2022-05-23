@@ -30,6 +30,9 @@
         <meta-data
             android:name="xposedscope"
             android:resource="@array/xposed_scope"/>
+        <meta-data
+            android:name="xposedsharedprefs"
+            android:value="true" />
 
         <activity
             android:name="com.tianma.xsmscode.ui.home.HomeActivity"

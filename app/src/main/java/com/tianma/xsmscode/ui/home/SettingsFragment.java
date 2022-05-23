@@ -28,6 +28,7 @@ import com.tianma.xsmscode.common.utils.SPUtils;
 import com.tianma.xsmscode.common.utils.SnackbarHelper;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.data.db.entity.ApkVersion;
+import com.tianma.xsmscode.ui.app.base.BasePreferenceFragment;
 import com.tianma.xsmscode.ui.block.AppBlockActivity;
 import com.tianma.xsmscode.ui.record.CodeRecordActivity;
 import com.tianma.xsmscode.ui.rule.CodeRulesActivity;
@@ -44,7 +45,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * 首选项Fragment
  */
-public class SettingsFragment extends PreferenceFragmentCompat implements
+public class SettingsFragment extends BasePreferenceFragment implements
         Preference.OnPreferenceClickListener,
         Preference.OnPreferenceChangeListener,
         HasAndroidInjector,
@@ -94,7 +95,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    protected void doOnCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
 
         // general group

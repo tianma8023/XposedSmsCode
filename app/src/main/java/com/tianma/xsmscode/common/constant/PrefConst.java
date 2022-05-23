@@ -7,7 +7,7 @@ import com.github.tianma8023.xposed.smscode.BuildConfig;
  */
 public interface PrefConst {
 
-    String REMOTE_PREF_NAME = BuildConfig.APPLICATION_ID + "_preferences";
+    String PREF_NAME = BuildConfig.APPLICATION_ID + "_preferences";
 
     // General
     String KEY_ENABLE = "pref_enable";

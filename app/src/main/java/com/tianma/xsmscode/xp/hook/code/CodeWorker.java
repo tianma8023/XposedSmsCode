@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.github.tianma8023.xposed.smscode.BuildConfig;
+import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.utils.XLog;
 import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.data.db.entity.SmsMsg;
@@ -42,7 +43,7 @@ public class CodeWorker {
     CodeWorker(Context pluginContext, Context phoneContext, Intent smsIntent) {
         mPluginContext = pluginContext;
         mPhoneContext = phoneContext;
-        xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+        xsp = new XSharedPreferences(BuildConfig.APPLICATION_ID, PrefConst.PREF_NAME);
         mSmsIntent = smsIntent;
 
         mUIHandler = new Handler(Looper.getMainLooper());

@@ -1,5 +1,7 @@
 package com.tianma.xsmscode.ui.home;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.R;
+import com.tianma.xsmscode.common.constant.PrefConst;
 import com.tianma.xsmscode.common.utils.ModuleUtils;
 import com.tianma.xsmscode.common.utils.PackageUtils;
 import com.tianma.xsmscode.ui.app.base.BaseActivity;
@@ -43,6 +46,8 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         getExternalFilesDir("");
+
+        shareXposedPreferences();
 
         handleIntent(getIntent());
 
@@ -184,5 +189,16 @@ public class HomeActivity extends BaseActivity {
             }
             mToolbar.setTitle(appTitle);
         }, 1000L);
+    }
+
+    @SuppressLint("WorldReadableFiles")
+    private void shareXposedPreferences() {
+        try {
+            // EdXposed or LSPosed new XSharedPreferences:  https://github.com/LSPosed/LSPosed/wiki/New-XSharedPreferences
+            getSharedPreferences(PrefConst.PREF_NAME, Context.MODE_WORLD_READABLE);
+        } catch (SecurityException exception) {
+            // 如果模块没有被 EdXposed 或者 LSPosed 激活，就会走到这里来
+            // ignore
+        }
     }
 }

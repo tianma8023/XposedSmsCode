@@ -77,11 +77,16 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void setPreferenceWorldWritable(String preferencesName) {
+        // 旧版逻辑，Xposed or 太极阳
         // dataDir: /data/data/<package_name>/
         // spDir: /data/data/<package_name>/shared_prefs/
         // spFile: /data/data/<package_name>/shared_prefs/<preferences_name>.xml
         File prefsFile = StorageUtils.getSharedPreferencesFile(mContext, preferencesName);
         StorageUtils.setFileWorldWritable(prefsFile, 2);
+
+        // 新版(2.2.8)起，AndroidManifest.xml 配置了 xposedsharedprefs meta 数据，
+        // EdXposed 或者 LSPosed 会 Hook SP的路径 (/data/misc/{UUID}/{packageName}/prefs/{prefName}.xml)
+        // 所以上面的 prefsFile 不会存在，具体参考: https://github.com/LSPosed/LSPosed/wiki/New-XSharedPreferences
     }
 
     @Override
