@@ -10,10 +10,13 @@
 
     <string name="pref_show_toast">pref_show_toast</string>
     <string name="pref_copy_to_clipboard">pref_copy_to_clipboard</string>
-    <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
-    <string name="pref_app_block_entry">pref_app_block_entry</string>
     <string name="pref_block_sms">pref_block_sms</string>
     <string name="pref_deduplicate_sms">pref_deduplicate_sms</string>
+
+    <string name="pref_enable_auto_input_code">pref_enable_auto_input_code</string>
+    <string name="pref_enable_auto_input_code_default">0</string>
+    <string name="pref_auto_input_code_delay">pref_auto_input_code_delay</string>
+    <string name="pref_app_block_entry">pref_app_block_entry</string>
 
     <string name="pref_show_code_notification">pref_show_code_notification</string>
     <string name="pref_auto_cancel_notification">pref_auto_cancel_code_notification</string>

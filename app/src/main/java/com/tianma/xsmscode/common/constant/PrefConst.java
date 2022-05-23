@@ -18,6 +18,8 @@ public interface PrefConst {
     String KEY_SHOW_TOAST = "pref_show_toast";
     String KEY_COPY_TO_CLIPBOARD = "pref_copy_to_clipboard";
     String KEY_ENABLE_AUTO_INPUT_CODE = "pref_enable_auto_input_code";
+    String KEY_AUTO_INPUT_CODE_DELAY = "pref_auto_input_code_delay";
+    String KEY_AUTO_INPUT_CODE_DELAY_DEFAULT = "0";
     String KEY_APP_BLOCK_ENTRY = "pref_app_block_entry";
     String KEY_BLOCK_SMS = "pref_block_sms";
     String KEY_DEDUPLICATE_SMS = "pref_deduplicate_sms";

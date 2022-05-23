@@ -43,21 +43,6 @@
             android:title="@string/pref_copy_to_clipboard_title"/>
 
         <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/pref_enable"
-            android:icon="@drawable/ic_automatic"
-            android:key="@string/pref_enable_auto_input_code"
-            android:summary="@string/pref_enable_auto_input_code_summary"
-            android:title="@string/pref_enable_auto_input_code_title"/>
-
-        <Preference
-            android:dependency="@string/pref_enable_auto_input_code"
-            android:icon="@drawable/ic_block"
-            android:key="@string/pref_app_block_entry"
-            android:summary="@string/app_block_summary"
-            android:title="@string/app_block_settings"/>
-
-        <SwitchPreference
             android:defaultValue="false"
             android:dependency="@string/pref_enable"
             android:icon="@drawable/ic_intercept"
@@ -72,6 +57,31 @@
             android:key="@string/pref_deduplicate_sms"
             android:title="@string/pref_deduplicate_sms_title"
             android:summary="@string/pref_deduplicate_sms_summary"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_auto_input_title">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_automatic"
+            android:key="@string/pref_enable_auto_input_code"
+            android:summary="@string/pref_enable_auto_input_code_summary"
+            android:title="@string/pref_enable_auto_input_code_title"/>
+
+        <EditTextPreference
+            android:defaultValue="@string/pref_enable_auto_input_code_default"
+            android:dependency="@string/pref_enable_auto_input_code"
+            android:icon="@drawable/ic_baseline_timer"
+            android:key="@string/pref_auto_input_code_delay"
+            android:summary="@string/pref_auto_input_code_delay_summary"
+            android:title="@string/pref_auto_input_code_delay_title" />
+
+        <Preference
+            android:dependency="@string/pref_enable_auto_input_code"
+            android:icon="@drawable/ic_block"
+            android:key="@string/pref_app_block_entry"
+            android:summary="@string/app_block_summary"
+            android:title="@string/app_block_settings"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_notification_title">

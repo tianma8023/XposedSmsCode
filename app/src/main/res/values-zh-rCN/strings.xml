@@ -33,13 +33,19 @@
     <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
     <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
-    <string name="pref_enable_auto_input_code_title">自动输入</string>
-    <string name="pref_enable_auto_input_code_summary">尝试自动输入验证码</string>
     <string name="pref_block_sms_title">拦截验证码短信</string>
     <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
     <string name="pref_deduplicate_sms_title">过滤重复短信</string>
     <string name="pref_deduplicate_sms_summary">过滤掉短时间内重复的验证码短信</string>
     <!-- preferences sms code end -->
+
+    <!-- preferences auto-input -->
+    <string name="pref_category_auto_input_title">自动输入</string>
+    <string name="pref_enable_auto_input_code_title">自动输入</string>
+    <string name="pref_enable_auto_input_code_summary">在当前输入焦点处自动输入验证码</string>
+    <string name="pref_auto_input_code_delay_title">自动输入延迟</string>
+    <string name="pref_auto_input_code_delay_summary">延迟 %ss 后自动输入</string>
+    <!-- preferences auto-input end -->
 
     <!-- preference code notification -->
     <string name="pref_notification_title">通知</string>

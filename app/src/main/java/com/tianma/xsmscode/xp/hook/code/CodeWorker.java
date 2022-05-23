@@ -17,7 +17,6 @@ import com.tianma.xsmscode.xp.hook.code.action.impl.CancelNotifyAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.CopyToClipboardAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.KillMeAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.NotifyAction;
-import com.tianma.xsmscode.xp.hook.code.action.impl.OperateSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.RecordSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.SmsParseAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.ToastAction;
@@ -95,8 +94,11 @@ public class CodeWorker {
         mUIHandler.post(new ToastAction(mPluginContext, mPhoneContext, smsMsg, xsp));
 
         // 自动输入 Action
-        AutoInputAction autoInputAction = new AutoInputAction(mPluginContext, mPhoneContext, smsMsg, xsp);
-        mScheduledExecutor.schedule(autoInputAction, 0, TimeUnit.MILLISECONDS);
+        if (XSPUtils.autoInputCodeEnabled(xsp)) {
+            AutoInputAction autoInputAction = new AutoInputAction(mPluginContext, mPhoneContext, smsMsg, xsp);
+            long autoInputDelay = XSPUtils.getAutoInputCodeDelay(xsp) * 1000L;
+            mScheduledExecutor.schedule(autoInputAction, autoInputDelay, TimeUnit.MILLISECONDS);
+        }
 
         // 显示通知 Action
         NotifyAction notifyAction = new NotifyAction(mPluginContext, mPhoneContext, smsMsg, xsp);

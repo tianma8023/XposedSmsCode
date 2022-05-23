@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.tianma8023.xposed.smscode.BuildConfig;
@@ -105,19 +105,28 @@ public class SettingsFragment extends BasePreferenceFragment implements
         }
 
         findPreference(PrefConst.KEY_HIDE_LAUNCHER_ICON).setOnPreferenceChangeListener(this);
-
         findPreference(PrefConst.KEY_CHOOSE_THEME).setOnPreferenceClickListener(this);
+        // general group end
+
+        // SMS code group
+        EditTextPreference autoInputDelayPref = findPreference(PrefConst.KEY_AUTO_INPUT_CODE_DELAY);
+        autoInputDelayPref.setOnBindEditTextListener(editText -> {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            editText.setSelection(editText.getText().length());
+        });
+        showAutoInputDelaySummary(autoInputDelayPref, autoInputDelayPref.getText());
+        autoInputDelayPref.setOnPreferenceChangeListener(this);
 
         findPreference(PrefConst.KEY_APP_BLOCK_ENTRY).setOnPreferenceClickListener(this);
-        // general group end
+        // SMS code group end
 
         // experimental group
         // experimental group end
 
-        // code message group
+        // code rule group
         findPreference(PrefConst.KEY_CODE_RULES).setOnPreferenceClickListener(this);
         findPreference(PrefConst.KEY_SMSCODE_TEST).setOnPreferenceClickListener(this);
-        // code message group end
+        // code rule group end
 
         // code records group
         Preference recordsEntryPref = findPreference(PrefConst.KEY_ENTRY_CODE_RECORDS);
@@ -214,6 +223,8 @@ public class SettingsFragment extends BasePreferenceFragment implements
             mPresenter.hideOrShowLauncherIcon((Boolean) newValue);
         } else if (PrefConst.KEY_VERBOSE_LOG_MODE.equals(key)) {
             onVerboseLogModeSwitched((Boolean) newValue);
+        } else if(PrefConst.KEY_AUTO_INPUT_CODE_DELAY.equals(key)) {
+            return onAutoInputDelayPrefChanged(preference, newValue);
         } else {
             return false;
         }
@@ -306,5 +317,24 @@ public class SettingsFragment extends BasePreferenceFragment implements
                     mActivity.finish();
                 })
                 .show();
+    }
+
+    private boolean onAutoInputDelayPrefChanged(Preference preference, Object newValue) {
+        if (newValue instanceof String) {
+            String value = (String) newValue;
+            showAutoInputDelaySummary(preference, value);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void showAutoInputDelaySummary(Preference preference, String value) {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+        String summary = context.getString(R.string.pref_auto_input_code_delay_summary, value);
+        preference.setSummary(summary);
     }
 }

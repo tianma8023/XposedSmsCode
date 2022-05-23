@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.tianma.xsmscode.common.utils.XLog;
-import com.tianma.xsmscode.common.utils.XSPUtils;
 import com.tianma.xsmscode.data.db.DBProvider;
 import com.tianma.xsmscode.data.db.entity.AppInfo;
 import com.tianma.xsmscode.data.db.entity.AppInfoDao;
@@ -40,10 +39,8 @@ public class AutoInputAction extends CallableAction {
     }
 
     private void prepareAutoInputCode(String code) {
-        if (XSPUtils.autoInputCodeEnabled(xsp)) {
-            if (!autoInputBlockedHere()) {
-                autoInputCode(code);
-            }
+        if (!autoInputBlockedHere()) {
+            autoInputCode(code);
         }
     }
 
