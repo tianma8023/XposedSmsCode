@@ -93,7 +93,7 @@
     <string name="pref_delete_sms_title">验证码短信删除</string>
     <string name="pref_delete_sms_summary">警告：提取成功后验证码短信将被删除</string>
     <string name="pref_kill_me_title">自杀</string>
-    <string name="pref_kill_me_summary">提取成功后杀掉本应用</string>
+    <string name="pref_kill_me_summary">验证码提取成功后杀掉本应用</string>
     <!-- preference experimental end -->
 
     <!-- preference others -->
