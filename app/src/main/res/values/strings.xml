@@ -76,6 +76,8 @@
     <string name="some_items_removed">Removed %d record(s)</string>
     <string name="message_details">Message Details</string>
     <string name="copy_smscode">Copy Code</string>
+    <string name="copy_sms">Copy Message</string>
+    <string name="prompt_sms_copied">SMS copied</string>
     <string name="pref_enable_code_records_title">Reserve SMS code records</string>
     <!-- preference code records end -->
 
