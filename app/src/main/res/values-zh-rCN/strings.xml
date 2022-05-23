@@ -34,7 +34,7 @@
     <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
     <string name="pref_block_sms_title">拦截验证码短信</string>
-    <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(屏蔽短信和通知)</string>
+    <string name="pref_block_sms_summary">警告：提取成功后验证码短信将完全被拦截(即短信App不会收到验证码短信)</string>
     <string name="pref_deduplicate_sms_title">过滤重复短信</string>
     <string name="pref_deduplicate_sms_summary">过滤掉短时间内重复的验证码短信</string>
     <!-- preferences sms code end -->
