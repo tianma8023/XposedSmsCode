@@ -32,7 +32,7 @@ public interface PrefConst {
 
     // Code Record
     String KEY_ENABLE_CODE_RECORDS = "pref_enable_code_records";
-    int MAX_SMS_RECORDS_COUNT_DEFAULT = 10;
+    int MAX_SMS_RECORDS_COUNT_DEFAULT = 20;
     String KEY_ENTRY_CODE_RECORDS = "pref_entry_code_records";
 
     // Code Rules
