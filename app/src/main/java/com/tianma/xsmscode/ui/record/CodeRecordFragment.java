@@ -154,7 +154,16 @@ public class CodeRecordFragment extends DaggerBackPressFragment implements CodeR
                 .positiveText(R.string.copy_smscode)
                 .onPositive((dialog, which) -> copySmsCode(recordItem))
                 .negativeText(R.string.cancel)
+                .neutralText(R.string.copy_sms)
+                .onNeutral((dialog, which) -> copySms(recordItem))
                 .show();
+    }
+
+    private void copySms(RecordItem item) {
+        String sms = item.getSmsMsg().getBody();
+        ClipboardUtils.copyToClipboard(mActivity, sms);
+        String prompt = getString(R.string.prompt_sms_copied);
+        SnackbarHelper.makeShort(mRecyclerView, prompt).show();
     }
 
     private void copySmsCode(RecordItem item) {
