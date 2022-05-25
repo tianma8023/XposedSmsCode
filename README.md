@@ -8,7 +8,11 @@ An Xposed module which can recognize, parse SMS code and copy it to clipboard wh
 # Screenshots
 <img src="/art/en/01.png" width="180"/><img src="/art/en/02.png" width="180"/><img src="/art/en/03.png" width="180"/>
 
-You can download this module on [Xposed Repository](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode) or [Coolapk](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode). 
+# Download
+- [GitHub Releases](https://github.com/tianma8023/XposedSmsCode/releases)
+- [LSPosed Repository](https://github.com/Xposed-Modules-Repo/com.github.tianma8023.xposed.smscode/releases/)
+- [Coolapk](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode)
+- [Xposed Repository](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode)
 
 # Usage
 1. Root your device and install Xposed Framework.
@@ -25,8 +29,10 @@ Welcome any feedbacks.
 
 # Features
 - Copy verification code to clipboard when a new message arrives.
-- Show toast when a SMS verification code is copied.
-- Show notification when code SMS parsed.
+- Show toast when the verification code is copied.
+- Show notification when verification SMS parsed.
+- Mark verification SMS as read(experimental).
+- Delete verification SMS when it's extracted successfully(experimental).
 - Block verification SMS if it's extracted successfully.
 - Custom keywords about verification code message (regular expressions allowed).
 - Support the SMS code match rules customization, importation and exportation.
@@ -41,7 +47,6 @@ Welcome any feedbacks.
 - [NekoSMS](https://github.com/apsun/NekoSMS)
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [Material Dialogs](https://github.com/afollestad/material-dialogs)
-- [Android Shell](https://github.com/jaredrummler/AndroidShell)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [GreenDao](https://github.com/greenrobot/greenDAO)
 - [GreenDaoUpgradeHelper](https://github.com/yuweiguocn/GreenDaoUpgradeHelper)

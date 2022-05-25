@@ -1,11 +1,15 @@
 # Update Logs
+- 22.05.25 v2.3.1 Reboot required
+  1. Change: Restore feature of "mark SMS as read" and "delete SMS code message"
+  2. Change: SMS Code record support copy SMS message content to clipboard @fxdqe
+  3. Others: fix some little bugs
 - 22.05.23 v2.3.0 Reboot required
   1. New: custom auto input SMS code delay
   2. Fix: fix the issue of module configuration invalidation
   3. Remove: remove "mark SMS as read" and "delete SMS code message"
 - 22.05.19 v2.2.7
   1. New: Add privacy policy statement
-  2. Others: fix some little bugs
+  2. Others: fix some little bug
 - 22.02.23 v2.2.6
   1. Change：Adapt to Android 12
 - 21.02.04 v2.2.5

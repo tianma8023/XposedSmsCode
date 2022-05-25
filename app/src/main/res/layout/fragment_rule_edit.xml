@@ -37,6 +37,33 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rule_keyword_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rule_company_input_layout"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/rule_code_regex_input_layout"
+        app:layout_constraintEnd_toEndOf="@+id/rule_company_input_layout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/rule_company_input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/rule_company_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rule_keyword_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rule_keyword_hint"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rule_code_regex_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,33 +84,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/rule_code_regex_hint"
             android:imeOptions="actionDone"
-            android:maxLines="1"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:singleLine="true" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/rule_keyword_input_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rule_company_input_layout"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        app:boxBackgroundColor="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/rule_code_regex_input_layout"
-        app:layout_constraintEnd_toEndOf="@+id/rule_company_input_layout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/rule_company_input_layout"
-        app:layout_constraintTop_toBottomOf="@+id/rule_company_input_layout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/rule_keyword_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/rule_keyword_hint"
-            android:imeOptions="actionNext"
             android:maxLines="1"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
