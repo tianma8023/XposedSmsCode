@@ -8,7 +8,12 @@
 # 应用截图
 <img src="/art/cn/01.png" width="180"/><img src="/art/cn/02.png" width="180"/><img src="/art/cn/03.png" width="180"/>
 
-可以在 [Xposed仓库](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode) 或者 [酷安](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode) 下载此模块。
+# 下载
+下载地址:
+- [酷安](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode)
+- [GitHub Releases](https://github.com/tianma8023/XposedSmsCode/releases)
+- [LSPosed仓库](https://github.com/Xposed-Modules-Repo/com.github.tianma8023.xposed.smscode/releases/)
+- [Xposed仓库](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode)
 
 # 使用
 1. Root你的设备，安装Xposed框架；
@@ -27,6 +32,8 @@
 - 收到验证码短信后将验证码复制到系统剪贴板
 - 收到验证码时显示Toast
 - 收到验证码时显示通知
+- 将验证码短信标记为已读（实验性）
+- 验证码提取成功后，删除验证码短信（实验性）
 - 拦截验证码短信
 - 自定义验证码短信关键字（正则表达式）
 - 自定义验证码匹配规则，并支持规则导入导出
@@ -41,7 +48,6 @@
 - [NekoSMS](https://github.com/apsun/NekoSMS)
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [Material Dialogs](https://github.com/afollestad/material-dialogs)
-- [Android Shell](https://github.com/jaredrummler/AndroidShell)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [GreenDao](https://github.com/greenrobot/greenDAO)
 - [GreenDaoUpgradeHelper](https://github.com/yuweiguocn/GreenDaoUpgradeHelper)
