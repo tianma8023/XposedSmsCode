@@ -163,20 +163,20 @@
         android:key="@string/pref_experimental"
         android:title="@string/pref_experimental_title">
 
-<!--        <SwitchPreference-->
-<!--            android:defaultValue="false"-->
-<!--            android:dependency="@string/pref_enable"-->
-<!--            android:icon="@drawable/ic_mark_as_read"-->
-<!--            android:key="@string/pref_mark_as_read"-->
-<!--            android:summary="@string/pref_mark_as_read_summary"-->
-<!--            android:title="@string/pref_mark_as_read_title"/>-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_mark_as_read"
+            android:key="@string/pref_mark_as_read"
+            android:summary="@string/pref_mark_as_read_summary"
+            android:title="@string/pref_mark_as_read_title"/>
 
-<!--        <SwitchPreference-->
-<!--            android:dependency="@string/pref_enable"-->
-<!--            android:icon="@drawable/ic_delete"-->
-<!--            android:key="@string/pref_delete_sms"-->
-<!--            android:summary="@string/pref_delete_sms_summary"-->
-<!--            android:title="@string/pref_delete_sms_title"/>-->
+        <SwitchPreference
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_delete"
+            android:key="@string/pref_delete_sms"
+            android:summary="@string/pref_delete_sms_summary"
+            android:title="@string/pref_delete_sms_title"/>
 
         <SwitchPreference
             android:defaultValue="false"

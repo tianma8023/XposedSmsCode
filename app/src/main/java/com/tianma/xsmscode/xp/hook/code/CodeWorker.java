@@ -17,6 +17,7 @@ import com.tianma.xsmscode.xp.hook.code.action.impl.CancelNotifyAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.CopyToClipboardAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.KillMeAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.NotifyAction;
+import com.tianma.xsmscode.xp.hook.code.action.impl.OperateSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.RecordSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.SmsParseAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.ToastAction;
@@ -109,8 +110,8 @@ public class CodeWorker {
         mScheduledExecutor.schedule(recordSmsAction, 0, TimeUnit.MILLISECONDS);
 
         // 操作验证码短信（标记为已读 或者 删除） Action
-        // OperateSmsAction operateSmsAction = new OperateSmsAction(mPluginContext, mPhoneContext, smsMsg, xsp);
-        // mScheduledExecutor.schedule(operateSmsAction, 3000, TimeUnit.MILLISECONDS);
+        OperateSmsAction operateSmsAction = new OperateSmsAction(mPluginContext, mPhoneContext, smsMsg, xsp);
+        mScheduledExecutor.schedule(operateSmsAction, 3000, TimeUnit.MILLISECONDS);
 
         // 自杀 Action
         KillMeAction action = new KillMeAction(mPluginContext, mPhoneContext, smsMsg, xsp);
