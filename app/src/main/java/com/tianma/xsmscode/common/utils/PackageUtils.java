@@ -223,7 +223,7 @@ public class PackageUtils {
     }
 
     public static void showAppDetailsInCoolApk(Context context) {
-        int packageState = checkPackageState(context, Const.ALIPAY_PACKAGE_NAME);
+        int packageState = checkPackageState(context, Const.COOL_MARKET_PACKAGE_NAME);
         if (packageState == PACKAGE_ENABLED) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
