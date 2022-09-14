@@ -18,7 +18,7 @@ def VERSION_NAME = "2.3.1"
 def VERSION_CODE = 49
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
