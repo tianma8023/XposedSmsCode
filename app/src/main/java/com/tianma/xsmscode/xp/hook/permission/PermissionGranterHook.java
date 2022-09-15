@@ -18,7 +18,9 @@ public class PermissionGranterHook extends BaseHook {
         if (ANDROID_PACKAGE.equals(lpparam.packageName) && ANDROID_PACKAGE.equals(lpparam.processName)) {
             ClassLoader classLoader = lpparam.classLoader;
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){ // Android 13+
+                new PermissionManagerServiceHook33(classLoader).startHook();
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Android 12~12L
                 new PermissionManagerServiceHook31(classLoader).startHook();
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){ // Android 11
                 new PermissionManagerServiceHook30(classLoader).startHook();
