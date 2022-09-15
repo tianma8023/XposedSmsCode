@@ -14,8 +14,8 @@ def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
 }
 
-def VERSION_NAME = "2.3.1"
-def VERSION_CODE = 49
+def VERSION_NAME = "2.4.0"
+def VERSION_CODE = 50
 
 android {
     compileSdkVersion 33

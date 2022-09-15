@@ -1,4 +1,6 @@
 # Update Logs
+- 22.09.15 v2.4.0 Reboot required
+  1. Change: Adapt to Android 13, fix the issue of cannot auto input SMS code
 - 22.05.25 v2.3.1 Reboot required
   1. Change: Restore feature of "mark SMS as read" and "delete SMS code message"
   2. Change: SMS Code record support copy SMS message content to clipboard @fxdqe
