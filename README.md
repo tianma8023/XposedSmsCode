@@ -1,6 +1,8 @@
 # XposedSmsCode
 ![Total Downloads](https://img.shields.io/github/downloads/tianma8023/XposedSmsCode/total) ![Total Stars](https://img.shields.io/github/stars/tianma8023/XposedSmsCode?style=social) [![Latest Release](https://img.shields.io/github/v/release/tianma8023/XposedSmsCode?label=Latest%20Release)](https://github.com/tianma8023/XposedSmsCode/releases)
 
+![Star History Chart](https://api.star-history.com/svg?repos=tianma8023/XposedSmsCode&type=Date)
+
 An Xposed module which can recognize, parse SMS code and copy it to clipboard when a new message arrives. It can also input SMS code automatically.
 
 [中文版说明](/README-CN.md)
