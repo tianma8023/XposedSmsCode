@@ -14,11 +14,13 @@ def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
 }
 
-def VERSION_NAME = "2.4.0"
-def VERSION_CODE = 50
+def VERSION_NAME = "2.5.0"
+def VERSION_CODE = 51
 
 android {
-    compileSdkVersion 33
+    namespace 'com.github.tianma8023.xposed.smscode'
+
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
@@ -28,10 +30,10 @@ android {
 
         buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
         buildConfigField("int", "MODULE_VERSION", "" + VERSION_CODE)
+        resConfigs 'en', 'zh-rCN', 'zh-rTW'
 
         // vectorDrawables.generatedDensities = ['hdpi']
 
-        resConfigs("en", "zh-rCN", "zh-rTW")
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -144,12 +146,12 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.appcompat:appcompat:1.4.1"
-    implementation "com.google.android.material:material:1.6.0" // material design support
-    implementation "androidx.recyclerview:recyclerview:1.2.1" // recycler view
-    implementation "androidx.browser:browser:1.4.0" // custom tabs
-    implementation "androidx.preference:preference:1.2.0" // preference support
-    implementation "androidx.constraintlayout:constraintlayout:2.1.3" // constraint layout
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.10.0" // material design support
+    implementation "androidx.recyclerview:recyclerview:1.3.2" // recycler view
+    implementation "androidx.browser:browser:1.6.0" // custom tabs
+    implementation "androidx.preference:preference:1.2.1" // preference support
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4" // constraint layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0" // swipe refresh layout
 
     // ButterKnife
@@ -158,7 +160,7 @@ dependencies {
 
     // Xposed
     compileOnly 'de.robv.android.xposed:api:82'
-    compileOnly 'de.robv.android.xposed:api:82:sources'
+    // compileOnly 'de.robv.android.xposed:api:82:sources'
 
     // Material Dialogs
     implementation "com.afollestad.material-dialogs:core:$materialDialogVersion"
