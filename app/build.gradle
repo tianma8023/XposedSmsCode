@@ -14,10 +14,12 @@ def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
 }
 
-def VERSION_NAME = "2.4.0"
+def VERSION_NAME = "2.5.0"
 def VERSION_CODE = 50
 
 android {
+    namespace 'com.github.tianma8023.xposed.smscode'
+
     compileSdkVersion 34
     defaultConfig {
         applicationId "com.github.tianma8023.xposed.smscode"
@@ -28,10 +30,10 @@ android {
 
         buildConfigField("String", "LOG_TAG", "\"XSmsCode\"")
         buildConfigField("int", "MODULE_VERSION", "" + VERSION_CODE)
+        resConfigs 'en', 'zh-rCN', 'zh-rTW'
 
         // vectorDrawables.generatedDensities = ['hdpi']
 
-        resConfigs("en", "zh-rCN", "zh-rTW")
 
         javaCompileOptions {
             annotationProcessorOptions {
