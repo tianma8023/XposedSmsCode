@@ -18,6 +18,14 @@ public class CopyCodeReceiver extends BroadcastReceiver {
     private static final String ACTION_COPY_CODE = BuildConfig.APPLICATION_ID + ".ACTION_COPY_CODE";
     private static final String EXTRA_KEY_CODE = "extra_key_code";
 
+    private static class CopyCodeReceiverHolder {
+        private static final CopyCodeReceiver INSTANCE = new CopyCodeReceiver();
+    }
+
+    public static CopyCodeReceiver newInstance() {
+        return CopyCodeReceiverHolder.INSTANCE;
+    }
+
     public static Intent createIntent(String smsCode) {
         Intent intent = new Intent(ACTION_COPY_CODE);
         intent.putExtra(EXTRA_KEY_CODE, smsCode);
@@ -25,7 +33,7 @@ public class CopyCodeReceiver extends BroadcastReceiver {
     }
 
     public static void registerMe(Context context) {
-        CopyCodeReceiver receiver = new CopyCodeReceiver();
+        CopyCodeReceiver receiver = CopyCodeReceiver.newInstance();
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_COPY_CODE);
         context.registerReceiver(receiver, filter);
