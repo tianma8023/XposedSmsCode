@@ -64,7 +64,7 @@ public class SmsCodeApplication extends DaggerApplication {
             String channelId = NotificationConst.CHANNEL_ID_SMSCODE_NOTIFICATION;
             String channelName = getString(R.string.channel_name_smscode_notification);
             NotificationUtils.createNotificationChannel(this,
-                    channelId, channelName, NotificationManager.IMPORTANCE_MIN);
+                    channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
         }
     }
 

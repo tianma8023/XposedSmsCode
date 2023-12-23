@@ -3,6 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name="com.tianma.xsmscode.ui.app.SmsCodeApplication"
@@ -137,5 +138,11 @@
                 android:resource="@xml/files"/>
         </provider>
     </application>
+
+    <queries>
+        <package android:name="me.weishu.exp" />
+        <package android:name="com.eg.android.AlipayGphone" />
+        <package android:name="com.coolapk.market" />
+    </queries>
 
 </manifest>

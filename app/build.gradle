@@ -20,11 +20,11 @@ def VERSION_CODE = 51
 android {
     namespace 'com.github.tianma8023.xposed.smscode'
 
-    compileSdkVersion 34
+    compileSdk 34
     defaultConfig {
         applicationId "com.github.tianma8023.xposed.smscode"
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 34
         versionCode VERSION_CODE
         versionName VERSION_NAME
 
