@@ -300,8 +300,4 @@
     <string name="privacy_dialog_cancel">拒絕</string>
     <string name="privacy_dialog_confirm">同意</string>
     <!-- privacy policy end -->
-
-    <!-- permission start -->
-    <string name="permission_notification_denied">通知權限被拒絕，顯示通知將不會工作</string>
-    <!-- permission end -->
 </resources>

@@ -44,7 +44,7 @@ public class NotifyAction extends CallableAction {
         return null;
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
+    @SuppressLint({"UnspecifiedImmutableFlag", "NotificationPermission"})
     private Bundle showCodeNotification(SmsMsg smsMsg) {
         NotificationManager manager = (NotificationManager) mPhoneContext.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager == null) {

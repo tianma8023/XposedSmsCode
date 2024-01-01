@@ -301,8 +301,4 @@
     <string name="privacy_dialog_cancel">Refuse</string>
     <string name="privacy_dialog_confirm">Accept</string>
     <!-- privacy policy end -->
-
-    <!-- permission start -->
-    <string name="permission_notification_denied">Notification Permission is denied, show notification won\'t work</string>
-    <!-- permission end -->
 </resources>
