@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <application
         android:name="com.tianma.xsmscode.ui.app.SmsCodeApplication"
@@ -19,16 +21,16 @@
         <!-- xposed module configuration -->
         <meta-data
             android:name="xposedmodule"
-            android:value="true"/>
+            android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/xposed_description"/>
+            android:value="@string/xposed_description" />
         <meta-data
             android:name="xposedminversion"
-            android:value="30"/>
+            android:value="30" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/xposed_scope"/>
+            android:resource="@array/xposed_scope" />
         <meta-data
             android:name="xposedsharedprefs"
             android:value="true" />
@@ -39,8 +41,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
 
@@ -50,13 +52,13 @@
             android:exported="true"
             android:targetActivity="com.tianma.xsmscode.ui.home.HomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+                android:resource="@xml/shortcuts" />
         </activity-alias>
 
         <activity
@@ -64,28 +66,28 @@
             android:exported="true"
             android:label="@string/import_rules">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="*"
                     android:mimeType="*/*"
                     android:pathPattern="/.*\\.scebak"
-                    android:scheme="file"/>
+                    android:scheme="file" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="*"
                     android:mimeType="*/*"
                     android:pathPattern="/.*\\.scebak"
-                    android:scheme="content"/>
+                    android:scheme="content" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -104,28 +106,28 @@
 
         <activity
             android:name="com.tianma.xsmscode.ui.record.CodeRecordActivity"
-            android:label="@string/smscode_records"/>
+            android:label="@string/smscode_records" />
 
         <activity
             android:name="com.tianma.xsmscode.ui.block.AppBlockActivity"
-            android:label="@string/app_block_settings"/>
+            android:label="@string/app_block_settings" />
 
         <activity
-            tools:replace="android:theme"
             android:name="com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity"
             android:label="@string/label_theme_picker"
-            android:theme="@style/AppActionBarTheme"/>
+            android:theme="@style/AppActionBarTheme"
+            tools:replace="android:theme" />
 
         <activity
-            tools:replace="android:theme"
             android:name="com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity"
             android:label="@string/pref_theme_title"
-            android:theme="@style/AppActionBarTheme"/>
+            android:theme="@style/AppActionBarTheme"
+            tools:replace="android:theme" />
 
         <provider
             android:name="com.tianma.xsmscode.data.db.DBProvider"
             android:authorities="${applicationId}.db.provider"
-            android:exported="true"/>
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -134,7 +136,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/files"/>
+                android:resource="@xml/files" />
         </provider>
     </application>
 

@@ -44,7 +44,7 @@ public class NotifyAction extends CallableAction {
         return null;
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
+    @SuppressLint({"UnspecifiedImmutableFlag", "NotificationPermission"})
     private Bundle showCodeNotification(SmsMsg smsMsg) {
         NotificationManager manager = (NotificationManager) mPhoneContext.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager == null) {
@@ -60,7 +60,16 @@ public class NotifyAction extends CallableAction {
 
         Intent copyCodeIntent = CopyCodeReceiver.createIntent(smsCode);
         final PendingIntent contentIntent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            // Targeting U+ (version 34 and above) disallows creating or retrieving a PendingIntent with FLAG_MUTABLE,
+            // an implicit Intent within and without FLAG_NO_CREATE and FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT
+            // for security reasons. To retrieve an already existing PendingIntent, use FLAG_NO_CREATE,
+            // however, to create a new PendingIntent with an implicit Intent use FLAG_IMMUTABLE.
+
+            // https://stackoverflow.com/questions/77275691
+            contentIntent = PendingIntent.getBroadcast(mPhoneContext, 0,
+                    copyCodeIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // java.lang.IllegalArgumentException: com.android.phone: Targeting S+ (version 31 and above)
             // requires that one of FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent.
             //
