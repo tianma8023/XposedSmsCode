@@ -14,8 +14,8 @@ def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
 }
 
-def VERSION_NAME = "2.5.0"
-def VERSION_CODE = 51
+def VERSION_NAME = "2.5.1"
+def VERSION_CODE = 52
 
 android {
     namespace 'com.github.tianma8023.xposed.smscode'
@@ -149,7 +149,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "com.google.android.material:material:1.10.0" // material design support
     implementation "androidx.recyclerview:recyclerview:1.3.2" // recycler view
-    implementation "androidx.browser:browser:1.6.0" // custom tabs
+    implementation "androidx.browser:browser:1.7.0" // custom tabs
     implementation "androidx.preference:preference:1.2.1" // preference support
     implementation "androidx.constraintlayout:constraintlayout:2.1.4" // constraint layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0" // swipe refresh layout
