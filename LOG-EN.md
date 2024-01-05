@@ -1,4 +1,7 @@
 # Update Logs
+- 24.01.05 v2.5.1 Reboot required
+  1. Fix: the issue of cannot show sms notification on Android 14 @klxiaoniu
+  2. Fix: the issue of cannot open the webpage for viewing the source code
 - 23.11.06 v2.5.0 Reboot required
   1. Change: Adapt to Android 14.
 - 22.09.15 v2.4.0 Reboot required
