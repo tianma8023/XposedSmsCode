@@ -1,6 +1,7 @@
 package com.tianma.xsmscode.common.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class Utils {
     public static void showWebPage(Context context, String url) {
         try {
             CustomTabsIntent cti = new CustomTabsIntent.Builder().build();
+            cti.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             cti.launchUrl(context, Uri.parse(url));
         } catch (Exception e) {
             Toast.makeText(context, R.string.browser_install_or_enable_prompt, Toast.LENGTH_SHORT).show();
