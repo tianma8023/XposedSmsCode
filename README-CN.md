@@ -5,17 +5,17 @@
 
 识别短信验证码的Xposed模块，并将验证码拷贝到剪切板，亦可以自动输入验证码。
 
-[English README](/README-EN.md)
+[English README](./README-EN.md)
 
 # 应用截图
-<img src="/art/cn/01.png" width="180"/><img src="/art/cn/02.png" width="180"/><img src="/art/cn/03.png" width="180"/>
+<img src="./art/cn/01.png" width="180"/><img src="./art/cn/02.png" width="180"/><img src="./art/cn/03.png" width="180"/>
 
 # 下载
 下载地址:
-- [酷安](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode)
 - [GitHub Releases](https://github.com/tianma8023/XposedSmsCode/releases)
 - [LSPosed仓库](https://github.com/Xposed-Modules-Repo/com.github.tianma8023.xposed.smscode/releases/)
-- [Xposed仓库](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode)
+- ~~[酷安](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode)~~
+- ~~[Xposed仓库](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode)~~
 
 # 使用
 1. Root你的设备，安装Xposed框架；

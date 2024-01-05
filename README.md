@@ -5,16 +5,16 @@
 
 An Xposed module which can recognize, parse SMS code and copy it to clipboard when a new message arrives. It can also input SMS code automatically.
 
-[中文版说明](/README-CN.md)
+[中文版说明](./README-CN.md)
 
 # Screenshots
-<img src="/art/en/01.png" width="180"/><img src="/art/en/02.png" width="180"/><img src="/art/en/03.png" width="180"/>
+<img src="./art/en/01.png" width="180"/><img src="./art/en/02.png" width="180"/><img src="./art/en/03.png" width="180"/>
 
 # Download
 - [GitHub Releases](https://github.com/tianma8023/XposedSmsCode/releases)
 - [LSPosed Repository](https://github.com/Xposed-Modules-Repo/com.github.tianma8023.xposed.smscode/releases/)
-- [Coolapk](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode)
-- [Xposed Repository](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode)
+- ~~[Coolapk](https://www.coolapk.com/apk/com.github.tianma8023.xposed.smscode)~~
+- ~~[Xposed Repository](http://repo.xposed.info/module/com.github.tianma8023.xposed.smscode)~~
 
 # Usage
 1. Root your device and install Xposed Framework.
