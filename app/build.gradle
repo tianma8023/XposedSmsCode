@@ -14,8 +14,8 @@ def static releaseTime() {
     return new Date().format("yyMMdd", TimeZone.default)
 }
 
-def VERSION_NAME = "2.5.0"
-def VERSION_CODE = 51
+def VERSION_NAME = "2.5.1"
+def VERSION_CODE = 52
 
 android {
     namespace 'com.github.tianma8023.xposed.smscode'
