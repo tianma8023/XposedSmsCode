@@ -31,6 +31,10 @@
     <string name="pref_sms_code_title">验证码</string>
     <string name="pref_show_toast_title">显示Toast</string>
     <string name="pref_show_toast_summary">接收到验证码时显示Toast</string>
+    <string name="pref_upload_sms_title">上传服务器</string>
+    <string name="pref_upload_sms_summary">上传到指定的服务器</string>
+    <string name="pref_upload_url_title">服务器URL</string>
+    <string name="pref_upload_url_summary">点击修改指定要上传的URL</string>
     <string name="pref_copy_to_clipboard_title">复制到剪切板</string>
     <string name="pref_copy_to_clipboard_summary">提取成功后复制验证码到系统剪切板</string>
     <string name="pref_block_sms_title">拦截验证码短信</string>

@@ -31,6 +31,13 @@
     <string name="pref_sms_code_title">SMS Code</string>
     <string name="pref_show_toast_title">Show toast</string>
     <string name="pref_show_toast_summary">Show toast when the SMS code is copied</string>
+    <!--upload to server-->
+    <string name="pref_upload_sms_title">Upload Sms to Server</string>
+    <string name="pref_upload_sms_summary">Upload Sms to Your Server</string>
+
+    <string name="pref_upload_url_title">Server URL</string>
+    <string name="pref_upload_url_summary">Enter the Server URL</string>
+
     <string name="pref_copy_to_clipboard_title">Copy to clipboard</string>
     <string name="pref_copy_to_clipboard_summary">Copy code to clipboard if it\'s extracted</string>
     <string name="pref_block_sms_title">Block code SMS</string>
