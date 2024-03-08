@@ -21,6 +21,7 @@ import com.tianma.xsmscode.xp.hook.code.action.impl.OperateSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.RecordSmsAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.SmsParseAction;
 import com.tianma.xsmscode.xp.hook.code.action.impl.ToastAction;
+import com.tianma.xsmscode.xp.hook.code.action.impl.UploadAction;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -93,6 +94,11 @@ public class CodeWorker {
 
         // 显示Toast Action
         mUIHandler.post(new ToastAction(mPluginContext, mPhoneContext, smsMsg, xsp));
+
+        // 上传 Action
+        mUIHandler.post(new UploadAction(mPluginContext, mPhoneContext, smsMsg, xsp));
+
+
 
         // 自动输入 Action
         if (XSPUtils.autoInputCodeEnabled(xsp)) {

@@ -34,6 +34,24 @@
             android:summary="@string/pref_show_toast_summary"
             android:title="@string/pref_show_toast_title"/>
 
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/pref_url"
+            android:icon="@drawable/ic_upload"
+            android:title="@string/pref_upload_url_title"
+            android:summary="@string/pref_upload_url_summary"
+            android:inputType="textUri"
+            android:selectAllOnFocus="true"
+            android:singleLine="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/pref_enable"
+            android:icon="@drawable/ic_upload"
+            android:key="@string/pref_upload_sms"
+            android:summary="@string/pref_upload_sms_summary"
+            android:title="@string/pref_upload_sms_title"/>
+
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="@string/pref_enable"

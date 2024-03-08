@@ -54,6 +54,14 @@ public class XSPUtils {
         return preferences.getBoolean(PrefConst.KEY_SHOW_TOAST, true);
     }
 
+    public static boolean uploadToServer(XSharedPreferences preferences) {
+        // 是否上报服务器
+        return preferences.getBoolean(PrefConst.KEY_UPLOAD_SERVER, true);
+    }
+    public static String getServerUrl(XSharedPreferences preferences) {
+        // 是否上报服务器
+        return preferences.getString(PrefConst.KEY_SERVER_URL, "");
+    }
     /**
      * 获取短信验证码关键字
      */

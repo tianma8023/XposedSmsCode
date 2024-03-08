@@ -9,6 +9,8 @@
     <string name="pref_choose_theme">pref_choose_theme</string>
 
     <string name="pref_show_toast">pref_show_toast</string>
+    <string name="pref_url">pref_url</string>
+    <string name="pref_upload_sms">pref_upload_sms</string>
     <string name="pref_copy_to_clipboard">pref_copy_to_clipboard</string>
     <string name="pref_block_sms">pref_block_sms</string>
     <string name="pref_deduplicate_sms">pref_deduplicate_sms</string>
